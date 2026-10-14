@@ -1,0 +1,4 @@
+# Test tags — golden tests compare against PNG baselines in
+# test/**/goldens/ (refresh with: flutter test --update-goldens --tags golden).
+tags:
+  golden:

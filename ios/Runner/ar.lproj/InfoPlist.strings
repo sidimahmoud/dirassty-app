@@ -1,0 +1,7 @@
+/* Home-screen name on Arabic-language devices. */
+"CFBundleDisplayName" = "دراستي";
+"CFBundleName" = "دراستي";
+
+/* Permission prompts (same keys as Info.plist). */
+"NSCameraUsageDescription" = "يستعمل دراستي الكاميرا لتصوير تمارينك وواجباتك حتى يساعدك رفيق على حلّها.";
+"NSPhotoLibraryUsageDescription" = "يصل دراستي إلى الصور التي تختارها حتى يحلّل رفيق تمرينًا أو واجبًا.";

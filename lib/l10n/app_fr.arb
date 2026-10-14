@@ -1,0 +1,2155 @@
+{
+  "@@locale": "fr",
+  "appName": "Dirassty",
+  "continueAction": "Continuer",
+  "back": "Retour",
+  "close": "Fermer",
+  "retry": "Réessayer",
+  "seeAll": "Tout voir",
+  "see": "Voir",
+  "offlineBanner": "Hors ligne · tes téléchargements restent disponibles",
+  "errorLoad": "Chargement impossible. Vérifie ta connexion puis réessaie.",
+  "screenRecordingBlocked": "Enregistrement d'écran non autorisé",
+  "screenRecordingBody": "Pour protéger le travail de nos professeurs, ce contenu ne peut pas être filmé.",
+  "tagline": "Apprendre · Pratiquer · Réussir",
+  "welcomeTitle": "Bienvenue sur Dirassty",
+  "welcomeBody": "Du Primaire au Bac, apprends à ton rythme et réussis ton année.",
+  "whoAreYou": "Qui es-tu ?",
+  "iAmStudent": "Je suis élève",
+  "iAmStudentSub": "Leçons, exercices et examens",
+  "iAmParent": "Je suis parent",
+  "iAmParentSub": "Suivre les progrès de mes enfants",
+  "createAccount": "Créer un compte",
+  "trialLine": "Programme officiel mauritanien · Leçons, exercices et examens",
+  "studentLoginTitle": "Connexion élève",
+  "username": "Nom d'utilisateur",
+  "pinCode": "Code PIN",
+  "forgotPin": "Code oublié ?",
+  "signIn": "Se connecter",
+  "parentLoginTitle": "Connexion parent",
+  "whatsappNumber": "Numéro WhatsApp",
+  "newDeviceHint": "Nouveau téléphone ? Nous vous enverrons un code de vérification par WhatsApp.",
+  "verifyTitle": "Vérifiez votre numéro",
+  "verifyBody": "Saisissez le code à 6 chiffres envoyé par WhatsApp au {phone}.",
+  "@verifyBody": {
+    "placeholders": {
+      "phone": {}
+    }
+  },
+  "resendIn": "Renvoyer le code dans {time}",
+  "@resendIn": {
+    "placeholders": {
+      "time": {}
+    }
+  },
+  "changeNumber": "Modifier le numéro",
+  "verify": "Vérifier",
+  "registerTitle": "Créer un compte",
+  "stepOf": "Étape {n} sur {total}",
+  "@stepOf": {
+    "placeholders": {
+      "n": {},
+      "total": {}
+    }
+  },
+  "fullName": "Prénom et nom",
+  "myGrade": "Ma classe",
+  "noGradesOpen": "Aucune classe n'est ouverte aux inscriptions pour le moment.",
+  "errGradeClosed": "Cette classe n'est plus ouverte aux inscriptions. Choisis-en une autre.",
+  "aiDisclaimer": "Rafiq est une intelligence artificielle : il peut se tromper.",
+  "reportAiAnswer": "Signaler",
+  "reportAiTitle": "Signaler une réponse de Rafiq",
+  "reportAiReasonWrong": "La réponse est fausse",
+  "reportAiReasonInappropriate": "Contenu inapproprié ou choquant",
+  "reportAiReasonOther": "Autre problème",
+  "reportAiCommentHint": "Explique en quelques mots (facultatif)",
+  "reportAiSend": "Envoyer le signalement",
+  "reportAiThanks": "Merci ! Notre équipe va vérifier cette réponse.",
+  "reportAiError": "Envoi impossible. Réessaie plus tard.",
+  "parentGateTitle": "Demande à un parent",
+  "parentGateBody": "Pour continuer, un parent doit répondre : combien font {a} × {b} ?",
+  "parentGateWrong": "Ce n'est pas la bonne réponse.",
+  "parentGateConfirm": "Valider",
+  "privacyPolicy": "Politique de confidentialité",
+  "selfSignupFromC2": "Primaire et 1re année de collège : c'est un parent qui crée le compte depuis son espace.",
+  "@parentGateBody": {"placeholders": {"a": {"type": "int"}, "b": {"type": "int"}}},
+  "chooseRoleTitle": "Qui crée le compte ?",
+  "chooseRoleBody": "Choisis ton profil pour commencer. Tu pourras tout changer plus tard.",
+  "roleStudentDesc": "J'apprends avec mes leçons, mes exercices et Rafiq à mes côtés.",
+  "roleStudentBadge": "Collège C2 → Lycée",
+  "roleStudentPoint1": "Cours et exercices du programme mauritanien",
+  "roleStudentPoint2": "Rafiq m'aide pas à pas sur mes devoirs",
+  "roleParentDesc": "Je crée les comptes de mes enfants et je suis leurs progrès.",
+  "roleParentBadge": "Primaire → Lycée",
+  "roleParentPoint1": "Un compte pour chaque enfant, dès le primaire",
+  "roleParentPoint2": "Un résumé de leurs progrès chaque semaine",
+  "paymentProof": "Capture d'écran du paiement",
+  "addPaymentProof": "Ajouter la capture d'écran",
+  "paymentProofHint": "La confirmation Bankily avec le montant et la date.",
+  "paymentProofAdded": "Capture ajoutée",
+  "changePaymentProof": "Changer",
+  "errPaymentProofRequired": "Ajoutez la capture d'écran du paiement.",
+  "bankilyNumberSoon": "Le numéro Bankily sera bientôt affiché ici. En attendant, choisissez « Payer manuellement ».",
+  "lockedNoPlanTitle": "Choisis ton offre",
+  "lockedNoPlanBody": "Ton compte est prêt ! Choisis une offre pour débloquer toutes les leçons, les exercices et Rafiq.",
+  "lockedPendingTitle": "Paiement en vérification",
+  "lockedPendingBody": "Nous vérifions ton paiement. L'accès s'ouvre dès qu'il est validé — touche « Actualiser » pour vérifier.",
+  "lockedManualTitle": "Demande enregistrée",
+  "lockedManualBody": "Notre équipe te contacte pour finaliser le paiement. L'accès s'ouvre dès qu'il est validé.",
+  "chooseClassTitle": "Tu es en quelle classe ?",
+  "chooseClassBody": "On prépare ton programme selon ta classe.",
+  "havePromoCode": "J'ai un code promo",
+  "changeClass": "Modifier",
+  "cyclePrimary": "Primaire",
+  "cycleMiddle": "Collège",
+  "cycleHigh": "Lycée",
+  "available": "✓ Disponible",
+  "choosePin": "Choisis un code PIN",
+  "acceptTerms": "J'accepte la politique de confidentialité",
+  "getWhatsappCode": "Recevoir le code WhatsApp",
+  "trialTitle": "7 jours offerts",
+  "trialBody": "Accès complet à tout le programme de ta classe, sans paiement.",
+  "startTrial": "Commencer mon essai",
+  "claimBody": "Ton parent t'a créé un compte. Saisis le code d'invitation qu'il t'a envoyé.",
+  "hello": "Bonjour {name}",
+  "@hello": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "level": "Niveau {n}",
+  "@level": {
+    "placeholders": {
+      "n": {}
+    }
+  },
+  "xpToNext": "Encore {xp} XP pour atteindre le niveau {n}",
+  "@xpToNext": {
+    "placeholders": {
+      "xp": {},
+      "n": {}
+    }
+  },
+  "myWeek": "Ma semaine",
+  "correctAnswers": "Bonnes réponses",
+  "exercisesDone": "Exercices faits",
+  "activeDays": "Jours actifs",
+  "studyTime": "Temps d'étude",
+  "mySubjects": "Mes matières",
+  "lessonsCount": "{n} leçons",
+  "@lessonsCount": {
+    "placeholders": {
+      "n": {}
+    }
+  },
+  "weeklyExam": "Examen de la semaine",
+  "prepare": "Me préparer",
+  "homeworkHelper": "Rafiq – Aide aux devoirs",
+  "homeworkHelperSub": "Prends ton exercice en photo, Rafiq te guide étape par étape.",
+  "tabHome": "Accueil",
+  "tabSubjects": "Matières",
+  "tabExams": "Examens",
+  "tabProfile": "Profil",
+  "tabSubscription": "Abonnement",
+  "journeyVideo": "Vidéo",
+  "journeyLesson": "Leçon",
+  "journeyExercises": "Exercices",
+  "statusMastered": "Maîtrisée",
+  "statusViewed": "Vue",
+  "statusNotStarted": "Non commencée",
+  "download": "Télécharger · {size}",
+  "@download": {
+    "placeholders": {
+      "size": {}
+    }
+  },
+  "downloadWifiHint": "Télécharge en Wi-Fi pour regarder sans connexion et économiser tes données.",
+  "inThisLesson": "Dans cette leçon",
+  "continueToLesson": "Continuer vers la leçon",
+  "realLife": "Dans la vraie vie",
+  "checkUnderstanding": "Vérifie ta compréhension",
+  "nextConcept": "Notion suivante",
+  "answerToContinue": "Réponds juste pour continuer",
+  "workedExample": "Exemple résolu",
+  "commonMistake": "Erreur fréquente",
+  "revisionSheet": "Fiche de révision",
+  "formulas": "Formules à retenir",
+  "definitions": "Définitions",
+  "keyFacts": "À savoir",
+  "goToExercises": "Passer aux exercices",
+  "questionOf": "Question {n}/{total}",
+  "@questionOf": {
+    "placeholders": {
+      "n": {},
+      "total": {}
+    }
+  },
+  "check": "Vérifier",
+  "correctFeedback": "Bravo, c'est juste !",
+  "wrongFeedback": "Pas tout à fait",
+  "xpGain": "+{xp} XP",
+  "@xpGain": {
+    "placeholders": {
+      "xp": {}
+    }
+  },
+  "streakDays": "{n} jours de suite",
+  "@streakDays": {
+    "placeholders": {
+      "n": {}
+    }
+  },
+  "streakBody": "Ta série continue. Reviens demain pour la garder.",
+  "score": "Score",
+  "duration": "Durée",
+  "xpEarned": "XP gagnés",
+  "reviewMistakes": "Revoir mes {n} erreurs",
+  "@reviewMistakes": {
+    "placeholders": {
+      "n": {}
+    }
+  },
+  "backHome": "Retour à l'accueil",
+  "leaveSessionTitle": "Quitter la session ?",
+  "yourAnswer": "Ta réponse",
+  "aiCorrection": "Correction de Rafiq",
+  "almost": "Presque !",
+  "correctAnswer": "Bonne réponse",
+  "similarExercise": "Exercice similaire",
+  "watchMethod": "Voir la méthode en vidéo",
+  "helperGuideNote": "Dirassty te guide sans donner la réponse directement.",
+  "typeAnswer": "Écris ta réponse…",
+  "exams": "Examens",
+  "thisWeek": "Cette semaine",
+  "recentResults": "Résultats récents",
+  "upcoming": "À venir",
+  "startExam": "Commencer l'examen",
+  "finishExam": "Terminer l'examen",
+  "previous": "Précédente",
+  "next": "Suivante",
+  "byChapter": "Par chapitre",
+  "myDownloads": "Mes téléchargements",
+  "wifiOnly": "Télécharger uniquement en Wi-Fi",
+  "offlineExpired": "Accès hors ligne expiré",
+  "reconnect": "Se reconnecter",
+  "noDownloads": "Aucun téléchargement",
+  "language": "Langue",
+  "parentalControl": "Contrôle parental",
+  "faq": "Questions fréquentes",
+  "whatsappSupport": "Support WhatsApp",
+  "rateApp": "Noter l'application",
+  "shareApp": "Partager Dirassty",
+  "about": "À propos",
+  "logout": "Se déconnecter",
+  "deleteAccount": "Supprimer mon compte",
+  "subscriptionActive": "Abonnement actif",
+  "trialEnded": "Ton essai est terminé",
+  "trialEndedBody": "Demande à ton parent de choisir une offre pour continuer tes leçons et tes exercices.",
+  "notifyParent": "Prévenir mon parent sur WhatsApp",
+  "alreadyPaid": "Déjà payé ? Actualiser",
+  "focusUntil": "Mode concentration jusqu'à {time}",
+  "@focusUntil": {
+    "placeholders": {
+      "time": {}
+    }
+  },
+  "unlock": "Déverrouiller",
+  "parentCode": "Code parent",
+  "guidedAccessHint": "Sur iPhone : active l'Accès guidé (triple clic sur le bouton latéral) pour rester dans Dirassty.",
+  "focusBlockedTitle": "Pas tout de suite !",
+  "focusBlockedBody": "Le mode concentration est actif jusqu'à {time}. Tu pourras te déconnecter après, ou avec le code de ton parent.",
+  "@focusBlockedBody": {
+    "placeholders": {
+      "time": {}
+    }
+  },
+  "keepStudying": "Continuer à étudier",
+  "parentSpace": "Espace parent",
+  "myChildren": "Mes enfants",
+  "addChild": "Ajouter un enfant",
+  "subscribeFor": "S'abonner pour {name}",
+  "@subscribeFor": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "subscribed": "Abonnée",
+  "trialDaysLeft": "Essai · {n} j",
+  "@trialDaysLeft": {
+    "placeholders": {
+      "n": {}
+    }
+  },
+  "childFirstName": "Prénom de l'enfant",
+  "createChildAccount": "Créer le compte",
+  "childReady": "Le compte de {name} est prêt",
+  "@childReady": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "shareWhatsapp": "Partager par WhatsApp",
+  "copyCredentials": "Copier les identifiants",
+  "daysUntilExam": "{n} jours avant le {exam}",
+  "@daysUntilExam": {
+    "placeholders": {
+      "n": {},
+      "exam": {}
+    }
+  },
+  "examConcours": "Concours",
+  "examBrevet": "Brevet",
+  "examBac": "Bac",
+  "weeklyInsight": "Analyse de la semaine",
+  "masteryBySubject": "Maîtrise par matière",
+  "examHistory": "Historique des examens",
+  "lessonDetail": "Détail leçon par leçon",
+  "focusMode": "Mode concentration",
+  "enableFocus": "Activer le mode concentration",
+  "timeWindow": "Créneau {n}",
+  "@timeWindow": {
+    "placeholders": {
+      "n": {}
+    }
+  },
+  "start": "Début",
+  "end": "Fin",
+  "addWindow": "Ajouter un créneau",
+  "focusLog": "Journal",
+  "logLeftApp": "A quitté l'application {min} min",
+  "@logLeftApp": {
+    "placeholders": {
+      "min": {}
+    }
+  },
+  "logUnlocked": "Déverrouillé avec votre code",
+  "subscription": "Abonnement",
+  "planMonthly": "Mensuel",
+  "planQuarterly": "Trimestriel",
+  "planYearly": "Annuel",
+  "popular": "Populaire",
+  "forWhichChildren": "Pour quels enfants ?",
+  "familyDiscount": "Réduction famille",
+  "total": "Total",
+  "priceMru": "{amount} MRU",
+  "@priceMru": {
+    "placeholders": {
+      "amount": {}
+    }
+  },
+  "payWithBankily": "Payer avec Bankily",
+  "bankilyTitle": "Paiement Bankily",
+  "amountToSend": "Montant à envoyer",
+  "merchantNumber": "Numéro Bankily Dirassty",
+  "bankilyStep1": "Ouvrez Bankily et envoyez le montant au numéro Bankily Dirassty ci-dessus.",
+  "bankilyStep2": "Faites une capture d'écran de la confirmation du paiement.",
+  "bankilyStep3": "Ajoutez-la ci-dessous avec votre numéro, puis confirmez.",
+  "bankilyPhone": "Numéro Bankily utilisé",
+  "transactionCode": "Code de transaction",
+  "confirmPayment": "Confirmer le paiement",
+  "mySubscriptions": "Mes abonnements",
+  "statusActive": "Actif",
+  "statusPending": "En vérification",
+  "statusExpired": "Expiré",
+  "statusRefused": "Paiement refusé",
+  "renew": "Renouveler",
+  "history": "Historique",
+  "statusDownloaded": "Disponible hors ligne",
+  "@statusDownloaded": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "downloadNoSize": "Télécharger",
+  "@downloadNoSize": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "downloadFailed": "Échec du téléchargement — vérifie ta connexion et réessaie.",
+  "@downloadFailed": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "backspace": "Effacer",
+  "@backspace": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "studentLoginBody": "Utilise l'identifiant donné par ton parent.",
+  "@studentLoginBody": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "parentLoginBody": "Entrez votre numéro WhatsApp et votre code PIN.",
+  "@parentLoginBody": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "noAccountYet": "Pas encore de compte ?",
+  "@noAccountYet": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "forgotPinStudentTitle": "Code oublié ?",
+  "@forgotPinStudentTitle": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "forgotPinStudentBody": "Demande à ton parent : il peut voir ou changer ton code PIN depuis son espace parent.",
+  "@forgotPinStudentBody": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "forgotPinParentBody": "Contactez notre support WhatsApp pour réinitialiser votre code PIN.",
+  "@forgotPinParentBody": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "ok": "D'accord",
+  "@ok": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "wrongStudentCredentials": "Nom d'utilisateur ou code PIN incorrect.",
+  "@wrongStudentCredentials": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "wrongParentCredentials": "Numéro ou code PIN incorrect.",
+  "@wrongParentCredentials": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "pinLocked": "Trop d'essais. Réessaie dans {min} min.",
+  "@pinLocked": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "min": {}
+    }
+  },
+  "askParentForPin": "Code oublié ? Demande à ton parent",
+  "@askParentForPin": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "registerBody": "Quelques informations pour préparer ton programme.",
+  "@registerBody": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "registerParentBody": "Quelques informations pour créer votre espace parent.",
+  "@registerParentBody": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "phoneHintVerify": "Pour recevoir ton code de vérification",
+  "@phoneHintVerify": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "phoneHintOptional": "Facultatif · pour vérifier ton compte et suivre tes progrès",
+  "@phoneHintOptional": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "pinHint": "4 chiffres, faciles à retenir pour toi mais pas pour les autres.",
+  "@pinHint": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "enterPin": "Saisis ton code PIN",
+  "@enterPin": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "validate": "Valider",
+  "@validate": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "createMyAccount": "Créer mon compte",
+  "@createMyAccount": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "errNameRequired": "Saisis ton prénom et ton nom.",
+  "@errNameRequired": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "errUsernameFormat": "3 à 20 lettres ou chiffres latins, sans espace.",
+  "@errUsernameFormat": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "errPhoneRequired": "Saisis ton numéro WhatsApp.",
+  "@errPhoneRequired": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "errPinFormat": "Le code PIN doit contenir 4 chiffres.",
+  "@errPinFormat": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "errTermsRequired": "Accepte la politique de confidentialité pour continuer.",
+  "@errTermsRequired": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "errAccountExists": "Un compte existe déjà avec ce numéro — connecte-toi plutôt.",
+  "@errAccountExists": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "errUsernameTaken": "Ce nom d'utilisateur est déjà pris — essaie-en un autre.",
+  "@errUsernameTaken": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "errTooSoon": "Attends un instant avant de redemander un code.",
+  "@errTooSoon": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "errCodeExpired": "Code expiré — redemande un nouveau code.",
+  "@errCodeExpired": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "errIncorrectCode": "Code incorrect.",
+  "@errIncorrectCode": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "errTooManyAttempts": "Trop de tentatives — redemande un nouveau code.",
+  "@errTooManyAttempts": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "errNoPendingCode": "Aucun code en attente — redemande un nouveau code.",
+  "@errNoPendingCode": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "errGeneric": "Une erreur est survenue. Vérifie ta connexion puis réessaie.",
+  "@errGeneric": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "resendCode": "Renvoyer le code",
+  "@resendCode": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "pasteCodeHint": "Appui long pour coller le code",
+  "@pasteCodeHint": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "accountCreated": "Compte créé",
+  "@accountCreated": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "trialTitleDays": "{n} jours offerts",
+  "@trialTitleDays": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "n": {}
+    }
+  },
+  "trialBodyGrade": "Accès complet à tout le programme de {grade}, sans paiement.",
+  "@trialBodyGrade": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "grade": {}
+    }
+  },
+  "trialFeatureLessons": "Toutes les leçons et vidéos",
+  "@trialFeatureLessons": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "trialFeatureQcm": "QCM et exercices corrigés par Rafiq (IA)",
+  "@trialFeatureQcm": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "trialFeatureExams": "Examens hebdomadaires",
+  "@trialFeatureExams": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "trialFeatureHelper": "Aide aux devoirs par photo avec Rafiq",
+  "@trialFeatureHelper": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "trialFooterPrice": "Ensuite à partir de {price} MRU par mois. Aucun prélèvement automatique : un parent choisit l'offre et paie via Bankily.",
+  "@trialFooterPrice": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "price": {}
+    }
+  },
+  "trialFooterNoPrice": "Aucun prélèvement automatique : un parent choisit l'offre et paie via Bankily.",
+  "@trialFooterNoPrice": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "accountReadyTitle": "Ton compte est prêt",
+  "@accountReadyTitle": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "accountReadyBody": "Choisis une offre pour accéder à tout le programme de {grade}.",
+  "@accountReadyBody": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "grade": {}
+    }
+  },
+  "choosePlan": "Choisir une offre",
+  "@choosePlan": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "later": "Plus tard",
+  "@later": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "xpOfTotal": "{xp} / {total} XP",
+  "@xpOfTotal": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "xp": {},
+      "total": {}
+    }
+  },
+  "inDays": "Dans {n} jours",
+  "@inDays": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "n": {}
+    }
+  },
+  "today": "Aujourd'hui",
+  "@today": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "tomorrow": "Demain",
+  "@tomorrow": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "availableNow": "Disponible",
+  "@availableNow": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "questionsCount": "{n} questions",
+  "@questionsCount": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "n": {}
+    }
+  },
+  "hoursMinutes": "{h} h {m}",
+  "@hoursMinutes": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "h": {},
+      "m": {}
+    }
+  },
+  "minutesShort": "{m} min",
+  "@minutesShort": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "m": {}
+    }
+  },
+  "noSubjects": "Aucune matière disponible pour ta classe pour le moment.",
+  "@noSubjects": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "noExamThisWeek": "Pas d'examen cette semaine",
+  "@noExamThisWeek": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "noExamThisWeekBody": "Le prochain examen apparaîtra ici dès qu'il sera disponible.",
+  "@noExamThisWeekBody": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "profileLoadError": "Impossible de charger ton profil.",
+  "@profileLoadError": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "chaptersCount": "{n} chapitres",
+  "@chaptersCount": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "n": {}
+    }
+  },
+  "masteredLessonsCount": "{n} leçons maîtrisées",
+  "@masteredLessonsCount": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "n": {}
+    }
+  },
+  "filterAll": "Toutes",
+  "@filterAll": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "filterToReview": "À revoir",
+  "@filterToReview": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "filterOffline": "Hors ligne",
+  "@filterOffline": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "chapterMeta": "{n} leçons · {m} maîtrisées",
+  "@chapterMeta": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "n": {},
+      "m": {}
+    }
+  },
+  "comingSoon": "Contenu à venir",
+  "@comingSoon": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "comingSoonBody": "Les leçons de cette matière arrivent bientôt.",
+  "@comingSoonBody": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "noLessonsToReview": "Rien à revoir pour l'instant",
+  "@noLessonsToReview": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "noLessonsToReviewBody": "Les leçons vues mais pas encore maîtrisées apparaîtront ici.",
+  "@noLessonsToReviewBody": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "noOfflineLessons": "Aucune leçon hors ligne",
+  "@noOfflineLessons": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "noOfflineLessonsBody": "Télécharge la vidéo d'une leçon pour la retrouver ici sans connexion.",
+  "@noOfflineLessonsBody": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "subjectLoadError": "Impossible de charger cette matière.",
+  "@subjectLoadError": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "mySubjectsTitle": "Mes matières",
+  "@mySubjectsTitle": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "lessonLabel": "{chapter} · Leçon {n}",
+  "@lessonLabel": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "chapter": {},
+      "n": {}
+    }
+  },
+  "conceptOf": "Notion {n} sur {total}",
+  "@conceptOf": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "n": {},
+      "total": {}
+    }
+  },
+  "correctUnlocked": "✓ Juste ! La notion suivante est débloquée.",
+  "@correctUnlocked": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "wrongTryAgain": "Pas tout à fait — relis la notion et réessaie.",
+  "@wrongTryAgain": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "revealedAnswer": "Voici la bonne réponse :",
+  "@revealedAnswer": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "finishExamplesFirst": "Termine les exemples pour débloquer la question.",
+  "@finishExamplesFirst": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "nextExample": "Exemple suivant",
+  "@nextExample": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "exampleOf": "Exemple {n} sur {total}",
+  "@exampleOf": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "n": {},
+      "total": {}
+    }
+  },
+  "statement": "Énoncé",
+  "@statement": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "showSolution": "Afficher la solution étape par étape",
+  "@showSolution": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "reviewVideo": "Revoir la vidéo",
+  "@reviewVideo": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "lessonComingSoon": "Le contenu de cette leçon arrive bientôt.",
+  "@lessonComingSoon": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "lessonNotFound": "Leçon introuvable.",
+  "@lessonNotFound": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "lessonLoadError": "Impossible de charger cette leçon.",
+  "@lessonLoadError": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "alreadyReadTitle": "Tu as déjà lu cette leçon",
+  "@alreadyReadTitle": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "alreadyReadBody": "Que veux-tu faire maintenant ?",
+  "@alreadyReadBody": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "redoLesson": "Revoir le cours",
+  "@redoLesson": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "redoLessonSub": "La vidéo et l'explication depuis le début",
+  "@redoLessonSub": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "qcmTitle": "QCM",
+  "@qcmTitle": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "qcmSub": "Questions à choix multiples, correction immédiate",
+  "@qcmSub": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "guidedExercises": "Exercices guidés",
+  "@guidedExercises": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "guidedExercisesSub": "Exercices ouverts corrigés par Rafiq (IA)",
+  "@guidedExercisesSub": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "alreadyDone": "Déjà fait",
+  "@alreadyDone": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "startQcm": "Commencer le QCM",
+  "@startQcm": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "questionTopic": "{lesson} · Question {n}",
+  "@questionTopic": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "lesson": {},
+      "n": {}
+    }
+  },
+  "leaveSessionBody": "Tes réponses de ce QCM ne seront pas enregistrées.",
+  "@leaveSessionBody": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "leave": "Quitter",
+  "@leave": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "stayInSession": "Continuer le QCM",
+  "@stayInSession": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "seeResults": "Voir mes résultats",
+  "@seeResults": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "hint": "Indice",
+  "@hint": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "lessonValidated": "Leçon validée",
+  "@lessonValidated": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "notMasteredYet": "Pas encore maîtrisée ({pct} %) — refais le QCM pour progresser.",
+  "@notMasteredYet": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "pct": {}
+    }
+  },
+  "retryQcm": "Recommencer le QCM",
+  "@retryQcm": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "noQcmTitle": "Pas encore de QCM",
+  "@noQcmTitle": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "noQcmBody": "Les questions de cette leçon arrivent bientôt.",
+  "@noQcmBody": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "backToLesson": "Retour à la leçon",
+  "@backToLesson": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "qcmLoadError": "Impossible de charger les questions.",
+  "@qcmLoadError": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "mistakesTitle": "Tes erreurs",
+  "@mistakesTitle": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "yourAnswerWas": "Ta réponse : {a}",
+  "@yourAnswerWas": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "a": {}
+    }
+  },
+  "correctAnswerWas": "Bonne réponse : {a}",
+  "@correctAnswerWas": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "a": {}
+    }
+  },
+  "qcmScoreTitle": "{lesson} · QCM",
+  "@qcmScoreTitle": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "lesson": {}
+    }
+  },
+  "openExerciseLabel": "Exercice ouvert · {lesson}",
+  "@openExerciseLabel": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "lesson": {}
+    }
+  },
+  "exerciseN": "Exercice {n}",
+  "@exerciseN": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "n": {}
+    }
+  },
+  "attemptN": "Essai {n}",
+  "@attemptN": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "n": {}
+    }
+  },
+  "submitAnswer": "Soumettre ma réponse",
+  "@submitAnswer": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "usefulSymbols": "Symboles utiles",
+  "@usefulSymbols": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "seeCorrection": "Voir la correction",
+  "@seeCorrection": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "hintBeforeCorrection": "Relis l'indice, puis demande la correction — ou corrige d'abord ta réponse.",
+  "@hintBeforeCorrection": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "correcting": "Correction en cours…",
+  "@correcting": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "generatingExercise": "Création d'un exercice similaire…",
+  "@generatingExercise": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "verdictCorrect": "Juste !",
+  "@verdictCorrect": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "verdictReview": "À revoir",
+  "@verdictReview": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "reviseAnswer": "Corriger ma réponse",
+  "@reviseAnswer": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "nextExercise": "Exercice suivant",
+  "@nextExercise": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "noExercisesTitle": "Pas encore d'exercices",
+  "@noExercisesTitle": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "noExercisesBody": "Les exercices de cette leçon arrivent bientôt.",
+  "@noExercisesBody": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "exercisesLoadError": "Impossible de charger les exercices.",
+  "@exercisesLoadError": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "methodVideos": "La méthode en vidéo",
+  "@methodVideos": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "photoPrompt": "Prends ton exercice en photo",
+  "@photoPrompt": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "photoPromptBody": "Cadre bien l'énoncé, avec une bonne lumière.",
+  "@photoPromptBody": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "camera": "Caméra",
+  "@camera": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "gallery": "Galerie",
+  "@gallery": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "analyze": "Analyser",
+  "@analyze": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "analyzingPhoto": "Dirassty lit ton exercice…",
+  "@analyzingPhoto": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "detectedSubject": "{subject} · détecté",
+  "@detectedSubject": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "subject": {}
+    }
+  },
+  "readProblem": "Voici ce que j'ai lu :",
+  "@readProblem": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "letsSolveTogether": "On le résout ensemble, étape par étape.",
+  "@letsSolveTogether": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "nextStep": "Étape suivante",
+  "@nextStep": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "showAnswer": "Voir la réponse",
+  "@showAnswer": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "answerLabel": "Réponse",
+  "@answerLabel": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "keyConceptsLabel": "Notions clés",
+  "@keyConceptsLabel": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "newPhoto": "Nouvelle photo",
+  "@newPhoto": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "retakePhoto": "Reprendre la photo",
+  "@retakePhoto": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "examsBody": "Un examen par semaine et par matière principale.",
+  "@examsBody": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "seeExam": "Voir l'examen",
+  "@seeExam": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "filterPast": "Passés",
+  "@filterPast": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "weeklyExamBadge": "Examen hebdomadaire",
+  "@weeklyExamBadge": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "dueBy": "À rendre",
+  "@dueBy": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "questionsLabel": "Questions",
+  "@questionsLabel": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "xpMax": "XP max",
+  "@xpMax": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "beforeStart": "Avant de commencer",
+  "@beforeStart": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "examRuleTimer": "Le chronomètre démarre dès que tu appuies sur Commencer.",
+  "@examRuleTimer": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "examRuleSkip": "Tu peux passer une question et y revenir avant la fin.",
+  "@examRuleSkip": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "examRuleCalm": "Installe-toi au calme : l'examen ne peut pas être mis en pause.",
+  "@examRuleCalm": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "examRuleSaved": "Chaque réponse est enregistrée dès que tu la choisis.",
+  "@examRuleSaved": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "skippedHint": "Question {n} passée · tu pourras y revenir",
+  "@skippedHint": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "n": {}
+    }
+  },
+  "finishExamTitle": "Terminer l'examen ?",
+  "@finishExamTitle": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "finishExamUnanswered": "{n} questions sans réponse compteront comme fausses.",
+  "@finishExamUnanswered": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "n": {}
+    }
+  },
+  "finishExamAll": "Tu as répondu à toutes les questions.",
+  "@finishExamAll": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "finishNow": "Terminer maintenant",
+  "@finishNow": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "keepGoing": "Continuer l'examen",
+  "@keepGoing": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "resultsGreat": "Très bon travail, {name}",
+  "@resultsGreat": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "resultsGood": "Bon travail, {name}",
+  "@resultsGood": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "resultsKeepGoing": "Continue tes efforts, {name}",
+  "@resultsKeepGoing": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "byLesson": "Par leçon",
+  "@byLesson": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "yourAnswers": "Tes réponses",
+  "@yourAnswers": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "done": "Terminé",
+  "@done": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "missed": "Manqué",
+  "@missed": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "noExams": "Aucun examen pour le moment",
+  "@noExams": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "noExamsBody": "Tes examens de la semaine apparaîtront ici.",
+  "@noExamsBody": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "noPastExams": "Aucun examen passé",
+  "@noPastExams": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "examsLoadError": "Impossible de charger tes examens.",
+  "@examsLoadError": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "examLoadError": "Impossible de charger cet examen.",
+  "@examLoadError": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "submitError": "L'envoi a échoué. Vérifie ta connexion puis réessaie.",
+  "@submitError": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "seeResultsExam": "Voir le résultat",
+  "@seeResultsExam": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "storageUsed": "{size} utilisés",
+  "@storageUsed": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "size": {}
+    }
+  },
+  "offlineExpiredBody": "Connecte-toi à Internet pour réactiver tes vidéos.",
+  "@offlineExpiredBody": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "downloadsFooter": "Les vidéos téléchargées restent disponibles hors ligne jusqu'à la fin de ton abonnement.",
+  "@downloadsFooter": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "noDownloadsBody": "Ouvre une leçon et touche « Télécharger » sur la vidéo pour la regarder sans connexion.",
+  "@noDownloadsBody": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "deleteAll": "Tout supprimer",
+  "@deleteAll": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "deleteAllDownloadsConfirm": "Supprimer tous les téléchargements ?",
+  "@deleteAllDownloadsConfirm": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "delete": "Supprimer",
+  "@delete": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "cancel": "Annuler",
+  "@cancel": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "myVideos": "Mes vidéos",
+  "@myVideos": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "videosCountSize": "{n} vidéos · {size}",
+  "@videosCountSize": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "n": {},
+      "size": {}
+    }
+  },
+  "statusTrial": "Essai",
+  "@statusTrial": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "statusEnded": "Terminé",
+  "@statusEnded": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "accessUntil": "Accès complet jusqu'au {date}.",
+  "@accessUntil": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "trialUntil": "Essai gratuit jusqu'au {date}.",
+  "@trialUntil": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "pendingBody": "Ton paiement est en cours de vérification.",
+  "@pendingBody": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "noSubscription": "Aucun abonnement",
+  "@noSubscription": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "noSubscriptionBody": "Choisis une offre pour accéder à tout le programme.",
+  "@noSubscriptionBody": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "protectedByParent": "Protégé par le code parent",
+  "@protectedByParent": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "languageFrench": "Français",
+  "@languageFrench": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "languageArabic": "العربية",
+  "@languageArabic": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "subscriptionEndedTitle": "Ton abonnement est terminé",
+  "@subscriptionEndedTitle": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "nothingLost": "Rien n'est perdu",
+  "@nothingLost": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "nothingLostBody": "Ta série de {streak} jours, tes {xp} XP et tous tes progrès sont sauvegardés.",
+  "@nothingLostBody": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "streak": {},
+      "xp": {}
+    }
+  },
+  "subscribeMyself": "Choisir une offre moi-même",
+  "@subscribeMyself": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "parentWhatsappMessage": "Bonjour, mon accès à Dirassty est terminé. Peux-tu choisir une offre pour que je continue mes leçons ?",
+  "@parentWhatsappMessage": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "parentCodeBody": "Demande à ton parent de saisir son code à 4 chiffres pour quitter le mode concentration.",
+  "@parentCodeBody": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "enterParentCode": "Saisir le code parent",
+  "@enterParentCode": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "parentWeekTotal": "Cette semaine, vos enfants ont étudié {time} au total.",
+  "@parentWeekTotal": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "parentWeekNone": "Pas encore d'étude cette semaine — un petit encouragement ?",
+  "@parentWeekNone": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "streakDaysShort": "{n} jours",
+  "@streakDaysShort": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "noStreak": "Pas de série",
+  "@noStreak": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "timeThisWeek": "· {time} cette semaine",
+  "@timeThisWeek": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "noChildrenTitle": "Ajoutez votre premier enfant",
+  "@noChildrenTitle": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "noChildrenBody": "Créez son compte en une minute : il se connectera avec son nom d'utilisateur et son code PIN.",
+  "@noChildrenBody": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "childrenLoadError": "Impossible de charger vos enfants.",
+  "@childrenLoadError": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "activityLast7Days": "Activité sur 7 jours",
+  "@activityLast7Days": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "childClass": "Classe",
+  "@childClass": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "gradeExamNote": "{grade} se termine par le {exam}.",
+  "@gradeExamNote": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "childPinLabel": "Code PIN de l'enfant",
+  "@childPinLabel": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "childPinHint": "Il l'utilisera pour se connecter sur son téléphone.",
+  "@childPinHint": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "errChildNameRequired": "Saisissez le prénom de l'enfant.",
+  "@errChildNameRequired": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "addChildError": "Impossible d'ajouter cet enfant — réessayez.",
+  "@addChildError": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "giveCredentials": "Donnez-lui ces identifiants pour qu'il se connecte.",
+  "@giveCredentials": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "backToHome": "Retour à l'accueil",
+  "@backToHome": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "credentialsCopied": "Identifiants copiés",
+  "@credentialsCopied": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "credentialsShareMessage": "Ton compte Dirassty est prêt !\nNom d'utilisateur : {username}\nCode PIN : {pin}",
+  "@credentialsShareMessage": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "daysUnit": "jours",
+  "@daysUnit": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "beforeExam": "avant le {exam}",
+  "@beforeExam": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "currentStreak": "Série en cours",
+  "@currentStreak": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "daysShortN": "{n} j",
+  "@daysShortN": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "focusOn": "Activé",
+  "@focusOn": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "focusOff": "Désactivé",
+  "@focusOff": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "loginCredentials": "Identifiants de connexion",
+  "@loginCredentials": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "edit": "Modifier",
+  "@edit": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "save": "Enregistrer",
+  "@save": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "setLogin": "Définir",
+  "@setLogin": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "insightLoading": "Rafiq prépare l'analyse de la semaine…",
+  "@insightLoading": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "insightUnavailable": "Analyse indisponible pour l'instant — réessayez plus tard.",
+  "@insightUnavailable": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "insightGenerated": "Généré par Rafiq (IA)",
+  "@insightGenerated": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "childNotFound": "Enfant introuvable.",
+  "@childNotFound": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "noSubjectsForChild": "Aucune matière disponible pour cette classe pour le moment.",
+  "@noSubjectsForChild": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "chooseSubject": "Choisir une matière",
+  "@chooseSubject": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "editCredentials": "Modifier les identifiants",
+  "@editCredentials": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "newPinOptional": "Nouveau code PIN",
+  "@newPinOptional": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "newPinOptionalHint": "Laissez vide pour garder le code actuel.",
+  "@newPinOptionalHint": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "errPinRequiredNewLogin": "Choisissez un code PIN à 4 chiffres pour ce compte.",
+  "@errPinRequiredNewLogin": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "credentialsUpdated": "Identifiants mis à jour : {username}",
+  "@credentialsUpdated": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "weekOf": "Semaine du {date}",
+  "@weekOf": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "noExamsForChild": "Pas encore d'examen pour cet enfant.",
+  "@noExamsForChild": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "lessonsInSubject": "{n} leçons dans cette matière",
+  "@lessonsInSubject": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "lessonsCompleted": "Leçons terminées",
+  "@lessonsCompleted": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "withExercisesDone": "Avec exercices faits",
+  "@withExercisesDone": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "chapterTitle": "Chapitre {n} · {title}",
+  "@chapterTitle": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "lessonStatusExercised": "Exercices faits · {pct} % · tentatives : {n}",
+  "@lessonStatusExercised": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "lessonStatusViewed": "Leçon terminée · pas encore d'exercices",
+  "@lessonStatusViewed": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "lessonStatusNotStarted": "Pas encore commencée",
+  "@lessonStatusNotStarted": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "noContentYet": "Aucun contenu pour le moment.",
+  "@noContentYet": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "focusIntro": "Pendant ces créneaux, Dirassty reste ouvert sur le téléphone de {name}, qui ne peut en sortir qu'avec votre code.",
+  "@focusIntro": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "focusStatusOn": "Actif pendant les créneaux ci-dessous",
+  "@focusStatusOn": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "parentCodeSub": "Pour déverrouiller le téléphone",
+  "@parentCodeSub": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "nextDay": "(lendemain)",
+  "@nextDay": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "onIphone": "Sur iPhone",
+  "@onIphone": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "iphoneGuidedAccessSetup": "L'iPhone ne permet pas à une app de se verrouiller seule. Une fois, sur le téléphone de l'enfant : Réglages → Accessibilité → Accès guidé → activez-le et choisissez un code. Pendant les créneaux, Dirassty lui demandera de triple-cliquer le bouton latéral.",
+  "@iphoneGuidedAccessSetup": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "focusSavedParent": "Enregistré — appliqué dès que l'enfant ouvre l'application.",
+  "@focusSavedParent": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "focusSavedDevice": "Enregistré — actif sur ce téléphone.",
+  "@focusSavedDevice": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "errFocusPinRequired": "Définissez un code parent avant d'activer.",
+  "@errFocusPinRequired": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "errFocusNeedWindow": "Ajoutez au moins un créneau.",
+  "@errFocusNeedWindow": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "errFocusWindowInvalid": "Chaque créneau doit avoir au moins un jour et deux heures différentes.",
+  "@errFocusWindowInvalid": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "errPinMismatch": "Les deux codes ne correspondent pas.",
+  "@errPinMismatch": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "errParentPinWrong": "Code parent incorrect.",
+  "@errParentPinWrong": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "errParentPinLocked": "Trop de codes incorrects — réessayez dans 15 minutes.",
+  "@errParentPinLocked": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "noFocusEvents": "Rien pour le moment.",
+  "@noFocusEvents": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "logLeftAppShort": "A quitté l'application",
+  "@logLeftAppShort": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "parentsOnly": "Réservé aux parents",
+  "@parentsOnly": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "enterParentCodeBody": "Saisissez le code parent à 4 chiffres.",
+  "@enterParentCodeBody": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "needsInternetSettings": "Une connexion Internet est nécessaire pour modifier ces réglages.",
+  "@needsInternetSettings": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "newCode": "Nouveau code",
+  "@newCode": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "confirmCode": "Confirmer le code",
+  "@confirmCode": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "subscriptionIntro": "Toutes les matières, vidéos, exercices et examens du programme officiel.",
+  "@subscriptionIntro": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "planNoCommitment": "Sans engagement",
+  "@planNoCommitment": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "planDaysDiscount": "{days} jours · −{pct} %",
+  "@planDaysDiscount": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "planDays": "{days} jours",
+  "@planDays": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "childActiveUntil": "actif jusqu'au {date}",
+  "@childActiveUntil": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "childTrialDaysLeft": "essai, {n} jours restants",
+  "@childTrialDaysLeft": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "childInReview": "paiement en vérification",
+  "@childInReview": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "childNoPlan": "sans abonnement",
+  "@childNoPlan": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "seeMySubscriptions": "Voir mes abonnements",
+  "@seeMySubscriptions": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "payByContact": "Payer manuellement",
+  "@payByContact": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "selectAtLeastOneChild": "Choisissez au moins un enfant.",
+  "@selectAtLeastOneChild": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "noPlans": "Aucun forfait disponible pour le moment.",
+  "@noPlans": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "contactConfirmTitle": "Payer manuellement",
+  "@contactConfirmTitle": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "contactConfirmBody": "Notre équipe vous contacte sur WhatsApp pour finaliser le paiement avec vous. Votre demande est enregistrée en attendant.",
+  "@contactConfirmBody": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "contactWhatsappMessage": "Bonjour, je souhaite m'abonner au forfait {plan} ({amount} MRU) pour : {names}.",
+  "@contactWhatsappMessage": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "transactionCodeHint": "Il figure dans le SMS de confirmation Bankily.",
+  "@transactionCodeHint": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "bankilyVerifyNote": "Nous vérifions le paiement puis activons l'abonnement.",
+  "@bankilyVerifyNote": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "errPhoneInvalid": "Saisissez un numéro de téléphone valide.",
+  "@errPhoneInvalid": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "errTransactionCode": "Saisissez le code de transaction reçu de Bankily.",
+  "@errTransactionCode": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "copied": "Copié",
+  "@copied": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "paymentSentTitle": "Paiement envoyé",
+  "@paymentSentTitle": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "paymentSentBody": "Nous vérifions votre paiement Bankily. L'accès sera activé dès validation.",
+  "@paymentSentBody": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "contactSentTitle": "Demande enregistrée",
+  "@contactSentTitle": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "contactSentBody": "Notre équipe finalise le paiement avec vous sur WhatsApp, puis active l'abonnement.",
+  "@contactSentBody": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "pendingDetails": "Paiement Bankily reçu le {date} · code {code}. Activation dès validation.",
+  "@pendingDetails": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "unpaidDetails": "En attente du paiement avec notre équipe.",
+  "@unpaidDetails": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "contactSupport": "Contacter le support",
+  "@contactSupport": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "statusCancelled": "Annulé",
+  "@statusCancelled": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "statusUnpaid": "Non payé",
+  "@statusUnpaid": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "statusScheduled": "Programmé",
+  "@statusScheduled": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "statusPaused": "En pause",
+  "@statusPaused": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "statusTrialEnded": "Essai terminé",
+  "@statusTrialEnded": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "upcomingPlan": "Prochain forfait : {plan}, du {start} au {end}.",
+  "@upcomingPlan": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "endedOn": "Terminé le {date}.",
+  "@endedOn": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "subscribeAction": "S'abonner",
+  "@subscribeAction": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "noHistory": "Aucun abonnement passé.",
+  "@noHistory": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "freeTrial": "Essai gratuit",
+  "@freeTrial": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "childrenTimesPlan": "{n, plural, =1{1 enfant} other{{n} enfants}} × {plan}",
+  "@childrenTimesPlan": {
+    "description": "Added during implementation (not in the design handoff).",
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "plan": {}
+    }
+  },
+  "deleteFinalTitle": "Cette action est définitive",
+  "@deleteFinalTitle": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "deleteLosesIntro": "En supprimant ce compte, vous perdez définitivement :",
+  "@deleteLosesIntro": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "deleteLossProgress": "La progression dans tous les cours",
+  "@deleteLossProgress": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "deleteLossXp": "Les points XP, le niveau et la série",
+  "@deleteLossXp": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "deleteLossHistory": "L'historique des exercices",
+  "@deleteLossHistory": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "deleteCannotUndo": "Cette action ne peut pas être annulée.",
+  "@deleteCannotUndo": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "deleteTypeToConfirm": "Pour confirmer, écrivez {word} ci-dessous :",
+  "@deleteTypeToConfirm": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "deleteForever": "Supprimer définitivement",
+  "@deleteForever": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "deleteFailed": "La suppression a échoué. Réessayez ou contactez le support.",
+  "@deleteFailed": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "deleteDownloadTitle": "Supprimer le téléchargement ?",
+  "@deleteDownloadTitle": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "deleteDownloadBody": "La vidéo restera disponible en ligne.",
+  "@deleteDownloadBody": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "videoLabel": "Vidéo",
+  "@videoLabel": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "offlineShort": "Hors ligne",
+  "@offlineShort": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "nowPlaying": "En cours",
+  "@nowPlaying": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "previousVideo": "Précédent",
+  "@previousVideo": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "nextVideo": "Suivant",
+  "@nextVideo": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "signInWho": "Déjà un compte ? Connecte-toi",
+  "@signInWho": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "videoOfMeta": "Vidéo {n} sur {total} · {min} min",
+  "@videoOfMeta": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "videoMinutes": "{min} min",
+  "@videoMinutes": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "familyDiscountLine": "Réduction famille (−{pct} % dès le 2e enfant)",
+  "@familyDiscountLine": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "familyOfferBanner": "Offre famille : −{p2} % sur le 2e enfant, −{p3} % sur chaque enfant suivant dès 3 — appliquée automatiquement.",
+  "@familyOfferBanner": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "addChildForDiscount": "Ajoutez {name} : économisez {amount} MRU",
+  "@addChildForDiscount": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "addAction": "Ajouter",
+  "@addAction": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "minusPriceMru": "−{amount} MRU",
+  "@minusPriceMru": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "weekProgress": "{done} sur {total} examens faits",
+  "@weekProgress": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "availableOn": "Dès {day}",
+  "@availableOn": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "examToDo": "À faire",
+  "@examToDo": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "weekExamsDone": "Bravo, tous les examens de la semaine sont faits !",
+  "@weekExamsDone": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "noExamsThisWeek": "Pas encore d'examen cette semaine.",
+  "@noExamsThisWeek": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "examsOfTheWeek": "Examens de la semaine",
+  "@examsOfTheWeek": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "photoUnreadableTitle": "Je n'arrive pas à bien lire ta photo",
+  "@photoUnreadableTitle": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "photoUnreadableBody": "Reprends-la bien éclairée, à plat, avec toute la page dans le cadre et une écriture nette.",
+  "@photoUnreadableBody": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "issueBlurry": "floue",
+  "@issueBlurry": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "issueDark": "trop sombre",
+  "@issueDark": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "issueRotated": "de travers",
+  "@issueRotated": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "issueCropped": "coupée",
+  "@issueCropped": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "issueMissingParts": "incomplète",
+  "@issueMissingParts": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "issueIllegible": "écriture illisible",
+  "@issueIllegible": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "issueNotExercise": "ce n'est pas l'exercice",
+  "@issueNotExercise": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "askDirassty": "Aide de Dirassty",
+  "@askDirassty": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "tutorTitle": "Rafiq t'aide",
+  "@tutorTitle": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "tutorIntroExercise": "Je ne te donne pas la réponse tout de suite : on va y arriver ensemble. Choisis une aide ou écris où tu bloques.",
+  "@tutorIntroExercise": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "tutorIntroLesson": "Pose-moi une question sur la leçon, ou choisis une aide ci-dessous.",
+  "@tutorIntroLesson": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "tutorHint": "💡 Un indice",
+  "@tutorHint": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "tutorGuide": "Guide-moi",
+  "@tutorGuide": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "tutorCheckStep": "Vérifier mon étape",
+  "@tutorCheckStep": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "tutorExplainStep": "Explique cette étape",
+  "@tutorExplainStep": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "tutorSolution": "Solution complète",
+  "@tutorSolution": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "tutorExplain": "Explique simplement",
+  "@tutorExplain": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "tutorStepByStep": "Étape par étape",
+  "@tutorStepByStep": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "tutorExample": "Un exemple",
+  "@tutorExample": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "tutorAnotherExample": "Un autre exemple",
+  "@tutorAnotherExample": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "tutorSummary": "Résumé",
+  "@tutorSummary": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "tutorInputHintExercise": "Écris ton étape ou ta question…",
+  "@tutorInputHintExercise": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "tutorInputHintLesson": "Pose ta question sur la leçon…",
+  "@tutorInputHintLesson": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "tutorNeedsText": "Écris d'abord ton étape (ou la partie à expliquer) dans la case.",
+  "@tutorNeedsText": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "tutorThinking": "Dirassty réfléchit…",
+  "@tutorThinking": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "tutorFinalAnswer": "Réponse finale",
+  "@tutorFinalAnswer": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "tutorWhy": "Pourquoi :",
+  "@tutorWhy": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "tutorFormulas": "À retenir",
+  "@tutorFormulas": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "tutorStepCorrect": "Étape juste ✓",
+  "@tutorStepCorrect": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "tutorStepPartial": "Presque",
+  "@tutorStepPartial": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "tutorStepIncorrect": "À revoir",
+  "@tutorStepIncorrect": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "aiBudgetLeft": "Aide de Rafiq restante aujourd'hui : {pct} %",
+  "@aiBudgetLeft": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "checkWithPhoto": "📷 Vérifier ma copie",
+  "@checkWithPhoto": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "checkPhotoBody": "Résous sur papier, puis prends ta copie en photo (jusqu'à 3 pages).",
+  "@checkPhotoBody": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "takePhoto": "Prendre une photo",
+  "@takePhoto": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "chooseFromGallery": "Choisir dans la galerie",
+  "@chooseFromGallery": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "checkingCopy": "Dirassty lit ta copie…",
+  "@checkingCopy": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "resultReasoning": "Raisonnement",
+  "@resultReasoning": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "resultCalculation": "Calculs",
+  "@resultCalculation": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "resultFinalAnswer": "Réponse finale",
+  "@resultFinalAnswer": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "alternativeMethod": "Autre méthode, elle aussi valable 👍",
+  "@alternativeMethod": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "whatIRead": "Ce que j'ai lu sur ta copie",
+  "@whatIRead": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "verdictUndetermined": "À vérifier",
+  "@verdictUndetermined": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "writeAnswerInstead": "Écrire ma réponse à la place",
+  "@writeAnswerInstead": {
+    "description": "Added during implementation (not in the design handoff)."
+  },
+  "correctionWellDone": "Ce que tu as bien fait",
+  "@correctionWellDone": {
+    "description": "Open-exercise correction result redesign."
+  },
+  "correctionToFix": "À corriger",
+  "@correctionToFix": {
+    "description": "Open-exercise correction result redesign."
+  },
+  "correctionSeeSolution": "Voir la solution complète",
+  "@correctionSeeSolution": {
+    "description": "Open-exercise correction result redesign."
+  },
+  "correctionHideSolution": "Masquer la solution",
+  "@correctionHideSolution": {
+    "description": "Open-exercise correction result redesign."
+  },
+  "noActiveSubscriptionTitle": "Aucun abonnement actif",
+  "@noActiveSubscriptionTitle": {
+    "description": "Subscription lock screen: no trial wording (trials are disabled)."
+  },
+  "subscriptionCheckFailedTitle": "Impossible de vérifier ton abonnement",
+  "@subscriptionCheckFailedTitle": {
+    "description": "Subscription lock screen: no trial wording (trials are disabled)."
+  },
+  "subscriptionCheckFailedBody": "Vérifie ta connexion internet, puis appuie sur le bouton pour actualiser.",
+  "@subscriptionCheckFailedBody": {
+    "description": "Subscription lock screen: no trial wording (trials are disabled)."
+  },
+  "updateRequiredTitle": "Mise à jour nécessaire",
+  "@updateRequiredTitle": {
+    "description": "App update prompt / required-update screen."
+  },
+  "updateRequiredBody": "Une nouvelle version de Dirassty est disponible. Installe-la pour continuer à utiliser l'application — tes progrès sont gardés.",
+  "@updateRequiredBody": {
+    "description": "App update prompt / required-update screen."
+  },
+  "updateAvailableTitle": "Nouvelle version disponible",
+  "@updateAvailableTitle": {
+    "description": "App update prompt / required-update screen."
+  },
+  "updateAvailableBody": "Mets à jour Dirassty pour profiter des dernières améliorations.",
+  "@updateAvailableBody": {
+    "description": "App update prompt / required-update screen."
+  },
+  "updateNow": "Mettre à jour",
+  "@updateNow": {
+    "description": "App update prompt / required-update screen."
+  },
+  "updateLater": "Plus tard",
+  "@updateLater": {
+    "description": "App update prompt / required-update screen."
+  },
+  "updateWhatsNew": "Nouveautés",
+  "@updateWhatsNew": {
+    "description": "App update prompt / required-update screen."
+  },
+  "updateNoLink": "Contacter le support",
+  "@updateNoLink": {
+    "description": "App update prompt / required-update screen."
+  },
+  "updateVersionLabel": "Version {version}",
+  "@updateVersionLabel": {
+    "description": "App update prompt / required-update screen.",
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "fullAnswerLabel": "Réponse complète",
+  "@fullAnswerLabel": {
+    "description": "Homework helper: heading of the revealed full written solution."
+  },
+  "figureLabel": "Figure",
+  "@figureLabel": {
+    "description": "Homework helper: heading above the drawn geometry figure."
+  },
+  "promoHaveCode": "J'ai un code promo",
+  "@promoHaveCode": {
+    "description": "Marketing promo / influencer code (tracking only)."
+  },
+  "promoCodeOptional": "Code promo (facultatif)",
+  "@promoCodeOptional": {
+    "description": "Marketing promo / influencer code (tracking only)."
+  },
+  "promoApply": "Valider",
+  "@promoApply": {
+    "description": "Marketing promo / influencer code (tracking only)."
+  },
+  "promoApplied": "Code de {name} enregistré ✓",
+  "@promoApplied": {
+    "description": "Marketing promo / influencer code (tracking only).",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "promoUnknown": "Code inconnu — vérifiez l'orthographe.",
+  "@promoUnknown": {
+    "description": "Marketing promo / influencer code (tracking only)."
+  }
+}

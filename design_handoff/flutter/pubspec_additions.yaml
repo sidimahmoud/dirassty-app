@@ -1,0 +1,38 @@
+# Merge into pubspec.yaml (keep your existing entries)
+
+dependencies:
+  flutter_localizations:
+    sdk: flutter
+  intl: any            # use the version flutter_localizations pins
+  flutter_svg: ^2.0.10 # logo and illustrations
+
+flutter:
+  generate: true       # with l10n.yaml below
+  assets:
+    - assets/logo/
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Inter-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Inter-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Inter-ExtraBold.ttf
+          weight: 800
+    - family: Cairo
+      fonts:
+        - asset: assets/fonts/Cairo-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Cairo-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Cairo-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Cairo-ExtraBold.ttf
+          weight: 800
+
+# l10n.yaml (project root):
+# arb-dir: lib/l10n
+# template-arb-file: app_fr.arb
+# output-localization-file: app_localizations.dart

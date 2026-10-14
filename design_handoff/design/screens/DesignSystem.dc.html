@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Najah — système de design</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;family=Cairo:wght@400;700;800&amp;display=swap">
+<style>body{margin:0;background:#FCFBF8}a{color:#0E6B5C}a:hover{color:#0A5247}</style>
+</helmet>
+<div style="width: 1440px; height: 2360px; box-sizing: border-box; background: #FCFBF8; padding: 72px; font-family: Inter, 'Segoe UI', sans-serif; color: #10231F; display: flex; flex-direction: column; gap: 56px">
+<div style="display: flex; justify-content: space-between; align-items: flex-end">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="font-size: 14px; font-weight: 600; color: #0E6B5C">Najah.ai · v1</div>
+<h1 style="margin: 0; font-size: 48px; font-weight: 800; letter-spacing: -0.02em">Système de design</h1>
+</div>
+<img src="/_blob/34ce2d4d9259df2f9ff359ecac6cd0d3" alt="najah.ai — نجاح" style="height: 72px; width: auto">
+</div>
+
+<section style="display: flex; flex-direction: column; gap: 20px">
+<h2 style="margin: 0; font-size: 24px; font-weight: 800">Couleurs</h2>
+<div style="display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 16px">
+<sc-for list="{{ colors }}" as="c" hint-placeholder-count="8">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="height: 112px; border-radius: 12px; background: {{ c.hex }}; border: 1px solid #ECE8DF"></div>
+<div style="font-size: 14px; font-weight: 700">{{ c.name }}</div>
+<div style="font-size: 12px; font-weight: 600; color: #5B6663">{{ c.hex }}</div>
+<div style="font-size: 12px; line-height: 1.4; color: #5B6663">{{ c.use }}</div>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<h2 style="margin: 0; font-size: 24px; font-weight: 800">Typographie · Inter</h2>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: baseline; gap: 20px"><span style="width: 64px; font-size: 12px; color: #5B6663">32 / 800</span><span style="font-size: 32px; font-weight: 800">Réussis ton année</span></div>
+<div style="display: flex; align-items: baseline; gap: 20px"><span style="width: 64px; font-size: 12px; color: #5B6663">24 / 800</span><span style="font-size: 24px; font-weight: 800">Titre d'écran</span></div>
+<div style="display: flex; align-items: baseline; gap: 20px"><span style="width: 64px; font-size: 12px; color: #5B6663">20 / 800</span><span style="font-size: 20px; font-weight: 800">Titre de leçon</span></div>
+<div style="display: flex; align-items: baseline; gap: 20px"><span style="width: 64px; font-size: 12px; color: #5B6663">18 / 700</span><span style="font-size: 18px; font-weight: 700">En-tête de section</span></div>
+<div style="display: flex; align-items: baseline; gap: 20px"><span style="width: 64px; font-size: 12px; color: #5B6663">16 / 700</span><span style="font-size: 16px; font-weight: 700">Bouton · titre de carte</span></div>
+<div style="display: flex; align-items: baseline; gap: 20px"><span style="width: 64px; font-size: 12px; color: #5B6663">16 / 400</span><span style="font-size: 16px">Texte de lecture confortable pour les leçons.</span></div>
+<div style="display: flex; align-items: baseline; gap: 20px"><span style="width: 64px; font-size: 12px; color: #5B6663">14 / 400</span><span style="font-size: 14px">Texte secondaire et descriptions.</span></div>
+<div style="display: flex; align-items: baseline; gap: 20px"><span style="width: 64px; font-size: 12px; color: #5B6663">12 / 600</span><span style="font-size: 12px; font-weight: 600">Étiquette · légende</span></div>
+<div style="display: flex; align-items: baseline; gap: 20px"><span style="width: 64px; font-size: 12px; color: #5B6663">11 / 600</span><span style="font-size: 11px; font-weight: 600">Onglets de navigation</span></div>
+</div>
+</div>
+<div dir="rtl" style="display: flex; flex-direction: column; gap: 16px; font-family: Cairo, sans-serif">
+<h2 style="margin: 0; font-size: 24px; font-weight: 800">الخطوط · Cairo</h2>
+<div style="display: flex; flex-direction: column; gap: 6px; line-height: 1.5">
+<span style="font-size: 32px; font-weight: 800">انجح في سنتك الدراسية</span>
+<span style="font-size: 24px; font-weight: 800">عنوان الشاشة</span>
+<span style="font-size: 18px; font-weight: 700">عنوان القسم</span>
+<span style="font-size: 16px; font-weight: 400">نص قراءة مريح للدروس والتمارين.</span>
+<span style="font-size: 14px; font-weight: 400; color: #5B6663">نص ثانوي ووصف مختصر.</span>
+<span style="font-size: 12px; font-weight: 700">تسمية · تعليق</span>
+</div>
+<div style="font-size: 12px; color: #5B6663; line-height: 1.6">Arabe : mêmes tailles, interligne 1.5 minimum, jamais d'espacement de lettres.</div>
+</div>
+</section>
+
+<section style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<h2 style="margin: 0; font-size: 24px; font-weight: 800">Espacements</h2>
+<div style="display: flex; align-items: flex-end; gap: 16px">
+<sc-for list="{{ spaces }}" as="s" hint-placeholder-count="6">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 8px"><div style="width: {{ s.px }}; height: {{ s.px }}; background: #0E6B5C; border-radius: 2px"></div><span style="font-size: 12px; font-weight: 600; color: #5B6663">{{ s.n }}</span></div>
+</sc-for>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 16px">
+<h2 style="margin: 0; font-size: 24px; font-weight: 800">Rayons</h2>
+<div style="display: flex; gap: 16px; align-items: flex-end">
+<div style="display: flex; flex-direction: column; gap: 8px; align-items: center"><div style="width: 56px; height: 56px; border-radius: 8px; background: #E3F0ED; border: 1.5px solid #0E6B5C"></div><span style="font-size: 12px; color: #5B6663">8 · petit</span></div>
+<div style="display: flex; flex-direction: column; gap: 8px; align-items: center"><div style="width: 56px; height: 56px; border-radius: 12px; background: #E3F0ED; border: 1.5px solid #0E6B5C"></div><span style="font-size: 12px; color: #5B6663">12 · cartes</span></div>
+<div style="display: flex; flex-direction: column; gap: 8px; align-items: center"><div style="width: 56px; height: 56px; border-radius: 20px; background: #E3F0ED; border: 1.5px solid #0E6B5C"></div><span style="font-size: 12px; color: #5B6663">20 · dialogues</span></div>
+<div style="display: flex; flex-direction: column; gap: 8px; align-items: center"><div style="width: 80px; height: 32px; border-radius: 999px; background: #E3F0ED; border: 1.5px solid #0E6B5C"></div><span style="font-size: 12px; color: #5B6663">pilule · chips</span></div>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 16px">
+<h2 style="margin: 0; font-size: 24px; font-weight: 800">Ombres</h2>
+<div style="display: flex; gap: 20px">
+<div style="width: 112px; height: 72px; border-radius: 12px; background: #FFFFFF; box-shadow: 0 1px 2px rgba(16,35,31,.06); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600">Niveau 1</div>
+<div style="width: 112px; height: 72px; border-radius: 12px; background: #FFFFFF; box-shadow: 0 1px 2px rgba(16,35,31,.06), 0 6px 20px rgba(16,35,31,.06); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600">Niveau 2</div>
+<div style="width: 112px; height: 72px; border-radius: 12px; background: #FFFFFF; box-shadow: 0 12px 40px rgba(16,35,31,.14); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600">Feuille</div>
+</div>
+</div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 20px">
+<h2 style="margin: 0; font-size: 24px; font-weight: 800">Composants</h2>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px">
+
+<div style="padding: 24px; background: #FFFFFF; border-radius: 12px; border: 1px solid #ECE8DF; display: flex; flex-direction: column; gap: 12px">
+<div style="font-size: 12px; font-weight: 700; color: #5B6663">BOUTONS</div>
+<button type="button" style="height: 52px; border: none; border-radius: 12px; background: #0E6B5C; color: #FFFFFF; font: 700 16px Inter, sans-serif">Principal</button>
+<button type="button" style="height: 52px; border: 1.5px solid #0E6B5C; border-radius: 12px; background: #FFFFFF; color: #0E6B5C; font: 700 16px Inter, sans-serif">Secondaire</button>
+<button type="button" style="height: 52px; border: none; border-radius: 12px; background: #10231F; color: #FFFFFF; font: 700 16px Inter, sans-serif">Espace parent</button>
+<button type="button" style="height: 52px; border: none; border-radius: 12px; background: #F5B83D; color: #10231F; font: 700 16px Inter, sans-serif">Récompense · texte encre</button>
+<button type="button" disabled style="height: 52px; border: none; border-radius: 12px; background: #E4E7E5; color: #5B6663; font: 700 16px Inter, sans-serif">Désactivé</button>
+</div>
+
+<div style="padding: 24px; background: #FFFFFF; border-radius: 12px; border: 1px solid #ECE8DF; display: flex; flex-direction: column; gap: 14px">
+<div style="font-size: 12px; font-weight: 700; color: #5B6663">CHAMPS</div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="ds1" style="font-size: 14px; font-weight: 600">Nom d'utilisateur</label><input id="ds1" placeholder="ex. amina.sow" style="height: 52px; box-sizing: border-box; padding: 0 16px; border: 1.5px solid #ECE8DF; border-radius: 12px; font: 400 16px Inter, sans-serif"></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="ds2" style="font-size: 14px; font-weight: 600">Téléphone</label>
+<div style="display: flex; height: 52px; border: 1.5px solid #0E6B5C; border-radius: 12px; overflow: hidden"><span style="padding: 0 14px; display: flex; align-items: center; background: #F7F5EF; font-weight: 700; font-size: 16px">+222</span><input id="ds2" value="22 45 67 89" style="flex-grow: 1; border: none; padding: 0 14px; font: 400 16px Inter, sans-serif; outline: none"></div></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="ds3" style="font-size: 14px; font-weight: 600">Code WhatsApp</label><input id="ds3" value="4821" style="height: 52px; box-sizing: border-box; padding: 0 16px; border: 1.5px solid #B3261E; border-radius: 12px; font: 400 16px Inter, sans-serif"><span style="font-size: 12px; color: #B3261E; font-weight: 600">Code incorrect. Il te reste 2 essais.</span></div>
+</div>
+
+<div style="padding: 24px; background: #FFFFFF; border-radius: 12px; border: 1px solid #ECE8DF; display: flex; flex-direction: column; gap: 14px">
+<div style="font-size: 12px; font-weight: 700; color: #5B6663">PAVÉ PIN</div>
+<div style="display: flex; gap: 10px; justify-content: center"><div style="width: 48px; height: 52px; border-radius: 12px; border: 1.5px solid #ECE8DF; display: flex; align-items: center; justify-content: center"><div style="width: 12px; height: 12px; border-radius: 6px; background: #10231F"></div></div><div style="width: 48px; height: 52px; border-radius: 12px; border: 1.5px solid #ECE8DF; display: flex; align-items: center; justify-content: center"><div style="width: 12px; height: 12px; border-radius: 6px; background: #10231F"></div></div><div style="width: 48px; height: 52px; border-radius: 12px; border: 1.5px solid #0E6B5C"></div><div style="width: 48px; height: 52px; border-radius: 12px; border: 1.5px solid #ECE8DF"></div></div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+<sc-for list="{{ pad }}" as="k" hint-placeholder-count="12"><div style="height: 48px; border-radius: 12px; background: {{ k.bg }}; font-size: 20px; font-weight: 600; display: flex; align-items: center; justify-content: center">{{ k.l }}</div></sc-for>
+</div>
+</div>
+
+<div style="padding: 24px; background: #FFFFFF; border-radius: 12px; border: 1px solid #ECE8DF; display: flex; flex-direction: column; gap: 14px">
+<div style="font-size: 12px; font-weight: 700; color: #5B6663">CARTE MATIÈRE · TUILE STAT</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+<div style="padding: 14px; border-radius: 12px; border: 1px solid #ECE8DF; display: flex; align-items: center; gap: 10px">
+<div style="position: relative; width: 48px; height: 48px"><svg width="48" height="48" viewBox="0 0 52 52"><circle cx="26" cy="26" r="22" fill="none" stroke="#F1EEE6" stroke-width="5"></circle><circle cx="26" cy="26" r="22" fill="none" stroke="#0E6B5C" stroke-width="5" stroke-linecap="round" stroke-dasharray="94 138.2" transform="rotate(-90 26 26)"></circle></svg><div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800">68%</div></div>
+<div style="display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 700">Maths</span><span style="font-size: 12px; color: #5B6663">14 leçons</span></div>
+</div>
+<div style="padding: 14px; border-radius: 12px; border: 1px solid #ECE8DF; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 24px; font-weight: 800; color: #0E6B5C">82 %</span><span style="font-size: 12px; font-weight: 600; color: #5B6663">Bonnes réponses</span></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px"><div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 600"><span>Progression</span><span style="color: #5B6663">74 %</span></div><div style="height: 8px; border-radius: 4px; background: #F1EEE6"><div style="width: 74%; height: 8px; border-radius: 4px; background: #0E6B5C"></div></div></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 600"><span>XP · Niveau 7</span><span style="color: #5B6663">1 240 / 1 500</span></div><div style="height: 8px; border-radius: 4px; background: #F1EEE6"><div style="width: 83%; height: 8px; border-radius: 4px; background: #F5B83D"></div></div></div>
+</div>
+
+<div style="padding: 24px; background: #FFFFFF; border-radius: 12px; border: 1px solid #ECE8DF; display: flex; flex-direction: column; gap: 14px">
+<div style="font-size: 12px; font-weight: 700; color: #5B6663">CHIPS · BARRE DE PARCOURS</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<span style="height: 32px; padding: 0 12px; border-radius: 999px; background: #10231F; color: #FFFFFF; font-size: 12px; font-weight: 600; display: flex; align-items: center">Sélectionné</span>
+<span style="height: 32px; padding: 0 12px; border-radius: 999px; border: 1px solid #ECE8DF; font-size: 12px; font-weight: 600; display: flex; align-items: center">Filtre</span>
+<span style="height: 28px; padding: 0 10px; border-radius: 999px; background: #E3F0ED; color: #0A5247; font-size: 12px; font-weight: 700; display: flex; align-items: center">Abonnée</span>
+<span style="height: 28px; padding: 0 10px; border-radius: 999px; background: #FDF1D8; font-size: 12px; font-weight: 700; display: flex; align-items: center">Essai · 3 j</span>
+<span style="height: 28px; padding: 0 10px; border-radius: 999px; background: #FBEAE8; color: #8C1D18; font-size: 12px; font-weight: 700; display: flex; align-items: center">Expiré</span>
+</div>
+<div style="display: flex; align-items: center; gap: 6px">
+<span style="height: 32px; padding: 0 12px; border-radius: 999px; background: #E3F0ED; color: #0A5247; font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 4px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"></path></svg>Vidéo</span>
+<div style="flex: 1; height: 3px; background: #0E6B5C; border-radius: 2px"></div>
+<span style="height: 32px; padding: 0 12px; border-radius: 999px; background: #0E6B5C; color: #FFFFFF; font-size: 12px; font-weight: 700; display: flex; align-items: center">Leçon</span>
+<div style="flex: 1; height: 3px; background: #E3E0D7; border-radius: 2px"></div>
+<span style="height: 32px; padding: 0 12px; border-radius: 999px; border: 1px solid #ECE8DF; color: #5B6663; font-size: 12px; font-weight: 600; display: flex; align-items: center">Exercices</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 12px; border-radius: 12px; background: #F7F5EF"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10231F" stroke-width="1.8"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="5"></circle></svg><span style="font-size: 14px; font-weight: 700; flex-grow: 1">Mode concentration jusqu'à 19:00</span><span style="font-size: 14px; font-weight: 700; color: #0E6B5C">Déverrouiller</span></div>
+</div>
+</div>
+
+<div style="padding: 24px; background: #FFFFFF; border-radius: 12px; border: 1px solid #ECE8DF; display: flex; flex-direction: column; gap: 14px">
+<div style="font-size: 12px; font-weight: 700; color: #5B6663">LECTEUR VIDÉO · PLAYLIST</div>
+<div style="height: 150px; border-radius: 12px; background: #10231F; position: relative; display: flex; align-items: center; justify-content: center">
+<div style="width: 52px; height: 52px; border-radius: 26px; background: rgba(255,255,255,.92); display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="#10231F"><path d="M8 5v14l11-7z"></path></svg></div>
+<div style="position: absolute; left: 12px; right: 12px; bottom: 10px; height: 4px; border-radius: 2px; background: rgba(255,255,255,.3)"><div style="width: 40%; height: 4px; border-radius: 2px; background: #F5B83D"></div></div>
+</div>
+<div style="display: flex; gap: 12px; align-items: center; padding: 8px; border-radius: 12px; border: 1.5px solid #0E6B5C; background: #F6FAF9">
+<div style="width: 80px; height: 45px; border-radius: 8px; background: #10231F"></div>
+<div style="display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 600">Identités remarquables</span><span style="font-size: 12px; color: #5B6663">En cours · 3:12 / 8:04</span></div>
+</div>
+</div>
+
+<div style="padding: 24px; background: #FFFFFF; border-radius: 12px; border: 1px solid #ECE8DF; display: flex; flex-direction: column; gap: 14px">
+<div style="font-size: 12px; font-weight: 700; color: #5B6663">SNACKBAR · HORS LIGNE</div>
+<div style="padding: 14px 16px; border-radius: 12px; background: #10231F; color: #FFFFFF; display: flex; align-items: center; gap: 12px">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F5B83D" stroke-width="2" stroke-linecap="round"><path d="M3 3l18 18M8.5 16.5a5 5 0 0 1 7 0M5 12.5a10 10 0 0 1 4-2.3M19 12.5a10 10 0 0 0-2.8-1.9M12 20h.01"></path></svg>
+<span style="font-size: 14px; flex-grow: 1">Tu es hors ligne. Tes vidéos téléchargées restent disponibles.</span>
+</div>
+<div style="padding: 14px 16px; border-radius: 12px; background: #10231F; color: #FFFFFF; display: flex; align-items: center; gap: 12px">
+<span style="font-size: 14px; flex-grow: 1">Vidéo téléchargée · 24 Mo</span><span style="font-size: 14px; font-weight: 700; color: #9FD3C7">Voir</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="font-size: 12px; font-weight: 700; color: #5B6663">SQUELETTE DE CHARGEMENT</div>
+<div style="display: flex; gap: 12px; align-items: center"><div style="width: 48px; height: 48px; border-radius: 24px; background: #EFECE4"></div><div style="flex-grow: 1; display: flex; flex-direction: column; gap: 8px"><div style="width: 70%; height: 12px; border-radius: 6px; background: #EFECE4"></div><div style="width: 45%; height: 10px; border-radius: 5px; background: #F4F2EC"></div></div></div>
+<div style="height: 72px; border-radius: 12px; background: #F4F2EC"></div>
+</div>
+</div>
+
+<div style="padding: 24px; background: #F1EEE6; border-radius: 12px; display: flex; flex-direction: column; gap: 14px">
+<div style="font-size: 12px; font-weight: 700; color: #5B6663">DIALOGUE</div>
+<div style="padding: 24px; background: #FFFFFF; border-radius: 20px; box-shadow: 0 12px 40px rgba(16,35,31,.14); display: flex; flex-direction: column; gap: 12px">
+<div style="font-size: 18px; font-weight: 800">Quitter la session ?</div>
+<div style="font-size: 14px; line-height: 1.5; color: #5B6663">Tes 3 réponses sont enregistrées. Tu pourras reprendre plus tard.</div>
+<div style="display: flex; gap: 10px; margin-top: 4px">
+<button type="button" style="flex: 1; height: 48px; border: 1.5px solid #ECE8DF; border-radius: 12px; background: #FFFFFF; font: 700 14px Inter, sans-serif; color: #10231F">Continuer</button>
+<button type="button" style="flex: 1; height: 48px; border: none; border-radius: 12px; background: #10231F; font: 700 14px Inter, sans-serif; color: #FFFFFF">Quitter</button>
+</div>
+</div>
+</div>
+
+<div style="padding: 24px; background: #F1EEE6; border-radius: 12px; display: flex; flex-direction: column; gap: 14px">
+<div style="font-size: 12px; font-weight: 700; color: #5B6663">FEUILLE DU BAS</div>
+<div style="margin-top: auto; padding: 12px 24px 24px; background: #FFFFFF; border-radius: 20px 20px 0 0; box-shadow: 0 -8px 30px rgba(16,35,31,.10); display: flex; flex-direction: column; gap: 12px">
+<div style="width: 40px; height: 4px; border-radius: 2px; background: #D9D5CB; align-self: center"></div>
+<div style="font-size: 18px; font-weight: 800">Déverrouiller</div>
+<div style="font-size: 14px; color: #5B6663; line-height: 1.5">Demande à ton parent de saisir son code à 4 chiffres.</div>
+<button type="button" style="height: 52px; border: none; border-radius: 12px; background: #0E6B5C; color: #FFFFFF; font: 700 16px Inter, sans-serif">Saisir le code</button>
+</div>
+</div>
+
+<div style="padding: 24px; background: #FFFFFF; border-radius: 12px; border: 1px solid #ECE8DF; display: flex; flex-direction: column; gap: 20px">
+<div style="font-size: 12px; font-weight: 700; color: #5B6663">ÉTATS VIDE · ERREUR</div>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center">
+<div style="width: 64px; height: 64px; border-radius: 32px; background: #E3F0ED; display: flex; align-items: center; justify-content: center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0E6B5C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg></div>
+<div style="font-size: 16px; font-weight: 700">Aucun téléchargement</div>
+<div style="font-size: 14px; color: #5B6663; line-height: 1.5">Télécharge une vidéo pour la regarder sans connexion.</div>
+</div>
+<div style="height: 1px; background: #F1EEE6"></div>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center">
+<div style="width: 64px; height: 64px; border-radius: 32px; background: #FBEAE8; display: flex; align-items: center; justify-content: center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#B3261E" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v6M12 16.5h.01"></path></svg></div>
+<div style="font-size: 16px; font-weight: 700">Chargement impossible</div>
+<div style="font-size: 14px; color: #5B6663; line-height: 1.5">Vérifie ta connexion puis réessaie.</div>
+<button type="button" style="height: 44px; padding: 0 20px; border: 1.5px solid #0E6B5C; border-radius: 12px; background: #FFFFFF; color: #0E6B5C; font: 700 14px Inter, sans-serif">Réessayer</button>
+</div>
+</div>
+
+<div style="padding: 24px; background: #000000; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; text-align: center; color: #FFFFFF">
+<div style="font-size: 12px; font-weight: 700; color: #9AA5A2; align-self: flex-start">CONTENU PROTÉGÉ</div>
+<div style="margin-top: auto; width: 56px; height: 56px; border-radius: 28px; background: rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg></div>
+<div style="font-size: 16px; font-weight: 700">Enregistrement d'écran non autorisé</div>
+<div style="font-size: 14px; color: #B7C1BE; line-height: 1.5; margin-bottom: auto">Pour protéger le travail de nos professeurs, ce contenu ne peut pas être filmé.</div>
+</div>
+
+</div>
+</section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2360}}'>
+class Component extends DCLogic {
+renderVals() {
+const colors = [
+['Najah teal', '#0E6B5C', 'Principal : boutons, liens, progression'],
+['Encre', '#10231F', 'Texte, logo, espace parent'],
+['Or réussite', '#F5B83D', 'XP, séries, récompenses · texte encre'],
+['Ivoire', '#F7F5EF', 'Accents chauds, encadrés'],
+['Fond', '#FCFBF8', 'Fond des écrans'],
+['Blanc', '#FFFFFF', 'Cartes'],
+['Texte secondaire', '#5B6663', 'Légendes · 5.9:1 sur fond'],
+['Erreur', '#B3261E', 'Réponses fausses, erreurs']
+].map(([name, hex, use]) => ({ name, hex, use }));
+const spaces = [4, 8, 12, 16, 24, 32].map((n) => ({ n, px: n + 'px' }));
+const pad = ['1','2','3','4','5','6','7','8','9','','0','⌫'].map((l) => ({ l, bg: l === '' ? 'transparent' : '#F7F5EF' }));
+return { colors, spaces, pad };
+}
+}
+</script>
+</body>
+</html>

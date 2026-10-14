@@ -1,0 +1,7 @@
+/* Home-screen name on French (and default) devices. */
+"CFBundleDisplayName" = "Dirassty";
+"CFBundleName" = "Dirassty";
+
+/* Permission prompts (same keys as Info.plist). */
+"NSCameraUsageDescription" = "Dirassty utilise la caméra pour que tu prennes en photo tes exercices et devoirs, afin que Rafiq t'aide à les résoudre.";
+"NSPhotoLibraryUsageDescription" = "Dirassty accède aux photos que tu choisis pour que Rafiq analyse un exercice ou un devoir.";

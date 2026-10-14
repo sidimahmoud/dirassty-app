@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dirassty teal — accent of push notifications (DirasstyColors.teal). -->
+    <color name="dirassty_teal">#0E6B5C</color>
+    <!-- Adaptive launcher icon background (brand/1-app-icon). -->
+    <color name="ic_launcher_background">#0E6B5C</color>
+</resources>

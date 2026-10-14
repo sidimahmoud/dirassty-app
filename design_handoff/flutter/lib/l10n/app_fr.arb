@@ -1,0 +1,315 @@
+{
+  "@@locale": "fr",
+  "appName": "Najah",
+  "continueAction": "Continuer",
+  "back": "Retour",
+  "close": "Fermer",
+  "retry": "Réessayer",
+  "seeAll": "Tout voir",
+  "see": "Voir",
+  "offlineBanner": "Hors ligne · tes téléchargements restent disponibles",
+  "errorLoad": "Chargement impossible. Vérifie ta connexion puis réessaie.",
+  "screenRecordingBlocked": "Enregistrement d'écran non autorisé",
+  "screenRecordingBody": "Pour protéger le travail de nos professeurs, ce contenu ne peut pas être filmé.",
+  "tagline": "Apprendre · Pratiquer · Réussir",
+  "welcomeTitle": "Bienvenue sur Najah",
+  "welcomeBody": "Du Primaire au Bac, apprends à ton rythme et réussis ton année.",
+  "whoAreYou": "Qui es-tu ?",
+  "iAmStudent": "Je suis élève",
+  "iAmStudentSub": "Leçons, exercices et examens",
+  "iAmParent": "Je suis parent",
+  "iAmParentSub": "Suivre les progrès de mes enfants",
+  "createAccount": "Créer un compte",
+  "trialLine": "7 jours d'essai gratuit · Programme officiel mauritanien",
+  "studentLoginTitle": "Connexion élève",
+  "username": "Nom d'utilisateur",
+  "pinCode": "Code PIN",
+  "forgotPin": "Code oublié ?",
+  "signIn": "Se connecter",
+  "firstTimeActivate": "Première fois ? Activer mon compte",
+  "parentLoginTitle": "Connexion parent",
+  "whatsappNumber": "Numéro WhatsApp",
+  "newDeviceHint": "Nouveau téléphone ? Nous vous enverrons un code de vérification par WhatsApp.",
+  "verifyTitle": "Vérifiez votre numéro",
+  "verifyBody": "Saisissez le code à 6 chiffres envoyé par WhatsApp au {phone}.",
+  "@verifyBody": {
+    "placeholders": {
+      "phone": {}
+    }
+  },
+  "resendIn": "Renvoyer le code dans {time}",
+  "@resendIn": {
+    "placeholders": {
+      "time": {}
+    }
+  },
+  "changeNumber": "Modifier le numéro",
+  "verify": "Vérifier",
+  "registerTitle": "Créer un compte",
+  "stepOf": "Étape {n} sur {total}",
+  "@stepOf": {
+    "placeholders": {
+      "n": {},
+      "total": {}
+    }
+  },
+  "fullName": "Prénom et nom",
+  "myGrade": "Ma classe",
+  "cyclePrimary": "Primaire",
+  "cycleMiddle": "Collège",
+  "cycleHigh": "Lycée",
+  "available": "✓ Disponible",
+  "choosePin": "Choisis un code PIN",
+  "acceptTerms": "J'accepte les conditions d'utilisation",
+  "getWhatsappCode": "Recevoir le code WhatsApp",
+  "trialTitle": "7 jours offerts",
+  "trialBody": "Accès complet à tout le programme de ta classe, sans paiement.",
+  "startTrial": "Commencer mon essai",
+  "claimTitle": "Activer mon compte",
+  "claimBody": "Ton parent t'a créé un compte. Saisis le code d'invitation qu'il t'a envoyé.",
+  "inviteCode": "Code d'invitation",
+  "activateAndStart": "Activer et commencer",
+  "hello": "Bonjour {name}",
+  "@hello": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "level": "Niveau {n}",
+  "@level": {
+    "placeholders": {
+      "n": {}
+    }
+  },
+  "xpToNext": "Encore {xp} XP pour atteindre le niveau {n}",
+  "@xpToNext": {
+    "placeholders": {
+      "xp": {},
+      "n": {}
+    }
+  },
+  "myWeek": "Ma semaine",
+  "correctAnswers": "Bonnes réponses",
+  "exercisesDone": "Exercices faits",
+  "activeDays": "Jours actifs",
+  "studyTime": "Temps d'étude",
+  "mySubjects": "Mes matières",
+  "lessonsCount": "{n} leçons",
+  "@lessonsCount": {
+    "placeholders": {
+      "n": {}
+    }
+  },
+  "weeklyExam": "Examen de la semaine",
+  "prepare": "Me préparer",
+  "homeworkHelper": "Aide aux devoirs",
+  "homeworkHelperSub": "Prends ton exercice en photo, on te guide étape par étape.",
+  "tabHome": "Accueil",
+  "tabSubjects": "Matières",
+  "tabExams": "Examens",
+  "tabProfile": "Profil",
+  "tabSubscription": "Abonnement",
+  "journeyVideo": "Vidéo",
+  "journeyLesson": "Leçon",
+  "journeyExercises": "Exercices",
+  "statusMastered": "Maîtrisée",
+  "statusViewed": "Vue",
+  "statusNotStarted": "Non commencée",
+  "download": "Télécharger · {size}",
+  "@download": {
+    "placeholders": {
+      "size": {}
+    }
+  },
+  "downloadWifiHint": "Télécharge en Wi-Fi pour regarder sans connexion et économiser tes données.",
+  "inThisLesson": "Dans cette leçon",
+  "continueToLesson": "Continuer vers la leçon",
+  "realLife": "Dans la vraie vie",
+  "checkUnderstanding": "Vérifie ta compréhension",
+  "nextConcept": "Notion suivante",
+  "answerToContinue": "Réponds juste pour continuer",
+  "workedExample": "Exemple résolu",
+  "commonMistake": "Erreur fréquente",
+  "revisionSheet": "Fiche de révision",
+  "formulas": "Formules à retenir",
+  "definitions": "Définitions",
+  "keyFacts": "À savoir",
+  "goToExercises": "Passer aux exercices",
+  "questionOf": "Question {n}/{total}",
+  "@questionOf": {
+    "placeholders": {
+      "n": {},
+      "total": {}
+    }
+  },
+  "check": "Vérifier",
+  "correctFeedback": "Bravo, c'est juste !",
+  "wrongFeedback": "Pas tout à fait",
+  "xpGain": "+{xp} XP",
+  "@xpGain": {
+    "placeholders": {
+      "xp": {}
+    }
+  },
+  "streakDays": "{n} jours de suite",
+  "@streakDays": {
+    "placeholders": {
+      "n": {}
+    }
+  },
+  "streakBody": "Ta série continue. Reviens demain pour la garder.",
+  "score": "Score",
+  "duration": "Durée",
+  "xpEarned": "XP gagnés",
+  "reviewMistakes": "Revoir mes {n} erreurs",
+  "@reviewMistakes": {
+    "placeholders": {
+      "n": {}
+    }
+  },
+  "backHome": "Retour à l'accueil",
+  "leaveSessionTitle": "Quitter la session ?",
+  "yourAnswer": "Ta réponse",
+  "aiCorrection": "Correction Najah AI",
+  "almost": "Presque !",
+  "correctAnswer": "Bonne réponse",
+  "similarExercise": "Exercice similaire",
+  "watchMethod": "Voir la méthode en vidéo",
+  "helperGuideNote": "Najah te guide sans donner la réponse directement.",
+  "typeAnswer": "Écris ta réponse…",
+  "exams": "Examens",
+  "thisWeek": "Cette semaine",
+  "recentResults": "Résultats récents",
+  "upcoming": "À venir",
+  "startExam": "Commencer l'examen",
+  "finishExam": "Terminer l'examen",
+  "previous": "Précédente",
+  "next": "Suivante",
+  "byChapter": "Par chapitre",
+  "myDownloads": "Mes téléchargements",
+  "wifiOnly": "Télécharger uniquement en Wi-Fi",
+  "offlineExpired": "Accès hors ligne expiré",
+  "reconnect": "Se reconnecter",
+  "noDownloads": "Aucun téléchargement",
+  "language": "Langue",
+  "parentalControl": "Contrôle parental",
+  "faq": "Questions fréquentes",
+  "whatsappSupport": "Support WhatsApp",
+  "rateApp": "Noter l'application",
+  "shareApp": "Partager Najah",
+  "about": "À propos",
+  "logout": "Se déconnecter",
+  "deleteAccount": "Supprimer mon compte",
+  "subscriptionActive": "Abonnement actif",
+  "trialEnded": "Ton essai est terminé",
+  "trialEndedBody": "Demande à ton parent de choisir une offre pour continuer tes leçons et tes exercices.",
+  "notifyParent": "Prévenir mon parent sur WhatsApp",
+  "alreadyPaid": "Déjà payé ? Actualiser",
+  "focusUntil": "Mode concentration jusqu'à {time}",
+  "@focusUntil": {
+    "placeholders": {
+      "time": {}
+    }
+  },
+  "unlock": "Déverrouiller",
+  "parentCode": "Code parent",
+  "guidedAccessHint": "Sur iPhone : active l'Accès guidé (triple clic sur le bouton latéral) pour rester dans Najah.",
+  "focusBlockedTitle": "Pas tout de suite !",
+  "focusBlockedBody": "Le mode concentration est actif jusqu'à {time}. Tu pourras te déconnecter après, ou avec le code de ton parent.",
+  "@focusBlockedBody": {
+    "placeholders": {
+      "time": {}
+    }
+  },
+  "keepStudying": "Continuer à étudier",
+  "parentSpace": "Espace parent",
+  "myChildren": "Mes enfants",
+  "addChild": "Ajouter un enfant",
+  "subscribeFor": "S'abonner pour {name}",
+  "@subscribeFor": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "subscribed": "Abonnée",
+  "trialDaysLeft": "Essai · {n} j",
+  "@trialDaysLeft": {
+    "placeholders": {
+      "n": {}
+    }
+  },
+  "childFirstName": "Prénom de l'enfant",
+  "createChildAccount": "Créer le compte",
+  "childReady": "Le compte de {name} est prêt",
+  "@childReady": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "shareWhatsapp": "Partager par WhatsApp",
+  "copyCredentials": "Copier les identifiants",
+  "daysUntilExam": "{n} jours avant le {exam}",
+  "@daysUntilExam": {
+    "placeholders": {
+      "n": {},
+      "exam": {}
+    }
+  },
+  "examConcours": "Concours",
+  "examBrevet": "Brevet",
+  "examBac": "Bac",
+  "weeklyInsight": "Analyse de la semaine",
+  "masteryBySubject": "Maîtrise par matière",
+  "examHistory": "Historique des examens",
+  "lessonDetail": "Détail leçon par leçon",
+  "focusMode": "Mode concentration",
+  "enableFocus": "Activer le mode concentration",
+  "timeWindow": "Créneau {n}",
+  "@timeWindow": {
+    "placeholders": {
+      "n": {}
+    }
+  },
+  "start": "Début",
+  "end": "Fin",
+  "addWindow": "Ajouter un créneau",
+  "focusLog": "Journal",
+  "logLeftApp": "A quitté l'application {min} min",
+  "@logLeftApp": {
+    "placeholders": {
+      "min": {}
+    }
+  },
+  "logUnlocked": "Déverrouillé avec votre code",
+  "subscription": "Abonnement",
+  "planMonthly": "Mensuel",
+  "planQuarterly": "Trimestriel",
+  "planYearly": "Annuel",
+  "popular": "Populaire",
+  "forWhichChildren": "Pour quels enfants ?",
+  "familyDiscount": "Réduction famille",
+  "total": "Total",
+  "priceMru": "{amount} MRU",
+  "@priceMru": {
+    "placeholders": {
+      "amount": {}
+    }
+  },
+  "payWithBankily": "Payer avec Bankily",
+  "bankilyTitle": "Paiement Bankily",
+  "amountToSend": "Montant à envoyer",
+  "merchantNumber": "Numéro marchand",
+  "bankilyStep1": "Ouvrez l'application Bankily et envoyez le montant au numéro marchand.",
+  "bankilyStep2": "Notez le code de transaction reçu par SMS.",
+  "bankilyStep3": "Saisissez-le ci-dessous pour activer l'abonnement.",
+  "bankilyPhone": "Numéro Bankily utilisé",
+  "transactionCode": "Code de transaction",
+  "confirmPayment": "Confirmer le paiement",
+  "mySubscriptions": "Mes abonnements",
+  "statusActive": "Actif",
+  "statusPending": "En vérification",
+  "statusExpired": "Expiré",
+  "statusRefused": "Paiement refusé",
+  "renew": "Renouveler",
+  "history": "Historique"
+}

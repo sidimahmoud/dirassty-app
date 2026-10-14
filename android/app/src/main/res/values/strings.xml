@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Home-screen label. Default (French and every non-Arabic device
+         language); values-ar/strings.xml overrides it for Arabic. -->
+    <string name="app_name">Dirassty</string>
+</resources>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Status-bar icon for Dirassty push notifications: white silhouette on
+     transparency (Android tints it). From
+     brand/4-notification-icon/dirassty-notification-icon.svg — its
+     transform "scale(0.96) translate(0 2)" is the group below. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+    <group
+        android:scaleX="0.96"
+        android:scaleY="0.96"
+        android:translateY="1.92">
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:pathData="M38.62 43.47 L27.09 37.29 A3.20 3.20 0 0 0 24.69 43.23 L37.28 46.79 Z" />
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:pathData="M43.79 38.40 L33.62 22.28 A3.60 3.60 0 0 0 27.87 26.61 L40.57 40.83 Z" />
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:pathData="M51.50 36.90 L51.91 11.85 A3.90 3.90 0 0 0 44.12 12.26 L47.14 37.13 Z" />
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:pathData="M58.07 39.61 L68.42 24.19 A3.60 3.60 0 0 0 62.12 20.70 L54.54 37.65 Z" />
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:pathData="M62.37 45.64 L73.68 41.41 A3.10 3.10 0 0 0 70.87 35.89 L60.79 42.55 Z" />
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:pathData="M48.6 56 C41 48.5 26 46.5 10 50.5 L11 85 C25 81 40 82 48.6 89 Z" />
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:pathData="M51.4 56 C59 48 74 46 90 49.5 L89 84 C75 80.5 60 82 51.4 89 Z" />
+    </group>
+</vector>

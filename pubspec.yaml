@@ -1,0 +1,130 @@
+name: dirassty
+description: "Dirassty — AI-powered bilingual learning app for Mauritanian students."
+publish_to: "none"
+version: 0.1.0+1
+
+environment:
+  sdk: ">=3.5.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # Navigation — typed, declarative routing with auth-redirect support.
+  go_router: ^14.6.2
+
+  # State management — the app-wide standard; every feature's state lives
+  # in a Riverpod provider, never in ad-hoc StatefulWidget fields.
+  flutter_riverpod: ^2.6.1
+
+  # Backend — the same Supabase project the web app uses (packages/config,
+  # not a separate mobile-only project), see lib/core/config/supabase_config.dart.
+  supabase_flutter: ^2.8.0
+
+  # For the Next.js AI routes (open-exercise correction, similar-exercise
+  # generation) — these stay server-side, the app only calls the HTTP API,
+  # see lib/core/network/api_client.dart.
+  http: ^1.2.2
+
+  # Profile screen: opening WhatsApp/store links, the native share sheet,
+  # and persisting the chosen app language across launches.
+  url_launcher: ^6.3.1
+  share_plus: ^10.1.2
+  shared_preferences: ^2.3.3
+
+  # Homework Helper: camera capture / gallery pick of a homework photo.
+  image_picker: ^1.1.2
+
+  cupertino_icons: ^1.0.8
+
+  # Lesson explanation videos (content rows of type 'video_url', a public
+  # Supabase Storage URL — see lib/core/widgets/lesson_video_player.dart).
+  video_player: ^2.14.0
+  chewie: ^1.13.1
+
+  # Push notifications (Phase 1 — see supabase/functions/send-push).
+  # Dormant until a real Firebase project's config files are added (see
+  # lib/core/push/push_service.dart's doc comment) — installing these
+  # packages alone is safe either way.
+  firebase_core: ^4.14.0
+  firebase_messaging: ^16.6.0
+  path_provider: ^2.1.6
+  screen_protector: ^1.5.3
+  crypto: ^3.0.7
+  # Localization (lib/l10n/*.arb) — version pinned by flutter_localizations.
+  intl: any
+  # Brand logo SVGs (assets/logo/).
+  flutter_svg: ^2.3.0
+  # Runtime too: bootstrap.dart preserves the native splash until
+  # SplashOverlay takes over.
+  flutter_native_splash: ^2.4.8
+  sentry_flutter: ^9.0.0
+  package_info_plus: ^9.0.1
+  play_install_referrer: ^0.5.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^5.0.0
+  change_app_package_name: ^1.5.0
+
+flutter:
+  uses-material-design: true
+  # Generates AppLocalizations from lib/l10n/*.arb (config: l10n.yaml).
+  generate: true
+
+  assets:
+    # Splash icon (lib/app/splash_overlay.dart, same image as the native
+    # launch screen).
+    - assets/icon/icon.png
+    # Brand logo SVGs from the design handoff (design_handoff/).
+    - assets/logo/
+
+  # Bundled (not fetched at runtime like google_fonts) so text renders
+  # correctly offline and on first launch. SIL Open Font License — see
+  # assets/fonts/OFL-*.txt.
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Inter-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Inter-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Inter-ExtraBold.ttf
+          weight: 800
+    - family: Cairo
+      fonts:
+        - asset: assets/fonts/Cairo-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Cairo-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Cairo-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Cairo-ExtraBold.ttf
+          weight: 800
+
+
+# Native launch screen shown the instant the app is tapped, before Flutter
+# has loaded — regenerate after changing anything here with:
+#   dart run flutter_native_splash:create
+# Deliberately identical to the first frame of SplashOverlay (white, the
+# icon centered at 128pt, which that widget repaints in code) so the
+# hand-off into the animation is seamless.
+flutter_native_splash:
+  color: "#FFFFFF"
+  color_dark: "#FFFFFF"
+  image: assets/icon/icon.png
+  image_dark: assets/icon/icon.png
+  android_12:
+    # Android 12+ crops the splash icon to a circle — this copy has the
+    # icon padded so its rounded corners survive the mask.
+    image: assets/splash/android12_icon.png
+    image_dark: assets/splash/android12_icon.png
+    color: "#FFFFFF"
+    color_dark: "#FFFFFF"
+  fullscreen: false

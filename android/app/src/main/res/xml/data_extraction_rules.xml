@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 12+: keeps downloaded course videos (OfflineVideoStore,
+     files/offline_videos/) out of cloud backups and device-to-device
+     transfers, so they can't be extracted that way. -->
+<data-extraction-rules>
+    <cloud-backup>
+        <exclude domain="file" path="offline_videos/" />
+    </cloud-backup>
+    <device-transfer>
+        <exclude domain="file" path="offline_videos/" />
+    </device-transfer>
+</data-extraction-rules>

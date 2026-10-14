@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Najah — bienvenue</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;family=Cairo:wght@600;700&amp;display=swap">
+<style>body{margin:0;background:#FCFBF8}a{color:#0E6B5C}a:hover{color:#0A5247}</style>
+</helmet>
+<div style="width: 393px; height: 852px; box-sizing: border-box; background: #FCFBF8; padding: 32px 24px 40px; display: flex; flex-direction: column; gap: 32px; font-family: Inter, 'Segoe UI', sans-serif; color: #10231F">
+<div style="display: flex; justify-content: space-between; align-items: center">
+<img src="/_blob/34ce2d4d9259df2f9ff359ecac6cd0d3" alt="najah.ai — نجاح" style="height: 44px; width: auto">
+<div style="display: flex; padding: 4px; background: #F1EEE6; border-radius: 999px; gap: 2px">
+<button type="button" onClick="{{ pickFr }}" style="height: 36px; min-width: 44px; padding: 0 12px; border: none; border-radius: 999px; font: 600 12px Inter, sans-serif; cursor: pointer; background: {{ frBg }}; color: {{ frFg }}">FR</button>
+<button type="button" onClick="{{ pickAr }}" style="height: 36px; min-width: 44px; padding: 0 12px; border: none; border-radius: 999px; font: 700 14px Cairo, sans-serif; cursor: pointer; background: {{ arBg }}; color: {{ arFg }}">عربي</button>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px; margin-top: 24px">
+<h1 style="margin: 0; font-size: 32px; font-weight: 800; line-height: 1.15; letter-spacing: -0.02em">Bienvenue sur Najah</h1>
+<p style="margin: 0; font-size: 16px; line-height: 1.5; color: #5B6663">Du Primaire au Bac, apprends à ton rythme et réussis ton année.</p>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 12px">
+<div style="font-size: 14px; font-weight: 600; color: #5B6663">Qui es-tu ?</div>
+<a href="StudentLogin.dc.html" style="display: flex; align-items: center; gap: 16px; padding: 20px; background: #FFFFFF; border: 1.5px solid #0E6B5C; border-radius: 12px; text-decoration: none; color: #10231F; box-shadow: 0 1px 2px rgba(16,35,31,.06), 0 6px 20px rgba(14,107,92,.10)">
+<div style="width: 52px; height: 52px; border-radius: 12px; background: #E3F0ED; display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0E6B5C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5z"></path><path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"></path></svg>
+</div>
+<div style="display: flex; flex-direction: column; gap: 2px; flex-grow: 1">
+<div style="font-size: 18px; font-weight: 700">Je suis élève</div>
+<div style="font-size: 14px; color: #5B6663">Leçons, exercices et examens</div>
+</div>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0E6B5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg>
+</a>
+<a href="ParentLogin.dc.html" style="display: flex; align-items: center; gap: 16px; padding: 20px; background: #FFFFFF; border: 1.5px solid #ECE8DF; border-radius: 12px; text-decoration: none; color: #10231F; box-shadow: 0 1px 2px rgba(16,35,31,.06)">
+<div style="width: 52px; height: 52px; border-radius: 12px; background: #EDEEEC; display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#10231F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3.5"></circle><path d="M2.5 20a6.5 6.5 0 0 1 13 0"></path><circle cx="17.5" cy="9.5" r="2.5"></circle><path d="M16 20h5.5a4.5 4.5 0 0 0-6-4.2"></path></svg>
+</div>
+<div style="display: flex; flex-direction: column; gap: 2px; flex-grow: 1">
+<div style="font-size: 18px; font-weight: 700">Je suis parent</div>
+<div style="font-size: 14px; color: #5B6663">Suivre les progrès de mes enfants</div>
+</div>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10231F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg>
+</a>
+</div>
+
+<div style="margin-top: auto; display: flex; flex-direction: column; align-items: center; gap: 16px">
+<a href="Register.dc.html" style="width: 100%; height: 52px; display: flex; align-items: center; justify-content: center; border-radius: 12px; background: #0E6B5C; color: #FFFFFF; font-size: 16px; font-weight: 700; text-decoration: none">Créer un compte</a>
+<div style="font-size: 12px; color: #5B6663; text-align: center; line-height: 1.5">7 jours d'essai gratuit · Programme officiel mauritanien</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":393,"height":852}}'>
+class Component extends DCLogic {
+constructor(p) { super(p); this.state = { lang: 'fr' }; }
+renderVals() {
+const fr = this.state.lang === 'fr';
+return {
+pickFr: () => this.setState({ lang: 'fr' }),
+pickAr: () => this.setState({ lang: 'ar' }),
+frBg: fr ? '#FFFFFF' : 'transparent', frFg: fr ? '#10231F' : '#5B6663',
+arBg: fr ? 'transparent' : '#FFFFFF', arFg: fr ? '#5B6663' : '#10231F'
+};
+}
+}
+</script>
+</body>
+</html>

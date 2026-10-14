@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Najah — connexion élève</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;display=swap">
+<style>body{margin:0;background:#FCFBF8}a{color:#0E6B5C}a:hover{color:#0A5247}</style>
+</helmet>
+<div style="width: 393px; height: 852px; box-sizing: border-box; background: #FCFBF8; padding: 16px 24px 32px; display: flex; flex-direction: column; gap: 24px; font-family: Inter, 'Segoe UI', sans-serif; color: #10231F">
+<a href="Welcome.dc.html" aria-label="Retour" style="width: 44px; height: 44px; margin-left: -10px; display: flex; align-items: center; justify-content: center; color: #10231F">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg>
+</a>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h1 style="margin: 0; font-size: 24px; font-weight: 800">Connexion élève</h1>
+<p style="margin: 0; font-size: 14px; line-height: 1.5; color: #5B6663">Utilise l'identifiant donné par ton parent. Première fois ? <a href="ClaimInvite.dc.html" style="font-weight: 700; text-decoration: none">Activer mon compte</a></p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="u" style="font-size: 14px; font-weight: 600">Nom d'utilisateur</label>
+<input id="u" value="amina.sow" style="height: 52px; box-sizing: border-box; padding: 0 16px; border: 1.5px solid #0E6B5C; border-radius: 12px; background: #FFFFFF; font: 400 16px Inter, sans-serif; color: #10231F; outline: none">
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; justify-content: space-between; align-items: baseline">
+<div style="font-size: 14px; font-weight: 600">Code PIN</div>
+<a href="#" style="font-size: 14px; font-weight: 600; text-decoration: none">Code oublié ?</a>
+</div>
+<div style="display: flex; gap: 12px">
+<sc-for list="{{ boxes }}" as="b" hint-placeholder-count="4">
+<div style="flex: 1; height: 56px; border-radius: 12px; background: #FFFFFF; border: 1.5px solid {{ b.border }}; display: flex; align-items: center; justify-content: center">
+<sc-if value="{{ b.filled }}" hint-placeholder-val="{{ false }}"><div style="width: 14px; height: 14px; border-radius: 7px; background: #10231F"></div></sc-if>
+</div>
+</sc-for>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: auto">
+<sc-for list="{{ keys }}" as="k" hint-placeholder-count="12">
+<button type="button" onClick="{{ k.press }}" aria-label="{{ k.aria }}" style="height: 56px; border: none; border-radius: 12px; background: {{ k.bg }}; font: 600 24px Inter, sans-serif; color: #10231F; cursor: pointer">{{ k.label }}</button>
+</sc-for>
+</div>
+<sc-if value="{{ complete }}" hint-placeholder-val="{{ false }}">
+<a href="StudentHome.dc.html" style="height: 52px; display: flex; align-items: center; justify-content: center; border-radius: 12px; background: #0E6B5C; color: #FFFFFF; font-size: 16px; font-weight: 700; text-decoration: none">Se connecter</a>
+</sc-if>
+<sc-if value="{{ incomplete }}" hint-placeholder-val="{{ true }}">
+<div style="height: 52px; display: flex; align-items: center; justify-content: center; border-radius: 12px; background: #E4E7E5; color: #5B6663; font-size: 16px; font-weight: 700">Se connecter</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":393,"height":852}}'>
+class Component extends DCLogic {
+constructor(p) { super(p); this.state = { pin: '' }; }
+renderVals() {
+const pin = this.state.pin;
+const add = (d) => () => this.setState({ pin: (pin + d).slice(0, 4) });
+const labels = ['1','2','3','4','5','6','7','8','9','','0','⌫'];
+const keys = labels.map((l) => ({
+label: l,
+aria: l === '⌫' ? 'Effacer' : (l || 'vide'),
+bg: l === '' ? 'transparent' : '#FFFFFF',
+press: l === '⌫' ? () => this.setState({ pin: pin.slice(0, -1) }) : (l === '' ? () => {} : add(l))
+}));
+const boxes = [0,1,2,3].map((i) => ({ filled: i < pin.length, border: i === pin.length ? '#0E6B5C' : '#ECE8DF' }));
+return { keys, boxes, complete: pin.length === 4, incomplete: pin.length < 4 };
+}
+}
+</script>
+</body>
+</html>
