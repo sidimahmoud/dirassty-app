@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:dirassty/core/theme/dirassty_theme.dart';
 import 'package:dirassty/core/widgets/dirassty/dirassty_widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 import '../../../helpers/dirassty_harness.dart';
 
@@ -10,15 +10,22 @@ void main() {
     testWidgets('calls onPressed and is 52 high', (tester) async {
       int taps = 0;
       await pumpDirassty(
-          tester, DirasstyButton(label: 'Continuer', onPressed: () => taps++));
+        tester,
+        DirasstyButton(label: 'Continuer', onPressed: () => taps++),
+      );
       await tester.tap(find.text('Continuer'));
       expect(taps, 1);
-      expect(tester.getSize(find.byType(DirasstyButton)).height, DirasstySize.button);
+      expect(
+        tester.getSize(find.byType(DirasstyButton)).height,
+        DirasstySize.button,
+      );
     });
 
     testWidgets('disabled button ignores taps', (tester) async {
       await pumpDirassty(
-          tester, const DirasstyButton(label: 'Continuer', onPressed: null));
+        tester,
+        const DirasstyButton(label: 'Continuer', onPressed: null),
+      );
       await tester.tap(find.text('Continuer'), warnIfMissed: false);
       expect(tester.widget<InkWell>(find.byType(InkWell)).onTap, isNull);
     });
@@ -28,7 +35,11 @@ void main() {
       int taps = 0;
       await pumpDirassty(
         tester,
-        DirasstyButton(label: 'Continuer', loading: true, onPressed: () => taps++),
+        DirasstyButton(
+          label: 'Continuer',
+          loading: true,
+          onPressed: () => taps++,
+        ),
         settle: false,
       );
       expect(find.text('Continuer'), findsNothing);
@@ -65,14 +76,18 @@ void main() {
 
   testWidgets('PinBoxes shows one dot per entered digit', (tester) async {
     await pumpDirassty(
-        tester,
-        const Padding(
-            padding: EdgeInsets.all(20), child: PinBoxes(value: '12')));
-    final Iterable<Container> dots = tester
-        .widgetList<Container>(find.byType(Container))
-        .where((c) =>
-            (c.decoration is BoxDecoration) &&
-            (c.decoration! as BoxDecoration).shape == BoxShape.circle);
+      tester,
+      const Padding(
+        padding: EdgeInsets.all(20),
+        child: PinBoxes(value: '12'),
+      ),
+    );
+    final Iterable<Container> dots =
+        tester.widgetList<Container>(find.byType(Container)).where(
+              (c) =>
+                  (c.decoration is BoxDecoration) &&
+                  (c.decoration! as BoxDecoration).shape == BoxShape.circle,
+            );
     expect(dots.length, 2);
   });
 
@@ -81,11 +96,16 @@ void main() {
     expect(find.text('43%'), findsOneWidget);
   });
 
-  testWidgets('tappable DirasstyChip keeps a 44 pt touch target', (tester) async {
+  testWidgets('tappable DirasstyChip keeps a 44 pt touch target',
+      (tester) async {
     await pumpDirassty(
-        tester, Center(child: DirasstyChip(label: 'Toutes', onTap: () {})));
-    expect(tester.getSize(find.byType(InkWell)).height,
-        greaterThanOrEqualTo(DirasstySize.minTouch));
+      tester,
+      Center(child: DirasstyChip(label: 'Toutes', onTap: () {})),
+    );
+    expect(
+      tester.getSize(find.byType(InkWell)).height,
+      greaterThanOrEqualTo(DirasstySize.minTouch),
+    );
   });
 
   testWidgets('JourneyBar mirrors in Arabic', (tester) async {
@@ -99,21 +119,28 @@ void main() {
     expect(frFirst, lessThan(frLast));
 
     await pumpDirassty(tester, bar, locale: ar);
-    expect(tester.getCenter(find.text('A')).dx,
-        greaterThan(tester.getCenter(find.text('C')).dx));
+    expect(
+      tester.getCenter(find.text('A')).dx,
+      greaterThan(tester.getCenter(find.text('C')).dx),
+    );
   });
 
   group('localized components', () {
     testWidgets('ErrorState uses the locale copy and retries', (tester) async {
       int retries = 0;
       await pumpDirassty(
-          tester, Center(child: ErrorState(onRetry: () => retries++)));
+        tester,
+        Center(child: ErrorState(onRetry: () => retries++)),
+      );
       expect(find.text('Réessayer'), findsOneWidget);
       await tester.tap(find.text('Réessayer'));
       expect(retries, 1);
 
-      await pumpDirassty(tester, Center(child: ErrorState(onRetry: () {})),
-          locale: ar);
+      await pumpDirassty(
+        tester,
+        Center(child: ErrorState(onRetry: () {})),
+        locale: ar,
+      );
       expect(find.text('Réessayer'), findsNothing);
     });
 
@@ -126,7 +153,9 @@ void main() {
     testWidgets('FocusModeBar shows the end time and unlocks', (tester) async {
       int unlocks = 0;
       await pumpDirassty(
-          tester, FocusModeBar(untilLabel: '19:00', onUnlock: () => unlocks++));
+        tester,
+        FocusModeBar(untilLabel: '19:00', onUnlock: () => unlocks++),
+      );
       expect(find.textContaining('19:00'), findsOneWidget);
       await tester.tap(find.text('Déverrouiller'));
       expect(unlocks, 1);
@@ -143,7 +172,10 @@ void main() {
           builder: (context) => Align(
             alignment: Alignment.bottomCenter,
             child: DirasstyTabBar.student(
-                context: context, currentIndex: 0, onTap: (i) => tapped = i),
+              context: context,
+              currentIndex: 0,
+              onTap: (i) => tapped = i,
+            ),
           ),
         ),
       );
@@ -158,7 +190,10 @@ void main() {
           builder: (context) => Align(
             alignment: Alignment.bottomCenter,
             child: DirasstyTabBar.parent(
-                context: context, currentIndex: 0, onTap: (_) {}),
+              context: context,
+              currentIndex: 0,
+              onTap: (_) {},
+            ),
           ),
         ),
       );
@@ -181,13 +216,15 @@ void main() {
                 title: 'Quitter la session ?',
                 actions: const [
                   DirasstyDialogAction(
-                      label: 'Quitter',
-                      value: 'leave',
-                      variant: DirasstyButtonVariant.danger),
+                    label: 'Quitter',
+                    value: 'leave',
+                    variant: DirasstyButtonVariant.danger,
+                  ),
                   DirasstyDialogAction(
-                      label: 'Rester',
-                      value: 'stay',
-                      variant: DirasstyButtonVariant.quiet),
+                    label: 'Rester',
+                    value: 'stay',
+                    variant: DirasstyButtonVariant.quiet,
+                  ),
                 ],
               );
             },

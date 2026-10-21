@@ -79,8 +79,9 @@ class FocusLockController extends Notifier<FocusLockState> {
   Future<void> _init() async {
     final FocusSettings? cached = await _repo.readCachedSettings();
     _overrideUntil = await _repo.readOverrideUntil();
-    if (cached != null)
+    if (cached != null) {
       state = FocusLockState(settings: cached, isLocked: state.isLocked);
+    }
     _ticker?.cancel();
     _ticker = Timer.periodic(const Duration(seconds: 5), (_) => _evaluate());
     await _evaluate();
@@ -137,7 +138,10 @@ class FocusLockController extends Notifier<FocusLockState> {
       locked = false;
     }
     state = FocusLockState(
-        settings: state.settings, activeUntil: until, isLocked: locked);
+      settings: state.settings,
+      activeUntil: until,
+      isLocked: locked,
+    );
   }
 
   /// Wire to the app's lifecycle (see DirasstyApp.didChangeAppLifecycleState).
@@ -165,8 +169,9 @@ class FocusLockController extends Notifier<FocusLockState> {
   Future<bool> unlockWithPin(String pin) async {
     final DateTime? until = state.activeUntil;
     final String? studentId = _studentId;
-    if (until == null || !(state.settings?.verifyPin(pin) ?? false))
+    if (until == null || !(state.settings?.verifyPin(pin) ?? false)) {
       return false;
+    }
     _overrideUntil = until;
     await _repo.writeOverrideUntil(until);
     await _platform.unpin();

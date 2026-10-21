@@ -25,7 +25,7 @@ import '../widgets/dirassty/dirassty_context.dart';
 /// is visible on emulators/simulators while developing — to test the
 /// protection itself, run a release build on a real device.
 class ScreenCaptureGuard extends StatefulWidget {
-  const ScreenCaptureGuard({super.key, required this.child});
+  const ScreenCaptureGuard({required this.child, super.key});
 
   final Widget child;
 
@@ -104,17 +104,21 @@ class _ProtectedScreen extends StatelessWidget {
                   color: Colors.white.withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.lock_rounded,
-                    color: Colors.white, size: 28),
+                child: const Icon(
+                  Icons.lock_rounded,
+                  color: Colors.white,
+                  size: 28,
+                ),
               ),
               const SizedBox(height: DirasstySpace.lg),
               Text(
                 l10n.screenRecordingBlocked,
                 textAlign: TextAlign.center,
                 style: type.subheading.copyWith(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700),
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
               const SizedBox(height: DirasstySpace.sm),
               Text(

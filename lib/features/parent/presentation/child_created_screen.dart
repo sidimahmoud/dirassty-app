@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -66,38 +66,6 @@ class ChildCreatedScreen extends StatelessWidget {
 
     return AuthScaffold(
       onBack: () => context.go(ParentShellScreen.path),
-      children: [
-        Column(
-          children: [
-            const IconBadge(
-              icon: Icons.check_rounded,
-              size: 72,
-              background: DirasstyColors.teal,
-              foreground: Colors.white,
-            ),
-            const SizedBox(height: DirasstySpace.lg),
-            Text(l10n.childReady(args.name),
-                textAlign: TextAlign.center, style: type.title),
-            const SizedBox(height: DirasstySpace.sm),
-            Text(l10n.giveCredentials,
-                textAlign: TextAlign.center,
-                style: type.body.copyWith(color: DirasstyColors.textMuted)),
-          ],
-        ),
-        Container(
-          padding: const EdgeInsetsDirectional.all(DirasstySpace.xl),
-          decoration: const BoxDecoration(
-              color: DirasstyColors.ink, borderRadius: DirasstyRadius.cardR),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              _CredentialRow(label: l10n.username, value: args.username),
-              const Divider(height: DirasstySpace.xl, color: Colors.white24),
-              _CredentialRow(label: l10n.pinCode, value: '••••'),
-            ],
-          ),
-        ),
-      ],
       bottom: [
         DirasstyButton(
           label: l10n.shareWhatsapp,
@@ -122,6 +90,45 @@ class ChildCreatedScreen extends StatelessWidget {
           },
         ),
       ],
+      children: [
+        Column(
+          children: [
+            const IconBadge(
+              icon: Icons.check_rounded,
+              size: 72,
+              background: DirasstyColors.teal,
+              foreground: Colors.white,
+            ),
+            const SizedBox(height: DirasstySpace.lg),
+            Text(
+              l10n.childReady(args.name),
+              textAlign: TextAlign.center,
+              style: type.title,
+            ),
+            const SizedBox(height: DirasstySpace.sm),
+            Text(
+              l10n.giveCredentials,
+              textAlign: TextAlign.center,
+              style: type.body.copyWith(color: DirasstyColors.textMuted),
+            ),
+          ],
+        ),
+        Container(
+          padding: const EdgeInsetsDirectional.all(DirasstySpace.xl),
+          decoration: const BoxDecoration(
+            color: DirasstyColors.ink,
+            borderRadius: DirasstyRadius.cardR,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _CredentialRow(label: l10n.username, value: args.username),
+              const Divider(height: DirasstySpace.xl, color: Colors.white24),
+              _CredentialRow(label: l10n.pinCode, value: '••••'),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
@@ -138,19 +145,21 @@ class _CredentialRow extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: Text(label,
-              style:
-                  type.label.copyWith(color: DirasstyColors.textOnDarkMuted)),
+          child: Text(
+            label,
+            style: type.label.copyWith(color: DirasstyColors.textOnDarkMuted),
+          ),
         ),
         Directionality(
           textDirection: TextDirection.ltr,
           child: Text(
             value,
             style: type.subheading.copyWith(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.w800,
-                fontFamily: 'Inter'),
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.w800,
+              fontFamily: 'Inter',
+            ),
           ),
         ),
       ],

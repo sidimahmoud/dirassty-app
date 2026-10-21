@@ -14,6 +14,7 @@ class AppSettings {
     this.familyDiscount2Percent = 0,
     this.familyDiscount3Percent = 0,
     this.bankilyMerchantNumber,
+    this.whatsappOtpEnabled = false,
   });
 
   factory AppSettings.fromJson(Map<String, dynamic> json) {
@@ -30,10 +31,15 @@ class AppSettings {
           (json['bankily_merchant_number'] as String?)?.trim().isEmpty ?? true
               ? null
               : (json['bankily_merchant_number'] as String).trim(),
+      // Absent until migration 073 is applied → no WhatsApp code.
+      whatsappOtpEnabled: json['whatsapp_otp_enabled'] as bool? ?? false,
     );
   }
 
   final bool trialEnabled;
+
+  /// Sign-up asks for a WhatsApp code (Admin → Paramètres, migration 073).
+  final bool whatsappOtpEnabled;
 
   /// The Bankily number customers pay to (Admin → Paramètres, migration
   /// 064). Null until an admin sets it.

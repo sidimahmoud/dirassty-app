@@ -130,7 +130,8 @@ int? openGradeOrNearest(int preferred, Set<int>? open) {
   if (open.isEmpty) return null;
   return (open.toList()
         ..sort(
-            (a, b) => (a - preferred).abs().compareTo((b - preferred).abs())))
+          (a, b) => (a - preferred).abs().compareTo((b - preferred).abs()),
+        ))
       .first;
 }
 

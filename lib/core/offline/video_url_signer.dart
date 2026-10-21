@@ -29,7 +29,8 @@ class VideoUrlSigner {
       final int i = url.indexOf(marker);
       if (i != -1) {
         return Uri.decodeComponent(
-            url.substring(i + marker.length).split('?').first);
+          url.substring(i + marker.length).split('?').first,
+        );
       }
     }
     return null;

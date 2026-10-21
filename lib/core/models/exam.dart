@@ -30,8 +30,11 @@ enum ExamStatus {
 /// makes sense on an exam card).
 @immutable
 class ExamSubject {
-  const ExamSubject(
-      {required this.key, required this.label, required this.icon});
+  const ExamSubject({
+    required this.key,
+    required this.label,
+    required this.icon,
+  });
 
   factory ExamSubject.fromJson(Map<String, dynamic> json) {
     return ExamSubject(

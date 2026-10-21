@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../../models/video_body.dart';
 import '../../offline/offline_videos_controller.dart';
 import '../../theme/dirassty_theme.dart';
 import 'dirassty_context.dart';
-import '../../../l10n/app_localizations.dart';
 
 /// One row of a lesson's video playlist: mini thumbnail with its number,
 /// title, duration, "En cours" marker when [active], and an offline pin
 /// when the video is downloaded. DESIGN_SPEC.md §2 "PlaylistItem".
 class PlaylistItem extends ConsumerWidget {
   const PlaylistItem({
-    super.key,
     required this.index,
     required this.label,
     required this.video,
@@ -20,6 +19,7 @@ class PlaylistItem extends ConsumerWidget {
     required this.color,
     required this.isArabic,
     required this.onTap,
+    super.key,
   });
 
   final int index;
@@ -54,7 +54,8 @@ class PlaylistItem extends ConsumerWidget {
       color: active ? const Color(0xFFF6FAF9) : DirasstyColors.surface,
       shape: RoundedRectangleBorder(
         borderRadius: DirasstyRadius.cardR,
-        side: BorderSide(color: active ? color : DirasstyColors.line, width: 1.5),
+        side:
+            BorderSide(color: active ? color : DirasstyColors.line, width: 1.5),
       ),
       clipBehavior: Clip.antiAlias,
       child: InkWell(

@@ -63,8 +63,10 @@ class _ConceptCheckCardState extends State<ConceptCheckCard> {
       label: l10n.checkUnderstanding,
       labelColor: DirasstyColors.tealDark,
       children: [
-        Text(cleanMathForDisplay(widget.check.question),
-            style: type.subheading),
+        Text(
+          cleanMathForDisplay(widget.check.question),
+          style: type.subheading,
+        ),
         const SizedBox(height: DirasstySpace.md),
         for (int i = 0; i < widget.check.choices.length; i++) ...[
           if (i > 0) const SizedBox(height: DirasstySpace.sm),
@@ -78,8 +80,10 @@ class _ConceptCheckCardState extends State<ConceptCheckCard> {
         ],
         if (_locked) ...[
           const SizedBox(height: DirasstySpace.md),
-          Text(l10n.wrongTryAgain,
-              style: type.label.copyWith(color: DirasstyColors.error)),
+          Text(
+            l10n.wrongTryAgain,
+            style: type.label.copyWith(color: DirasstyColors.error),
+          ),
           const SizedBox(height: DirasstySpace.sm),
           DirasstyButton(
             label: l10n.retry,
@@ -90,14 +94,18 @@ class _ConceptCheckCardState extends State<ConceptCheckCard> {
         ],
         if (_passed) ...[
           const SizedBox(height: DirasstySpace.md),
-          Text(l10n.correctUnlocked,
-              style: type.label.copyWith(color: DirasstyColors.teal)),
+          Text(
+            l10n.correctUnlocked,
+            style: type.label.copyWith(color: DirasstyColors.teal),
+          ),
         ],
         if (_passed || _revealed) ...[
           if (_revealed) ...[
             const SizedBox(height: DirasstySpace.md),
-            Text(l10n.revealedAnswer,
-                style: type.label.copyWith(color: DirasstyColors.text)),
+            Text(
+              l10n.revealedAnswer,
+              style: type.label.copyWith(color: DirasstyColors.text),
+            ),
           ],
           const SizedBox(height: DirasstySpace.xs),
           LessonText(widget.check.explanation, muted: true, small: true),
@@ -108,8 +116,9 @@ class _ConceptCheckCardState extends State<ConceptCheckCard> {
 
   AnswerState _stateOf(int i) {
     if (_selected == null) return AnswerState.idle;
-    if (_locked)
+    if (_locked) {
       return i == _selected ? AnswerState.wrong : AnswerState.disabled;
+    }
     if (i == widget.check.correct) return AnswerState.correct;
     if (i == _selected) return AnswerState.wrong;
     return AnswerState.disabled;
@@ -215,7 +224,9 @@ class AnswerOption extends StatelessWidget {
               constraints: const BoxConstraints(minHeight: 52),
               child: Padding(
                 padding: const EdgeInsetsDirectional.symmetric(
-                    horizontal: 14, vertical: 10),
+                  horizontal: 14,
+                  vertical: 10,
+                ),
                 child: Row(
                   children: [
                     Container(
@@ -223,14 +234,17 @@ class AnswerOption extends StatelessWidget {
                       height: 28,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                          color: badgeBg, borderRadius: DirasstyRadius.smallR),
+                        color: badgeBg,
+                        borderRadius: DirasstyRadius.smallR,
+                      ),
                       child: Text(
                         letter,
                         style: type.label.copyWith(
-                            color: badgeFg,
-                            fontWeight: FontWeight.w800,
-                            fontSize: 13,
-                            fontFamily: 'Inter'),
+                          color: badgeFg,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 13,
+                          fontFamily: 'Inter',
+                        ),
                       ),
                     ),
                     const SizedBox(width: DirasstySpace.md),

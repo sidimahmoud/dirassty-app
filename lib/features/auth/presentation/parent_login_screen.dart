@@ -70,13 +70,15 @@ class _ParentLoginScreenState extends ConsumerState<ParentLoginScreen> {
           actions: [
             DirasstyDialogAction(label: l10n.whatsappSupport, value: true),
             DirasstyDialogAction(
-                label: l10n.close,
-                value: false,
-                variant: DirasstyButtonVariant.quiet),
+              label: l10n.close,
+              value: false,
+              variant: DirasstyButtonVariant.quiet,
+            ),
           ],
         );
-        if (openSupport == true && context.mounted)
+        if (openSupport == true && context.mounted) {
           await contactSupport(context);
+        }
       },
       footer: Row(
         mainAxisAlignment: MainAxisAlignment.center,

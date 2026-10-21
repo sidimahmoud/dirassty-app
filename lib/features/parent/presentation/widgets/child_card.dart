@@ -95,16 +95,24 @@ class ChildCard extends ConsumerWidget {
 
     final DirasstyChip? chip = switch (sub) {
       null => null,
-      _ when paidActive =>
-        DirasstyChip(label: l10n.statusActive, variant: DirasstyChipVariant.teal),
-      _ when pending =>
-        DirasstyChip(label: l10n.statusPending, variant: DirasstyChipVariant.gold),
+      _ when paidActive => DirasstyChip(
+          label: l10n.statusActive,
+          variant: DirasstyChipVariant.teal,
+        ),
+      _ when pending => DirasstyChip(
+          label: l10n.statusPending,
+          variant: DirasstyChipVariant.gold,
+        ),
       _ when sub.status == SubscriptionStatus.trial && sub.grantsAccess =>
         DirasstyChip(
-            label: l10n.trialDaysLeft(sub.daysLeftInTrial),
-            variant: DirasstyChipVariant.gold),
+          label: l10n.trialDaysLeft(sub.daysLeftInTrial),
+          variant: DirasstyChipVariant.gold,
+        ),
       _ when sub.isUpcoming => null,
-      _ => DirasstyChip(label: l10n.statusExpired, variant: DirasstyChipVariant.red),
+      _ => DirasstyChip(
+          label: l10n.statusExpired,
+          variant: DirasstyChipVariant.red,
+        ),
     };
 
     return DirasstyCard(
@@ -121,14 +129,17 @@ class ChildCard extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(student.name,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: type.subheading.copyWith(fontSize: 16)),
+                    Text(
+                      student.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: type.subheading.copyWith(fontSize: 16),
+                    ),
                     const SizedBox(height: 2),
-                    Text(childGradeLine(l10n, ref, student),
-                        style:
-                            type.label.copyWith(fontWeight: FontWeight.w400)),
+                    Text(
+                      childGradeLine(l10n, ref, student),
+                      style: type.label.copyWith(fontWeight: FontWeight.w400),
+                    ),
                   ],
                 ),
               ),
@@ -140,8 +151,11 @@ class ChildCard extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               if (student.streak > 0) ...[
-                const Icon(Icons.local_fire_department_rounded,
-                    size: 18, color: DirasstyColors.goldStroke),
+                const Icon(
+                  Icons.local_fire_department_rounded,
+                  size: 18,
+                  color: DirasstyColors.goldStroke,
+                ),
                 const SizedBox(width: 6),
               ],
               Flexible(

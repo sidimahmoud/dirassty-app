@@ -20,7 +20,7 @@
   "iAmParent": "Je suis parent",
   "iAmParentSub": "Suivre les progrès de mes enfants",
   "createAccount": "Créer un compte",
-  "trialLine": "Programme officiel mauritanien · Leçons, exercices et examens",
+  "trialLine": "Programme scolaire mauritanien · Leçons, exercices et examens",
   "studentLoginTitle": "Connexion élève",
   "username": "Nom d'utilisateur",
   "pinCode": "Code PIN",
@@ -505,6 +505,10 @@
   "@resendCode": {
     "description": "Added during implementation (not in the design handoff)."
   },
+  "pasteCode": "Coller le code",
+  "@pasteCode": {
+    "description": "Button on the WhatsApp-code screen: pastes the code copied from the WhatsApp message."
+  },
   "pasteCodeHint": "Appui long pour coller le code",
   "@pasteCodeHint": {
     "description": "Added during implementation (not in the design handoff)."
@@ -809,6 +813,10 @@
     "description": "Added during implementation (not in the design handoff)."
   },
   "startQcm": "Commencer le QCM",
+  "finishLesson": "Terminer la leçon",
+  "@finishLesson": {
+    "description": "Last lesson step when the lesson has no QCM or exercises: marks it read and goes back."
+  },
   "@startQcm": {
     "description": "Added during implementation (not in the design handoff)."
   },
@@ -1588,7 +1596,7 @@
   "@confirmCode": {
     "description": "Added during implementation (not in the design handoff)."
   },
-  "subscriptionIntro": "Toutes les matières, vidéos, exercices et examens du programme officiel.",
+  "subscriptionIntro": "Toutes les matières, vidéos, exercices et examens du programme scolaire.",
   "@subscriptionIntro": {
     "description": "Added during implementation (not in the design handoff)."
   },

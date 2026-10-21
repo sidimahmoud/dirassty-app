@@ -37,15 +37,20 @@ class AuthScaffold extends StatelessWidget {
         child: LayoutBuilder(
           builder: (context, constraints) => SingleChildScrollView(
             padding: EdgeInsetsDirectional.fromSTEB(
-                sidePadding, DirasstySpace.lg, sidePadding, DirasstySpace.xxl),
+              sidePadding,
+              DirasstySpace.lg,
+              sidePadding,
+              DirasstySpace.xxl,
+            ),
             child: ConstrainedBox(
               // Clamped: Android can report a 0-height window for the first
               // frame(s), and a negative minHeight throws.
               constraints: BoxConstraints(
-                  minHeight: (constraints.maxHeight -
-                          DirasstySpace.lg -
-                          DirasstySpace.xxl)
-                      .clamp(0.0, double.infinity)),
+                minHeight: (constraints.maxHeight -
+                        DirasstySpace.lg -
+                        DirasstySpace.xxl)
+                    .clamp(0.0, double.infinity),
+              ),
               // No IntrinsicHeight/Spacer: a Column with unbounded max
               // height but a min height still grows to that min, and
               // spaceBetween pushes the bottom group down — without the
@@ -64,10 +69,11 @@ class AuthScaffold extends StatelessWidget {
                           child: Transform.translate(
                             // Optically align the arrow with the content edge.
                             offset: Offset(
-                                Directionality.of(context) == TextDirection.rtl
-                                    ? 10
-                                    : -10,
-                                0),
+                              Directionality.of(context) == TextDirection.rtl
+                                  ? 10
+                                  : -10,
+                              0,
+                            ),
                             child: IconButton(
                               onPressed: onBack ??
                                   () => Navigator.of(context).maybePop(),
@@ -115,8 +121,12 @@ class AuthScaffold extends StatelessWidget {
 
 /// Title (24/800) + optional body (14 muted) block under the back button.
 class AuthHeading extends StatelessWidget {
-  const AuthHeading(
-      {required this.title, super.key, this.body, this.bodyTrailing});
+  const AuthHeading({
+    required this.title,
+    super.key,
+    this.body,
+    this.bodyTrailing,
+  });
 
   final String title;
   final String? body;

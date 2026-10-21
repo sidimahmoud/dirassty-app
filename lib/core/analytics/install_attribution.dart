@@ -7,7 +7,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../features/auth/application/auth_providers.dart';
 
 /// Home-made install attribution (docs/attribution.md), Android only:
-/// a Dirassty tracking link (/go/<slug>) sends Android users to Google
+/// a Dirassty tracking link (`/go/<slug>`) sends Android users to Google
 /// Play with `referrer=dirassty_click=<id>`; Google Play hands that string
 /// back to the app through its official Install Referrer API.
 ///
@@ -38,7 +38,8 @@ class InstallAttribution {
       final String? click = _click.firstMatch(raw)?.group(1);
       if (click == null) return;
       await prefs.setString(_pendingKey, click);
-      await _client.rpc<dynamic>('marketing_record_install', params: {'p_click': click});
+      await _client
+          .rpc<dynamic>('marketing_record_install', params: {'p_click': click});
     } catch (_) {
       // Not installed from Google Play (sideload / emulator) or offline.
     }
@@ -50,7 +51,8 @@ class InstallAttribution {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final String? click = prefs.getString(_pendingKey);
       if (click == null) return;
-      await _client.rpc<dynamic>('marketing_claim_install', params: {'p_click': click});
+      await _client
+          .rpc<dynamic>('marketing_claim_install', params: {'p_click': click});
       await prefs.remove(_pendingKey);
     } catch (_) {
       // Retried at the next sign-in / launch.

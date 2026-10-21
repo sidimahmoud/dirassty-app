@@ -17,6 +17,7 @@ abstract final class SupabaseConfig {
 
   static const String anonKey = String.fromEnvironment(
     'SUPABASE_ANON_KEY',
-    defaultValue: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndnemhocHZuYmFqbHF5bG9sbHlnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5Njk4MDMsImV4cCI6MjA5MzU0NTgwM30.FINoy4NQXW36OpHKlgQJYQvcxUo41RA8PJpIVAZTjRI',
+    defaultValue:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndnemhocHZuYmFqbHF5bG9sbHlnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5Njk4MDMsImV4cCI6MjA5MzU0NTgwM30.FINoy4NQXW36OpHKlgQJYQvcxUo41RA8PJpIVAZTjRI',
   );
 }

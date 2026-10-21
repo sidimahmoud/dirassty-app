@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,12 +19,12 @@ import '../../../l10n/app_localizations.dart';
 import '../../auth/application/app_auth_state.dart';
 import '../../auth/application/auth_providers.dart';
 import '../../courses/application/courses_providers.dart';
+import '../../home/presentation/student_home_screen.dart';
 import '../../marketing/presentation/promo_code_field.dart';
 import '../../parent/application/parent_providers.dart';
 import '../../parent/presentation/parent_shell_screen.dart';
 import '../../parent/presentation/subscription_screen.dart';
 import '../../parent/presentation/widgets/child_card.dart';
-import '../../home/presentation/student_home_screen.dart';
 import '../../student/application/student_providers.dart';
 import '../application/subscription_providers.dart';
 
@@ -209,16 +207,19 @@ class _SubscribeFlowScreenState extends ConsumerState<SubscribeFlowScreen> {
       actions: [
         DirasstyDialogAction(label: l10n.continueAction, value: true),
         DirasstyDialogAction(
-            label: l10n.cancel,
-            value: false,
-            variant: DirasstyButtonVariant.quiet),
+          label: l10n.cancel,
+          value: false,
+          variant: DirasstyButtonVariant.quiet,
+        ),
       ],
     );
     if (confirmed != true || !mounted) return;
 
     final Plan plan = _plan!;
     await ref.read(subscribeControllerProvider.notifier).submitContact(
-        studentIds: [for (final s in targets) s.id], planId: plan.id);
+      studentIds: [for (final s in targets) s.id],
+      planId: plan.id,
+    );
     if (!mounted) return;
     if (ref.read(subscribeControllerProvider).hasError) {
       _analytics.track('payment_error', {'method': 'contact'});
@@ -263,7 +264,8 @@ class _SubscribeFlowScreenState extends ConsumerState<SubscribeFlowScreen> {
     if (subs == null) return;
     _defaultSelectionDone = true;
     _selectedStudentIds.addAll(
-        students.where((s) => !_isCovered(subs[s.id])).map((s) => s.id));
+      students.where((s) => !_isCovered(subs[s.id])).map((s) => s.id),
+    );
   }
 
   @override
@@ -334,8 +336,12 @@ class _SubscribeFlowScreenState extends ConsumerState<SubscribeFlowScreen> {
     );
   }
 
-  Widget _buildStep(AppLocalizations l10n, List<Student> allStudents,
-      List<Plan> plans, bool selfMode) {
+  Widget _buildStep(
+    AppLocalizations l10n,
+    List<Student> allStudents,
+    List<Plan> plans,
+    bool selfMode,
+  ) {
     final Plan? plan = _effectivePlan(plans);
     final List<Student> targets = selfMode
         ? allStudents
@@ -353,11 +359,15 @@ class _SubscribeFlowScreenState extends ConsumerState<SubscribeFlowScreen> {
           eligibleUnselected: selfMode
               ? const []
               : allStudents
-                  .where((s) =>
-                      !_selectedStudentIds.contains(s.id) &&
-                      !_isCovered(ref
-                          .read(latestSubscriptionsByStudentProvider)
-                          .valueOrNull?[s.id]))
+                  .where(
+                    (s) =>
+                        !_selectedStudentIds.contains(s.id) &&
+                        !_isCovered(
+                          ref
+                              .read(latestSubscriptionsByStudentProvider)
+                              .valueOrNull?[s.id],
+                        ),
+                  )
                   .toList(),
           students: allStudents,
           selfMode: selfMode,
@@ -477,7 +487,9 @@ class _SelectStep extends ConsumerWidget {
 
     if (plans.isEmpty) {
       return EmptyState(
-          icon: Icons.credit_card_off_outlined, title: l10n.noPlans);
+        icon: Icons.credit_card_off_outlined,
+        title: l10n.noPlans,
+      );
     }
     final Plan current = plan!;
     final FamilyQuote quote = quoteFor(current, targets.length);
@@ -496,12 +508,18 @@ class _SelectStep extends ConsumerWidget {
 
     return ListView(
       padding: const EdgeInsetsDirectional.fromSTEB(
-          DirasstySpace.screen, 0, DirasstySpace.screen, DirasstySpace.xxl),
+        DirasstySpace.screen,
+        0,
+        DirasstySpace.screen,
+        DirasstySpace.xxl,
+      ),
       children: [
         Text(l10n.subscription, style: type.title),
         const SizedBox(height: DirasstySpace.xs),
-        Text(l10n.subscriptionIntro,
-            style: type.bodySmall.copyWith(color: DirasstyColors.textMuted)),
+        Text(
+          l10n.subscriptionIntro,
+          style: type.bodySmall.copyWith(color: DirasstyColors.textMuted),
+        ),
         const SizedBox(height: DirasstySpace.xl),
         for (final Plan p in plans) ...[
           _PlanCard(
@@ -517,17 +535,22 @@ class _SelectStep extends ConsumerWidget {
           if (familyOn) ...[
             const SizedBox(height: DirasstySpace.xs),
             Text(
-              l10n.familyOfferBanner(pct(settings!.familyDiscount2Percent),
-                  pct(settings.familyDiscount3Percent)),
+              l10n.familyOfferBanner(
+                pct(settings!.familyDiscount2Percent),
+                pct(settings.familyDiscount3Percent),
+              ),
               style: type.label.copyWith(
-                  color: DirasstyColors.tealDark, fontWeight: FontWeight.w600),
+                color: DirasstyColors.tealDark,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ],
           const SizedBox(height: DirasstySpace.md),
           if (students.isEmpty)
             EmptyState(
-                icon: Icons.family_restroom_rounded,
-                title: l10n.noChildrenTitle)
+              icon: Icons.family_restroom_rounded,
+              title: l10n.noChildrenTitle,
+            )
           else
             DirasstyCard(
               padding: EdgeInsets.zero,
@@ -549,23 +572,34 @@ class _SelectStep extends ConsumerWidget {
         if (showNudge) ...[
           const SizedBox(height: DirasstySpace.md),
           Container(
-            padding: const EdgeInsetsDirectional.fromSTEB(DirasstySpace.lg,
-                DirasstySpace.sm, DirasstySpace.sm, DirasstySpace.sm),
+            padding: const EdgeInsetsDirectional.fromSTEB(
+              DirasstySpace.lg,
+              DirasstySpace.sm,
+              DirasstySpace.sm,
+              DirasstySpace.sm,
+            ),
             decoration: const BoxDecoration(
-                color: DirasstyColors.goldTint,
-                borderRadius: DirasstyRadius.cardR),
+              color: DirasstyColors.goldTint,
+              borderRadius: DirasstyRadius.cardR,
+            ),
             child: Row(
               children: [
-                const Icon(Icons.savings_outlined,
-                    size: 20, color: DirasstyColors.goldStroke),
+                const Icon(
+                  Icons.savings_outlined,
+                  size: 20,
+                  color: DirasstyColors.goldStroke,
+                ),
                 const SizedBox(width: DirasstySpace.sm),
                 Expanded(
                   child: Text(
                     l10n.addChildForDiscount(
-                        nudgeChild.name, nudgeSaving.toStringAsFixed(0)),
+                      nudgeChild.name,
+                      nudgeSaving.toStringAsFixed(0),
+                    ),
                     style: type.label.copyWith(
-                        color: DirasstyColors.text,
-                        fontWeight: FontWeight.w600),
+                      color: DirasstyColors.text,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
                 DirasstyButton(
@@ -587,7 +621,9 @@ class _SelectStep extends ConsumerWidget {
               if (targets.isNotEmpty) ...[
                 _SummaryLine(
                   label: l10n.childrenTimesPlan(
-                      targets.length, current.name(isArabic)),
+                    targets.length,
+                    current.name(isArabic),
+                  ),
                   value: l10n.priceMru(quote.subtotalMru.toStringAsFixed(0)),
                 ),
                 if (quote.familyDiscountPercent > 0) ...[
@@ -614,8 +650,10 @@ class _SelectStep extends ConsumerWidget {
         const PromoCodeField(),
         if (errorText != null) ...[
           const SizedBox(height: DirasstySpace.md),
-          Text(errorText!,
-              style: type.label.copyWith(color: DirasstyColors.error)),
+          Text(
+            errorText!,
+            style: type.label.copyWith(color: DirasstyColors.error),
+          ),
         ],
         const SizedBox(height: DirasstySpace.xl),
         DirasstyButton(
@@ -692,19 +730,23 @@ class _PlanCard extends StatelessWidget {
                         spacing: DirasstySpace.sm,
                         crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
-                          Text(plan.name(context.isArabicLocale),
-                              style: type.subheading.copyWith(fontSize: 16)),
+                          Text(
+                            plan.name(context.isArabicLocale),
+                            style: type.subheading.copyWith(fontSize: 16),
+                          ),
                           if (plan.key == 'quarterly')
                             DirasstyChip(
-                                label: l10n.popular,
-                                variant: DirasstyChipVariant.gold,
-                                dense: true),
+                              label: l10n.popular,
+                              variant: DirasstyChipVariant.gold,
+                              dense: true,
+                            ),
                         ],
                       ),
                       const SizedBox(height: 2),
-                      Text(subtitle,
-                          style:
-                              type.label.copyWith(fontWeight: FontWeight.w400)),
+                      Text(
+                        subtitle,
+                        style: type.label.copyWith(fontWeight: FontWeight.w400),
+                      ),
                     ],
                   ),
                 ),
@@ -716,8 +758,9 @@ class _PlanCard extends StatelessWidget {
                       Text(
                         l10n.priceMru(plan.priceMru.toStringAsFixed(0)),
                         style: type.label.copyWith(
-                            fontWeight: FontWeight.w400,
-                            decoration: TextDecoration.lineThrough),
+                          fontWeight: FontWeight.w400,
+                          decoration: TextDecoration.lineThrough,
+                        ),
                       ),
                     Text(
                       l10n.priceMru(plan.effectivePriceMru.toStringAsFixed(0)),
@@ -748,8 +791,9 @@ class _Radio extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(
-            color: selected ? DirasstyColors.teal : DirasstyColors.idle,
-            width: 2),
+          color: selected ? DirasstyColors.teal : DirasstyColors.idle,
+          width: 2,
+        ),
       ),
       alignment: Alignment.center,
       child: selected
@@ -757,7 +801,9 @@ class _Radio extends StatelessWidget {
               width: 10,
               height: 10,
               decoration: const BoxDecoration(
-                  color: DirasstyColors.teal, shape: BoxShape.circle),
+                color: DirasstyColors.teal,
+                shape: BoxShape.circle,
+              ),
             )
           : null,
     );
@@ -797,7 +843,9 @@ class _ChildCheckRow extends ConsumerWidget {
       onTap: onTap,
       child: Padding(
         padding: const EdgeInsetsDirectional.symmetric(
-            horizontal: DirasstySpace.lg, vertical: DirasstySpace.md),
+          horizontal: DirasstySpace.lg,
+          vertical: DirasstySpace.md,
+        ),
         child: Row(
           children: [
             Semantics(
@@ -811,13 +859,16 @@ class _ChildCheckRow extends ConsumerWidget {
                   color: checked ? DirasstyColors.teal : DirasstyColors.surface,
                   borderRadius: BorderRadius.circular(6),
                   border: Border.all(
-                      color:
-                          checked ? DirasstyColors.teal : DirasstyColors.idle,
-                      width: 2),
+                    color: checked ? DirasstyColors.teal : DirasstyColors.idle,
+                    width: 2,
+                  ),
                 ),
                 child: checked
-                    ? const Icon(Icons.check_rounded,
-                        size: 16, color: Colors.white)
+                    ? const Icon(
+                        Icons.check_rounded,
+                        size: 16,
+                        color: Colors.white,
+                      )
                     : null,
               ),
             ),
@@ -828,10 +879,14 @@ class _ChildCheckRow extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(student.name,
-                      style: type.subheading.copyWith(fontSize: 14)),
-                  Text('${gradeName(ref, student.grade)} · $status',
-                      style: type.label.copyWith(fontWeight: FontWeight.w400)),
+                  Text(
+                    student.name,
+                    style: type.subheading.copyWith(fontSize: 14),
+                  ),
+                  Text(
+                    '${gradeName(ref, student.grade)} · $status',
+                    style: type.label.copyWith(fontWeight: FontWeight.w400),
+                  ),
                 ],
               ),
             ),
@@ -907,27 +962,36 @@ class _BankilyStep extends StatelessWidget {
 
     return ListView(
       padding: const EdgeInsetsDirectional.fromSTEB(
-          DirasstySpace.screen, 0, DirasstySpace.screen, DirasstySpace.xxl),
+        DirasstySpace.screen,
+        0,
+        DirasstySpace.screen,
+        DirasstySpace.xxl,
+      ),
       children: [
         Text(l10n.bankilyTitle, style: type.title),
         const SizedBox(height: DirasstySpace.xl),
         Container(
           padding: const EdgeInsetsDirectional.all(DirasstySpace.xl),
           decoration: const BoxDecoration(
-              color: DirasstyColors.ink, borderRadius: DirasstyRadius.cardR),
+            color: DirasstyColors.ink,
+            borderRadius: DirasstyRadius.cardR,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(l10n.amountToSend,
-                  style: type.label
-                      .copyWith(color: DirasstyColors.textOnDarkMuted)),
+              Text(
+                l10n.amountToSend,
+                style:
+                    type.label.copyWith(color: DirasstyColors.textOnDarkMuted),
+              ),
               const SizedBox(height: DirasstySpace.xs),
               Text(
                 l10n.priceMru(total.toStringAsFixed(0)),
                 style: type.title.copyWith(
-                    color: DirasstyColors.gold,
-                    fontSize: 30,
-                    fontFamily: 'Inter'),
+                  color: DirasstyColors.gold,
+                  fontSize: 30,
+                  fontFamily: 'Inter',
+                ),
               ),
               if (merchant.isNotEmpty) ...[
                 const Divider(height: DirasstySpace.xl, color: Colors.white24),
@@ -937,16 +1001,20 @@ class _BankilyStep extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(l10n.merchantNumber,
-                              style: type.label.copyWith(
-                                  color: DirasstyColors.textOnDarkMuted)),
+                          Text(
+                            l10n.merchantNumber,
+                            style: type.label.copyWith(
+                              color: DirasstyColors.textOnDarkMuted,
+                            ),
+                          ),
                           Text(
                             merchant,
                             textDirection: TextDirection.ltr,
                             style: type.subheading.copyWith(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontFamily: 'Inter'),
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontFamily: 'Inter',
+                            ),
                           ),
                         ],
                       ),
@@ -969,8 +1037,10 @@ class _BankilyStep extends StatelessWidget {
         ),
         if (merchant.isEmpty) ...[
           const SizedBox(height: DirasstySpace.md),
-          Text(l10n.bankilyNumberSoon,
-              style: type.label.copyWith(color: DirasstyColors.goldStroke)),
+          Text(
+            l10n.bankilyNumberSoon,
+            style: type.label.copyWith(color: DirasstyColors.goldStroke),
+          ),
         ],
         const SizedBox(height: DirasstySpace.xl),
         for (final (int i, String step) in [
@@ -986,12 +1056,17 @@ class _BankilyStep extends StatelessWidget {
                 height: 28,
                 alignment: Alignment.center,
                 decoration: const BoxDecoration(
-                    color: DirasstyColors.tealTint, shape: BoxShape.circle),
-                child: Text('${i + 1}',
-                    style: type.label.copyWith(
-                        color: DirasstyColors.teal,
-                        fontWeight: FontWeight.w800,
-                        fontFamily: 'Inter')),
+                  color: DirasstyColors.tealTint,
+                  shape: BoxShape.circle,
+                ),
+                child: Text(
+                  '${i + 1}',
+                  style: type.label.copyWith(
+                    color: DirasstyColors.teal,
+                    fontWeight: FontWeight.w800,
+                    fontFamily: 'Inter',
+                  ),
+                ),
               ),
               const SizedBox(width: DirasstySpace.md),
               Expanded(child: Text(step, style: type.bodySmall)),
@@ -1010,8 +1085,10 @@ class _BankilyStep extends StatelessWidget {
         _ProofPicker(proof: proof, error: proofError, onPick: onPickProof),
         if (serverError != null) ...[
           const SizedBox(height: DirasstySpace.md),
-          Text(serverError!,
-              style: type.label.copyWith(color: DirasstyColors.error)),
+          Text(
+            serverError!,
+            style: type.label.copyWith(color: DirasstyColors.error),
+          ),
         ],
         const SizedBox(height: DirasstySpace.xl),
         DirasstyButton(
@@ -1020,9 +1097,11 @@ class _BankilyStep extends StatelessWidget {
           onPressed: onSubmit,
         ),
         const SizedBox(height: DirasstySpace.md),
-        Text(l10n.bankilyVerifyNote,
-            textAlign: TextAlign.center,
-            style: type.label.copyWith(fontWeight: FontWeight.w400)),
+        Text(
+          l10n.bankilyVerifyNote,
+          textAlign: TextAlign.center,
+          style: type.label.copyWith(fontWeight: FontWeight.w400),
+        ),
       ],
     );
   }
@@ -1052,12 +1131,17 @@ class _SuccessStep extends StatelessWidget {
           ),
         ),
         const SizedBox(height: DirasstySpace.xl),
-        Text(bankily ? l10n.paymentSentTitle : l10n.contactSentTitle,
-            textAlign: TextAlign.center, style: type.title),
+        Text(
+          bankily ? l10n.paymentSentTitle : l10n.contactSentTitle,
+          textAlign: TextAlign.center,
+          style: type.title,
+        ),
         const SizedBox(height: DirasstySpace.sm),
-        Text(bankily ? l10n.paymentSentBody : l10n.contactSentBody,
-            textAlign: TextAlign.center,
-            style: type.body.copyWith(color: DirasstyColors.textMuted)),
+        Text(
+          bankily ? l10n.paymentSentBody : l10n.contactSentBody,
+          textAlign: TextAlign.center,
+          style: type.body.copyWith(color: DirasstyColors.textMuted),
+        ),
         const SizedBox(height: DirasstySpace.xxl),
         DirasstyButton(label: l10n.done, onPressed: onDone),
       ],
@@ -1088,8 +1172,11 @@ class _SelectSkeleton extends StatelessWidget {
 /// "Capture d'écran du paiement": an empty dashed drop zone, then the
 /// picked screenshot's preview with "Changer".
 class _ProofPicker extends StatelessWidget {
-  const _ProofPicker(
-      {required this.proof, required this.error, required this.onPick});
+  const _ProofPicker({
+    required this.proof,
+    required this.error,
+    required this.onPick,
+  });
 
   final Uint8List? proof;
   final String? error;
@@ -1125,17 +1212,26 @@ class _ProofPicker extends StatelessWidget {
                   ? Column(
                       children: [
                         const SizedBox(height: DirasstySpace.sm),
-                        const Icon(Icons.add_photo_alternate_rounded,
-                            size: 36, color: DirasstyColors.teal),
+                        const Icon(
+                          Icons.add_photo_alternate_rounded,
+                          size: 36,
+                          color: DirasstyColors.teal,
+                        ),
                         const SizedBox(height: DirasstySpace.sm),
-                        Text(l10n.addPaymentProof,
-                            style: type.subheading.copyWith(
-                                color: DirasstyColors.teal, fontSize: 15)),
+                        Text(
+                          l10n.addPaymentProof,
+                          style: type.subheading.copyWith(
+                            color: DirasstyColors.teal,
+                            fontSize: 15,
+                          ),
+                        ),
                         const SizedBox(height: 2),
-                        Text(l10n.paymentProofHint,
-                            textAlign: TextAlign.center,
-                            style: type.label
-                                .copyWith(fontWeight: FontWeight.w400)),
+                        Text(
+                          l10n.paymentProofHint,
+                          textAlign: TextAlign.center,
+                          style:
+                              type.label.copyWith(fontWeight: FontWeight.w400),
+                        ),
                         const SizedBox(height: DirasstySpace.sm),
                       ],
                     )
@@ -1143,27 +1239,38 @@ class _ProofPicker extends StatelessWidget {
                       children: [
                         ClipRRect(
                           borderRadius: DirasstyRadius.smallR,
-                          child: Image.memory(proof!,
-                              width: 64, height: 96, fit: BoxFit.cover),
+                          child: Image.memory(
+                            proof!,
+                            width: 64,
+                            height: 96,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                         const SizedBox(width: DirasstySpace.md),
                         Expanded(
                           child: Row(
                             children: [
-                              const Icon(Icons.check_circle_rounded,
-                                  color: DirasstyColors.teal, size: 20),
+                              const Icon(
+                                Icons.check_circle_rounded,
+                                color: DirasstyColors.teal,
+                                size: 20,
+                              ),
                               const SizedBox(width: DirasstySpace.xs),
                               Expanded(
-                                child: Text(l10n.paymentProofAdded,
-                                    style: type.bodySmall
-                                        .copyWith(color: DirasstyColors.text)),
+                                child: Text(
+                                  l10n.paymentProofAdded,
+                                  style: type.bodySmall
+                                      .copyWith(color: DirasstyColors.text),
+                                ),
                               ),
                             ],
                           ),
                         ),
-                        Text(l10n.changePaymentProof,
-                            style: type.label
-                                .copyWith(color: DirasstyColors.teal)),
+                        Text(
+                          l10n.changePaymentProof,
+                          style:
+                              type.label.copyWith(color: DirasstyColors.teal),
+                        ),
                       ],
                     ),
             ),

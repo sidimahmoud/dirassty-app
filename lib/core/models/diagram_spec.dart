@@ -177,8 +177,12 @@ class GeoPoint {
 
 @immutable
 class GeoSegment {
-  const GeoSegment(
-      {required this.from, required this.to, this.label, this.dashed = false});
+  const GeoSegment({
+    required this.from,
+    required this.to,
+    this.label,
+    this.dashed = false,
+  });
 
   final String from;
   final String to;
@@ -199,12 +203,13 @@ class GeoCircle {
 
 @immutable
 class GeoAngle {
-  const GeoAngle(
-      {required this.at,
-      required this.from,
-      required this.to,
-      this.right = false,
-      this.label});
+  const GeoAngle({
+    required this.at,
+    required this.from,
+    required this.to,
+    this.right = false,
+    this.label,
+  });
 
   /// Vertex, and the two points the angle's sides go to.
   final String at;
@@ -259,7 +264,10 @@ final class GeometryDiagram extends DiagramSpec {
               _num(p['x']) != null &&
               _num(p['y']) != null)
             GeoPoint(
-                name: p['name'] as String, x: _num(p['x'])!, y: _num(p['y'])!),
+              name: p['name'] as String,
+              x: _num(p['x'])!,
+              y: _num(p['y'])!,
+            ),
       ];
       if (points.isEmpty) return null;
       final Set<String> names = {for (final GeoPoint p in points) p.name};

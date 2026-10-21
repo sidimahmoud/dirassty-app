@@ -94,7 +94,11 @@ class _PushBannerHostState extends ConsumerState<PushBannerHost> {
                 },
                 child: Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(
-                      DirasstySpace.md, DirasstySpace.sm, DirasstySpace.md, 0),
+                    DirasstySpace.md,
+                    DirasstySpace.sm,
+                    DirasstySpace.md,
+                    0,
+                  ),
                   child: _Banner(
                     message: m,
                     onTap: () {
@@ -140,8 +144,12 @@ class _Banner extends StatelessWidget {
         child: InkWell(
           onTap: onTap,
           child: Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(DirasstySpace.md,
-                DirasstySpace.md, DirasstySpace.xs, DirasstySpace.md),
+            padding: const EdgeInsetsDirectional.fromSTEB(
+              DirasstySpace.md,
+              DirasstySpace.md,
+              DirasstySpace.xs,
+              DirasstySpace.md,
+            ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -149,10 +157,14 @@ class _Banner extends StatelessWidget {
                   width: 40,
                   height: 40,
                   decoration: const BoxDecoration(
-                      color: DirasstyColors.teal,
-                      borderRadius: DirasstyRadius.cardR),
-                  child: const Icon(Icons.notifications_active_rounded,
-                      color: Colors.white, size: 22),
+                    color: DirasstyColors.teal,
+                    borderRadius: DirasstyRadius.cardR,
+                  ),
+                  child: const Icon(
+                    Icons.notifications_active_rounded,
+                    color: Colors.white,
+                    size: 22,
+                  ),
                 ),
                 const SizedBox(width: DirasstySpace.md),
                 Expanded(
@@ -160,17 +172,21 @@ class _Banner extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if (message.title.isNotEmpty)
-                        Text(message.title,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: type.subheading.copyWith(fontSize: 15)),
+                        Text(
+                          message.title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: type.subheading.copyWith(fontSize: 15),
+                        ),
                       if (message.body.isNotEmpty) ...[
                         const SizedBox(height: 2),
-                        Text(message.body,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: type.bodySmall
-                                .copyWith(color: DirasstyColors.textMuted)),
+                        Text(
+                          message.body,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: type.bodySmall
+                              .copyWith(color: DirasstyColors.textMuted),
+                        ),
                       ],
                       if (message.image != null) ...[
                         const SizedBox(height: DirasstySpace.sm),
@@ -199,8 +215,11 @@ class _Banner extends StatelessWidget {
                   excludeSemantics: true,
                   child: IconButton(
                     onPressed: onClose,
-                    icon: const Icon(Icons.close_rounded,
-                        size: 18, color: DirasstyColors.textMuted),
+                    icon: const Icon(
+                      Icons.close_rounded,
+                      size: 18,
+                      color: DirasstyColors.textMuted,
+                    ),
                   ),
                 ),
               ],

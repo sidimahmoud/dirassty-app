@@ -35,6 +35,15 @@ final exerciseVideosProvider = FutureProvider.family<List<VideoBody>, String>((
   return ref.watch(lessonRepositoryProvider).getExerciseVideos(lessonId);
 });
 
+/// Whether the lesson has a QCM / open exercises — where "continue" goes
+/// at the end of the lesson flow.
+final lessonPracticeProvider = FutureProvider.family<LessonPractice, String>((
+  ref,
+  lessonId,
+) {
+  return ref.watch(lessonRepositoryProvider).getPractice(lessonId);
+});
+
 /// The lesson's short revision-card summary — read by [LessonSummarySheet].
 final lessonSummaryProvider = FutureProvider.family<SummaryBody?, String>((
   ref,

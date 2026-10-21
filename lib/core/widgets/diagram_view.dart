@@ -10,8 +10,11 @@ import '../theme/dirassty_theme.dart';
 /// AI-generated image. Used from a lesson's worked examples and from
 /// exercise questions, wherever their body carries a non-null `diagram`.
 class DiagramView extends StatelessWidget {
-  const DiagramView(
-      {super.key, required this.spec, this.color = DirasstyColors.teal});
+  const DiagramView({
+    required this.spec,
+    super.key,
+    this.color = DirasstyColors.teal,
+  });
 
   final DiagramSpec spec;
   final Color color;
@@ -30,10 +33,10 @@ class DiagramView extends StatelessWidget {
       width: double.infinity,
       child: CustomPaint(
         painter: switch (spec) {
-          NumberLineDiagram s => _NumberLinePainter(s, color),
-          FractionVisualDiagram s => _FractionPainter(s, color),
-          BarChartDiagram s => _BarChartPainter(s, color),
-          GeometryDiagram s => _GeometryPainter(s, color),
+          final NumberLineDiagram s => _NumberLinePainter(s, color),
+          final FractionVisualDiagram s => _FractionPainter(s, color),
+          final BarChartDiagram s => _BarChartPainter(s, color),
+          final GeometryDiagram s => _GeometryPainter(s, color),
         },
       ),
     );
@@ -50,7 +53,7 @@ class _NumberLinePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     const double marginH = 24;
     final double lineY = size.height * 0.45;
-    final double left = marginH;
+    const double left = marginH;
     final double right = size.width - marginH;
     final double span = spec.max - spec.min;
     if (span <= 0) return;
@@ -139,8 +142,12 @@ class _FractionPainter extends CustomPainter {
     final bool hasSecond = spec.second != null;
     final double slotW = hasSecond ? size.width / 2 : size.width;
 
-    _drawOne(canvas, Rect.fromLTWH(0, 0, slotW, size.height), spec.numerator,
-        spec.denominator);
+    _drawOne(
+      canvas,
+      Rect.fromLTWH(0, 0, slotW, size.height),
+      spec.numerator,
+      spec.denominator,
+    );
     if (hasSecond) {
       _drawOne(
         canvas,
@@ -197,7 +204,7 @@ class _FractionPainter extends CustomPainter {
 
     _drawText(
       canvas,
-      "$numerator/$denominator",
+      '$numerator/$denominator',
       Offset(bounds.center.dx, bounds.bottom - 6),
       color,
       16,
@@ -245,7 +252,7 @@ class _BarChartPainter extends CustomPainter {
       );
       _drawText(
         canvas,
-        _trimNum(bar.value) + (spec.unit != null ? " ${spec.unit}" : ""),
+        _trimNum(bar.value) + (spec.unit != null ? ' ${spec.unit}' : ''),
         Offset(slotCenter, chartH - barH - 12),
         DirasstyColors.textMuted,
         11,
@@ -349,7 +356,9 @@ class _GeometryPainter extends CustomPainter {
     final double ox = (size.width - w * scale) / 2;
     final double oy = (size.height - h * scale) / 2;
     Offset map(double x, double y) => Offset(
-        ox + (x - minX) * scale, size.height - (oy + (y - minY) * scale));
+          ox + (x - minX) * scale,
+          size.height - (oy + (y - minY) * scale),
+        );
     Offset at(String name) {
       final GeoPoint p = spec.point(name)!;
       return map(p.x, p.y);
@@ -369,15 +378,19 @@ class _GeometryPainter extends CustomPainter {
 
     for (final GeoCircle c in spec.circles) {
       canvas.drawCircle(
-          at(c.center), c.radius * scale, accent..strokeWidth = 2);
+        at(c.center),
+        c.radius * scale,
+        accent..strokeWidth = 2,
+      );
       if (c.label != null) {
         final GeoPoint o = spec.point(c.center)!;
         _text(
-            canvas,
-            c.label!,
-            map(o.x + c.radius * 0.71, o.y + c.radius * 0.71) +
-                const Offset(6, -6),
-            color: color);
+          canvas,
+          c.label!,
+          map(o.x + c.radius * 0.71, o.y + c.radius * 0.71) +
+              const Offset(6, -6),
+          color: color,
+        );
       }
     }
 
@@ -401,8 +414,13 @@ class _GeometryPainter extends CustomPainter {
                   (mid - normal * 12 - centre).distance
               ? normal
               : -normal;
-          _text(canvas, sg.label!, mid + side * 13,
-              color: DirasstyColors.textMuted, centred: true);
+          _text(
+            canvas,
+            sg.label!,
+            mid + side * 13,
+            color: DirasstyColors.textMuted,
+            centred: true,
+          );
         }
       }
     }
@@ -429,8 +447,13 @@ class _GeometryPainter extends CustomPainter {
         while (sweep < -math.pi) {
           sweep += 2 * math.pi;
         }
-        canvas.drawArc(Rect.fromCircle(center: v, radius: r), a1, sweep, false,
-            accent..strokeWidth = 1.6);
+        canvas.drawArc(
+          Rect.fromCircle(center: v, radius: r),
+          a1,
+          sweep,
+          false,
+          accent..strokeWidth = 1.6,
+        );
         if (an.label != null && an.label!.trim().isNotEmpty) {
           final Offset bis = u1 + u2;
           final Offset dir =
@@ -460,8 +483,15 @@ class _GeometryPainter extends CustomPainter {
     return map(sx / spec.points.length, sy / spec.points.length);
   }
 
-  void _paintGrid(Canvas canvas, Size size, double minX, double maxX,
-      double minY, double maxY, Offset Function(double, double) map) {
+  void _paintGrid(
+    Canvas canvas,
+    Size size,
+    double minX,
+    double maxX,
+    double minY,
+    double maxY,
+    Offset Function(double, double) map,
+  ) {
     final int nx = (maxX - minX).floor(), ny = (maxY - minY).floor();
     if (nx > 40 || ny > 40) return;
     final Paint grid = Paint()
@@ -472,23 +502,47 @@ class _GeometryPainter extends CustomPainter {
       ..strokeWidth = 1.4;
     final int labelStep = math.max(nx, ny) > 14 ? 2 : 1;
     for (int x = minX.ceil(); x <= maxX.floor(); x++) {
-      canvas.drawLine(map(x.toDouble(), minY), map(x.toDouble(), maxY),
-          x == 0 ? axis : grid);
+      canvas.drawLine(
+        map(x.toDouble(), minY),
+        map(x.toDouble(), maxY),
+        x == 0 ? axis : grid,
+      );
       if (x != 0 && x % labelStep == 0) {
-        _text(canvas, '$x', map(x.toDouble(), 0) + const Offset(0, 9),
-            color: DirasstyColors.textMuted, centred: true, small: true);
+        _text(
+          canvas,
+          '$x',
+          map(x.toDouble(), 0) + const Offset(0, 9),
+          color: DirasstyColors.textMuted,
+          centred: true,
+          small: true,
+        );
       }
     }
     for (int y = minY.ceil(); y <= maxY.floor(); y++) {
-      canvas.drawLine(map(minX, y.toDouble()), map(maxX, y.toDouble()),
-          y == 0 ? axis : grid);
+      canvas.drawLine(
+        map(minX, y.toDouble()),
+        map(maxX, y.toDouble()),
+        y == 0 ? axis : grid,
+      );
       if (y != 0 && y % labelStep == 0) {
-        _text(canvas, '$y', map(0, y.toDouble()) + const Offset(-10, 0),
-            color: DirasstyColors.textMuted, centred: true, small: true);
+        _text(
+          canvas,
+          '$y',
+          map(0, y.toDouble()) + const Offset(-10, 0),
+          color: DirasstyColors.textMuted,
+          centred: true,
+          small: true,
+        );
       }
     }
-    _text(canvas, 'O', map(0, 0) + const Offset(-9, 9),
-        color: DirasstyColors.textMuted, centred: true, small: true);
+    _text(
+      canvas,
+      'O',
+      map(0, 0) + const Offset(-9, 9),
+      color: DirasstyColors.textMuted,
+      centred: true,
+      small: true,
+    );
   }
 
   void _dashed(Canvas canvas, Offset a, Offset b, Paint paint) {
@@ -501,11 +555,15 @@ class _GeometryPainter extends CustomPainter {
     }
   }
 
-  void _text(Canvas canvas, String text, Offset at,
-      {Color color = DirasstyColors.ink,
-      bool bold = false,
-      bool centred = false,
-      bool small = false}) {
+  void _text(
+    Canvas canvas,
+    String text,
+    Offset at, {
+    Color color = DirasstyColors.ink,
+    bool bold = false,
+    bool centred = false,
+    bool small = false,
+  }) {
     final TextPainter tp = TextPainter(
       text: TextSpan(
         text: text,

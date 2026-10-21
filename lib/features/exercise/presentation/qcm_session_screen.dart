@@ -6,8 +6,8 @@ import 'package:intl/intl.dart' show DateFormat;
 import '../../../core/gamification/gamification.dart';
 import '../../../core/models/exercise_body.dart';
 import '../../../core/models/student.dart';
-import '../../../core/text/math_format.dart';
 import '../../../core/text/dirassty_dates.dart';
+import '../../../core/text/math_format.dart';
 import '../../../core/theme/dirassty_theme.dart';
 import '../../../core/widgets/diagram_view.dart';
 import '../../../core/widgets/dirassty/dirassty_widgets.dart';
@@ -58,11 +58,15 @@ class _QcmSessionScreenState extends ConsumerState<QcmSessionScreen> {
       message: l10n.leaveSessionBody,
       actions: [
         DirasstyDialogAction(
-            label: l10n.leave, value: true, variant: DirasstyButtonVariant.danger),
+          label: l10n.leave,
+          value: true,
+          variant: DirasstyButtonVariant.danger,
+        ),
         DirasstyDialogAction(
-            label: l10n.stayInSession,
-            value: false,
-            variant: DirasstyButtonVariant.quiet),
+          label: l10n.stayInSession,
+          value: false,
+          variant: DirasstyButtonVariant.quiet,
+        ),
       ],
     );
     if (leave == true && mounted) Navigator.of(context).pop();
@@ -95,7 +99,10 @@ class _QcmSessionScreenState extends ConsumerState<QcmSessionScreen> {
             QcmLoading() => const Center(child: CircularProgressIndicator()),
             QcmError() => _Centered(
                 child: ErrorState(
-                    title: l10n.qcmLoadError, onRetry: controller.retry)),
+                  title: l10n.qcmLoadError,
+                  onRetry: controller.retry,
+                ),
+              ),
             QcmEmpty() => _Centered(
                 child: EmptyState(
                   icon: Icons.quiz_outlined,
@@ -136,8 +143,9 @@ class _QcmSessionScreenState extends ConsumerState<QcmSessionScreen> {
     final bool correct = answered && state.answers.last.correct;
 
     AnswerState optionState(int i) {
-      if (!answered)
+      if (!answered) {
         return i == _pending ? AnswerState.selected : AnswerState.idle;
+      }
       if (i == body.correct) return AnswerState.correct;
       if (i == state.selectedChoice) return AnswerState.wrong;
       return AnswerState.disabled;
@@ -147,7 +155,11 @@ class _QcmSessionScreenState extends ConsumerState<QcmSessionScreen> {
       children: [
         Padding(
           padding: const EdgeInsetsDirectional.fromSTEB(
-              DirasstySpace.sm, DirasstySpace.xs, DirasstySpace.screen, 0),
+            DirasstySpace.sm,
+            DirasstySpace.xs,
+            DirasstySpace.screen,
+            0,
+          ),
           child: Row(
             children: [
               IconButton(
@@ -158,8 +170,9 @@ class _QcmSessionScreenState extends ConsumerState<QcmSessionScreen> {
               ),
               Expanded(
                 child: DirasstyProgressBar(
-                    value: (state.currentIndex + (answered ? 1 : 0)) /
-                        state.exercises.length),
+                  value: (state.currentIndex + (answered ? 1 : 0)) /
+                      state.exercises.length,
+                ),
               ),
               const SizedBox(width: DirasstySpace.md),
               Text(
@@ -173,19 +186,27 @@ class _QcmSessionScreenState extends ConsumerState<QcmSessionScreen> {
         Expanded(
           child: ListView(
             key: ValueKey(state.currentIndex),
-            padding: const EdgeInsetsDirectional.fromSTEB(DirasstySpace.screen,
-                DirasstySpace.lg, DirasstySpace.screen, DirasstySpace.lg),
+            padding: const EdgeInsetsDirectional.fromSTEB(
+              DirasstySpace.screen,
+              DirasstySpace.lg,
+              DirasstySpace.screen,
+              DirasstySpace.lg,
+            ),
             children: [
               Text(
                 lessonTitle.isEmpty
                     ? l10n.questionOf(
-                        state.currentIndex + 1, state.exercises.length)
+                        state.currentIndex + 1,
+                        state.exercises.length,
+                      )
                     : l10n.questionTopic(lessonTitle, state.currentIndex + 1),
                 style: type.label,
               ),
               const SizedBox(height: DirasstySpace.sm),
-              Text(cleanMathForDisplay(body.question),
-                  style: type.title.copyWith(height: 1.3)),
+              Text(
+                cleanMathForDisplay(body.question),
+                style: type.title.copyWith(height: 1.3),
+              ),
               if (body.diagram != null) ...[
                 const SizedBox(height: DirasstySpace.md),
                 DiagramView(spec: body.diagram!, color: DirasstyColors.teal),
@@ -196,11 +217,14 @@ class _QcmSessionScreenState extends ConsumerState<QcmSessionScreen> {
                   Container(
                     padding: const EdgeInsetsDirectional.all(DirasstySpace.md),
                     decoration: const BoxDecoration(
-                        color: DirasstyColors.goldTint,
-                        borderRadius: DirasstyRadius.cardR),
-                    child: Text(cleanMathForDisplay(body.hint),
-                        style:
-                            type.bodySmall.copyWith(color: DirasstyColors.text)),
+                      color: DirasstyColors.goldTint,
+                      borderRadius: DirasstyRadius.cardR,
+                    ),
+                    child: Text(
+                      cleanMathForDisplay(body.hint),
+                      style:
+                          type.bodySmall.copyWith(color: DirasstyColors.text),
+                    ),
                   )
                 else
                   Align(
@@ -229,7 +253,11 @@ class _QcmSessionScreenState extends ConsumerState<QcmSessionScreen> {
         ),
         Padding(
           padding: const EdgeInsetsDirectional.fromSTEB(
-              DirasstySpace.screen, 0, DirasstySpace.screen, DirasstySpace.lg),
+            DirasstySpace.screen,
+            0,
+            DirasstySpace.screen,
+            DirasstySpace.lg,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -263,8 +291,11 @@ class _QcmSessionScreenState extends ConsumerState<QcmSessionScreen> {
 }
 
 class _FeedbackCard extends StatelessWidget {
-  const _FeedbackCard(
-      {required this.correct, required this.explanation, required this.xp});
+  const _FeedbackCard({
+    required this.correct,
+    required this.explanation,
+    required this.xp,
+  });
 
   final bool correct;
   final String explanation;
@@ -302,16 +333,20 @@ class _FeedbackCard extends StatelessWidget {
                   RiseIn(
                     child: Container(
                       padding: const EdgeInsetsDirectional.symmetric(
-                          horizontal: 10, vertical: DirasstySpace.xs),
+                        horizontal: 10,
+                        vertical: DirasstySpace.xs,
+                      ),
                       decoration: const BoxDecoration(
-                          color: DirasstyColors.gold,
-                          borderRadius: DirasstyRadius.pillR),
+                        color: DirasstyColors.gold,
+                        borderRadius: DirasstyRadius.pillR,
+                      ),
                       child: Text(
                         l10n.xpGain(xp),
                         style: type.label.copyWith(
-                            color: DirasstyColors.ink,
-                            fontWeight: FontWeight.w800,
-                            fontFamily: 'Inter'),
+                          color: DirasstyColors.ink,
+                          fontWeight: FontWeight.w800,
+                          fontFamily: 'Inter',
+                        ),
                       ),
                     ),
                   ),
@@ -319,8 +354,10 @@ class _FeedbackCard extends StatelessWidget {
             ),
             if (explanation.isNotEmpty) ...[
               const SizedBox(height: DirasstySpace.sm),
-              Text(cleanMathForDisplay(explanation),
-                  style: type.bodySmall.copyWith(color: DirasstyColors.text)),
+              Text(
+                cleanMathForDisplay(explanation),
+                style: type.bodySmall.copyWith(color: DirasstyColors.text),
+              ),
             ],
           ],
         ),
@@ -354,7 +391,11 @@ class _ResultView extends ConsumerWidget {
 
     return ListView(
       padding: const EdgeInsetsDirectional.fromSTEB(
-          DirasstySpace.xl, DirasstySpace.xl, DirasstySpace.xl, DirasstySpace.xl),
+        DirasstySpace.xl,
+        DirasstySpace.xl,
+        DirasstySpace.xl,
+        DirasstySpace.xl,
+      ),
       children: [
         if (state.streakIncreased) ...[
           _StreakCelebration(streak: state.newStreak),
@@ -367,21 +408,24 @@ class _ResultView extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                  lessonTitle.isEmpty
-                      ? l10n.qcmTitle
-                      : l10n.qcmScoreTitle(lessonTitle),
-                  style: type.label.copyWith(fontSize: 14)),
+                lessonTitle.isEmpty
+                    ? l10n.qcmTitle
+                    : l10n.qcmScoreTitle(lessonTitle),
+                style: type.label.copyWith(fontSize: 14),
+              ),
               const SizedBox(height: DirasstySpace.lg),
               Row(
                 children: [
                   _ResultStat(
-                      value: '${state.correctCount}/${state.total}',
-                      label: l10n.score,
-                      emphasize: true),
+                    value: '${state.correctCount}/${state.total}',
+                    label: l10n.score,
+                    emphasize: true,
+                  ),
                   _ResultStat(
-                      value:
-                          '${seconds ~/ 60}:${(seconds % 60).toString().padLeft(2, '0')}',
-                      label: l10n.duration),
+                    value:
+                        '${seconds ~/ 60}:${(seconds % 60).toString().padLeft(2, '0')}',
+                    label: l10n.duration,
+                  ),
                   _ResultStat(value: '+${state.totalXp}', label: l10n.xpEarned),
                 ],
               ),
@@ -389,10 +433,16 @@ class _ResultView extends ConsumerWidget {
               Row(
                 children: [
                   Expanded(
-                      child: Text(l10n.level(levelFromXp(xpTotal)),
-                          style: type.label.copyWith(color: DirasstyColors.text))),
-                  Text(l10n.xpOfTotal(xpTotal, nextLevelXp(xpTotal)),
-                      style: type.label, textDirection: TextDirection.ltr),
+                    child: Text(
+                      l10n.level(levelFromXp(xpTotal)),
+                      style: type.label.copyWith(color: DirasstyColors.text),
+                    ),
+                  ),
+                  Text(
+                    l10n.xpOfTotal(xpTotal, nextLevelXp(xpTotal)),
+                    style: type.label,
+                    textDirection: TextDirection.ltr,
+                  ),
                 ],
               ),
               const SizedBox(height: DirasstySpace.sm),
@@ -403,9 +453,10 @@ class _ResultView extends ConsumerWidget {
                     ? l10n.lessonValidated
                     : l10n.notMasteredYet((state.lessonMastery * 100).round()),
                 style: type.label.copyWith(
-                    color: state.passed
-                        ? DirasstyColors.teal
-                        : DirasstyColors.goldStroke),
+                  color: state.passed
+                      ? DirasstyColors.teal
+                      : DirasstyColors.goldStroke,
+                ),
               ),
             ],
           ),
@@ -427,8 +478,9 @@ class _ResultView extends ConsumerWidget {
         ),
         const SizedBox(height: DirasstySpace.md),
         DirasstyButton(
-            label: l10n.backHome,
-            onPressed: () => context.go(StudentHomeScreen.path)),
+          label: l10n.backHome,
+          onPressed: () => context.go(StudentHomeScreen.path),
+        ),
         const SizedBox(height: DirasstySpace.sm),
         TextButton(onPressed: onRetry, child: Text(l10n.retryQcm)),
       ],
@@ -443,7 +495,8 @@ class _ResultView extends ConsumerWidget {
         final DirasstyType type = sheetContext.dirasstyType;
         return ConstrainedBox(
           constraints: BoxConstraints(
-              maxHeight: MediaQuery.sizeOf(sheetContext).height * 0.75),
+            maxHeight: MediaQuery.sizeOf(sheetContext).height * 0.75,
+          ),
           child: ListView(
             shrinkWrap: true,
             children: [
@@ -454,23 +507,33 @@ class _ResultView extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Text(cleanMathForDisplay(m.exercise.body.question),
-                          style: type.subheading),
+                      Text(
+                        cleanMathForDisplay(m.exercise.body.question),
+                        style: type.subheading,
+                      ),
                       const SizedBox(height: DirasstySpace.sm),
                       Text(
-                        l10n.yourAnswerWas(cleanMathForDisplay(
-                            m.exercise.body.choices[m.chosen])),
+                        l10n.yourAnswerWas(
+                          cleanMathForDisplay(
+                            m.exercise.body.choices[m.chosen],
+                          ),
+                        ),
                         style: type.label.copyWith(color: DirasstyColors.error),
                       ),
                       Text(
-                        l10n.correctAnswerWas(cleanMathForDisplay(
-                            m.exercise.body.choices[m.exercise.body.correct])),
+                        l10n.correctAnswerWas(
+                          cleanMathForDisplay(
+                            m.exercise.body.choices[m.exercise.body.correct],
+                          ),
+                        ),
                         style: type.label.copyWith(color: DirasstyColors.teal),
                       ),
                       if (m.exercise.body.explanation.isNotEmpty) ...[
                         const SizedBox(height: DirasstySpace.sm),
-                        Text(cleanMathForDisplay(m.exercise.body.explanation),
-                            style: type.bodySmall),
+                        Text(
+                          cleanMathForDisplay(m.exercise.body.explanation),
+                          style: type.bodySmall,
+                        ),
                       ],
                     ],
                   ),
@@ -485,8 +548,11 @@ class _ResultView extends ConsumerWidget {
 }
 
 class _ResultStat extends StatelessWidget {
-  const _ResultStat(
-      {required this.value, required this.label, this.emphasize = false});
+  const _ResultStat({
+    required this.value,
+    required this.label,
+    this.emphasize = false,
+  });
 
   final String value;
   final String label;
@@ -502,8 +568,9 @@ class _ResultStat extends StatelessWidget {
             value,
             textDirection: TextDirection.ltr,
             style: type.statValue.copyWith(
-                color: emphasize ? DirasstyColors.teal : DirasstyColors.text,
-                fontFamily: 'Inter'),
+              color: emphasize ? DirasstyColors.teal : DirasstyColors.text,
+              fontFamily: 'Inter',
+            ),
           ),
           const SizedBox(height: 2),
           Text(label, style: type.label, textAlign: TextAlign.center),
@@ -538,47 +605,64 @@ class _StreakCelebration extends StatelessWidget {
             alignment: Alignment.center,
             children: [
               Container(
-                  decoration: const BoxDecoration(
-                      color: DirasstyColors.goldTint, shape: BoxShape.circle)),
+                decoration: const BoxDecoration(
+                  color: DirasstyColors.goldTint,
+                  shape: BoxShape.circle,
+                ),
+              ),
               // Sparks burst outward from the flame once it has landed.
               const PositionedDirectional(
-                  top: 6,
-                  start: 18,
-                  child: ScaleIn(
-                      begin: 0,
-                      delay: Duration(milliseconds: 180),
-                      burst: Offset(30, 40),
-                      child: _Spark(size: 8))),
+                top: 6,
+                start: 18,
+                child: ScaleIn(
+                  begin: 0,
+                  delay: Duration(milliseconds: 180),
+                  burst: Offset(30, 40),
+                  child: _Spark(size: 8),
+                ),
+              ),
               const PositionedDirectional(
-                  top: 22,
-                  end: 8,
-                  child: ScaleIn(
-                      begin: 0,
-                      delay: Duration(milliseconds: 180),
-                      burst: Offset(-40, 30),
-                      child: _Spark(size: 6))),
+                top: 22,
+                end: 8,
+                child: ScaleIn(
+                  begin: 0,
+                  delay: Duration(milliseconds: 180),
+                  burst: Offset(-40, 30),
+                  child: _Spark(size: 6),
+                ),
+              ),
               const PositionedDirectional(
-                  bottom: 14,
-                  start: 4,
-                  child: ScaleIn(
-                      begin: 0,
-                      delay: Duration(milliseconds: 180),
-                      burst: Offset(44, -34),
-                      child: _Spark(size: 6))),
+                bottom: 14,
+                start: 4,
+                child: ScaleIn(
+                  begin: 0,
+                  delay: Duration(milliseconds: 180),
+                  burst: Offset(44, -34),
+                  child: _Spark(size: 6),
+                ),
+              ),
               const ScaleIn(
-                child: Icon(Icons.local_fire_department_rounded,
-                    size: 68, color: DirasstyColors.gold),
+                child: Icon(
+                  Icons.local_fire_department_rounded,
+                  size: 68,
+                  color: DirasstyColors.gold,
+                ),
               ),
             ],
           ),
         ),
         const SizedBox(height: DirasstySpace.lg),
-        Text(l10n.streakDays(streak),
-            textAlign: TextAlign.center, style: type.display),
+        Text(
+          l10n.streakDays(streak),
+          textAlign: TextAlign.center,
+          style: type.display,
+        ),
         const SizedBox(height: 6),
-        Text(l10n.streakBody,
-            textAlign: TextAlign.center,
-            style: type.body.copyWith(color: DirasstyColors.textMuted)),
+        Text(
+          l10n.streakBody,
+          textAlign: TextAlign.center,
+          style: type.body.copyWith(color: DirasstyColors.textMuted),
+        ),
         const SizedBox(height: DirasstySpace.lg),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -590,9 +674,10 @@ class _StreakCelebration extends StatelessWidget {
                 ScaleIn(
                   delay: DirasstyMotion.celebrate,
                   child: _DayDot(
-                      label: _dayInitial(locale, today),
-                      active: streak > 0,
-                      today: true),
+                    label: _dayInitial(locale, today),
+                    active: streak > 0,
+                    today: true,
+                  ),
                 )
               else
                 _DayDot(
@@ -622,13 +707,18 @@ class _Spark extends StatelessWidget {
         width: size,
         height: size,
         decoration: const BoxDecoration(
-            color: DirasstyColors.gold, shape: BoxShape.circle),
+          color: DirasstyColors.gold,
+          shape: BoxShape.circle,
+        ),
       );
 }
 
 class _DayDot extends StatelessWidget {
-  const _DayDot(
-      {required this.label, required this.active, required this.today});
+  const _DayDot({
+    required this.label,
+    required this.active,
+    required this.today,
+  });
 
   final String label;
   final bool active;
@@ -644,11 +734,15 @@ class _DayDot extends StatelessWidget {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: active ? DirasstyColors.gold : DirasstyColors.track,
-            border: today ? Border.all(color: DirasstyColors.ink, width: 2) : null,
+            border:
+                today ? Border.all(color: DirasstyColors.ink, width: 2) : null,
           ),
           child: active
-              ? const Icon(Icons.local_fire_department_rounded,
-                  size: 18, color: DirasstyColors.ink)
+              ? const Icon(
+                  Icons.local_fire_department_rounded,
+                  size: 18,
+                  color: DirasstyColors.ink,
+                )
               : null,
         ),
         const SizedBox(height: 6),

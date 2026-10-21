@@ -1,4 +1,4 @@
-package com.dirassty.app
+package com.dirassti.app
 
 import android.app.ActivityManager
 import android.app.NotificationChannel

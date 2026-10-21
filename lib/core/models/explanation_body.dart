@@ -135,4 +135,8 @@ class ExplanationBody {
   final String? workedExample;
 
   bool get hasStructuredSections => sections.isNotEmpty;
+
+  /// Something to read: concept sections or the legacy flat text.
+  bool get hasContent =>
+      sections.isNotEmpty || (text?.trim().isNotEmpty ?? false);
 }

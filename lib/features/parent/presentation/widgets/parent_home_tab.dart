@@ -48,11 +48,17 @@ class ParentHomeTab extends ConsumerWidget {
           }
         },
         child: ListView(
-          padding: const EdgeInsetsDirectional.fromSTEB(DirasstySpace.screen,
-              DirasstySpace.lg, DirasstySpace.screen, DirasstySpace.xxl),
+          padding: const EdgeInsetsDirectional.fromSTEB(
+            DirasstySpace.screen,
+            DirasstySpace.lg,
+            DirasstySpace.screen,
+            DirasstySpace.xxl,
+          ),
           children: [
-            Text(l10n.parentSpace,
-                style: type.label.copyWith(fontWeight: FontWeight.w600)),
+            Text(
+              l10n.parentSpace,
+              style: type.label.copyWith(fontWeight: FontWeight.w600),
+            ),
             const SizedBox(height: 2),
             Text(
               parent == null ? l10n.parentSpace : l10n.hello(parent.name),
@@ -93,7 +99,8 @@ class ParentHomeTab extends ConsumerWidget {
                     const SizedBox(height: DirasstySpace.lg),
                   ],
                   _AddChildButton(
-                      onTap: () => context.push(AddChildScreen.path)),
+                    onTap: () => context.push(AddChildScreen.path),
+                  ),
                 ],
               ),
             ),
@@ -146,7 +153,9 @@ class _WeekSummary extends ConsumerWidget {
             TextSpan(
               text: time,
               style: const TextStyle(
-                  color: Colors.white, fontWeight: FontWeight.w700),
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+              ),
             ),
             TextSpan(text: sentence.substring(at + time.length)),
           ],
@@ -157,7 +166,9 @@ class _WeekSummary extends ConsumerWidget {
     return Container(
       padding: const EdgeInsetsDirectional.all(DirasstySpace.lg),
       decoration: const BoxDecoration(
-          color: DirasstyColors.ink, borderRadius: DirasstyRadius.cardR),
+        color: DirasstyColors.ink,
+        borderRadius: DirasstyRadius.cardR,
+      ),
       child: Row(
         children: [
           const Icon(Icons.schedule_rounded, color: DirasstyColors.gold),
@@ -192,8 +203,10 @@ class _AddChildButton extends StatelessWidget {
               children: [
                 const Icon(Icons.add_rounded, color: DirasstyColors.ink),
                 const SizedBox(width: DirasstySpace.sm),
-                Text(l10n.addChild,
-                    style: type.subheading.copyWith(fontSize: 16)),
+                Text(
+                  l10n.addChild,
+                  style: type.subheading.copyWith(fontSize: 16),
+                ),
               ],
             ),
           ),
@@ -214,7 +227,9 @@ class _DashedBorderPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.5;
     final Path outline = Path()
-      ..addRRect(DirasstyRadius.cardR.toRRect(Offset.zero & size).deflate(0.75));
+      ..addRRect(
+        DirasstyRadius.cardR.toRRect(Offset.zero & size).deflate(0.75),
+      );
     for (final metric in outline.computeMetrics()) {
       for (double d = 0; d < metric.length; d += 10) {
         canvas.drawPath(metric.extractPath(d, d + 5), paint);

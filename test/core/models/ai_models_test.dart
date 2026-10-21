@@ -1,8 +1,8 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:dirassty/core/models/homework_helper_result.dart';
 import 'package:dirassty/core/models/open_exercise_body.dart';
 import 'package:dirassty/core/models/open_exercise_correction.dart';
 import 'package:dirassty/core/models/tutor_reply.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 /// Parsing of the AI routes' JSON (apps/web/app/api/{tutor,
 /// correct-open-exercise,homework-helper}) — fixtures, no network.
@@ -28,7 +28,9 @@ void main() {
     });
 
     test('hint and missing fields', () {
-      final r = TutorReply.fromJson({'kind': 'hint', 'reply': 'Pense au dénominateur.'});
+      final r = TutorReply.fromJson(
+        {'kind': 'hint', 'reply': 'Pense au dénominateur.'},
+      );
       expect(r.isHint, isTrue);
       expect(r.steps, isEmpty);
       expect(r.stepStatus, isNull);
@@ -36,15 +38,20 @@ void main() {
     });
 
     test('history turns serialize role/kind for the server', () {
-      expect(const TutorTurn(fromStudent: false, text: 'x', isHint: true).toJson(),
-          {'role': 'tutor', 'text': 'x', 'kind': 'hint'});
-      expect(const TutorTurn(fromStudent: true, text: 'y').toJson(),
-          {'role': 'student', 'text': 'y'});
+      expect(
+        const TutorTurn(fromStudent: false, text: 'x', isHint: true).toJson(),
+        {'role': 'tutor', 'text': 'x', 'kind': 'hint'},
+      );
+      expect(
+        const TutorTurn(fromStudent: true, text: 'y').toJson(),
+        {'role': 'student', 'text': 'y'},
+      );
     });
   });
 
   group('OpenExerciseCorrection (answer / handwritten check)', () {
-    test('arithmetic slip: reasoning right, calculation and final answer wrong', () {
+    test('arithmetic slip: reasoning right, calculation and final answer wrong',
+        () {
       final c = OpenExerciseCorrection.fromJson({
         'overall': 'partially_correct',
         'score': 'partial',
@@ -53,7 +60,11 @@ void main() {
         'final_answer_correct': false,
         'method': 'official',
         'mistakes': [
-          {'step': '2/4 + 1/4', 'issue': '2 + 1 = 3, pas 4', 'type': 'calculation'},
+          {
+            'step': '2/4 + 1/4',
+            'issue': '2 + 1 = 3, pas 4',
+            'type': 'calculation',
+          },
           {'issue': ''},
         ],
         'what_was_right': 'Bonne méthode',
@@ -85,7 +96,12 @@ void main() {
 
     test('alternative valid method', () {
       final c = OpenExerciseCorrection.fromJson(
-          {'overall': 'correct', 'method': 'alternative_valid', 'confidence': 0.9});
+        {
+          'overall': 'correct',
+          'method': 'alternative_valid',
+          'confidence': 0.9,
+        },
+      );
       expect(c.score, CorrectionScore.correct);
       expect(c.method, 'alternative_valid');
     });

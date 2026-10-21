@@ -60,7 +60,9 @@ class PinAttemptLimiter {
     final int count = (prefs.getInt(_countKey) ?? 0) + 1;
     if (count >= maxAttempts) {
       await prefs.setString(
-          _untilKey, DateTime.now().add(lockDuration).toIso8601String());
+        _untilKey,
+        DateTime.now().add(lockDuration).toIso8601String(),
+      );
       await prefs.remove(_countKey);
       return lockDuration;
     }

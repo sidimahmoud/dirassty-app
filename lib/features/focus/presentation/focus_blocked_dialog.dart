@@ -32,13 +32,15 @@ bool blockedByFocus(BuildContext context, WidgetRef ref) {
     iconColor: DirasstyColors.ink,
     title: l10n.focusBlockedTitle,
     message: l10n.focusBlockedBody(
-        FocusWindow.formatMinute(until.hour * 60 + until.minute)),
+      FocusWindow.formatMinute(until.hour * 60 + until.minute),
+    ),
     actions: [
       DirasstyDialogAction(label: l10n.keepStudying, value: false),
       DirasstyDialogAction(
-          label: l10n.enterParentCode,
-          value: true,
-          variant: DirasstyButtonVariant.quiet),
+        label: l10n.enterParentCode,
+        value: true,
+        variant: DirasstyButtonVariant.quiet,
+      ),
     ],
   ).then((bool? enterCode) {
     if (enterCode == true) {

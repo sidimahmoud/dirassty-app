@@ -63,35 +63,47 @@ class ProfileRow extends StatelessWidget {
         constraints: const BoxConstraints(minHeight: 56),
         child: Padding(
           padding: const EdgeInsetsDirectional.symmetric(
-              horizontal: DirasstySpace.lg, vertical: 10),
+            horizontal: DirasstySpace.lg,
+            vertical: 10,
+          ),
           child: Row(
             children: [
-              Icon(icon,
-                  size: DirasstySize.iconList,
-                  color:
-                      destructive ? DirasstyColors.error : DirasstyColors.textMuted),
+              Icon(
+                icon,
+                size: DirasstySize.iconList,
+                color: destructive
+                    ? DirasstyColors.error
+                    : DirasstyColors.textMuted,
+              ),
               const SizedBox(width: DirasstySpace.md),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(title,
-                        style: type.body.copyWith(
-                            fontWeight: FontWeight.w600, color: color)),
+                    Text(
+                      title,
+                      style: type.body.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: color,
+                      ),
+                    ),
                     if (subtitle != null)
-                      Text(subtitle!,
-                          style:
-                              type.label.copyWith(fontWeight: FontWeight.w400)),
+                      Text(
+                        subtitle!,
+                        style: type.label.copyWith(fontWeight: FontWeight.w400),
+                      ),
                   ],
                 ),
               ),
               if (trailing != null) ...[
                 trailing!,
-                const SizedBox(width: DirasstySpace.sm)
+                const SizedBox(width: DirasstySpace.sm),
               ],
               if (!destructive)
-                const Icon(Icons.chevron_right_rounded,
-                    color: DirasstyColors.textMuted),
+                const Icon(
+                  Icons.chevron_right_rounded,
+                  color: DirasstyColors.textMuted,
+                ),
             ],
           ),
         ),

@@ -59,11 +59,13 @@ final FutureProvider<List<Subject>> subjectsWithMasteryProvider =
   final List<Subject> withMastery = await Future.wait(
     subjects.map((subject) async {
       final mastery = await ref.watch(
-        subjectMasteryProvider((
-          studentId: student.id,
-          subjectKey: subject.key,
-          grade: student.grade,
-        )).future,
+        subjectMasteryProvider(
+          (
+            studentId: student.id,
+            subjectKey: subject.key,
+            grade: student.grade,
+          ),
+        ).future,
       );
       return subject.withMastery(
         mastery.mastery,
@@ -94,11 +96,13 @@ final subjectsWithMasteryForStudentProvider =
   return Future.wait(
     subjects.map((subject) async {
       final mastery = await ref.watch(
-        subjectMasteryProvider((
-          studentId: args.studentId,
-          subjectKey: subject.key,
-          grade: args.grade,
-        )).future,
+        subjectMasteryProvider(
+          (
+            studentId: args.studentId,
+            subjectKey: subject.key,
+            grade: args.grade,
+          ),
+        ).future,
       );
       return subject.withMastery(
         mastery.mastery,

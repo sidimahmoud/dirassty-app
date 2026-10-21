@@ -1,9 +1,9 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:dirassty/core/models/grade.dart';
 import 'package:dirassty/core/models/plan.dart';
 import 'package:dirassty/features/auth/presentation/trial_offer_screen.dart';
 import 'package:dirassty/features/auth/presentation/widgets/auth_errors.dart';
 import 'package:dirassty/features/auth/presentation/widgets/pin_entry.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Plan _plan(int days, double price, {double discount = 0}) => Plan(
@@ -46,7 +46,7 @@ void main() {
   group('grade codes', () {
     test('map every grade to its cycle code', () {
       expect([
-        for (int g = 1; g <= 13; g++) gradeCode(g)
+        for (int g = 1; g <= 13; g++) gradeCode(g),
       ], [
         'P1', 'P2', 'P3', 'P4', 'P5', 'P6', //
         'C1', 'C2', 'C3', 'C4',

@@ -15,7 +15,8 @@ final Provider<ParentRepository> parentRepositoryProvider = Provider(
 
 final Provider<WeeklyInsightRepository> weeklyInsightRepositoryProvider =
     Provider(
-        (ref) => WeeklyInsightRepository(ref.watch(supabaseClientProvider)));
+  (ref) => WeeklyInsightRepository(ref.watch(supabaseClientProvider)),
+);
 
 /// One AI insight + suggestion per student per week — generated on first
 /// request, cached after that (see WeeklyInsightRepository). Family-keyed
@@ -96,10 +97,12 @@ class AddChildController extends AsyncNotifier<void> {
         ref.invalidate(subscriptionsByParentProvider);
         ref.invalidate(latestSubscriptionsByStudentProvider);
       }
-      resultUsername = await ref
-          .read(parentRepositoryProvider)
-          .setStudentCredentials(
-              studentId: student.id, username: username, pin: pin);
+      resultUsername =
+          await ref.read(parentRepositoryProvider).setStudentCredentials(
+                studentId: student.id,
+                username: username,
+                pin: pin,
+              );
     });
     return (username: resultUsername, studentId: resultStudentId);
   }
@@ -125,10 +128,12 @@ class UpdateStudentCredentialsController extends AsyncNotifier<void> {
     state = const AsyncLoading();
     String resultUsername = '';
     state = await AsyncValue.guard(() async {
-      resultUsername = await ref
-          .read(parentRepositoryProvider)
-          .setStudentCredentials(
-              studentId: studentId, username: username, pin: pin);
+      resultUsername =
+          await ref.read(parentRepositoryProvider).setStudentCredentials(
+                studentId: studentId,
+                username: username,
+                pin: pin,
+              );
       ref.invalidate(studentsByParentProvider);
     });
     return resultUsername;

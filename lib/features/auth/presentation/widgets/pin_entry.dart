@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -62,8 +63,10 @@ class PinField extends StatelessWidget {
 
 /// Bottom sheet with [PinBoxes] + [PinPad]; returns the 4 digits once
 /// the last one is typed (null if dismissed).
-Future<String?> showPinEntrySheet(BuildContext context,
-    {required String title}) {
+Future<String?> showPinEntrySheet(
+  BuildContext context, {
+  required String title,
+}) {
   return showDirasstyBottomSheet<String>(
     context,
     builder: (sheetContext) => _PinSheet(title: title),
@@ -99,16 +102,20 @@ class _PinSheetState extends State<_PinSheet> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(widget.title,
-            style: context.dirasstyType.heading, textAlign: TextAlign.center),
+        Text(
+          widget.title,
+          style: context.dirasstyType.heading,
+          textAlign: TextAlign.center,
+        ),
         const SizedBox(height: DirasstySpace.xl),
         PinBoxes(value: _pin),
         const SizedBox(height: DirasstySpace.xl),
         PinPad(
           onDigit: _onDigit,
           onBackspace: () {
-            if (_pin.isNotEmpty)
+            if (_pin.isNotEmpty) {
               setState(() => _pin = _pin.substring(0, _pin.length - 1));
+            }
           },
           backspaceLabel: l10n.backspace,
         ),
@@ -118,8 +125,13 @@ class _PinSheetState extends State<_PinSheet> {
 }
 
 /// The WhatsApp-code step: 6 digit boxes fed by the keypad, auto-submit
-/// on the 6th digit, long-press to paste a copied code, 60 s resend
-/// countdown, "Modifier le numéro". Used by registration (parent always,
+/// on the 6th digit, 60 s resend countdown, "Modifier le numéro".
+///
+/// Getting the code in without typing: the WhatsApp message has a
+/// "Copier le code" button. Back in the app, Android fills it in by itself
+/// (the clipboard is read when the app comes back to the foreground); iOS
+/// asks before any app reads the clipboard, so there it's one tap on
+/// "Coller le code" (also always available, plus long-press on the boxes). Used by registration (parent always,
 /// student when a phone was given).
 ///
 /// design_handoff VerifyCode.dc.html · DESIGN_SPEC §4 "Verify code".
@@ -148,8 +160,41 @@ class VerifyCodeView extends StatefulWidget {
   State<VerifyCodeView> createState() => _VerifyCodeViewState();
 }
 
-class _VerifyCodeViewState extends State<VerifyCodeView> {
+class _VerifyCodeViewState extends State<VerifyCodeView>
+    with WidgetsBindingObserver {
   String _code = '';
+
+  /// Android: what the clipboard held when this screen opened, so an old
+  /// copied code is never auto-submitted — only one copied since.
+  String? _clipboardAtStart;
+
+  /// Silent clipboard reads only where they don't trigger a system prompt.
+  static bool get _canAutoPaste =>
+      defaultTargetPlatform == TargetPlatform.android;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    if (_canAutoPaste) {
+      Clipboard.getData(Clipboard.kTextPlain)
+          .then((data) => _clipboardAtStart = data?.text ?? '')
+          .catchError((_) => _clipboardAtStart = '');
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed && _canAutoPaste) {
+      _paste(onlyIfNew: true);
+    }
+  }
 
   @override
   void didUpdateWidget(VerifyCodeView old) {
@@ -165,10 +210,20 @@ class _VerifyCodeViewState extends State<VerifyCodeView> {
     if (code.length == 6 && !widget.loading) widget.onVerify(code);
   }
 
-  Future<void> _paste() async {
-    final ClipboardData? data = await Clipboard.getData(Clipboard.kTextPlain);
-    final String digits = (data?.text ?? '').replaceAll(RegExp(r'\D'), '');
-    if (digits.length >= 6) _setCode(digits.substring(0, 6));
+  /// Fills (and submits) the 6-digit code found in the clipboard — the
+  /// bare code from the "Copier le code" button, or a whole copied message.
+  Future<void> _paste({bool onlyIfNew = false}) async {
+    if (widget.loading) return;
+    final String text =
+        (await Clipboard.getData(Clipboard.kTextPlain))?.text ?? '';
+    if (onlyIfNew && (_clipboardAtStart == null || text == _clipboardAtStart)) {
+      return;
+    }
+    final String? code =
+        RegExp(r'(?<!\d)\d{6}(?!\d)').firstMatch(text)?.group(0);
+    if (code == null || !mounted) return;
+    _clipboardAtStart = text;
+    _setCode(code);
   }
 
   @override
@@ -181,14 +236,34 @@ class _VerifyCodeViewState extends State<VerifyCodeView> {
 
     return AuthScaffold(
       onBack: widget.onChangeNumber,
+      bottom: [
+        PinPad(
+          onDigit: (d) {
+            if (_code.length < 6) _setCode(_code + d);
+          },
+          onBackspace: () {
+            if (_code.isNotEmpty) {
+              setState(() => _code = _code.substring(0, _code.length - 1));
+            }
+          },
+          enabled: !widget.loading,
+          backspaceLabel: l10n.backspace,
+        ),
+        DirasstyButton(
+          label: l10n.verify,
+          loading: widget.loading,
+          onPressed: _code.length == 6 ? () => widget.onVerify(_code) : null,
+        ),
+      ],
       children: [
         const Align(
           alignment: AlignmentDirectional.centerStart,
           child: IconBadge(icon: Icons.chat_rounded, size: 56),
         ),
         AuthHeading(
-            title: l10n.verifyTitle,
-            body: l10n.verifyBody(widget.phoneDisplay)),
+          title: l10n.verifyTitle,
+          body: l10n.verifyBody(widget.phoneDisplay),
+        ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -197,18 +272,30 @@ class _VerifyCodeViewState extends State<VerifyCodeView> {
               child: GestureDetector(
                 onLongPress: _paste,
                 child: PinBoxes(
-                    value: _code,
-                    length: 6,
-                    obscure: false,
-                    hasError: widget.errorText != null),
+                  value: _code,
+                  length: 6,
+                  obscure: false,
+                  hasError: widget.errorText != null,
+                ),
               ),
             ),
             if (widget.errorText != null) ...[
               const SizedBox(height: DirasstySpace.sm),
-              Text(widget.errorText!,
-                  style: type.label.copyWith(color: DirasstyColors.error)),
+              Text(
+                widget.errorText!,
+                style: type.label.copyWith(color: DirasstyColors.error),
+              ),
             ],
             const SizedBox(height: DirasstySpace.sm),
+            Align(
+              alignment: AlignmentDirectional.centerStart,
+              child: TextButton.icon(
+                style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                onPressed: widget.loading ? null : _paste,
+                icon: const Icon(Icons.content_paste_rounded, size: 18),
+                label: Text(l10n.pasteCode),
+              ),
+            ),
             Row(
               children: [
                 Expanded(
@@ -225,29 +312,12 @@ class _VerifyCodeViewState extends State<VerifyCodeView> {
                         ),
                 ),
                 TextButton(
-                    onPressed: widget.onChangeNumber,
-                    child: Text(l10n.changeNumber)),
+                  onPressed: widget.onChangeNumber,
+                  child: Text(l10n.changeNumber),
+                ),
               ],
             ),
           ],
-        ),
-      ],
-      bottom: [
-        PinPad(
-          onDigit: (d) {
-            if (_code.length < 6) _setCode(_code + d);
-          },
-          onBackspace: () {
-            if (_code.isNotEmpty)
-              setState(() => _code = _code.substring(0, _code.length - 1));
-          },
-          enabled: !widget.loading,
-          backspaceLabel: l10n.backspace,
-        ),
-        DirasstyButton(
-          label: l10n.verify,
-          loading: widget.loading,
-          onPressed: _code.length == 6 ? () => widget.onVerify(_code) : null,
         ),
       ],
     );

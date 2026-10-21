@@ -189,7 +189,10 @@ class PinPad extends StatelessWidget {
                   },
             child: Center(
               child: isBackspace
-                  ? const Icon(Icons.backspace_outlined, color: DirasstyColors.ink)
+                  ? const Icon(
+                      Icons.backspace_outlined,
+                      color: DirasstyColors.ink,
+                    )
                   : ExcludeSemantics(
                       child: Text(
                         key,

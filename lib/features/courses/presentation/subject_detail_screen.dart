@@ -60,8 +60,11 @@ class _SubjectDetailScreenState extends ConsumerState<SubjectDetailScreen> {
         ?.where((s) => s.key == widget.subjectKey)
         .firstOrNull
         ?.label;
-    final String subjectName = subjectDisplayName(widget.subjectKey,
-        isArabic: context.isArabicLocale, dbLabel: dbLabel);
+    final String subjectName = subjectDisplayName(
+      widget.subjectKey,
+      isArabic: context.isArabicLocale,
+      dbLabel: dbLabel,
+    );
     final AsyncValue<List<Chapter>> chapters =
         ref.watch(chaptersProvider(widget.subjectKey));
     final Student? student = ref.watch(currentStudentProvider).valueOrNull;
@@ -81,14 +84,20 @@ class _SubjectDetailScreenState extends ConsumerState<SubjectDetailScreen> {
           if (chapterList.isEmpty) {
             return Center(
               child: EmptyState(
-                  icon: Icons.hourglass_empty_rounded,
-                  title: l10n.comingSoon,
-                  message: l10n.comingSoonBody),
+                icon: Icons.hourglass_empty_rounded,
+                title: l10n.comingSoon,
+                message: l10n.comingSoonBody,
+              ),
             );
           }
           if (student == null) return const _Skeleton();
           return _buildContent(
-              context, l10n, subjectName, chapterList, student);
+            context,
+            l10n,
+            subjectName,
+            chapterList,
+            student,
+          );
         },
       ),
     );
@@ -214,11 +223,13 @@ class _SubjectDetailScreenState extends ConsumerState<SubjectDetailScreen> {
                 ? EmptyState(
                     icon: Icons.download_rounded,
                     title: l10n.noOfflineLessons,
-                    message: l10n.noOfflineLessonsBody)
+                    message: l10n.noOfflineLessonsBody,
+                  )
                 : EmptyState(
                     icon: Icons.check_rounded,
                     title: l10n.noLessonsToReview,
-                    message: l10n.noLessonsToReviewBody)
+                    message: l10n.noLessonsToReviewBody,
+                  )
           else
             for (final (int i, Chapter chapter) in shown.indexed) ...[
               if (i > 0) const SizedBox(height: DirasstySpace.md),
@@ -300,8 +311,9 @@ class _ChapterCard extends StatelessWidget {
                       height: 32,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                        color:
-                            expanded ? DirasstyColors.tealTint : DirasstyColors.track,
+                        color: expanded
+                            ? DirasstyColors.tealTint
+                            : DirasstyColors.track,
                         borderRadius: DirasstyRadius.smallR,
                       ),
                       child: Text(
@@ -309,7 +321,9 @@ class _ChapterCard extends StatelessWidget {
                         style: type.subheading.copyWith(
                           fontSize: 14,
                           fontWeight: FontWeight.w800,
-                          color: expanded ? DirasstyColors.teal : DirasstyColors.ink,
+                          color: expanded
+                              ? DirasstyColors.teal
+                              : DirasstyColors.ink,
                         ),
                       ),
                     ),
@@ -321,8 +335,11 @@ class _ChapterCard extends StatelessWidget {
                           Row(
                             children: [
                               Expanded(
-                                  child: Text(chapter.title,
-                                      style: type.subheading)),
+                                child: Text(
+                                  chapter.title,
+                                  style: type.subheading,
+                                ),
+                              ),
                               Text(
                                 '${(ratio * 100).round()} %',
                                 style: type.subheading.copyWith(
@@ -336,12 +353,17 @@ class _ChapterCard extends StatelessWidget {
                           ),
                           const SizedBox(height: 6),
                           DirasstyProgressBar(
-                              value: ratio, color: accent, height: 6),
+                            value: ratio,
+                            color: accent,
+                            height: 6,
+                          ),
                           if (!expanded) ...[
                             const SizedBox(height: 6),
                             Text(
                               l10n.chapterMeta(
-                                  chapter.lessons.length, mastered),
+                                chapter.lessons.length,
+                                mastered,
+                              ),
                               style: type.label
                                   .copyWith(fontWeight: FontWeight.w400),
                             ),
@@ -403,7 +425,9 @@ class _LessonRow extends StatelessWidget {
         constraints: const BoxConstraints(minHeight: 64),
         child: Padding(
           padding: const EdgeInsetsDirectional.symmetric(
-              horizontal: DirasstySpace.lg, vertical: DirasstySpace.md),
+            horizontal: DirasstySpace.lg,
+            vertical: DirasstySpace.md,
+          ),
           child: Row(
             children: [
               _StatusIcon(mastered: mastered, viewed: viewed),
@@ -418,9 +442,10 @@ class _LessonRow extends StatelessWidget {
                           .copyWith(fontSize: 14, fontWeight: FontWeight.w600),
                     ),
                     const SizedBox(height: 2),
-                    Text(meta,
-                        style:
-                            type.label.copyWith(fontWeight: FontWeight.w400)),
+                    Text(
+                      meta,
+                      style: type.label.copyWith(fontWeight: FontWeight.w400),
+                    ),
                   ],
                 ),
               ),
@@ -435,8 +460,10 @@ class _LessonRow extends StatelessWidget {
                     semanticLabel: l10n.statusDownloaded,
                   ),
                 ),
-              const Icon(Icons.chevron_right_rounded,
-                  color: DirasstyColors.textMuted),
+              const Icon(
+                Icons.chevron_right_rounded,
+                color: DirasstyColors.textMuted,
+              ),
             ],
           ),
         ),
@@ -460,7 +487,9 @@ class _StatusIcon extends StatelessWidget {
         width: 28,
         height: 28,
         decoration: const BoxDecoration(
-            color: DirasstyColors.teal, shape: BoxShape.circle),
+          color: DirasstyColors.teal,
+          shape: BoxShape.circle,
+        ),
         child: const Icon(Icons.check_rounded, size: 18, color: Colors.white),
       );
     }
@@ -480,7 +509,9 @@ class _StatusIcon extends StatelessWidget {
               width: 8,
               height: 8,
               decoration: const BoxDecoration(
-                  color: DirasstyColors.ink, shape: BoxShape.circle),
+                color: DirasstyColors.ink,
+                shape: BoxShape.circle,
+              ),
             )
           : null,
     );

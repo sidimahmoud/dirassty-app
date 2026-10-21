@@ -64,10 +64,11 @@ class SubscriptionScreen extends ConsumerWidget {
                   child: ListView(
                     physics: const AlwaysScrollableScrollPhysics(),
                     padding: const EdgeInsetsDirectional.fromSTEB(
-                        DirasstySpace.screen,
-                        0,
-                        DirasstySpace.screen,
-                        DirasstySpace.xxl),
+                      DirasstySpace.screen,
+                      0,
+                      DirasstySpace.screen,
+                      DirasstySpace.xxl,
+                    ),
                     children: [
                       Text(l10n.mySubscriptions, style: type.title),
                       const SizedBox(height: DirasstySpace.xl),
@@ -85,9 +86,11 @@ class SubscriptionScreen extends ConsumerWidget {
                       _History(
                         students: students.value!,
                         rows: all.value!
-                            .where((r) =>
-                                !current.values.any((c) => c.id == r.id) &&
-                                !r.isUpcoming)
+                            .where(
+                              (r) =>
+                                  !current.values.any((c) => c.id == r.id) &&
+                                  !r.isUpcoming,
+                            )
                             .toList(),
                       ),
                     ],
@@ -132,10 +135,11 @@ class _ChildStatusCard extends StatelessWidget {
     if (sub == null) {
       detail = l10n.noSubscriptionBody;
       action = DirasstyButton(
-          label: l10n.subscribeAction,
-          variant: DirasstyButtonVariant.gold,
-          compact: true,
-          onPressed: subscribe);
+        label: l10n.subscribeAction,
+        variant: DirasstyButtonVariant.gold,
+        compact: true,
+        onPressed: subscribe,
+      );
     } else if (sub.grantsAccess) {
       detail = sub.expiresAt == null
           ? null
@@ -147,25 +151,28 @@ class _ChildStatusCard extends StatelessWidget {
               label: l10n.subscribeFor(student.name),
               variant: DirasstyButtonVariant.gold,
               compact: true,
-              onPressed: subscribe)
+              onPressed: subscribe,
+            )
           : null;
     } else if (sub.status == SubscriptionStatus.pending) {
       detail =
           l10n.pendingDetails(dateTime(sub.createdAt), sub.paymentCode ?? '—');
       action = DirasstyButton(
-          label: l10n.contactSupport,
-          icon: Icons.chat_outlined,
-          variant: DirasstyButtonVariant.secondary,
-          compact: true,
-          onPressed: () => contactSupport(context));
+        label: l10n.contactSupport,
+        icon: Icons.chat_outlined,
+        variant: DirasstyButtonVariant.secondary,
+        compact: true,
+        onPressed: () => contactSupport(context),
+      );
     } else if (sub.status == SubscriptionStatus.unpaid) {
       detail = l10n.unpaidDetails;
       action = DirasstyButton(
-          label: l10n.contactSupport,
-          icon: Icons.chat_outlined,
-          variant: DirasstyButtonVariant.secondary,
-          compact: true,
-          onPressed: () => contactSupport(context));
+        label: l10n.contactSupport,
+        icon: Icons.chat_outlined,
+        variant: DirasstyButtonVariant.secondary,
+        compact: true,
+        onPressed: () => contactSupport(context),
+      );
     } else if (sub.isUpcoming) {
       detail = null;
       action = null;
@@ -179,7 +186,8 @@ class _ChildStatusCard extends StatelessWidget {
           : DirasstyButton(
               label: refused ? l10n.retry : l10n.renew,
               compact: true,
-              onPressed: subscribe);
+              onPressed: subscribe,
+            );
     }
 
     final Subscription? next = upcoming;
@@ -191,14 +199,18 @@ class _ChildStatusCard extends StatelessWidget {
           Row(
             children: [
               ChildAvatar(
-                  name: student.name, active: sub?.grantsAccess ?? false),
+                name: student.name,
+                active: sub?.grantsAccess ?? false,
+              ),
               const SizedBox(width: DirasstySpace.md),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(student.name,
-                        style: type.subheading.copyWith(fontSize: 16)),
+                    Text(
+                      student.name,
+                      style: type.subheading.copyWith(fontSize: 16),
+                    ),
                     Text(
                       sub == null
                           ? l10n.noSubscription
@@ -223,12 +235,16 @@ class _ChildStatusCard extends StatelessWidget {
             Container(
               padding: const EdgeInsetsDirectional.all(DirasstySpace.md),
               decoration: const BoxDecoration(
-                  color: DirasstyColors.tealTint,
-                  borderRadius: DirasstyRadius.smallR),
+                color: DirasstyColors.tealTint,
+                borderRadius: DirasstyRadius.smallR,
+              ),
               child: Row(
                 children: [
-                  const Icon(Icons.event_available_rounded,
-                      size: 18, color: DirasstyColors.teal),
+                  const Icon(
+                    Icons.event_available_rounded,
+                    size: 18,
+                    color: DirasstyColors.teal,
+                  ),
                   const SizedBox(width: DirasstySpace.sm),
                   Expanded(
                     child: Text(
@@ -237,7 +253,8 @@ class _ChildStatusCard extends StatelessWidget {
                         date(next.currentPeriodStart!),
                         date(next.currentPeriodEnd!),
                       ),
-                      style: type.label.copyWith(color: DirasstyColors.tealDark),
+                      style:
+                          type.label.copyWith(color: DirasstyColors.tealDark),
                     ),
                   ),
                 ],
@@ -267,8 +284,10 @@ class _History extends StatelessWidget {
     final String lang = Localizations.localeOf(context).languageCode;
     final bool isArabic = context.isArabicLocale;
     if (rows.isEmpty) {
-      return Text(l10n.noHistory,
-          style: type.bodySmall.copyWith(color: DirasstyColors.textMuted));
+      return Text(
+        l10n.noHistory,
+        style: type.bodySmall.copyWith(color: DirasstyColors.textMuted),
+      );
     }
     final Map<String, String> names = {
       for (final Student s in students) s.id: s.name,
@@ -281,7 +300,9 @@ class _History extends StatelessWidget {
             if (i > 0) const Divider(height: 1),
             Padding(
               padding: const EdgeInsetsDirectional.symmetric(
-                  horizontal: DirasstySpace.lg, vertical: DirasstySpace.md),
+                horizontal: DirasstySpace.lg,
+                vertical: DirasstySpace.md,
+              ),
               child: Row(
                 children: [
                   Expanded(
@@ -303,13 +324,16 @@ class _History extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Builder(builder: (context) {
-                    final badge = subscriptionBadge(l10n, r);
-                    return DirasstyChip(
+                  Builder(
+                    builder: (context) {
+                      final badge = subscriptionBadge(l10n, r);
+                      return DirasstyChip(
                         label: badge.label,
                         variant: badge.variant,
-                        dense: true);
-                  }),
+                        dense: true,
+                      );
+                    },
+                  ),
                 ],
               ),
             ),

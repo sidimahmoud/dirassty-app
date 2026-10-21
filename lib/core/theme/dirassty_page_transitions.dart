@@ -26,19 +26,22 @@ class DirasstyPageTransitionsBuilder extends PageTransitionsBuilder {
     if (MediaQuery.maybeDisableAnimationsOf(context) ?? false) return child;
     final double dir = Directionality.of(context) == TextDirection.rtl ? -1 : 1;
     return SlideTransition(
-      position: Tween<Offset>(begin: Offset(dir, 0), end: Offset.zero)
-          .animate(CurvedAnimation(
-        parent: animation,
-        curve: DirasstyMotion.curve,
-        reverseCurve: Curves.easeInCubic,
-      )),
-      child: SlideTransition(
-        position: Tween<Offset>(begin: Offset.zero, end: Offset(-dir * 0.25, 0))
-            .animate(CurvedAnimation(
-          parent: secondaryAnimation,
+      position: Tween<Offset>(begin: Offset(dir, 0), end: Offset.zero).animate(
+        CurvedAnimation(
+          parent: animation,
           curve: DirasstyMotion.curve,
           reverseCurve: Curves.easeInCubic,
-        )),
+        ),
+      ),
+      child: SlideTransition(
+        position: Tween<Offset>(begin: Offset.zero, end: Offset(-dir * 0.25, 0))
+            .animate(
+          CurvedAnimation(
+            parent: secondaryAnimation,
+            curve: DirasstyMotion.curve,
+            reverseCurve: Curves.easeInCubic,
+          ),
+        ),
         child: child,
       ),
     );

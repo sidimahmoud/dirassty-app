@@ -5,9 +5,9 @@ import '../../features/auth/application/app_auth_state.dart';
 import '../../features/auth/application/auth_providers.dart';
 import '../../features/student/application/student_providers.dart';
 import '../../features/subscription/application/subscription_providers.dart';
+import '../analytics/app_analytics.dart';
 import '../models/student.dart';
 import '../models/subscription.dart';
-import '../analytics/app_analytics.dart';
 import '../models/video_body.dart';
 import 'offline_video_store.dart';
 import 'video_url_signer.dart';
@@ -43,7 +43,7 @@ class OfflineVideosState {
   /// Lessons with at least one downloaded video.
   Set<String> get offlineLessonIds => {
         for (final OfflineVideo v in downloads.values)
-          if (v.lessonId != null) v.lessonId!
+          if (v.lessonId != null) v.lessonId!,
       };
 
   OfflineVideosState copyWith({
@@ -115,8 +115,11 @@ class OfflineVideosController extends Notifier<OfflineVideosState> {
 
   /// Throws on network/disk failure (so the caller can tell the student);
   /// a user cancel just returns.
-  Future<void> download(VideoBody video, String title,
-      {String? lessonId}) async {
+  Future<void> download(
+    VideoBody video,
+    String title, {
+    String? lessonId,
+  }) async {
     final String url = video.url;
     if (!state.canDownload ||
         state.isDownloading(url) ||

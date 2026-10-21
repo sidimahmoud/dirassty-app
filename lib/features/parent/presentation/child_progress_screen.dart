@@ -13,9 +13,9 @@ import '../../../core/widgets/dirassty/dirassty_widgets.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../auth/presentation/widgets/pin_entry.dart';
 import '../../courses/application/courses_providers.dart';
-import '../../focus/application/focus_providers.dart';
 // import '../../focus/presentation/focus_settings_screen.dart'; // next version
 import '../../exams/application/exam_providers.dart';
+import '../../focus/application/focus_providers.dart';
 import '../../progress/application/progress_providers.dart';
 import '../application/parent_providers.dart';
 import 'child_exam_history_screen.dart';
@@ -34,7 +34,7 @@ import 'widgets/weekly_insight_card.dart';
 ///
 /// design_handoff ChildProgress.dc.html · DESIGN_SPEC §4 "Child progress".
 class ChildProgressScreen extends ConsumerWidget {
-  const ChildProgressScreen({super.key, required this.studentId});
+  const ChildProgressScreen({required this.studentId, super.key});
 
   static const String path = '/parent/child/:studentId';
   static const String name = 'childProgress';
@@ -61,7 +61,9 @@ class ChildProgressScreen extends ConsumerWidget {
               list.where((s) => s.id == studentId).firstOrNull;
           if (student == null) {
             return EmptyState(
-                icon: Icons.person_off_outlined, title: l10n.childNotFound);
+              icon: Icons.person_off_outlined,
+              title: l10n.childNotFound,
+            );
           }
           return _ChildProgressBody(student: student);
         },
@@ -82,11 +84,13 @@ class _ChildProgressBody extends ConsumerWidget {
     final AsyncValue<StudentStats> stats =
         ref.watch(studentStatsProvider(student.id));
     final AsyncValue<List<Subject>> subjects = ref.watch(
-      subjectsWithMasteryForStudentProvider((
-        studentId: student.id,
-        country: student.country,
-        grade: student.grade,
-      )),
+      subjectsWithMasteryForStudentProvider(
+        (
+          studentId: student.id,
+          country: student.country,
+          grade: student.grade,
+        ),
+      ),
     );
     // Parental control (focus mode) — next version; uncomment with the
     // link row below.
@@ -105,7 +109,11 @@ class _ChildProgressBody extends ConsumerWidget {
       },
       child: ListView(
         padding: const EdgeInsetsDirectional.fromSTEB(
-            DirasstySpace.screen, 0, DirasstySpace.screen, DirasstySpace.xxl),
+          DirasstySpace.screen,
+          0,
+          DirasstySpace.screen,
+          DirasstySpace.xxl,
+        ),
         children: [
           Row(
             children: [
@@ -117,9 +125,10 @@ class _ChildProgressBody extends ConsumerWidget {
                   children: [
                     Text(student.name, style: type.titleSmall),
                     const SizedBox(height: 2),
-                    Text(childGradeLine(l10n, ref, student),
-                        style:
-                            type.label.copyWith(fontWeight: FontWeight.w400)),
+                    Text(
+                      childGradeLine(l10n, ref, student),
+                      style: type.label.copyWith(fontWeight: FontWeight.w400),
+                    ),
                   ],
                 ),
               ),
@@ -149,7 +158,8 @@ class _ChildProgressBody extends ConsumerWidget {
             data: (list) => list.isEmpty
                 ? EmptyState(
                     icon: Icons.menu_book_outlined,
-                    title: l10n.noSubjectsForChild)
+                    title: l10n.noSubjectsForChild,
+                  )
                 : _MasteryList(studentId: student.id, subjects: list),
           ),
           const SizedBox(height: DirasstySpace.xl),
@@ -167,7 +177,10 @@ class _ChildProgressBody extends ConsumerWidget {
                 icon: Icons.format_list_bulleted_rounded,
                 title: l10n.lessonDetail,
                 onTap: () => _pickSubject(
-                    context, l10n, subjects.valueOrNull ?? const []),
+                  context,
+                  l10n,
+                  subjects.valueOrNull ?? const [],
+                ),
               ),
               // Parental control (focus mode) — not ready, back in the next
               // version.
@@ -196,7 +209,9 @@ class _ChildProgressBody extends ConsumerWidget {
                 trailing: Text(
                   student.username == null ? l10n.setLogin : l10n.edit,
                   style: type.label.copyWith(
-                      color: DirasstyColors.teal, fontWeight: FontWeight.w700),
+                    color: DirasstyColors.teal,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
                 onTap: () => _editCredentials(context, l10n),
               ),
@@ -215,7 +230,10 @@ class _ChildProgressBody extends ConsumerWidget {
   }
 
   Future<void> _pickSubject(
-      BuildContext context, AppLocalizations l10n, List<Subject> list) async {
+    BuildContext context,
+    AppLocalizations l10n,
+    List<Subject> list,
+  ) async {
     if (list.length == 1) return _openSubject(context, list.first);
     final Subject? picked = await showDirasstyBottomSheet<Subject>(
       context,
@@ -225,9 +243,12 @@ class _ChildProgressBody extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Padding(
-              padding: const EdgeInsetsDirectional.only(bottom: DirasstySpace.md),
-              child: Text(l10n.chooseSubject,
-                  style: sheetContext.dirasstyType.titleSmall),
+              padding:
+                  const EdgeInsetsDirectional.only(bottom: DirasstySpace.md),
+              child: Text(
+                l10n.chooseSubject,
+                style: sheetContext.dirasstyType.titleSmall,
+              ),
             ),
             for (final Subject s in list)
               ListTile(
@@ -245,7 +266,9 @@ class _ChildProgressBody extends ConsumerWidget {
   }
 
   Future<void> _editCredentials(
-      BuildContext context, AppLocalizations l10n) async {
+    BuildContext context,
+    AppLocalizations l10n,
+  ) async {
     final String? username = await showDirasstyBottomSheet<String>(
       context,
       builder: (_) => _EditCredentialsSheet(student: student),
@@ -279,7 +302,9 @@ class _ExamCountdown extends StatelessWidget {
       child: Container(
         padding: const EdgeInsetsDirectional.all(DirasstySpace.lg),
         decoration: const BoxDecoration(
-            color: DirasstyColors.ink, borderRadius: DirasstyRadius.cardR),
+          color: DirasstyColors.ink,
+          borderRadius: DirasstyRadius.cardR,
+        ),
         child: Row(
           children: [
             const Icon(Icons.event_rounded, color: DirasstyColors.gold),
@@ -287,22 +312,27 @@ class _ExamCountdown extends StatelessWidget {
             Text(
               '$days',
               style: type.title.copyWith(
-                  color: DirasstyColors.gold,
-                  fontSize: 32,
-                  fontFamily: 'Inter',
-                  height: 1),
+                color: DirasstyColors.gold,
+                fontSize: 32,
+                fontFamily: 'Inter',
+                height: 1,
+              ),
             ),
             const SizedBox(width: DirasstySpace.sm),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(l10n.daysUnit,
-                      style: type.subheading
-                          .copyWith(color: Colors.white, fontSize: 14)),
-                  Text(l10n.beforeExam(exam),
-                      style: type.label
-                          .copyWith(color: DirasstyColors.textOnDarkMuted)),
+                  Text(
+                    l10n.daysUnit,
+                    style: type.subheading
+                        .copyWith(color: Colors.white, fontSize: 14),
+                  ),
+                  Text(
+                    l10n.beforeExam(exam),
+                    style: type.label
+                        .copyWith(color: DirasstyColors.textOnDarkMuted),
+                  ),
                 ],
               ),
             ),
@@ -382,21 +412,26 @@ class _MasteryList extends StatelessWidget {
               ),
               child: Padding(
                 padding: const EdgeInsetsDirectional.symmetric(
-                    horizontal: DirasstySpace.lg, vertical: DirasstySpace.md),
+                  horizontal: DirasstySpace.lg,
+                  vertical: DirasstySpace.md,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Row(
                       children: [
                         Expanded(
-                          child: Text(s.label,
-                              style: type.subheading.copyWith(fontSize: 14)),
+                          child: Text(
+                            s.label,
+                            style: type.subheading.copyWith(fontSize: 14),
+                          ),
                         ),
                         Text(
                           '${((s.mastery ?? 0) * 100).round()} %',
                           style: type.label.copyWith(
-                              color: DirasstyColors.text,
-                              fontWeight: FontWeight.w700),
+                            color: DirasstyColors.text,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ],
                     ),
@@ -458,7 +493,11 @@ class _LinkRow extends StatelessWidget {
         constraints: const BoxConstraints(minHeight: 56),
         child: Padding(
           padding: const EdgeInsetsDirectional.fromSTEB(
-              DirasstySpace.lg, DirasstySpace.md, DirasstySpace.md, DirasstySpace.md),
+            DirasstySpace.lg,
+            DirasstySpace.md,
+            DirasstySpace.md,
+            DirasstySpace.md,
+          ),
           child: Row(
             children: [
               Icon(icon, size: 22, color: DirasstyColors.text),
@@ -471,9 +510,11 @@ class _LinkRow extends StatelessWidget {
                     if (subtitle != null)
                       Directionality(
                         textDirection: TextDirection.ltr,
-                        child: Text(subtitle!,
-                            style: type.label
-                                .copyWith(fontWeight: FontWeight.w400)),
+                        child: Text(
+                          subtitle!,
+                          style:
+                              type.label.copyWith(fontWeight: FontWeight.w400),
+                        ),
                       ),
                   ],
                 ),
@@ -482,8 +523,10 @@ class _LinkRow extends StatelessWidget {
                 trailing!,
                 const SizedBox(width: DirasstySpace.xs),
               ],
-              const Icon(Icons.chevron_right_rounded,
-                  color: DirasstyColors.textMuted),
+              const Icon(
+                Icons.chevron_right_rounded,
+                color: DirasstyColors.textMuted,
+              ),
             ],
           ),
         ),
@@ -598,11 +641,17 @@ class _EditCredentialsSheetState extends ConsumerState<_EditCredentialsSheet> {
             ),
             if (_serverError != null) ...[
               const SizedBox(height: DirasstySpace.sm),
-              Text(_serverError!,
-                  style: type.label.copyWith(color: DirasstyColors.error)),
+              Text(
+                _serverError!,
+                style: type.label.copyWith(color: DirasstyColors.error),
+              ),
             ],
             const SizedBox(height: DirasstySpace.xl),
-            DirasstyButton(label: l10n.save, loading: loading, onPressed: _submit),
+            DirasstyButton(
+              label: l10n.save,
+              loading: loading,
+              onPressed: _submit,
+            ),
           ],
         ),
       ),
@@ -617,17 +666,21 @@ class _StatsSkeleton extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Column(
       children: [
-        Row(children: [
-          Expanded(child: Skeleton(height: 84, radius: DirasstyRadius.card)),
-          SizedBox(width: DirasstySpace.md),
-          Expanded(child: Skeleton(height: 84, radius: DirasstyRadius.card)),
-        ]),
+        Row(
+          children: [
+            Expanded(child: Skeleton(height: 84, radius: DirasstyRadius.card)),
+            SizedBox(width: DirasstySpace.md),
+            Expanded(child: Skeleton(height: 84, radius: DirasstyRadius.card)),
+          ],
+        ),
         SizedBox(height: DirasstySpace.md),
-        Row(children: [
-          Expanded(child: Skeleton(height: 84, radius: DirasstyRadius.card)),
-          SizedBox(width: DirasstySpace.md),
-          Expanded(child: Skeleton(height: 84, radius: DirasstyRadius.card)),
-        ]),
+        Row(
+          children: [
+            Expanded(child: Skeleton(height: 84, radius: DirasstyRadius.card)),
+            SizedBox(width: DirasstySpace.md),
+            Expanded(child: Skeleton(height: 84, radius: DirasstyRadius.card)),
+          ],
+        ),
       ],
     );
   }

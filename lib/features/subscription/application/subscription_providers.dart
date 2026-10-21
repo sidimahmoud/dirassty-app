@@ -12,7 +12,8 @@ import '../data/subscription_repository.dart';
 
 final Provider<SubscriptionRepository> subscriptionRepositoryProvider =
     Provider(
-        (ref) => SubscriptionRepository(ref.watch(supabaseClientProvider)));
+  (ref) => SubscriptionRepository(ref.watch(supabaseClientProvider)),
+);
 
 /// Whether new students currently get a free trial, and for how long —
 /// admin-controlled (see supabase/migrations/020_trial_toggle.sql).

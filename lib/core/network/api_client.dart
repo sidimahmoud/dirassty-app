@@ -69,8 +69,13 @@ class ApiClient {
           ..headers.addAll(_auth())
           ..fields.addAll(fields);
     for (final f in files) {
-      request.files.add(http.MultipartFile.fromBytes('images', f.bytes,
-          filename: f.filename));
+      request.files.add(
+        http.MultipartFile.fromBytes(
+          'images',
+          f.bytes,
+          filename: f.filename,
+        ),
+      );
     }
     final http.StreamedResponse streamed =
         await _client.send(request).timeout(_timeout);

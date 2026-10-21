@@ -24,10 +24,12 @@ class TutorReply {
       stepStatus: json['step_status'] as String?,
       steps: ((json['steps'] as List<dynamic>?) ?? const [])
           .whereType<Map<String, dynamic>>()
-          .map((s) => (
-                work: s['work'] as String? ?? '',
-                why: s['why'] as String? ?? ''
-              ))
+          .map(
+            (s) => (
+              work: s['work'] as String? ?? '',
+              why: s['why'] as String? ?? ''
+            ),
+          )
           .where((s) => s.work.isNotEmpty)
           .toList(),
       formulas:
@@ -62,8 +64,11 @@ class TutorReply {
 /// (the server trims and caps it — LIMITS in tutor.ts).
 @immutable
 class TutorTurn {
-  const TutorTurn(
-      {required this.fromStudent, required this.text, this.isHint = false});
+  const TutorTurn({
+    required this.fromStudent,
+    required this.text,
+    this.isHint = false,
+  });
 
   final bool fromStudent;
   final String text;

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../theme/dirassty_theme.dart';
 import '../app_lang.dart';
 import '../app_language_provider.dart';
-import '../../theme/dirassty_theme.dart';
 
 /// Compact trigger for the language picker: current language's monogram +
 /// name + a chevron, opening [showLanguagePickerSheet] on tap. Replaces
@@ -23,8 +23,9 @@ class LanguagePickerButton extends ConsumerWidget {
     final AppLang lang = ref.watch(appLanguageProvider);
     final bool isArabic = lang.isArabic;
     final Color fg = onDark ? Colors.white : DirasstyColors.text;
-    final Color bg =
-        onDark ? Colors.white.withValues(alpha: 0.15) : DirasstyColors.background;
+    final Color bg = onDark
+        ? Colors.white.withValues(alpha: 0.15)
+        : DirasstyColors.background;
 
     return Material(
       color: Colors.transparent,
@@ -60,8 +61,11 @@ class LanguagePickerButton extends ConsumerWidget {
                 ),
               ),
               const SizedBox(width: 4),
-              Icon(Icons.expand_more_rounded,
-                  size: 18, color: fg.withValues(alpha: 0.8)),
+              Icon(
+                Icons.expand_more_rounded,
+                size: 18,
+                color: fg.withValues(alpha: 0.8),
+              ),
             ],
           ),
         ),
@@ -191,7 +195,7 @@ class _LanguageCard extends StatelessWidget {
       fontWeight: FontWeight.w700,
       color: selected ? DirasstyColors.teal : DirasstyColors.text,
     );
-    final TextStyle taglineStyle = TextStyle(
+    const TextStyle taglineStyle = TextStyle(
       fontSize: 11,
       color: DirasstyColors.textMuted,
     );
@@ -217,7 +221,7 @@ class _LanguageCard extends StatelessWidget {
                 width: 44,
                 height: 44,
                 alignment: Alignment.center,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: DirasstyColors.surface,
                   shape: BoxShape.circle,
                 ),
@@ -230,7 +234,8 @@ class _LanguageCard extends StatelessWidget {
                   children: [
                     Text(
                       nativeName,
-                      style: rtl ? DirasstyType.arabicFont(nameStyle) : nameStyle,
+                      style:
+                          rtl ? DirasstyType.arabicFont(nameStyle) : nameStyle,
                     ),
                     const SizedBox(height: 2),
                     Text(

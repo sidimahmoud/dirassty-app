@@ -34,14 +34,37 @@ class WelcomeScreen extends ConsumerWidget {
       showBack: false,
       sidePadding: DirasstySpace.xl,
       gap: DirasstySpace.xxl,
+      // …and logging in sits at the bottom for those who already have an
+      // account.
+      bottom: [
+        Text(
+          l10n.signInWho,
+          textAlign: TextAlign.center,
+          style: type.subheading,
+        ),
+        _RoleCard(
+          icon: Icons.school_rounded,
+          title: l10n.iAmStudent,
+          subtitle: l10n.iAmStudentSub,
+          onTap: () => context.pushNamed(StudentLoginScreen.name),
+        ),
+        _RoleCard(
+          icon: Icons.family_restroom_rounded,
+          title: l10n.iAmParent,
+          subtitle: l10n.iAmParentSub,
+          onTap: () => context.pushNamed(ParentLoginScreen.name),
+        ),
+      ],
       children: [
         Row(
           children: [
             Semantics(
               label: 'Dirassty',
               image: true,
-              child: SvgPicture.asset('assets/logo/logo_horizontal.svg',
-                  height: 44),
+              child: SvgPicture.asset(
+                'assets/logo/logo_horizontal.svg',
+                height: 44,
+              ),
             ),
             const Spacer(),
             const _LanguageSwitch(),
@@ -54,8 +77,10 @@ class WelcomeScreen extends ConsumerWidget {
             children: [
               Text(l10n.welcomeTitle, style: type.display),
               const SizedBox(height: DirasstySpace.sm),
-              Text(l10n.welcomeBody,
-                  style: type.body.copyWith(color: DirasstyColors.textMuted)),
+              Text(
+                l10n.welcomeBody,
+                style: type.body.copyWith(color: DirasstyColors.textMuted),
+              ),
             ],
           ),
         ),
@@ -74,24 +99,6 @@ class WelcomeScreen extends ConsumerWidget {
               style: type.label.copyWith(fontWeight: FontWeight.w400),
             ),
           ],
-        ),
-      ],
-      // …and logging in sits at the bottom for those who already have an
-      // account.
-      bottom: [
-        Text(l10n.signInWho,
-            textAlign: TextAlign.center, style: type.subheading),
-        _RoleCard(
-          icon: Icons.school_rounded,
-          title: l10n.iAmStudent,
-          subtitle: l10n.iAmStudentSub,
-          onTap: () => context.pushNamed(StudentLoginScreen.name),
-        ),
-        _RoleCard(
-          icon: Icons.family_restroom_rounded,
-          title: l10n.iAmParent,
-          subtitle: l10n.iAmParentSub,
-          onTap: () => context.pushNamed(ParentLoginScreen.name),
         ),
       ],
     );
@@ -115,11 +122,13 @@ class _LanguageSwitch extends ConsumerWidget {
           borderRadius: DirasstyRadius.pillR,
           onTap: () => ref.read(appLanguageProvider.notifier).setLanguage(lang),
           child: AnimatedContainer(
-            duration: context.reduceMotion ? Duration.zero : DirasstyMotion.fast,
+            duration:
+                context.reduceMotion ? Duration.zero : DirasstyMotion.fast,
             height: 36,
             constraints: const BoxConstraints(minWidth: DirasstySize.minTouch),
             padding: const EdgeInsetsDirectional.symmetric(
-                horizontal: DirasstySpace.md),
+              horizontal: DirasstySpace.md,
+            ),
             alignment: Alignment.center,
             decoration: BoxDecoration(
               color: selected ? DirasstyColors.surface : Colors.transparent,
@@ -129,7 +138,8 @@ class _LanguageSwitch extends ConsumerWidget {
             child: Text(
               label,
               style: style.copyWith(
-                  color: selected ? DirasstyColors.ink : DirasstyColors.textMuted),
+                color: selected ? DirasstyColors.ink : DirasstyColors.textMuted,
+              ),
             ),
           ),
         ),
@@ -139,22 +149,28 @@ class _LanguageSwitch extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.all(DirasstySpace.xs),
       decoration: const BoxDecoration(
-          color: DirasstyColors.track, borderRadius: DirasstyRadius.pillR),
+        color: DirasstyColors.track,
+        borderRadius: DirasstyRadius.pillR,
+      ),
       // The switch itself never mirrors: FR is always the first option.
       child: Directionality(
         textDirection: TextDirection.ltr,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            option(AppLang.fr, 'FR',
-                DirasstyType(false).label.copyWith(fontWeight: FontWeight.w600)),
+            option(
+              AppLang.fr,
+              'FR',
+              DirasstyType(false).label.copyWith(fontWeight: FontWeight.w600),
+            ),
             const SizedBox(width: 2),
             option(
-                AppLang.ar,
-                'عربي',
-                DirasstyType(true)
-                    .label
-                    .copyWith(fontSize: 14, fontWeight: FontWeight.w700)),
+              AppLang.ar,
+              'عربي',
+              DirasstyType(true)
+                  .label
+                  .copyWith(fontSize: 14, fontWeight: FontWeight.w700),
+            ),
           ],
         ),
       ),
@@ -180,16 +196,18 @@ class _RoleCard extends StatelessWidget {
     final DirasstyType type = context.dirasstyType;
     return Material(
       color: DirasstyColors.surface,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: DirasstyRadius.cardR,
-        side: const BorderSide(color: DirasstyColors.line, width: 1.5),
+        side: BorderSide(color: DirasstyColors.line, width: 1.5),
       ),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onTap,
         child: Padding(
           padding: const EdgeInsetsDirectional.symmetric(
-              horizontal: DirasstySpace.lg, vertical: DirasstySpace.md),
+            horizontal: DirasstySpace.lg,
+            vertical: DirasstySpace.md,
+          ),
           child: Row(
             children: [
               Container(
@@ -217,9 +235,14 @@ class _RoleCard extends StatelessWidget {
               Text(
                 AppLocalizations.of(context).signIn,
                 style: type.label.copyWith(
-                    color: DirasstyColors.teal, fontWeight: FontWeight.w700),
+                  color: DirasstyColors.teal,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
-              const Icon(Icons.chevron_right_rounded, color: DirasstyColors.teal),
+              const Icon(
+                Icons.chevron_right_rounded,
+                color: DirasstyColors.teal,
+              ),
             ],
           ),
         ),

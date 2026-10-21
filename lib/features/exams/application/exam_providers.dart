@@ -156,10 +156,12 @@ final class ExamSessionController extends StateNotifier<ExamSessionState> {
         metadata: {'exam_id': _examId, 'subject_id': snapshot.exam.subject.key},
       );
       final int newStreak = await progressRepo.updateStreak(studentId);
-      unawaited(progressRepo.logStudySession(
-        studentId: studentId,
-        startedAt: _startedAt,
-      ));
+      unawaited(
+        progressRepo.logStudySession(
+          studentId: studentId,
+          startedAt: _startedAt,
+        ),
+      );
 
       _ref.invalidate(examsByStudentProvider(studentId));
       _ref.invalidate(currentStudentProvider);
@@ -174,8 +176,9 @@ final class ExamSessionController extends StateNotifier<ExamSessionState> {
     } catch (_) {
       // Let the student retry the submit instead of staying stuck.
       final ExamSessionState current = state;
-      if (current is ExamSessionActive)
+      if (current is ExamSessionActive) {
         state = current.copyWith(finishing: false);
+      }
       rethrow;
     }
   }

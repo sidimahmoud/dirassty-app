@@ -40,18 +40,25 @@ class PhotoRetakeCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsetsDirectional.all(DirasstySpace.lg),
       decoration: const BoxDecoration(
-          color: DirasstyColors.goldTint, borderRadius: DirasstyRadius.cardR),
+        color: DirasstyColors.goldTint,
+        borderRadius: DirasstyRadius.cardR,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Row(
             children: [
-              const Icon(Icons.photo_camera_outlined,
-                  color: DirasstyColors.goldStroke),
+              const Icon(
+                Icons.photo_camera_outlined,
+                color: DirasstyColors.goldStroke,
+              ),
               const SizedBox(width: DirasstySpace.sm),
               Expanded(
-                  child: Text(l10n.photoUnreadableTitle,
-                      style: type.subheading.copyWith(fontSize: 15))),
+                child: Text(
+                  l10n.photoUnreadableTitle,
+                  style: type.subheading.copyWith(fontSize: 15),
+                ),
+              ),
             ],
           ),
           if (issues.isNotEmpty) ...[
@@ -66,8 +73,10 @@ class PhotoRetakeCard extends StatelessWidget {
             ),
           ],
           const SizedBox(height: DirasstySpace.sm),
-          Text(l10n.photoUnreadableBody,
-              style: type.bodySmall.copyWith(color: DirasstyColors.text)),
+          Text(
+            l10n.photoUnreadableBody,
+            style: type.bodySmall.copyWith(color: DirasstyColors.text),
+          ),
           const SizedBox(height: DirasstySpace.md),
           DirasstyButton(
             label: l10n.retakePhoto,

@@ -13,6 +13,7 @@ import '../../../core/text/dirassty_dates.dart';
 import '../../../core/theme/dirassty_theme.dart';
 import '../../../core/widgets/dirassty/dirassty_widgets.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../auth/application/auth_providers.dart';
 import '../../courses/application/courses_providers.dart';
 import '../../courses/presentation/courses_screen.dart';
 import '../../courses/presentation/subject_detail_screen.dart';
@@ -55,8 +56,15 @@ class StudentHomeScreen extends ConsumerWidget {
       bottomNavigationBar: const StudentTabBar(currentIndex: 0),
       body: student.when(
         loading: () => const _HomeSkeleton(),
-        error: (error, _) =>
-            _HomeOffline(onRetry: () => ref.invalidate(currentStudentProvider)),
+        error: (error, _) => _HomeOffline(
+          onRetry: () {
+            // The account check itself may be what failed: retry it too.
+            if (ref.read(appAuthStateProvider).hasError) {
+              ref.invalidate(appAuthStateProvider);
+            }
+            ref.invalidate(currentStudentProvider);
+          },
+        ),
         data: (s) => _HomeBody(student: s),
       ),
     );
@@ -109,10 +117,13 @@ class _HomeBody extends ConsumerWidget {
           subjects.when(
             loading: () => const _GridSkeleton(height: 80),
             error: (_, __) => ErrorState(
-                onRetry: () => ref.invalidate(subjectsWithMasteryProvider)),
+              onRetry: () => ref.invalidate(subjectsWithMasteryProvider),
+            ),
             data: (list) => list.isEmpty
                 ? EmptyState(
-                    icon: Icons.menu_book_rounded, title: l10n.noSubjects)
+                    icon: Icons.menu_book_rounded,
+                    title: l10n.noSubjects,
+                  )
                 : SubjectGrid(subjects: list.take(4).toList()),
           ),
           const SizedBox(height: DirasstySpace.xl),
@@ -131,8 +142,8 @@ class _HomeBody extends ConsumerWidget {
           stats.when(
             loading: () => const _GridSkeleton(height: 96),
             error: (_, __) => ErrorState(
-                onRetry: () =>
-                    ref.invalidate(studentStatsProvider(student.id))),
+              onRetry: () => ref.invalidate(studentStatsProvider(student.id)),
+            ),
             data: (s) => _WeekStats(week: s.week),
           ),
           if (nextExam != null) ...[
@@ -179,11 +190,15 @@ class _Header extends ConsumerWidget {
           height: 48,
           alignment: Alignment.center,
           decoration: const BoxDecoration(
-              color: DirasstyColors.tealTint, shape: BoxShape.circle),
+            color: DirasstyColors.tealTint,
+            shape: BoxShape.circle,
+          ),
           child: Text(
             firstName.isEmpty ? '?' : firstName.characters.first.toUpperCase(),
-            style: type.heading
-                .copyWith(color: DirasstyColors.teal, fontWeight: FontWeight.w800),
+            style: type.heading.copyWith(
+              color: DirasstyColors.teal,
+              fontWeight: FontWeight.w800,
+            ),
           ),
         ),
         const SizedBox(width: DirasstySpace.md),
@@ -191,17 +206,23 @@ class _Header extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(l10n.hello(firstName),
-                  style: type.titleSmall,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis),
-              Text('${gradeName(ref, student.grade)} · $cycle', style: type.label),
+              Text(
+                l10n.hello(firstName),
+                style: type.titleSmall,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              Text(
+                '${gradeName(ref, student.grade)} · $cycle',
+                style: type.label,
+              ),
             ],
           ),
         ),
         StreakBadge(
-            days: student.streak,
-            semanticLabel: l10n.streakDays(student.streak)),
+          days: student.streak,
+          semanticLabel: l10n.streakDays(student.streak),
+        ),
       ],
     );
   }
@@ -264,17 +285,21 @@ class _WeekStats extends StatelessWidget {
     final int minutes = week.minutesOnApp;
     final String time = minutes >= 60
         ? l10n.hoursMinutes(
-            minutes ~/ 60, (minutes % 60).toString().padLeft(2, '0'))
+            minutes ~/ 60,
+            (minutes % 60).toString().padLeft(2, '0'),
+          )
         : l10n.minutesShort(minutes);
     final List<Widget> tiles = [
       StatTile(
-          value: '${(week.correctRate * 100).round()} %',
-          label: l10n.correctAnswers,
-          emphasize: true),
+        value: '${(week.correctRate * 100).round()} %',
+        label: l10n.correctAnswers,
+        emphasize: true,
+      ),
       StatTile(value: '${week.exercisesDone}', label: l10n.exercisesDone),
       StatTile(
-          value: '${week.daysActive}/${week.periodDays}',
-          label: l10n.activeDays),
+        value: '${week.daysActive}/${week.periodDays}',
+        label: l10n.activeDays,
+      ),
       StatTile(value: time, label: l10n.studyTime),
     ];
     return _TwoColumnGrid(children: tiles);
@@ -333,9 +358,10 @@ class _TwoColumnGrid extends StatelessWidget {
               for (int j = 0; j < columns; j++) ...[
                 if (j > 0) const SizedBox(width: DirasstySpace.md),
                 Expanded(
-                    child: i + j < children.length
-                        ? children[i + j]
-                        : const SizedBox()),
+                  child: i + j < children.length
+                      ? children[i + j]
+                      : const SizedBox(),
+                ),
               ],
             ],
           ),
@@ -380,10 +406,13 @@ class _ExamCard extends StatelessWidget {
                 width: 44,
                 height: 44,
                 decoration: const BoxDecoration(
-                    color: DirasstyColors.tealTint,
-                    borderRadius: DirasstyRadius.cardR),
-                child: const Icon(Icons.assignment_rounded,
-                    color: DirasstyColors.teal),
+                  color: DirasstyColors.tealTint,
+                  borderRadius: DirasstyRadius.cardR,
+                ),
+                child: const Icon(
+                  Icons.assignment_rounded,
+                  color: DirasstyColors.teal,
+                ),
               ),
               const SizedBox(width: DirasstySpace.md),
               Expanded(
@@ -396,7 +425,10 @@ class _ExamCard extends StatelessWidget {
                 ),
               ),
               DirasstyChip(
-                  label: when, variant: DirasstyChipVariant.gold, dense: true),
+                label: when,
+                variant: DirasstyChipVariant.gold,
+                dense: true,
+              ),
             ],
           ),
           const SizedBox(height: DirasstySpace.md),
@@ -405,11 +437,15 @@ class _ExamCard extends StatelessWidget {
             children: [
               Text(
                 DirasstyDates.weekdayTime(
-                    exam.dueAt, Localizations.localeOf(context).languageCode),
+                  exam.dueAt,
+                  Localizations.localeOf(context).languageCode,
+                ),
                 style: type.bodySmall,
               ),
-              Text(l10n.questionsCount(exam.totalQuestions),
-                  style: type.bodySmall),
+              Text(
+                l10n.questionsCount(exam.totalQuestions),
+                style: type.bodySmall,
+              ),
             ],
           ),
           const SizedBox(height: DirasstySpace.lg),
@@ -450,8 +486,9 @@ class _HelperCard extends StatelessWidget {
                 width: 52,
                 height: 52,
                 decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.14),
-                    shape: BoxShape.circle),
+                  color: Colors.white.withValues(alpha: 0.14),
+                  shape: BoxShape.circle,
+                ),
                 child:
                     const Icon(Icons.photo_camera_rounded, color: Colors.white),
               ),
@@ -460,8 +497,10 @@ class _HelperCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(l10n.homeworkHelper,
-                        style: type.subheading.copyWith(color: Colors.white)),
+                    Text(
+                      l10n.homeworkHelper,
+                      style: type.subheading.copyWith(color: Colors.white),
+                    ),
                     const SizedBox(height: DirasstySpace.xs),
                     Text(
                       l10n.homeworkHelperSub,
@@ -538,13 +577,18 @@ class _GridSkeleton extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget row() => Row(
           children: [
-            Expanded(child: Skeleton(height: height, radius: DirasstyRadius.card)),
+            Expanded(
+              child: Skeleton(height: height, radius: DirasstyRadius.card),
+            ),
             const SizedBox(width: DirasstySpace.md),
-            Expanded(child: Skeleton(height: height, radius: DirasstyRadius.card)),
+            Expanded(
+              child: Skeleton(height: height, radius: DirasstyRadius.card),
+            ),
           ],
         );
     return Column(
-        children: [row(), const SizedBox(height: DirasstySpace.md), row()]);
+      children: [row(), const SizedBox(height: DirasstySpace.md), row()],
+    );
   }
 }
 
@@ -569,9 +613,13 @@ class _HomeOffline extends StatelessWidget {
           ),
         ),
         Expanded(
-            child: Center(
-                child: ErrorState(
-                    title: l10n.profileLoadError, onRetry: onRetry))),
+          child: Center(
+            child: ErrorState(
+              title: l10n.profileLoadError,
+              onRetry: onRetry,
+            ),
+          ),
+        ),
       ],
     );
   }

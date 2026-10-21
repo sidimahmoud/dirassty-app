@@ -33,7 +33,9 @@ class WeeklyInsightCard extends ConsumerWidget {
             width: 16,
             height: 16,
             child: CircularProgressIndicator(
-                strokeWidth: 2, color: DirasstyColors.teal),
+              strokeWidth: 2,
+              color: DirasstyColors.teal,
+            ),
           ),
           const SizedBox(width: DirasstySpace.sm),
           Expanded(child: Text(l10n.insightLoading, style: type.bodySmall)),
@@ -43,33 +45,43 @@ class WeeklyInsightCard extends ConsumerWidget {
       data: (value) => Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(value.insightText,
-              style: type.body.copyWith(fontSize: 14, height: 1.55)),
+          Text(
+            value.insightText,
+            style: type.body.copyWith(fontSize: 14, height: 1.55),
+          ),
           if (value.suggestionText.trim().isNotEmpty) ...[
             const SizedBox(height: DirasstySpace.md),
             Container(
               padding: const EdgeInsetsDirectional.all(DirasstySpace.md),
               decoration: const BoxDecoration(
-                  color: DirasstyColors.goldTint,
-                  borderRadius: DirasstyRadius.smallR),
+                color: DirasstyColors.goldTint,
+                borderRadius: DirasstyRadius.smallR,
+              ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Icon(Icons.lightbulb_outline_rounded,
-                      size: 18, color: DirasstyColors.goldStroke),
+                  const Icon(
+                    Icons.lightbulb_outline_rounded,
+                    size: 18,
+                    color: DirasstyColors.goldStroke,
+                  ),
                   const SizedBox(width: DirasstySpace.sm),
                   Expanded(
-                    child: Text(value.suggestionText,
-                        style: type.bodySmall
-                            .copyWith(color: DirasstyColors.text)),
+                    child: Text(
+                      value.suggestionText,
+                      style:
+                          type.bodySmall.copyWith(color: DirasstyColors.text),
+                    ),
                   ),
                 ],
               ),
             ),
           ],
           const SizedBox(height: DirasstySpace.sm),
-          Text(l10n.insightGenerated,
-              style: type.label.copyWith(fontWeight: FontWeight.w400)),
+          Text(
+            l10n.insightGenerated,
+            style: type.label.copyWith(fontWeight: FontWeight.w400),
+          ),
           ReportAiButton(
             feature: 'insight',
             aiText: '${value.insightText}\n${value.suggestionText}',
@@ -86,11 +98,16 @@ class WeeklyInsightCard extends ConsumerWidget {
         children: [
           Row(
             children: [
-              const Icon(Icons.auto_awesome_rounded,
-                  size: 20, color: DirasstyColors.teal),
+              const Icon(
+                Icons.auto_awesome_rounded,
+                size: 20,
+                color: DirasstyColors.teal,
+              ),
               const SizedBox(width: DirasstySpace.sm),
-              Text(l10n.weeklyInsight,
-                  style: type.subheading.copyWith(fontSize: 14)),
+              Text(
+                l10n.weeklyInsight,
+                style: type.subheading.copyWith(fontSize: 14),
+              ),
             ],
           ),
           const SizedBox(height: DirasstySpace.md),

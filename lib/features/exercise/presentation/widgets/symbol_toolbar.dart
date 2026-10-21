@@ -70,7 +70,7 @@ const Map<_SymbolCategory, String> _kTabLabels = {
 };
 
 class SymbolToolbar extends StatefulWidget {
-  const SymbolToolbar({super.key, required this.onInsert});
+  const SymbolToolbar({required this.onInsert, super.key});
 
   final ValueChanged<String> onInsert;
 
@@ -90,7 +90,8 @@ class _SymbolToolbarState extends State<SymbolToolbar> {
           children: [
             for (final _SymbolCategory category in _SymbolCategory.values)
               Padding(
-                padding: const EdgeInsetsDirectional.only(end: DirasstySpace.xs),
+                padding:
+                    const EdgeInsetsDirectional.only(end: DirasstySpace.xs),
                 child: _CategoryTab(
                   label: _kTabLabels[category]!,
                   selected: category == _category,
@@ -145,8 +146,10 @@ class _CategoryTab extends StatelessWidget {
       onTap: onTap,
       borderRadius: DirasstyRadius.pillR,
       child: Container(
-        padding:
-            const EdgeInsets.symmetric(horizontal: DirasstySpace.sm, vertical: 5),
+        padding: const EdgeInsets.symmetric(
+          horizontal: DirasstySpace.sm,
+          vertical: 5,
+        ),
         decoration: BoxDecoration(
           color: selected ? DirasstyColors.tealTint : DirasstyColors.surface,
           borderRadius: DirasstyRadius.pillR,
@@ -159,7 +162,8 @@ class _CategoryTab extends StatelessWidget {
           style: TextStyle(
             fontSize: 11,
             fontWeight: FontWeight.w600,
-            color: selected ? DirasstyColors.tealDark : DirasstyColors.textMuted,
+            color:
+                selected ? DirasstyColors.tealDark : DirasstyColors.textMuted,
           ),
         ),
       ),

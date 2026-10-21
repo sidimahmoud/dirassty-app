@@ -8,8 +8,11 @@ import 'lesson.dart';
 /// from `getCurriculum`'s flat rows rather than a dedicated chapters query.
 @immutable
 class Chapter {
-  const Chapter(
-      {required this.num, required this.title, required this.lessons});
+  const Chapter({
+    required this.num,
+    required this.title,
+    required this.lessons,
+  });
 
   final int num;
   final String title;

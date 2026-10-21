@@ -65,11 +65,11 @@ final class OpenPracticeController extends StateNotifier<OpenPracticeState> {
   void _activate({
     required String id,
     required OpenExerciseBody body,
-    String? generatedToken,
     required int index,
     required int attempt,
     required int grade,
     required String lang,
+    String? generatedToken,
   }) {
     state = OppActive(
       poolSize: _pool.length,
@@ -113,7 +113,9 @@ final class OpenPracticeController extends StateNotifier<OpenPracticeState> {
     final OpenPracticeState snapshot = state;
     if (snapshot is! OppActive) return;
     if (snapshot.phase != OpenPracticePhase.hint &&
-        snapshot.phase != OpenPracticePhase.corrected) return;
+        snapshot.phase != OpenPracticePhase.corrected) {
+      return;
+    }
     state = snapshot.copyWith(
       phase: OpenPracticePhase.answering,
       draftAnswer: snapshot.submittedAnswer,
@@ -164,7 +166,8 @@ final class OpenPracticeController extends StateNotifier<OpenPracticeState> {
   /// a typed answer. On failure (incl. the AI budget being used up) the
   /// error is shown and the student stays where they were.
   Future<void> checkPhotos(
-      List<({Uint8List bytes, String filename})> photos) async {
+    List<({Uint8List bytes, String filename})> photos,
+  ) async {
     final OpenPracticeState snapshot = state;
     if (snapshot is! OppActive || photos.isEmpty) return;
     final OpenPracticePhase before = snapshot.phase;

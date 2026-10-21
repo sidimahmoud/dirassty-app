@@ -24,7 +24,7 @@ import '../data/focus_repository.dart';
 ///
 /// design_handoff FocusSettings.dc.html · DESIGN_SPEC §4 "Focus settings".
 class FocusSettingsScreen extends ConsumerWidget {
-  const FocusSettingsScreen({super.key, required this.studentId});
+  const FocusSettingsScreen({required this.studentId, super.key});
 
   static const String path = '/parent/child/:studentId/focus';
   static const String name = 'childFocusSettings';
@@ -124,7 +124,9 @@ class _StudentParentalControlScreenState
       data: (s) => ref.watch(focusSettingsForStudentProvider(s.id)),
     );
     final Widget offline = EmptyState(
-        icon: Icons.wifi_off_rounded, title: l10n.needsInternetSettings);
+      icon: Icons.wifi_off_rounded,
+      title: l10n.needsInternetSettings,
+    );
 
     return Scaffold(
       backgroundColor: DirasstyColors.background,
@@ -161,20 +163,29 @@ class _StudentParentalControlScreenState
           ),
         ),
         const SizedBox(height: DirasstySpace.lg),
-        Text(l10n.parentsOnly,
-            textAlign: TextAlign.center, style: type.titleSmall),
+        Text(
+          l10n.parentsOnly,
+          textAlign: TextAlign.center,
+          style: type.titleSmall,
+        ),
         const SizedBox(height: DirasstySpace.xs),
-        Text(l10n.enterParentCodeBody,
-            textAlign: TextAlign.center,
-            style: type.bodySmall.copyWith(color: DirasstyColors.textMuted)),
+        Text(
+          l10n.enterParentCodeBody,
+          textAlign: TextAlign.center,
+          style: type.bodySmall.copyWith(color: DirasstyColors.textMuted),
+        ),
         const SizedBox(height: DirasstySpace.xl),
         PinBoxes(value: _pin, hasError: error != null),
         if (error != null) ...[
           const SizedBox(height: DirasstySpace.sm),
-          Text(error,
-              textAlign: TextAlign.center,
-              style: type.label.copyWith(
-                  color: DirasstyColors.error, fontWeight: FontWeight.w600)),
+          Text(
+            error,
+            textAlign: TextAlign.center,
+            style: type.label.copyWith(
+              color: DirasstyColors.error,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ],
         const SizedBox(height: DirasstySpace.xl),
         PinPad(
@@ -314,9 +325,11 @@ class _FocusSettingsFormState extends ConsumerState<_FocusSettingsForm> {
           pinChanged: newPin != null,
         );
         if (result != 'ok') {
-          setState(() => _error = result == 'pin_locked'
-              ? l10n.errParentPinLocked
-              : l10n.errParentPinWrong);
+          setState(
+            () => _error = result == 'pin_locked'
+                ? l10n.errParentPinLocked
+                : l10n.errParentPinWrong,
+          );
           return;
         }
         if (newPin != null) _currentPin = newPin;
@@ -347,7 +360,11 @@ class _FocusSettingsFormState extends ConsumerState<_FocusSettingsForm> {
 
     return ListView(
       padding: const EdgeInsetsDirectional.fromSTEB(
-          DirasstySpace.screen, DirasstySpace.sm, DirasstySpace.screen, DirasstySpace.xxl),
+        DirasstySpace.screen,
+        DirasstySpace.sm,
+        DirasstySpace.screen,
+        DirasstySpace.xxl,
+      ),
       children: [
         Text(l10n.focusMode, style: type.title),
         const SizedBox(height: DirasstySpace.xs),
@@ -363,12 +380,15 @@ class _FocusSettingsFormState extends ConsumerState<_FocusSettingsForm> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(l10n.enableFocus,
-                        style: type.subheading.copyWith(fontSize: 16)),
+                    Text(
+                      l10n.enableFocus,
+                      style: type.subheading.copyWith(fontSize: 16),
+                    ),
                     const SizedBox(height: 2),
-                    Text(_enabled ? l10n.focusStatusOn : l10n.focusOff,
-                        style:
-                            type.label.copyWith(fontWeight: FontWeight.w400)),
+                    Text(
+                      _enabled ? l10n.focusStatusOn : l10n.focusOff,
+                      style: type.label.copyWith(fontWeight: FontWeight.w400),
+                    ),
                   ],
                 ),
               ),
@@ -412,33 +432,44 @@ class _FocusSettingsFormState extends ConsumerState<_FocusSettingsForm> {
           onTap: _editPin,
           child: Row(
             children: [
-              const Icon(Icons.lock_outline_rounded, color: DirasstyColors.text),
+              const Icon(
+                Icons.lock_outline_rounded,
+                color: DirasstyColors.text,
+              ),
               const SizedBox(width: DirasstySpace.md),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(l10n.parentCode,
-                        style: type.subheading.copyWith(fontSize: 16)),
+                    Text(
+                      l10n.parentCode,
+                      style: type.subheading.copyWith(fontSize: 16),
+                    ),
                     const SizedBox(height: 2),
-                    Text(l10n.parentCodeSub,
-                        style:
-                            type.label.copyWith(fontWeight: FontWeight.w400)),
+                    Text(
+                      l10n.parentCodeSub,
+                      style: type.label.copyWith(fontWeight: FontWeight.w400),
+                    ),
                   ],
                 ),
               ),
               if (codeSet) ...[
-                Text('••••',
-                    style: type.subheading.copyWith(
-                        fontSize: 18,
-                        letterSpacing: 4,
-                        fontWeight: FontWeight.w800)),
+                Text(
+                  '••••',
+                  style: type.subheading.copyWith(
+                    fontSize: 18,
+                    letterSpacing: 4,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
                 const SizedBox(width: DirasstySpace.md),
               ],
               Text(
                 codeSet ? l10n.edit : l10n.setLogin,
                 style: type.label.copyWith(
-                    color: DirasstyColors.teal, fontWeight: FontWeight.w700),
+                  color: DirasstyColors.teal,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ],
           ),
@@ -447,18 +478,25 @@ class _FocusSettingsFormState extends ConsumerState<_FocusSettingsForm> {
         Container(
           padding: const EdgeInsetsDirectional.all(DirasstySpace.md),
           decoration: const BoxDecoration(
-              color: DirasstyColors.tealTint, borderRadius: DirasstyRadius.smallR),
+            color: DirasstyColors.tealTint,
+            borderRadius: DirasstyRadius.smallR,
+          ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(Icons.phone_iphone_rounded,
-                  size: 18, color: DirasstyColors.teal),
+              const Icon(
+                Icons.phone_iphone_rounded,
+                size: 18,
+                color: DirasstyColors.teal,
+              ),
               const SizedBox(width: DirasstySpace.sm),
               Expanded(
                 child: Text.rich(
                   TextSpan(
                     style: type.label.copyWith(
-                        color: DirasstyColors.text, fontWeight: FontWeight.w400),
+                      color: DirasstyColors.text,
+                      fontWeight: FontWeight.w400,
+                    ),
                     children: [
                       TextSpan(
                         text: '${l10n.onIphone} : ',
@@ -474,7 +512,10 @@ class _FocusSettingsFormState extends ConsumerState<_FocusSettingsForm> {
         ),
         if (_error != null) ...[
           const SizedBox(height: DirasstySpace.lg),
-          Text(_error!, style: type.label.copyWith(color: DirasstyColors.error)),
+          Text(
+            _error!,
+            style: type.label.copyWith(color: DirasstyColors.error),
+          ),
         ],
         const SizedBox(height: DirasstySpace.xl),
         DirasstyButton(label: l10n.save, loading: _saving, onPressed: _save),
@@ -498,13 +539,17 @@ class _FocusSettingsFormState extends ConsumerState<_FocusSettingsForm> {
           Row(
             children: [
               Expanded(
-                child: Text(l10n.timeWindow(index + 1),
-                    style: type.subheading.copyWith(fontSize: 16)),
+                child: Text(
+                  l10n.timeWindow(index + 1),
+                  style: type.subheading.copyWith(fontSize: 16),
+                ),
               ),
               IconButton(
                 tooltip: l10n.delete,
-                icon: const Icon(Icons.delete_outline_rounded,
-                    color: DirasstyColors.textMuted),
+                icon: const Icon(
+                  Icons.delete_outline_rounded,
+                  color: DirasstyColors.textMuted,
+                ),
                 onPressed: () => setState(() => _windows.removeAt(index)),
               ),
             ],
@@ -514,16 +559,17 @@ class _FocusSettingsFormState extends ConsumerState<_FocusSettingsForm> {
             children: [
               for (final int d in _weekOrder)
                 Expanded(
-                    child: _DayCircle(
-                  label: _dayLabel(d),
-                  semanticLabel: _dayName(d),
-                  selected: w.days.contains(d),
-                  onTap: () => setState(() {
-                    final Set<int> days = Set.of(w.days);
-                    days.contains(d) ? days.remove(d) : days.add(d);
-                    _windows[index] = w.copyWith(days: days);
-                  }),
-                )),
+                  child: _DayCircle(
+                    label: _dayLabel(d),
+                    semanticLabel: _dayName(d),
+                    selected: w.days.contains(d),
+                    onTap: () => setState(() {
+                      final Set<int> days = Set.of(w.days);
+                      days.contains(d) ? days.remove(d) : days.add(d);
+                      _windows[index] = w.copyWith(days: days);
+                    }),
+                  ),
+                ),
             ],
           ),
           const SizedBox(height: DirasstySpace.lg),
@@ -587,17 +633,21 @@ class _DayCircle extends StatelessWidget {
                   (constraints.maxWidth - 4).clamp(28.0, DirasstySize.minTouch);
               return Center(
                 child: AnimatedContainer(
-                  duration:
-                      context.reduceMotion ? Duration.zero : DirasstyMotion.fast,
+                  duration: context.reduceMotion
+                      ? Duration.zero
+                      : DirasstyMotion.fast,
                   width: size,
                   height: size,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: selected ? DirasstyColors.ink : DirasstyColors.surface,
+                    color:
+                        selected ? DirasstyColors.ink : DirasstyColors.surface,
                     shape: BoxShape.circle,
                     border: Border.all(
-                        color: selected ? DirasstyColors.ink : DirasstyColors.line,
-                        width: 1.5),
+                      color:
+                          selected ? DirasstyColors.ink : DirasstyColors.line,
+                      width: 1.5,
+                    ),
                   ),
                   child: Text(
                     label,
@@ -655,13 +705,17 @@ class _TimeField extends StatelessWidget {
                         FocusWindow.formatMinute(minute),
                         textDirection: TextDirection.ltr,
                         style: type.subheading.copyWith(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                            fontFamily: 'Inter'),
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          fontFamily: 'Inter',
+                        ),
                       ),
                     ),
-                    const Icon(Icons.schedule_rounded,
-                        size: 18, color: DirasstyColors.textMuted),
+                    const Icon(
+                      Icons.schedule_rounded,
+                      size: 18,
+                      color: DirasstyColors.textMuted,
+                    ),
                   ],
                 ),
               ),
@@ -753,8 +807,10 @@ class _FocusEventsList extends ConsumerWidget {
       loading: () => const Skeleton(height: 120, radius: DirasstyRadius.card),
       error: (_, __) => const SizedBox.shrink(),
       data: (list) => list.isEmpty
-          ? Text(l10n.noFocusEvents,
-              style: type.bodySmall.copyWith(color: DirasstyColors.textMuted))
+          ? Text(
+              l10n.noFocusEvents,
+              style: type.bodySmall.copyWith(color: DirasstyColors.textMuted),
+            )
           : DirasstyCard(
               padding: EdgeInsets.zero,
               child: Column(
@@ -764,7 +820,9 @@ class _FocusEventsList extends ConsumerWidget {
                       const Divider(height: 1, color: DirasstyColors.track),
                     Padding(
                       padding: const EdgeInsetsDirectional.symmetric(
-                          horizontal: DirasstySpace.lg, vertical: 14),
+                        horizontal: DirasstySpace.lg,
+                        vertical: 14,
+                      ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -787,8 +845,9 @@ class _FocusEventsList extends ConsumerWidget {
                                       ? l10n.logUnlocked
                                       : l10n.logLeftAppShort,
                                   style: type.subheading.copyWith(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
                                 const SizedBox(height: 2),
                                 Text(

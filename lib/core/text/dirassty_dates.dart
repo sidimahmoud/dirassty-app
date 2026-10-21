@@ -32,7 +32,10 @@ abstract final class DirasstyDates {
 
   /// "22 – 28 sept." (same month) or "30 sept. – 6 oct.".
   static String dayMonthRange(
-      DateTime start, DateTime end, String languageCode) {
+    DateTime start,
+    DateTime end,
+    String languageCode,
+  ) {
     ensureWesternDigits();
     final String tag = _tag(languageCode);
     if (start.month == end.month) {

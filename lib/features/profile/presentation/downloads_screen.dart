@@ -65,10 +65,11 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
             CourseVideoPlayer(
               key: ValueKey(playing.url),
               video: VideoBody(
-                  url: playing.url,
-                  durationSec: playing.durationSec,
-                  type: 'filmed',
-                  title: playing.title),
+                url: playing.url,
+                durationSec: playing.durationSec,
+                type: 'filmed',
+                title: playing.title,
+              ),
               color: DirasstyColors.teal,
               isArabic: context.isArabicLocale,
               borderRadius: BorderRadius.zero,
@@ -77,7 +78,11 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
             ),
           Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(
-                DirasstySpace.screen, DirasstySpace.sm, DirasstySpace.screen, 0),
+              DirasstySpace.screen,
+              DirasstySpace.sm,
+              DirasstySpace.screen,
+              0,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -85,54 +90,71 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
                 const SizedBox(height: DirasstySpace.lg),
                 if (videos.isEmpty)
                   EmptyState(
-                      icon: Icons.download_for_offline_outlined,
-                      title: l10n.noDownloads,
-                      message: l10n.noDownloadsBody)
+                    icon: Icons.download_for_offline_outlined,
+                    title: l10n.noDownloads,
+                    message: l10n.noDownloadsBody,
+                  )
                 else ...[
                   DirasstyCard(
                     child: Row(
                       children: [
-                        const Icon(Icons.sd_storage_outlined,
-                            color: DirasstyColors.teal),
+                        const Icon(
+                          Icons.sd_storage_outlined,
+                          color: DirasstyColors.teal,
+                        ),
                         const SizedBox(width: DirasstySpace.md),
                         Expanded(
-                            child: Text(
-                                l10n.storageUsed(_formatSize(totalBytes)),
-                                style: type.subheading.copyWith(fontSize: 14))),
+                          child: Text(
+                            l10n.storageUsed(_formatSize(totalBytes)),
+                            style: type.subheading.copyWith(fontSize: 14),
+                          ),
+                        ),
                         Text(
-                            l10n.videosCountSize(
-                                videos.length, _formatSize(totalBytes)),
-                            style: type.label),
+                          l10n.videosCountSize(
+                            videos.length,
+                            _formatSize(totalBytes),
+                          ),
+                          style: type.label,
+                        ),
                       ],
                     ),
                   ),
                   if (!offline.hasAccess) ...[
                     const SizedBox(height: DirasstySpace.lg),
                     Container(
-                      padding: const EdgeInsetsDirectional.all(DirasstySpace.lg),
+                      padding:
+                          const EdgeInsetsDirectional.all(DirasstySpace.lg),
                       decoration: const BoxDecoration(
-                          color: DirasstyColors.goldTint,
-                          borderRadius: DirasstyRadius.cardR),
+                        color: DirasstyColors.goldTint,
+                        borderRadius: DirasstyRadius.cardR,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Icon(Icons.lock_clock_outlined,
-                                  color: DirasstyColors.goldStroke),
+                              const Icon(
+                                Icons.lock_clock_outlined,
+                                color: DirasstyColors.goldStroke,
+                              ),
                               const SizedBox(width: DirasstySpace.md),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(l10n.offlineExpired,
-                                        style: type.subheading
-                                            .copyWith(fontSize: 14)),
+                                    Text(
+                                      l10n.offlineExpired,
+                                      style: type.subheading
+                                          .copyWith(fontSize: 14),
+                                    ),
                                     const SizedBox(height: 2),
-                                    Text(l10n.offlineExpiredBody,
-                                        style: type.label.copyWith(
-                                            fontWeight: FontWeight.w400)),
+                                    Text(
+                                      l10n.offlineExpiredBody,
+                                      style: type.label.copyWith(
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -177,11 +199,13 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
                               enabled: offline.hasAccess,
                               onPlay: () => setState(() => _playingUrl = v.url),
                               onDelete: () async {
-                                if (_playingUrl == v.url)
+                                if (_playingUrl == v.url) {
                                   setState(() => _playingUrl = null);
+                                }
                                 await ref
-                                    .read(offlineVideosControllerProvider
-                                        .notifier)
+                                    .read(
+                                      offlineVideosControllerProvider.notifier,
+                                    )
                                     .delete(v.url);
                               },
                             ),
@@ -191,8 +215,10 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
                     ),
                   ),
                   const SizedBox(height: DirasstySpace.lg),
-                  Text(l10n.downloadsFooter,
-                      style: type.label.copyWith(fontWeight: FontWeight.w400)),
+                  Text(
+                    l10n.downloadsFooter,
+                    style: type.label.copyWith(fontWeight: FontWeight.w400),
+                  ),
                 ],
               ],
             ),
@@ -212,13 +238,15 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
       title: l10n.deleteAllDownloadsConfirm,
       actions: [
         DirasstyDialogAction(
-            label: l10n.delete,
-            value: true,
-            variant: DirasstyButtonVariant.danger),
+          label: l10n.delete,
+          value: true,
+          variant: DirasstyButtonVariant.danger,
+        ),
         DirasstyDialogAction(
-            label: l10n.cancel,
-            value: false,
-            variant: DirasstyButtonVariant.quiet),
+          label: l10n.cancel,
+          value: false,
+          variant: DirasstyButtonVariant.quiet,
+        ),
       ],
     );
     if (confirmed != true || !mounted) return;
@@ -263,14 +291,20 @@ class _DownloadRow extends StatelessWidget {
           constraints: const BoxConstraints(minHeight: 72),
           child: Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(
-                DirasstySpace.lg, DirasstySpace.md, DirasstySpace.xs, DirasstySpace.md),
+              DirasstySpace.lg,
+              DirasstySpace.md,
+              DirasstySpace.xs,
+              DirasstySpace.md,
+            ),
             child: Row(
               children: [
                 Container(
                   width: 80,
                   height: 45,
                   decoration: const BoxDecoration(
-                      color: DirasstyColors.ink, borderRadius: DirasstyRadius.smallR),
+                    color: DirasstyColors.ink,
+                    borderRadius: DirasstyRadius.smallR,
+                  ),
                   child: Icon(
                     enabled
                         ? (playing
@@ -285,10 +319,12 @@ class _DownloadRow extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(video.title,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: type.subheading.copyWith(fontSize: 14)),
+                      Text(
+                        video.title,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: type.subheading.copyWith(fontSize: 14),
+                      ),
                       const SizedBox(height: 2),
                       Text(
                         [
@@ -303,8 +339,10 @@ class _DownloadRow extends StatelessWidget {
                 ),
                 IconButton(
                   tooltip: l10n.delete,
-                  icon: const Icon(Icons.delete_outline_rounded,
-                      color: DirasstyColors.textMuted),
+                  icon: const Icon(
+                    Icons.delete_outline_rounded,
+                    color: DirasstyColors.textMuted,
+                  ),
                   onPressed: onDelete,
                 ),
               ],

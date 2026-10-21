@@ -17,9 +17,9 @@ import '../../exercise/application/exercise_providers.dart';
 /// curriculum context and enforces the student's AI budget.
 Future<void> showTutorSheet(
   BuildContext context, {
+  required String lang,
   Map<String, String>? exerciseRef,
   String? lessonId,
-  required String lang,
 }) {
   assert((exerciseRef == null) != (lessonId == null));
   return showDirasstyBottomSheet<void>(
@@ -46,7 +46,7 @@ class _Msg {
 }
 
 class _TutorSheet extends ConsumerStatefulWidget {
-  const _TutorSheet({this.exerciseRef, this.lessonId, required this.lang});
+  const _TutorSheet({required this.lang, this.exerciseRef, this.lessonId});
 
   final Map<String, String>? exerciseRef;
   final String? lessonId;
@@ -75,7 +75,8 @@ class _TutorSheetState extends ConsumerState<_TutorSheet> {
   }
 
   List<(String action, String label, bool needsText)> _actions(
-          AppLocalizations l10n) =>
+    AppLocalizations l10n,
+  ) =>
       _isExercise
           ? [
               ('hint', l10n.tutorHint, false),
@@ -105,9 +106,10 @@ class _TutorSheetState extends ConsumerState<_TutorSheet> {
     final List<TutorTurn> history = [
       for (final _Msg m in _messages)
         TutorTurn(
-            fromStudent: m.fromStudent,
-            text: m.text,
-            isHint: m.reply?.isHint ?? false),
+          fromStudent: m.fromStudent,
+          text: m.text,
+          isHint: m.reply?.isHint ?? false,
+        ),
     ];
     setState(() {
       _busy = true;
@@ -149,8 +151,11 @@ class _TutorSheetState extends ConsumerState<_TutorSheet> {
   void _scrollToEnd() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scroll.hasClients) {
-        _scroll.animateTo(_scroll.position.maxScrollExtent,
-            duration: DirasstyMotion.fast, curve: DirasstyMotion.curve);
+        _scroll.animateTo(
+          _scroll.position.maxScrollExtent,
+          duration: DirasstyMotion.fast,
+          curve: DirasstyMotion.curve,
+        );
       }
     });
   }
@@ -187,9 +192,11 @@ class _TutorSheetState extends ConsumerState<_TutorSheet> {
                 m.fromStudent
                     ? _Bubble(
                         fromStudent: true,
-                        child: Text(m.text,
-                            style:
-                                type.bodySmall.copyWith(color: Colors.white)))
+                        child: Text(
+                          m.text,
+                          style: type.bodySmall.copyWith(color: Colors.white),
+                        ),
+                      )
                     : _Bubble(
                         fromStudent: false,
                         child: _ReplyView(
@@ -200,7 +207,8 @@ class _TutorSheetState extends ConsumerState<_TutorSheet> {
                             if (widget.lessonId != null)
                               'lesson_id': widget.lessonId,
                           },
-                        )),
+                        ),
+                      ),
               if (_busy)
                 _Bubble(
                   fromStudent: false,
@@ -210,7 +218,9 @@ class _TutorSheetState extends ConsumerState<_TutorSheet> {
                       const SizedBox.square(
                         dimension: 16,
                         child: CircularProgressIndicator(
-                            strokeWidth: 2, color: DirasstyColors.teal),
+                          strokeWidth: 2,
+                          color: DirasstyColors.teal,
+                        ),
                       ),
                       const SizedBox(width: DirasstySpace.sm),
                       Text(l10n.tutorThinking, style: type.label),
@@ -223,8 +233,10 @@ class _TutorSheetState extends ConsumerState<_TutorSheet> {
         if (_error != null)
           Padding(
             padding: const EdgeInsetsDirectional.only(top: DirasstySpace.sm),
-            child: Text(_error!,
-                style: type.label.copyWith(color: DirasstyColors.error)),
+            child: Text(
+              _error!,
+              style: type.label.copyWith(color: DirasstyColors.error),
+            ),
           ),
         const SizedBox(height: DirasstySpace.sm),
         SizedBox(
@@ -355,16 +367,21 @@ class _ReplyView extends StatelessWidget {
         ],
         if (reply.reply.isNotEmpty)
           Text(
-              '${reply.isHint ? '💡 ' : ''}${cleanMathForDisplay(reply.reply)}',
-              style: body),
+            '${reply.isHint ? '💡 ' : ''}${cleanMathForDisplay(reply.reply)}',
+            style: body,
+          ),
         for (final (int i, ({String work, String why}) s)
             in reply.steps.indexed) ...[
           const SizedBox(height: DirasstySpace.sm),
-          Text('${i + 1}. ${cleanMathForDisplay(s.work)}',
-              style: body.copyWith(fontWeight: FontWeight.w700)),
+          Text(
+            '${i + 1}. ${cleanMathForDisplay(s.work)}',
+            style: body.copyWith(fontWeight: FontWeight.w700),
+          ),
           if (s.why.isNotEmpty)
-            Text('${l10n.tutorWhy} ${cleanMathForDisplay(s.why)}',
-                style: type.label.copyWith(fontWeight: FontWeight.w400)),
+            Text(
+              '${l10n.tutorWhy} ${cleanMathForDisplay(s.why)}',
+              style: type.label.copyWith(fontWeight: FontWeight.w400),
+            ),
         ],
         if (reply.formulas.isNotEmpty) ...[
           const SizedBox(height: DirasstySpace.sm),
@@ -378,18 +395,24 @@ class _ReplyView extends StatelessWidget {
             width: double.infinity,
             padding: const EdgeInsetsDirectional.all(DirasstySpace.sm),
             decoration: const BoxDecoration(
-                color: DirasstyColors.tealTint,
-                borderRadius: DirasstyRadius.smallR),
+              color: DirasstyColors.tealTint,
+              borderRadius: DirasstyRadius.smallR,
+            ),
             child: Text(
-                '${l10n.tutorFinalAnswer} : ${cleanMathForDisplay(reply.finalAnswer)}',
-                style: body.copyWith(
-                    fontWeight: FontWeight.w800,
-                    color: DirasstyColors.tealDark)),
+              '${l10n.tutorFinalAnswer} : ${cleanMathForDisplay(reply.finalAnswer)}',
+              style: body.copyWith(
+                fontWeight: FontWeight.w800,
+                color: DirasstyColors.tealDark,
+              ),
+            ),
           ),
         ],
         const SizedBox(height: DirasstySpace.xs),
         ReportAiButton(
-            feature: 'tutor', aiText: _asText, reportContext: reportContext),
+          feature: 'tutor',
+          aiText: _asText,
+          reportContext: reportContext,
+        ),
       ],
     );
   }

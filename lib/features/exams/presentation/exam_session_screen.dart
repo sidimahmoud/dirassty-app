@@ -113,8 +113,9 @@ class _ActiveViewState extends ConsumerState<_ActiveView> {
     try {
       await _controller.finish();
     } catch (_) {
-      if (mounted)
+      if (mounted) {
         showDirasstySnackBar(context, AppLocalizations.of(context).submitError);
+      }
     }
   }
 
@@ -132,9 +133,10 @@ class _ActiveViewState extends ConsumerState<_ActiveView> {
       actions: [
         DirasstyDialogAction(label: l10n.finishNow, value: true),
         DirasstyDialogAction(
-            label: l10n.keepGoing,
-            value: false,
-            variant: DirasstyButtonVariant.quiet),
+          label: l10n.keepGoing,
+          value: false,
+          variant: DirasstyButtonVariant.quiet,
+        ),
       ],
     );
     if (finish == true) await _submit();
@@ -152,7 +154,11 @@ class _ActiveViewState extends ConsumerState<_ActiveView> {
       children: [
         Padding(
           padding: const EdgeInsetsDirectional.fromSTEB(
-              DirasstySpace.sm, DirasstySpace.xs, DirasstySpace.screen, 0),
+            DirasstySpace.sm,
+            DirasstySpace.xs,
+            DirasstySpace.screen,
+            0,
+          ),
           child: Row(
             children: [
               IconButton(
@@ -164,13 +170,16 @@ class _ActiveViewState extends ConsumerState<_ActiveView> {
               Expanded(
                 child: Text(
                   l10n.questionOf(
-                      state.currentIndex + 1, state.questions.length),
+                    state.currentIndex + 1,
+                    state.questions.length,
+                  ),
                   style: type.subheading.copyWith(fontSize: 14),
                 ),
               ),
               _TimerChip(
-                  remaining: _remaining,
-                  elapsed: DateTime.now().difference(state.startedAt)),
+                remaining: _remaining,
+                elapsed: DateTime.now().difference(state.startedAt),
+              ),
             ],
           ),
         ),
@@ -179,7 +188,8 @@ class _ActiveViewState extends ConsumerState<_ActiveView> {
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsetsDirectional.symmetric(
-                horizontal: DirasstySpace.screen),
+              horizontal: DirasstySpace.screen,
+            ),
             itemCount: state.questions.length,
             separatorBuilder: (_, __) => const SizedBox(width: 6),
             itemBuilder: (context, i) => _NavBox(
@@ -193,18 +203,28 @@ class _ActiveViewState extends ConsumerState<_ActiveView> {
         if (skipped != -1 && skipped < state.currentIndex)
           Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(
-                DirasstySpace.screen, DirasstySpace.xs, DirasstySpace.screen, 0),
+              DirasstySpace.screen,
+              DirasstySpace.xs,
+              DirasstySpace.screen,
+              0,
+            ),
             child: Align(
               alignment: AlignmentDirectional.centerStart,
-              child: Text(l10n.skippedHint(skipped + 1),
-                  style: type.label.copyWith(fontWeight: FontWeight.w400)),
+              child: Text(
+                l10n.skippedHint(skipped + 1),
+                style: type.label.copyWith(fontWeight: FontWeight.w400),
+              ),
             ),
           ),
         Expanded(
           child: ListView(
             key: ValueKey(state.currentIndex),
-            padding: const EdgeInsetsDirectional.fromSTEB(DirasstySpace.screen,
-                DirasstySpace.lg, DirasstySpace.screen, DirasstySpace.lg),
+            padding: const EdgeInsetsDirectional.fromSTEB(
+              DirasstySpace.screen,
+              DirasstySpace.lg,
+              DirasstySpace.screen,
+              DirasstySpace.lg,
+            ),
             children: [
               DirasstyCard(
                 variant: DirasstyCardVariant.shadow,
@@ -216,13 +236,17 @@ class _ActiveViewState extends ConsumerState<_ActiveView> {
                       Text(q.lessonTitle.toUpperCase(), style: type.label),
                       const SizedBox(height: DirasstySpace.sm),
                     ],
-                    Text(cleanMathForDisplay(q.body.question),
-                        style: type.titleSmall
-                            .copyWith(fontSize: 22, height: 1.3)),
+                    Text(
+                      cleanMathForDisplay(q.body.question),
+                      style:
+                          type.titleSmall.copyWith(fontSize: 22, height: 1.3),
+                    ),
                     if (q.body.diagram != null) ...[
                       const SizedBox(height: DirasstySpace.md),
                       DiagramView(
-                          spec: q.body.diagram!, color: DirasstyColors.teal),
+                        spec: q.body.diagram!,
+                        color: DirasstyColors.teal,
+                      ),
                     ],
                   ],
                 ),
@@ -243,7 +267,11 @@ class _ActiveViewState extends ConsumerState<_ActiveView> {
         ),
         Padding(
           padding: const EdgeInsetsDirectional.fromSTEB(
-              DirasstySpace.screen, 0, DirasstySpace.screen, DirasstySpace.md),
+            DirasstySpace.screen,
+            0,
+            DirasstySpace.screen,
+            DirasstySpace.md,
+          ),
           child: Column(
             children: [
               Row(
@@ -261,18 +289,21 @@ class _ActiveViewState extends ConsumerState<_ActiveView> {
                         ? DirasstyButton(
                             label: l10n.finishExam,
                             loading: state.finishing,
-                            onPressed: _confirmFinish)
+                            onPressed: _confirmFinish,
+                          )
                         : DirasstyButton(
                             label: l10n.next,
                             variant: DirasstyButtonVariant.ink,
-                            onPressed: _controller.next),
+                            onPressed: _controller.next,
+                          ),
                   ),
                 ],
               ),
               if (!state.isLast)
                 TextButton(
-                    onPressed: state.finishing ? null : _confirmFinish,
-                    child: Text(l10n.finishExam)),
+                  onPressed: state.finishing ? null : _confirmFinish,
+                  child: Text(l10n.finishExam),
+                ),
             ],
           ),
         ),
@@ -302,7 +333,8 @@ class _TimerChip extends StatelessWidget {
     final int s = shown.inSeconds % 60;
     return Container(
       height: 36,
-      padding: const EdgeInsetsDirectional.symmetric(horizontal: DirasstySpace.md),
+      padding:
+          const EdgeInsetsDirectional.symmetric(horizontal: DirasstySpace.md),
       decoration: BoxDecoration(color: bg, borderRadius: DirasstyRadius.pillR),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -322,11 +354,12 @@ class _TimerChip extends StatelessWidget {
 }
 
 class _NavBox extends StatelessWidget {
-  const _NavBox(
-      {required this.number,
-      required this.answered,
-      required this.current,
-      required this.onTap});
+  const _NavBox({
+    required this.number,
+    required this.answered,
+    required this.current,
+    required this.onTap,
+  });
 
   final int number;
   final bool answered;
@@ -374,8 +407,11 @@ class _NavBox extends StatelessWidget {
 /// Exam option: radio circle + label, 56 high, ink border when selected
 /// (no right/wrong colors during an exam).
 class _RadioOption extends StatelessWidget {
-  const _RadioOption(
-      {required this.label, required this.selected, required this.onTap});
+  const _RadioOption({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
 
   final String label;
   final bool selected;
@@ -391,7 +427,9 @@ class _RadioOption extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: DirasstyRadius.cardR,
           side: BorderSide(
-              color: selected ? DirasstyColors.ink : DirasstyColors.line, width: 2),
+            color: selected ? DirasstyColors.ink : DirasstyColors.line,
+            width: 2,
+          ),
         ),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
@@ -400,7 +438,9 @@ class _RadioOption extends StatelessWidget {
             constraints: const BoxConstraints(minHeight: 56),
             child: Padding(
               padding: const EdgeInsetsDirectional.symmetric(
-                  horizontal: DirasstySpace.lg, vertical: 10),
+                horizontal: DirasstySpace.lg,
+                vertical: 10,
+              ),
               child: Row(
                 children: [
                   Container(
@@ -410,15 +450,19 @@ class _RadioOption extends StatelessWidget {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(
-                          color: selected ? DirasstyColors.ink : DirasstyColors.idle,
-                          width: 2),
+                        color:
+                            selected ? DirasstyColors.ink : DirasstyColors.idle,
+                        width: 2,
+                      ),
                     ),
                     child: selected
                         ? Container(
                             width: 10,
                             height: 10,
                             decoration: const BoxDecoration(
-                                color: DirasstyColors.ink, shape: BoxShape.circle),
+                              color: DirasstyColors.ink,
+                              shape: BoxShape.circle,
+                            ),
                           )
                         : null,
                   ),
@@ -427,8 +471,9 @@ class _RadioOption extends StatelessWidget {
                     child: Text(
                       cleanMathForDisplay(label),
                       style: context.dirasstyType.body.copyWith(
-                          fontWeight:
-                              selected ? FontWeight.w600 : FontWeight.w400),
+                        fontWeight:
+                            selected ? FontWeight.w600 : FontWeight.w400,
+                      ),
                     ),
                   ),
                 ],
@@ -480,7 +525,11 @@ class _ResultsView extends ConsumerWidget {
 
     return ListView(
       padding: const EdgeInsetsDirectional.fromSTEB(
-          DirasstySpace.screen, DirasstySpace.lg, DirasstySpace.screen, DirasstySpace.xl),
+        DirasstySpace.screen,
+        DirasstySpace.lg,
+        DirasstySpace.screen,
+        DirasstySpace.xl,
+      ),
       children: [
         Center(
           child: SizedBox.square(
@@ -489,7 +538,11 @@ class _ResultsView extends ConsumerWidget {
               alignment: Alignment.center,
               children: [
                 MasteryRing(
-                    value: ratio, size: 140, stroke: 10, showLabel: false),
+                  value: ratio,
+                  size: 140,
+                  stroke: 10,
+                  showLabel: false,
+                ),
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -518,13 +571,16 @@ class _ResultsView extends ConsumerWidget {
               padding: const EdgeInsetsDirectional.symmetric(horizontal: 10),
               alignment: Alignment.center,
               decoration: const BoxDecoration(
-                  color: DirasstyColors.gold, borderRadius: DirasstyRadius.pillR),
+                color: DirasstyColors.gold,
+                borderRadius: DirasstyRadius.pillR,
+              ),
               child: Text(
                 l10n.xpGain(state.totalXp),
                 style: type.label.copyWith(
-                    color: DirasstyColors.ink,
-                    fontWeight: FontWeight.w800,
-                    fontFamily: 'Inter'),
+                  color: DirasstyColors.ink,
+                  fontWeight: FontWeight.w800,
+                  fontFamily: 'Inter',
+                ),
               ),
             ),
             DirasstyChip(
@@ -548,15 +604,22 @@ class _ResultsView extends ConsumerWidget {
                   Row(
                     children: [
                       Expanded(
-                          child: Text(e.key,
-                              style: type.label.copyWith(
-                                  fontSize: 14, color: DirasstyColors.text))),
+                        child: Text(
+                          e.key,
+                          style: type.label.copyWith(
+                            fontSize: 14,
+                            color: DirasstyColors.text,
+                          ),
+                        ),
+                      ),
                       Text(
                         '${e.value.right}/${e.value.total}',
                         style: type.subheading.copyWith(
-                            fontSize: 14,
-                            color:
-                                i.isEven ? DirasstyColors.teal : DirasstyColors.ink),
+                          fontSize: 14,
+                          color: i.isEven
+                              ? DirasstyColors.teal
+                              : DirasstyColors.ink,
+                        ),
                       ),
                     ],
                   ),
@@ -587,7 +650,9 @@ class _ResultsView extends ConsumerWidget {
                 if (i > 0) const Divider(height: 1),
                 Padding(
                   padding: const EdgeInsetsDirectional.symmetric(
-                      horizontal: DirasstySpace.lg, vertical: DirasstySpace.md),
+                    horizontal: DirasstySpace.lg,
+                    vertical: DirasstySpace.md,
+                  ),
                   child: Row(
                     children: [
                       Container(
@@ -615,8 +680,8 @@ class _ResultsView extends ConsumerWidget {
                           '${i + 1}. ${cleanMathForDisplay(q.body.question)}',
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
-                          style:
-                              type.bodySmall.copyWith(color: DirasstyColors.text),
+                          style: type.bodySmall
+                              .copyWith(color: DirasstyColors.text),
                         ),
                       ),
                     ],
@@ -640,9 +705,11 @@ class _ResultsView extends ConsumerWidget {
               const SizedBox(width: DirasstySpace.md),
             ],
             Expanded(
-                child: DirasstyButton(
-                    label: l10n.done,
-                    onPressed: () => context.go(ExamsListScreen.path))),
+              child: DirasstyButton(
+                label: l10n.done,
+                onPressed: () => context.go(ExamsListScreen.path),
+              ),
+            ),
           ],
         ),
       ],
@@ -657,7 +724,8 @@ class _ResultsView extends ConsumerWidget {
         final DirasstyType type = sheetContext.dirasstyType;
         return ConstrainedBox(
           constraints: BoxConstraints(
-              maxHeight: MediaQuery.sizeOf(sheetContext).height * 0.75),
+            maxHeight: MediaQuery.sizeOf(sheetContext).height * 0.75,
+          ),
           child: ListView(
             shrinkWrap: true,
             children: [
@@ -668,24 +736,35 @@ class _ResultsView extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Text(cleanMathForDisplay(q.body.question),
-                          style: type.subheading),
+                      Text(
+                        cleanMathForDisplay(q.body.question),
+                        style: type.subheading,
+                      ),
                       const SizedBox(height: DirasstySpace.sm),
                       if (q.selectedChoice != null)
                         Text(
-                          l10n.yourAnswerWas(cleanMathForDisplay(
-                              q.body.choices[q.selectedChoice!])),
-                          style: type.label.copyWith(color: DirasstyColors.error),
+                          l10n.yourAnswerWas(
+                            cleanMathForDisplay(
+                              q.body.choices[q.selectedChoice!],
+                            ),
+                          ),
+                          style:
+                              type.label.copyWith(color: DirasstyColors.error),
                         ),
                       Text(
-                        l10n.correctAnswerWas(cleanMathForDisplay(
-                            q.body.choices[q.body.correct])),
+                        l10n.correctAnswerWas(
+                          cleanMathForDisplay(
+                            q.body.choices[q.body.correct],
+                          ),
+                        ),
                         style: type.label.copyWith(color: DirasstyColors.teal),
                       ),
                       if (q.body.explanation.isNotEmpty) ...[
                         const SizedBox(height: DirasstySpace.sm),
-                        Text(cleanMathForDisplay(q.body.explanation),
-                            style: type.bodySmall),
+                        Text(
+                          cleanMathForDisplay(q.body.explanation),
+                          style: type.bodySmall,
+                        ),
                       ],
                     ],
                   ),

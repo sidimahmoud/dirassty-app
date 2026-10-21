@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -140,11 +139,11 @@ class ExerciseRepository {
   Future<TutorReply> askTutor({
     required String mode,
     required String action,
+    required String lang,
     Map<String, String>? exerciseRef,
     String? lessonId,
     String message = '',
     List<TutorTurn> history = const [],
-    required String lang,
   }) async {
     final Map<String, dynamic> json = await _api.postJson('/api/tutor', {
       'mode': mode,

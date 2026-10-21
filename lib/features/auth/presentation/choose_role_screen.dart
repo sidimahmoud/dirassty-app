@@ -25,6 +25,15 @@ class ChooseRoleScreen extends StatelessWidget {
 
     return AuthScaffold(
       gap: DirasstySpace.lg,
+      bottom: [
+        TextButton(
+          onPressed: () => context.pop(),
+          child: Text(
+            l10n.signInWho,
+            style: type.label.copyWith(color: DirasstyColors.teal),
+          ),
+        ),
+      ],
       children: [
         AuthHeading(title: l10n.chooseRoleTitle, body: l10n.chooseRoleBody),
         _Appear(
@@ -52,13 +61,6 @@ class ChooseRoleScreen extends StatelessWidget {
             points: [l10n.roleParentPoint1, l10n.roleParentPoint2],
             onTap: () => context.push(RegisterScreen.pathFor('parent')),
           ),
-        ),
-      ],
-      bottom: [
-        TextButton(
-          onPressed: () => context.pop(),
-          child: Text(l10n.signInWho,
-              style: type.label.copyWith(color: DirasstyColors.teal)),
         ),
       ],
     );
@@ -131,7 +133,7 @@ class _RoleChoiceCard extends StatelessWidget {
                               end: AlignmentDirectional.bottomEnd,
                               colors: [
                                 accent,
-                                Color.lerp(accent, Colors.black, 0.25)!
+                                Color.lerp(accent, Colors.black, 0.25)!,
                               ],
                             ),
                             borderRadius: DirasstyRadius.dialogR,
@@ -148,38 +150,52 @@ class _RoleChoiceCard extends StatelessWidget {
                         const Spacer(),
                         Container(
                           padding: const EdgeInsetsDirectional.symmetric(
-                              horizontal: DirasstySpace.md, vertical: 6),
+                            horizontal: DirasstySpace.md,
+                            vertical: 6,
+                          ),
                           decoration: BoxDecoration(
                             color: DirasstyColors.surface,
                             borderRadius: DirasstyRadius.pillR,
                             border: Border.all(
-                                color: accent.withValues(alpha: 0.35)),
+                              color: accent.withValues(alpha: 0.35),
+                            ),
                           ),
-                          child: Text(badge,
-                              style: type.label
-                                  .copyWith(color: accent, fontSize: 12)),
+                          child: Text(
+                            badge,
+                            style: type.label
+                                .copyWith(color: accent, fontSize: 12),
+                          ),
                         ),
                       ],
                     ),
                     const SizedBox(height: DirasstySpace.lg),
                     Text(title, style: type.title.copyWith(fontSize: 22)),
                     const SizedBox(height: DirasstySpace.xs),
-                    Text(description,
-                        style: type.bodySmall.copyWith(
-                            color: DirasstyColors.textMuted, height: 1.45)),
+                    Text(
+                      description,
+                      style: type.bodySmall.copyWith(
+                        color: DirasstyColors.textMuted,
+                        height: 1.45,
+                      ),
+                    ),
                     const SizedBox(height: DirasstySpace.md),
                     for (final String p in points)
                       Padding(
                         padding: const EdgeInsetsDirectional.only(bottom: 6),
                         child: Row(
                           children: [
-                            Icon(Icons.check_circle_rounded,
-                                size: 18, color: accent),
+                            Icon(
+                              Icons.check_circle_rounded,
+                              size: 18,
+                              color: accent,
+                            ),
                             const SizedBox(width: DirasstySpace.sm),
                             Expanded(
-                              child: Text(p,
-                                  style: type.bodySmall
-                                      .copyWith(color: DirasstyColors.text)),
+                              child: Text(
+                                p,
+                                style: type.bodySmall
+                                    .copyWith(color: DirasstyColors.text),
+                              ),
                             ),
                           ],
                         ),
@@ -187,16 +203,19 @@ class _RoleChoiceCard extends StatelessWidget {
                     const SizedBox(height: DirasstySpace.sm),
                     Row(
                       children: [
-                        Text(AppLocalizations.of(context).continueAction,
-                            style: type.subheading
-                                .copyWith(color: accent, fontSize: 15)),
+                        Text(
+                          AppLocalizations.of(context).continueAction,
+                          style: type.subheading
+                              .copyWith(color: accent, fontSize: 15),
+                        ),
                         const SizedBox(width: DirasstySpace.xs),
                         Icon(
-                            Directionality.of(context) == TextDirection.rtl
-                                ? Icons.arrow_back_rounded
-                                : Icons.arrow_forward_rounded,
-                            size: 20,
-                            color: accent),
+                          Directionality.of(context) == TextDirection.rtl
+                              ? Icons.arrow_back_rounded
+                              : Icons.arrow_forward_rounded,
+                          size: 20,
+                          color: accent,
+                        ),
                       ],
                     ),
                   ],

@@ -97,17 +97,20 @@ class ProgressRepository {
             ? Difficulty.medium
             : Difficulty.hard;
 
-    await _client.from('progress').upsert({
-      'student_id': studentId,
-      'lesson_id': lessonId,
-      'concept': concept,
-      'attempts': newAttempts,
-      'correct': newCorrect,
-      'mastery': double.parse(newMastery.toStringAsFixed(2)),
-      'difficulty_level': difficultyLevel.dbValue,
-      'next_review': nextReview.toIso8601String().split('T').first,
-      'last_attempted': DateTime.now().toIso8601String(),
-    }, onConflict: 'student_id,lesson_id,concept');
+    await _client.from('progress').upsert(
+      {
+        'student_id': studentId,
+        'lesson_id': lessonId,
+        'concept': concept,
+        'attempts': newAttempts,
+        'correct': newCorrect,
+        'mastery': double.parse(newMastery.toStringAsFixed(2)),
+        'difficulty_level': difficultyLevel.dbValue,
+        'next_review': nextReview.toIso8601String().split('T').first,
+        'last_attempted': DateTime.now().toIso8601String(),
+      },
+      onConflict: 'student_id,lesson_id,concept',
+    );
   }
 
   /// Diluted across every active lesson in the subject (untouched *and
@@ -473,7 +476,8 @@ class ProgressRepository {
           .toSet();
       final int totalSeconds = sessionRows
           .where(
-              (r) => DateTime.parse(r['started_at'] as String).isAfter(cutoff))
+            (r) => DateTime.parse(r['started_at'] as String).isAfter(cutoff),
+          )
           .fold(0, (sum, r) => sum + (r['duration_seconds'] as int));
       // Rounded, not floor-divided — floor-dividing silently hid every
       // sub-60s session (a quick lesson re-read, a short QCM retry) as

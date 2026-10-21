@@ -1,6 +1,6 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:dirassty/core/gamification/gamification.dart';
 import 'package:dirassty/core/models/difficulty.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('xpForCorrectAnswer', () {
@@ -44,15 +44,20 @@ void main() {
         (_) => const SessionAnswer(correct: true, difficulty: Difficulty.easy),
       );
       expect(
-          calculateSessionXp(answers), 5 * 5 + XpRewards.perfectSessionBonus);
+        calculateSessionXp(answers),
+        5 * 5 + XpRewards.perfectSessionBonus,
+      );
     });
 
     test('withholds the bonus if any answer is wrong, even at 5+', () {
       final answers = [
         ...List.generate(
-            4,
-            (_) => const SessionAnswer(
-                correct: true, difficulty: Difficulty.easy)),
+          4,
+          (_) => const SessionAnswer(
+            correct: true,
+            difficulty: Difficulty.easy,
+          ),
+        ),
         const SessionAnswer(correct: false, difficulty: Difficulty.easy),
       ];
       expect(calculateSessionXp(answers), 5 * 4);

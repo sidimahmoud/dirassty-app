@@ -18,14 +18,14 @@ abstract final class DirasstyRadius {
 
 abstract final class DirasstyShadow {
   static const level1 = [
-    BoxShadow(color: Color(0x0F10231F), blurRadius: 2, offset: Offset(0, 1))
+    BoxShadow(color: Color(0x0F10231F), blurRadius: 2, offset: Offset(0, 1)),
   ];
   static const level2 = [
     BoxShadow(color: Color(0x0F10231F), blurRadius: 2, offset: Offset(0, 1)),
     BoxShadow(color: Color(0x0D10231F), blurRadius: 20, offset: Offset(0, 6)),
   ];
   static const sheet = [
-    BoxShadow(color: Color(0x2410231F), blurRadius: 40, offset: Offset(0, 12))
+    BoxShadow(color: Color(0x2410231F), blurRadius: 40, offset: Offset(0, 12)),
   ];
 }
 

@@ -31,9 +31,12 @@ class _ChooseClassScreenState extends ConsumerState<ChooseClassScreen> {
   int _grade = 10;
 
   int? get _openGrade => openGradeOrNearest(
-      _grade,
-      selectableGrades(ref.watch(activeGradeIdsProvider).valueOrNull,
-          minGrade: kMinSelfSignupGrade));
+        _grade,
+        selectableGrades(
+          ref.watch(activeGradeIdsProvider).valueOrNull,
+          minGrade: kMinSelfSignupGrade,
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +46,15 @@ class _ChooseClassScreenState extends ConsumerState<ChooseClassScreen> {
     final bool loaded = ref.watch(openGradesProvider).hasValue;
 
     return AuthScaffold(
+      bottom: [
+        DirasstyButton(
+          label: l10n.continueAction,
+          onPressed: grade == null || !loaded
+              ? null
+              : () => context
+                  .push('${RegisterScreen.pathFor('student')}?grade=$grade'),
+        ),
+      ],
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -60,15 +72,6 @@ class _ChooseClassScreenState extends ConsumerState<ChooseClassScreen> {
           note: l10n.selfSignupFromC2,
           lastOfCycleByDefault: true,
           onChanged: (g) => setState(() => _grade = g),
-        ),
-      ],
-      bottom: [
-        DirasstyButton(
-          label: l10n.continueAction,
-          onPressed: grade == null || !loaded
-              ? null
-              : () => context
-                  .push('${RegisterScreen.pathFor('student')}?grade=$grade'),
         ),
       ],
     );

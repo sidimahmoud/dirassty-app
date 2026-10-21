@@ -1,5 +1,5 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:dirassty/core/models/subscription.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 Subscription _sub({
   required SubscriptionStatus status,
@@ -33,16 +33,18 @@ void main() {
   group('grantsAccess', () {
     test('active row with a future end date grants access', () {
       expect(
-          _sub(status: SubscriptionStatus.active, currentPeriodEnd: future)
-              .grantsAccess,
-          isTrue);
+        _sub(status: SubscriptionStatus.active, currentPeriodEnd: future)
+            .grantsAccess,
+        isTrue,
+      );
     });
 
     test('active row with a past end date does not grant access', () {
       expect(
-          _sub(status: SubscriptionStatus.active, currentPeriodEnd: past)
-              .grantsAccess,
-          isFalse);
+        _sub(status: SubscriptionStatus.active, currentPeriodEnd: past)
+            .grantsAccess,
+        isFalse,
+      );
     });
 
     test('active row with no end date grants access (never expires)', () {
@@ -51,12 +53,13 @@ void main() {
 
     test('trial grants access only before it ends', () {
       expect(
-          _sub(status: SubscriptionStatus.trial, trialEnds: future)
-              .grantsAccess,
-          isTrue);
+        _sub(status: SubscriptionStatus.trial, trialEnds: future).grantsAccess,
+        isTrue,
+      );
       expect(
-          _sub(status: SubscriptionStatus.trial, trialEnds: past).grantsAccess,
-          isFalse);
+        _sub(status: SubscriptionStatus.trial, trialEnds: past).grantsAccess,
+        isFalse,
+      );
     });
 
     test(

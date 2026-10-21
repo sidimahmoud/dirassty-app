@@ -62,8 +62,12 @@ class _DeleteAccountScreenState extends ConsumerState<DeleteAccountScreen> {
       backgroundColor: DirasstyColors.background,
       appBar: AppBar(title: Text(l10n.deleteAccount)),
       body: ListView(
-        padding: const EdgeInsetsDirectional.fromSTEB(DirasstySpace.screen,
-            DirasstySpace.lg, DirasstySpace.screen, DirasstySpace.xxl),
+        padding: const EdgeInsetsDirectional.fromSTEB(
+          DirasstySpace.screen,
+          DirasstySpace.lg,
+          DirasstySpace.screen,
+          DirasstySpace.xxl,
+        ),
         children: [
           const Center(
             child: IconBadge(
@@ -74,19 +78,26 @@ class _DeleteAccountScreenState extends ConsumerState<DeleteAccountScreen> {
             ),
           ),
           const SizedBox(height: DirasstySpace.lg),
-          Text(l10n.deleteFinalTitle,
-              textAlign: TextAlign.center, style: type.title),
+          Text(
+            l10n.deleteFinalTitle,
+            textAlign: TextAlign.center,
+            style: type.title,
+          ),
           const SizedBox(height: DirasstySpace.xl),
           Container(
             padding: const EdgeInsetsDirectional.all(DirasstySpace.lg),
             decoration: const BoxDecoration(
-                color: DirasstyColors.errorTint, borderRadius: DirasstyRadius.cardR),
+              color: DirasstyColors.errorTint,
+              borderRadius: DirasstyRadius.cardR,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(l10n.deleteLosesIntro,
-                    style: type.subheading
-                        .copyWith(fontSize: 14, color: DirasstyColors.errorDark)),
+                Text(
+                  l10n.deleteLosesIntro,
+                  style: type.subheading
+                      .copyWith(fontSize: 14, color: DirasstyColors.errorDark),
+                ),
                 const SizedBox(height: DirasstySpace.sm),
                 for (final String loss in [
                   l10n.deleteLossProgress,
@@ -100,21 +111,28 @@ class _DeleteAccountScreenState extends ConsumerState<DeleteAccountScreen> {
                       children: [
                         const Padding(
                           padding: EdgeInsetsDirectional.only(top: 2),
-                          child: Icon(Icons.remove_circle_outline_rounded,
-                              size: 16, color: DirasstyColors.error),
+                          child: Icon(
+                            Icons.remove_circle_outline_rounded,
+                            size: 16,
+                            color: DirasstyColors.error,
+                          ),
                         ),
                         const SizedBox(width: DirasstySpace.sm),
                         Expanded(
-                          child: Text(loss,
-                              style: type.bodySmall
-                                  .copyWith(color: DirasstyColors.text)),
+                          child: Text(
+                            loss,
+                            style: type.bodySmall
+                                .copyWith(color: DirasstyColors.text),
+                          ),
                         ),
                       ],
                     ),
                   ),
                 const SizedBox(height: DirasstySpace.md),
-                Text(l10n.deleteCannotUndo,
-                    style: type.bodySmall.copyWith(color: DirasstyColors.text)),
+                Text(
+                  l10n.deleteCannotUndo,
+                  style: type.bodySmall.copyWith(color: DirasstyColors.text),
+                ),
               ],
             ),
           ),

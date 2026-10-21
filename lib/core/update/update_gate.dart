@@ -64,7 +64,8 @@ class _UpdateGateState extends ConsumerState<UpdateGate> {
         widget.child,
         if (s.kind == UpdateKind.required)
           Positioned.fill(
-              child: _RequiredScreen(status: s, onUpdate: () => _open(s)))
+            child: _RequiredScreen(status: s, onUpdate: () => _open(s)),
+          )
         else if (s.kind == UpdateKind.available &&
             _dismissed != null &&
             _dismissed != s.latestVersion)
@@ -76,7 +77,11 @@ class _UpdateGateState extends ConsumerState<UpdateGate> {
               top: false,
               child: Padding(
                 padding: const EdgeInsetsDirectional.fromSTEB(
-                    DirasstySpace.md, 0, DirasstySpace.md, DirasstySpace.md),
+                  DirasstySpace.md,
+                  0,
+                  DirasstySpace.md,
+                  DirasstySpace.md,
+                ),
                 child: _AvailableCard(
                   status: s,
                   onUpdate: () => _open(s),
@@ -127,17 +132,24 @@ class _RequiredScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: DirasstySpace.screen),
-                Text(l10n.updateRequiredTitle,
-                    textAlign: TextAlign.center,
-                    style: type.title.copyWith(fontSize: 26)),
+                Text(
+                  l10n.updateRequiredTitle,
+                  textAlign: TextAlign.center,
+                  style: type.title.copyWith(fontSize: 26),
+                ),
                 const SizedBox(height: DirasstySpace.sm),
-                Text(l10n.updateRequiredBody,
-                    textAlign: TextAlign.center,
-                    style: type.body.copyWith(color: DirasstyColors.textMuted)),
+                Text(
+                  l10n.updateRequiredBody,
+                  textAlign: TextAlign.center,
+                  style: type.body.copyWith(color: DirasstyColors.textMuted),
+                ),
                 if (status.latestVersion != null) ...[
                   const SizedBox(height: DirasstySpace.sm),
-                  Text(l10n.updateVersionLabel(status.latestVersion!),
-                      textAlign: TextAlign.center, style: type.label),
+                  Text(
+                    l10n.updateVersionLabel(status.latestVersion!),
+                    textAlign: TextAlign.center,
+                    style: type.label,
+                  ),
                 ],
                 if (notes != null) ...[
                   const SizedBox(height: DirasstySpace.lg),
@@ -160,8 +172,11 @@ class _RequiredScreen extends StatelessWidget {
 }
 
 class _AvailableCard extends StatelessWidget {
-  const _AvailableCard(
-      {required this.status, required this.onUpdate, required this.onLater});
+  const _AvailableCard({
+    required this.status,
+    required this.onUpdate,
+    required this.onLater,
+  });
 
   final AppUpdateStatus status;
   final VoidCallback onUpdate;
@@ -188,20 +203,26 @@ class _AvailableCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                const Icon(Icons.system_update_rounded,
-                    color: DirasstyColors.teal),
+                const Icon(
+                  Icons.system_update_rounded,
+                  color: DirasstyColors.teal,
+                ),
                 const SizedBox(width: DirasstySpace.sm),
                 Expanded(
-                    child: Text(l10n.updateAvailableTitle,
-                        style: type.subheading)),
+                  child: Text(
+                    l10n.updateAvailableTitle,
+                    style: type.subheading,
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: DirasstySpace.xs),
-            Text(notes ?? l10n.updateAvailableBody,
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-                style:
-                    type.bodySmall.copyWith(color: DirasstyColors.textMuted)),
+            Text(
+              notes ?? l10n.updateAvailableBody,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+              style: type.bodySmall.copyWith(color: DirasstyColors.textMuted),
+            ),
             const SizedBox(height: DirasstySpace.md),
             Row(
               children: [
@@ -243,16 +264,22 @@ class _Notes extends StatelessWidget {
     return Container(
       padding: const EdgeInsetsDirectional.all(DirasstySpace.md),
       decoration: const BoxDecoration(
-          color: DirasstyColors.tealTint, borderRadius: DirasstyRadius.cardR),
+        color: DirasstyColors.tealTint,
+        borderRadius: DirasstyRadius.cardR,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(l10n.updateWhatsNew,
-              style: type.label.copyWith(color: DirasstyColors.tealDark)),
+          Text(
+            l10n.updateWhatsNew,
+            style: type.label.copyWith(color: DirasstyColors.tealDark),
+          ),
           const SizedBox(height: DirasstySpace.xs),
-          Text(text,
-              style: type.bodySmall
-                  .copyWith(color: DirasstyColors.text, height: 1.5)),
+          Text(
+            text,
+            style: type.bodySmall
+                .copyWith(color: DirasstyColors.text, height: 1.5),
+          ),
         ],
       ),
     );

@@ -69,8 +69,10 @@ String cleanMathForDisplay(String text) {
   // plain ASCII instead of LaTeX, which the rule above doesn't catch since
   // it requires a backslash and braces.
   out = out.replaceAllMapped(
-    RegExp(r'\bsqrt\s*(?:\[([^\[\]]*)\])?\s*\(([^()]*)\)',
-        caseSensitive: false),
+    RegExp(
+      r'\bsqrt\s*(?:\[([^\[\]]*)\])?\s*\(([^()]*)\)',
+      caseSensitive: false,
+    ),
     (m) => '${m[1] != null ? '${_toSuper(m[1]!)}√' : '√'}(${m[2]})',
   );
   out = out.replaceAll(RegExp(r'\\times|\\cdot'), '×');
@@ -97,12 +99,16 @@ String cleanMathForDisplay(String text) {
   // u_{n+1} → uₙ₊₁ (only when every character has a subscript form);
   // other braced indices ("_{max}"): just drop the braces.
   out = out.replaceAllMapped(
-      RegExp(r'_\{([0-9+\-nkmipj]+)\}'), (m) => _toSub(m[1]!));
+    RegExp(r'_\{([0-9+\-nkmipj]+)\}'),
+    (m) => _toSub(m[1]!),
+  );
   out = out.replaceAllMapped(RegExp(r'_\{([^{}]+)\}'), (m) => '_${m[1]}');
   out = out.replaceAllMapped(RegExp(r'_([0-9+-]+)'), (m) => _toSub(m[1]!));
   // Single-letter index: u_n, a_k (not "x_max").
   out = out.replaceAllMapped(
-      RegExp(r'_([nkmipj])(?![A-Za-z])'), (m) => _toSub(m[1]!));
+    RegExp(r'_([nkmipj])(?![A-Za-z])'),
+    (m) => _toSub(m[1]!),
+  );
 
   // Spelled-out symbols the AI sometimes writes instead of the symbol
   // itself. Whole words only ("pied", "épice", "alphabet" untouched).

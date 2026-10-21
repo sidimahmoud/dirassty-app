@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../auth/application/auth_providers.dart';
 import '../../../core/theme/dirassty_theme.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../auth/application/auth_providers.dart';
 
 /// Shown to a parent who just verified their phone but has no `parents`
 /// row yet — mirrors the web app's post-OTP redirect to `/onboarding`.

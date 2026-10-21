@@ -124,7 +124,7 @@ class SubscriptionRepository {
   /// Submits a Bankily payment for one or more children at once (or a
   /// student subscribing for themselves): uploads the payer's screenshot
   /// of the Bankily confirmation to the private `payment-proofs` bucket
-  /// (<uid>/<random>.jpg, migration 064), then `request_subscriptions()`
+  /// (`<uid>/<random>.jpg`, migration 064), then `request_subscriptions()`
   /// creates one 'pending' row per student, priced server-side, with the
   /// screenshot attached — an admin checks it in Abonnements and activates.
   /// Returns the server's quote (`total_mru`, `family_discount_percent`…).
@@ -142,8 +142,13 @@ class SubscriptionRepository {
           proofJpeg,
           fileOptions: const FileOptions(contentType: 'image/jpeg'),
         );
-    return _request(studentIds, planId, 'bankily',
-        phone: phone, proofPath: path);
+    return _request(
+      studentIds,
+      planId,
+      'bankily',
+      phone: phone,
+      proofPath: path,
+    );
   }
 
   /// "Payer manuellement": records that a subscriber will pay with the

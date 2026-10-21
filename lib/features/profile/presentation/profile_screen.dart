@@ -56,8 +56,9 @@ class ProfileScreen extends ConsumerWidget {
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (_, __) => Center(
             child: ErrorState(
-                title: l10n.profileLoadError,
-                onRetry: () => ref.invalidate(currentStudentProvider)),
+              title: l10n.profileLoadError,
+              onRetry: () => ref.invalidate(currentStudentProvider),
+            ),
           ),
           data: (s) => _ProfileBody(student: s),
         ),
@@ -99,7 +100,11 @@ class _ProfileBody extends ConsumerWidget {
       onRefresh: () => _refresh(ref),
       child: ListView(
         padding: const EdgeInsetsDirectional.fromSTEB(
-            DirasstySpace.screen, DirasstySpace.xl, DirasstySpace.screen, DirasstySpace.xl),
+          DirasstySpace.screen,
+          DirasstySpace.xl,
+          DirasstySpace.screen,
+          DirasstySpace.xl,
+        ),
         children: [
           Text(l10n.tabProfile, style: type.title),
           const SizedBox(height: DirasstySpace.lg),
@@ -112,7 +117,9 @@ class _ProfileBody extends ConsumerWidget {
                   height: 64,
                   alignment: Alignment.center,
                   decoration: const BoxDecoration(
-                      color: DirasstyColors.tealTint, shape: BoxShape.circle),
+                    color: DirasstyColors.tealTint,
+                    shape: BoxShape.circle,
+                  ),
                   child: Text(
                     student.name.trim().isEmpty
                         ? '?'
@@ -125,9 +132,11 @@ class _ProfileBody extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(student.name,
-                          style: type.heading
-                              .copyWith(fontWeight: FontWeight.w800)),
+                      Text(
+                        student.name,
+                        style:
+                            type.heading.copyWith(fontWeight: FontWeight.w800),
+                      ),
                       const SizedBox(height: 2),
                       Text(
                         [
@@ -154,7 +163,9 @@ class _ProfileBody extends ConsumerWidget {
                 subtitle:
                     lang.isArabic ? l10n.languageArabic : l10n.languageFrench,
                 trailing: DirasstyChip(
-                    label: lang.isArabic ? 'عربي' : 'FR', dense: true),
+                  label: lang.isArabic ? 'عربي' : 'FR',
+                  dense: true,
+                ),
                 onTap: () {
                   if (blockedByFocus(context, ref)) return;
                   showLanguagePickerSheet(context, ref);
@@ -165,8 +176,10 @@ class _ProfileBody extends ConsumerWidget {
                 title: l10n.myDownloads,
                 subtitle: offline.downloads.isEmpty
                     ? null
-                    : l10n.videosCountSize(offline.downloads.length,
-                        '${(downloadBytes / (1024 * 1024)).round()} Mo'),
+                    : l10n.videosCountSize(
+                        offline.downloads.length,
+                        '${(downloadBytes / (1024 * 1024)).round()} Mo',
+                      ),
                 onTap: () => context.push(DownloadsScreen.path),
               ),
               // Parental control (focus mode) — not ready, back in the next
@@ -183,25 +196,30 @@ class _ProfileBody extends ConsumerWidget {
           ProfileGroup(
             rows: [
               ProfileRow(
-                  icon: Icons.help_outline_rounded,
-                  title: l10n.faq,
-                  onTap: () => context.push(FaqScreen.path)),
+                icon: Icons.help_outline_rounded,
+                title: l10n.faq,
+                onTap: () => context.push(FaqScreen.path),
+              ),
               ProfileRow(
-                  icon: Icons.chat_outlined,
-                  title: l10n.whatsappSupport,
-                  onTap: () => contactSupport(context)),
+                icon: Icons.chat_outlined,
+                title: l10n.whatsappSupport,
+                onTap: () => contactSupport(context),
+              ),
               ProfileRow(
-                  icon: Icons.star_outline_rounded,
-                  title: l10n.rateApp,
-                  onTap: () => rateApp(context)),
+                icon: Icons.star_outline_rounded,
+                title: l10n.rateApp,
+                onTap: () => rateApp(context),
+              ),
               ProfileRow(
-                  icon: Icons.share_outlined,
-                  title: l10n.shareApp,
-                  onTap: () => shareApp(context)),
+                icon: Icons.share_outlined,
+                title: l10n.shareApp,
+                onTap: () => shareApp(context),
+              ),
               ProfileRow(
-                  icon: Icons.info_outline_rounded,
-                  title: l10n.about,
-                  onTap: () => context.push(AboutScreen.path)),
+                icon: Icons.info_outline_rounded,
+                title: l10n.about,
+                onTap: () => context.push(AboutScreen.path),
+              ),
             ],
           ),
           const SizedBox(height: DirasstySpace.lg),
@@ -291,15 +309,18 @@ class _SubscriptionCard extends ConsumerWidget {
                   DirasstyChip(label: chip, variant: variant, dense: true),
                   const Spacer(),
                   if (planName != null)
-                    Text(planName,
-                        style:
-                            type.label.copyWith(fontWeight: FontWeight.w400)),
+                    Text(
+                      planName,
+                      style: type.label.copyWith(fontWeight: FontWeight.w400),
+                    ),
                 ],
               ),
               if (body.isNotEmpty) ...[
                 const SizedBox(height: DirasstySpace.sm),
-                Text(body,
-                    style: type.bodySmall.copyWith(color: DirasstyColors.text)),
+                Text(
+                  body,
+                  style: type.bodySmall.copyWith(color: DirasstyColors.text),
+                ),
               ],
             ],
           ),

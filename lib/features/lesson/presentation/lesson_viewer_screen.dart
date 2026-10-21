@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -8,16 +10,17 @@ import '../../../core/models/lesson_progress_summary.dart';
 import '../../../core/models/student.dart';
 import '../../../core/models/summary_body.dart';
 import '../../../core/models/video_body.dart';
-import '../../../core/theme/dirassty_theme.dart';
-import '../../../core/widgets/dirassty/dirassty_widgets.dart';
 import '../../../core/offline/offline_videos_controller.dart';
+import '../../../core/theme/dirassty_theme.dart';
 import '../../../core/widgets/course_video_player.dart';
+import '../../../core/widgets/dirassty/dirassty_widgets.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../courses/application/courses_providers.dart';
 import '../../progress/application/progress_providers.dart';
 import '../../student/application/student_providers.dart';
-import '../application/lesson_providers.dart';
 import '../../tutor/presentation/tutor_sheet.dart';
+import '../application/lesson_providers.dart';
+import '../data/lesson_repository.dart';
 import 'widgets/concept_step_view.dart';
 import 'widgets/lesson_blocks.dart';
 
@@ -57,25 +60,43 @@ final class _RevisionStep extends _LessonStep {
   final SummaryBody summary;
 }
 
-/// Video → Concept 1..n → Worked example → Revision sheet (then the QCM),
-/// DESIGN_SPEC §4 "Lesson flow".
+/// Video → Concept 1..n → Worked example → Revision sheet (then the QCM
+/// or the exercises), DESIGN_SPEC §4 "Lesson flow". Only what the lesson
+/// actually has: no written lesson → straight from the video to the
+/// practice. With nothing at all, a single "coming soon" step.
 List<_LessonStep> _buildSteps(
-    ExplanationBody? body, List<VideoBody> videos, SummaryBody? summary) {
+  ExplanationBody? body,
+  List<VideoBody> videos,
+  SummaryBody? summary,
+) {
   final List<_LessonStep> steps = [
     if (videos.isNotEmpty) _VideoStep(videos),
   ];
-  if (body == null || !body.hasStructuredSections) {
+  if (body == null || !body.hasContent) {
+    // Nothing to read: skipped.
+  } else if (!body.hasStructuredSections) {
     steps.add(_DetailsStep(body));
   } else {
     for (final (int i, ConceptSection section) in body.sections.indexed) {
       steps.add(_ConceptStep(section, i, body.sections.length));
     }
-    if (body.workedExample != null)
+    if (body.workedExample != null) {
       steps.add(_WorkedExampleStep(body.workedExample!));
+    }
   }
-  if (summary != null && summary.points.isNotEmpty)
+  if (summary != null && summary.points.isNotEmpty) {
     steps.add(_RevisionStep(summary));
+  }
+  if (steps.isEmpty) steps.add(const _DetailsStep(null));
   return steps;
+}
+
+/// Where the lesson flow goes after its last step: the QCM when the lesson
+/// has one, else the open exercises, else nowhere (null).
+String? _practiceRoute(String lessonId, LessonPractice practice) {
+  if (practice.hasQcm) return '/exercise/$lessonId';
+  if (practice.hasOpenExercises) return '/open-practice/$lessonId';
+  return null;
 }
 
 /// The lesson player: a dedicated video step (when the lesson has one),
@@ -154,11 +175,26 @@ class _LessonViewerScreenState extends ConsumerState<LessonViewerScreen> {
     ref.invalidate(subjectsWithMasteryForStudentProvider);
   }
 
-  Future<void> _finishAndStartQcm() async {
+  /// End of the lesson flow: marks it read, then opens the QCM, else the
+  /// exercises, else goes back to the lesson list. Re-reads what the
+  /// lesson has if it wasn't loaded yet; offline, keeps the old default
+  /// (the QCM).
+  Future<void> _finishLesson() async {
+    String? route = '/exercise/${widget.lessonId}';
+    try {
+      route = _practiceRoute(
+        widget.lessonId,
+        await ref.read(lessonPracticeProvider(widget.lessonId).future),
+      );
+    } catch (_) {}
     await _markViewed();
     _flushTimeSpent();
     if (!mounted) return;
-    context.push('/exercise/${widget.lessonId}');
+    if (route != null) {
+      unawaited(context.push(route));
+    } else {
+      await Navigator.of(context).maybePop();
+    }
   }
 
   @override
@@ -180,6 +216,9 @@ class _LessonViewerScreenState extends ConsumerState<LessonViewerScreen> {
     // Optional last step — never blocks the lesson while loading.
     final SummaryBody? summary =
         ref.watch(lessonSummaryProvider(widget.lessonId)).valueOrNull;
+    final AsyncValue<LessonPractice> practiceAsync =
+        ref.watch(lessonPracticeProvider(widget.lessonId));
+    final LessonPractice? practice = practiceAsync.valueOrNull;
     final String? studentId = ref.watch(currentStudentProvider).valueOrNull?.id;
     final bool alreadyViewed = studentId != null &&
         (ref.watch(viewedLessonIdsProvider(studentId)).valueOrNull ?? const {})
@@ -215,9 +254,14 @@ class _LessonViewerScreenState extends ConsumerState<LessonViewerScreen> {
                   child: _LessonResumeView(
                     lesson: lessonData,
                     onRedo: () => setState(() => _resuming = true),
-                    onQcm: () => context.push('/exercise/${widget.lessonId}'),
-                    onExercises: () =>
-                        context.push('/open-practice/${widget.lessonId}'),
+                    // Hidden when the lesson has none (shown while unknown).
+                    onQcm: practice?.hasQcm == false
+                        ? null
+                        : () => context.push('/exercise/${widget.lessonId}'),
+                    onExercises: practice?.hasOpenExercises == false
+                        ? null
+                        : () =>
+                            context.push('/open-practice/${widget.lessonId}'),
                   ),
                 );
               }
@@ -226,10 +270,31 @@ class _LessonViewerScreenState extends ConsumerState<LessonViewerScreen> {
               final int index = _stepIndex.clamp(0, steps.length - 1);
               final _LessonStep step = steps[index];
               final bool isLast = index == steps.length - 1;
-              void goNext() => isLast
-                  ? _finishAndStartQcm()
-                  : setState(() => _stepIndex = index + 1);
-              final String? lastLabel = isLast ? l10n.startQcm : null;
+              final String? nextRoute = practice == null
+                  ? null
+                  : _practiceRoute(widget.lessonId, practice);
+              // Nothing to show after the video (or for an empty lesson):
+              // no button, the student stays here.
+              final bool nothingNext = isLast &&
+                  (step is _VideoStep ||
+                      (step is _DetailsStep && step.body == null)) &&
+                  (practice == null
+                      ? !practiceAsync.hasError
+                      : nextRoute == null);
+              final VoidCallback? goNext = nothingNext
+                  ? null
+                  : isLast
+                      ? _finishLesson
+                      : () => setState(() => _stepIndex = index + 1);
+              final String? lastLabel = !isLast
+                  ? null
+                  : practice == null
+                      ? l10n.continueAction
+                      : nextRoute == null
+                          ? l10n.finishLesson
+                          : practice.hasQcm
+                              ? l10n.startQcm
+                              : l10n.goToExercises;
 
               return _LessonChrome(
                 lesson: lessonData,
@@ -237,13 +302,15 @@ class _LessonViewerScreenState extends ConsumerState<LessonViewerScreen> {
                     step is _VideoStep ? 0 : (videos.isNotEmpty ? 1 : 0),
                 hasVideo: videos.isNotEmpty,
                 child: AnimatedSwitcher(
-                  duration:
-                      context.reduceMotion ? Duration.zero : DirasstyMotion.fast,
+                  duration: context.reduceMotion
+                      ? Duration.zero
+                      : DirasstyMotion.fast,
                   child: switch (step) {
                     _VideoStep(videos: final vs) => _VideoStepView(
                         key: const ValueKey('video'),
                         lesson: lessonData,
                         videos: vs,
+                        continueLabel: lastLabel ?? l10n.continueToLesson,
                         onContinue: goNext,
                       ),
                     _DetailsStep(body: final b) => _DetailsStepView(
@@ -264,7 +331,7 @@ class _LessonViewerScreenState extends ConsumerState<LessonViewerScreen> {
                         index: i,
                         total: n,
                         continueLabel: lastLabel,
-                        onContinue: goNext,
+                        onContinue: goNext!,
                       ),
                     _WorkedExampleStep(text: final t) => _WorkedExampleStepView(
                         key: const ValueKey('example'),
@@ -276,13 +343,14 @@ class _LessonViewerScreenState extends ConsumerState<LessonViewerScreen> {
                         onReviewVideo: videos.isEmpty
                             ? null
                             : () => setState(() => _stepIndex = 0),
-                        onContinue: goNext,
+                        onContinue: goNext!,
                       ),
                     _RevisionStep(summary: final sm) => _RevisionStepView(
                         key: const ValueKey('revision'),
                         lesson: lessonData,
                         summary: sm,
-                        onContinue: goNext,
+                        continueLabel: lastLabel ?? l10n.continueAction,
+                        onContinue: goNext!,
                       ),
                   },
                 ),
@@ -317,7 +385,11 @@ class _LessonChrome extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsetsDirectional.fromSTEB(
-              DirasstySpace.sm, DirasstySpace.xs, DirasstySpace.screen, 0),
+            DirasstySpace.sm,
+            DirasstySpace.xs,
+            DirasstySpace.screen,
+            0,
+          ),
           child: Row(
             children: [
               IconButton(
@@ -336,9 +408,11 @@ class _LessonChrome extends StatelessWidget {
               ),
               // Dirassty AI explainer on this lesson's own content.
               TextButton.icon(
-                onPressed: () => showTutorSheet(context,
-                    lessonId: lesson.id,
-                    lang: context.isArabicLocale ? 'ar' : 'fr'),
+                onPressed: () => showTutorSheet(
+                  context,
+                  lessonId: lesson.id,
+                  lang: context.isArabicLocale ? 'ar' : 'fr',
+                ),
                 icon: const Icon(Icons.auto_awesome_rounded, size: 18),
                 label: Text(l10n.askDirassty),
               ),
@@ -347,8 +421,12 @@ class _LessonChrome extends StatelessWidget {
         ),
         if (journeyIndex != null)
           Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(DirasstySpace.screen,
-                DirasstySpace.xs, DirasstySpace.screen, DirasstySpace.sm),
+            padding: const EdgeInsetsDirectional.fromSTEB(
+              DirasstySpace.screen,
+              DirasstySpace.xs,
+              DirasstySpace.screen,
+              DirasstySpace.sm,
+            ),
             child: JourneyBar(
               steps: [
                 if (hasVideo) l10n.journeyVideo,
@@ -382,13 +460,17 @@ class _VideoStepView extends ConsumerStatefulWidget {
   const _VideoStepView({
     required this.lesson,
     required this.videos,
+    required this.continueLabel,
     required this.onContinue,
     super.key,
   });
 
   final CurriculumLesson lesson;
   final List<VideoBody> videos;
-  final VoidCallback onContinue;
+  final String continueLabel;
+
+  /// Null when nothing follows the video: no button.
+  final VoidCallback? onContinue;
 
   @override
   ConsumerState<_VideoStepView> createState() => _VideoStepViewState();
@@ -445,23 +527,32 @@ class _VideoStepViewState extends ConsumerState<_VideoStepView> {
               ),
               Padding(
                 padding: const EdgeInsetsDirectional.fromSTEB(
-                    DirasstySpace.screen, DirasstySpace.screen, DirasstySpace.screen, 0),
+                  DirasstySpace.screen,
+                  DirasstySpace.screen,
+                  DirasstySpace.screen,
+                  0,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text(_titleOf(_current),
-                        style: type.titleSmall
-                            .copyWith(fontWeight: FontWeight.w800)),
+                    Text(
+                      _titleOf(_current),
+                      style:
+                          type.titleSmall.copyWith(fontWeight: FontWeight.w800),
+                    ),
                     if (meta != null) ...[
                       const SizedBox(height: 6),
-                      Text(meta,
-                          style: type.bodySmall
-                              .copyWith(color: DirasstyColors.textMuted)),
+                      Text(
+                        meta,
+                        style: type.bodySmall
+                            .copyWith(color: DirasstyColors.textMuted),
+                      ),
                     ],
                     _DownloadBlock(
-                        video: video,
-                        title: _titleOf(_current),
-                        lessonId: widget.lesson.id),
+                      video: video,
+                      title: _titleOf(_current),
+                      lessonId: widget.lesson.id,
+                    ),
                     if (total > 1) ...[
                       const SizedBox(height: DirasstySpace.section),
                       Text(l10n.inThisLesson, style: type.subheading),
@@ -487,8 +578,12 @@ class _VideoStepViewState extends ConsumerState<_VideoStepView> {
           ),
         ),
         Padding(
-          padding: const EdgeInsetsDirectional.fromSTEB(DirasstySpace.screen,
-              DirasstySpace.sm, DirasstySpace.screen, DirasstySpace.lg),
+          padding: const EdgeInsetsDirectional.fromSTEB(
+            DirasstySpace.screen,
+            DirasstySpace.sm,
+            DirasstySpace.screen,
+            DirasstySpace.lg,
+          ),
           child: Row(
             children: [
               SizedBox.square(
@@ -508,20 +603,23 @@ class _VideoStepViewState extends ConsumerState<_VideoStepView> {
                         rtl
                             ? Icons.chevron_right_rounded
                             : Icons.chevron_left_rounded,
-                        color:
-                            _current == 0 ? DirasstyColors.idle : DirasstyColors.ink,
+                        color: _current == 0
+                            ? DirasstyColors.idle
+                            : DirasstyColors.ink,
                       ),
                     ),
                   ),
                 ),
               ),
-              const SizedBox(width: DirasstySpace.md),
-              Expanded(
-                child: DirasstyButton(
-                  label: l10n.continueToLesson,
-                  onPressed: widget.onContinue,
+              if (widget.onContinue != null) ...[
+                const SizedBox(width: DirasstySpace.md),
+                Expanded(
+                  child: DirasstyButton(
+                    label: widget.continueLabel,
+                    onPressed: widget.onContinue,
+                  ),
                 ),
-              ),
+              ],
             ],
           ),
         ),
@@ -591,12 +689,18 @@ class _DownloadBlock extends ConsumerWidget {
                     ? () => controller.cancel(video.url)
                     : () async {
                         try {
-                          await controller.download(video, title,
-                              lessonId: lessonId);
+                          await controller.download(
+                            video,
+                            title,
+                            lessonId: lessonId,
+                          );
                         } catch (_) {
                           if (context.mounted) {
-                            showDirasstySnackBar(context, l10n.downloadFailed,
-                                offline: true);
+                            showDirasstySnackBar(
+                              context,
+                              l10n.downloadFailed,
+                              offline: true,
+                            );
                           }
                         }
                       },
@@ -604,11 +708,12 @@ class _DownloadBlock extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
-                        downloading
-                            ? Icons.close_rounded
-                            : Icons.download_rounded,
-                        size: 18,
-                        color: DirasstyColors.ink),
+                      downloading
+                          ? Icons.close_rounded
+                          : Icons.download_rounded,
+                      size: 18,
+                      color: DirasstyColors.ink,
+                    ),
                     const SizedBox(width: DirasstySpace.sm),
                     Text(
                       downloading
@@ -624,21 +729,31 @@ class _DownloadBlock extends ConsumerWidget {
           const SizedBox(height: DirasstySpace.lg),
           Container(
             padding: const EdgeInsetsDirectional.symmetric(
-                horizontal: 14, vertical: DirasstySpace.md),
+              horizontal: 14,
+              vertical: DirasstySpace.md,
+            ),
             decoration: const BoxDecoration(
-                color: DirasstyColors.ivory, borderRadius: DirasstyRadius.cardR),
+              color: DirasstyColors.ivory,
+              borderRadius: DirasstyRadius.cardR,
+            ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Icon(Icons.info_outline_rounded,
-                    size: 18, color: DirasstyColors.teal),
+                const Icon(
+                  Icons.info_outline_rounded,
+                  size: 18,
+                  color: DirasstyColors.teal,
+                ),
                 const SizedBox(width: 10),
                 Expanded(
-                  child: Text(l10n.downloadWifiHint,
-                      style: type.label.copyWith(
-                          fontWeight: FontWeight.w400,
-                          color: const Color(0xFF3E4A47),
-                          height: 1.5)),
+                  child: Text(
+                    l10n.downloadWifiHint,
+                    style: type.label.copyWith(
+                      fontWeight: FontWeight.w400,
+                      color: const Color(0xFF3E4A47),
+                      height: 1.5,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -661,25 +776,33 @@ class _DetailsStepView extends StatelessWidget {
   final CurriculumLesson lesson;
   final ExplanationBody? body;
   final String continueLabel;
-  final VoidCallback onContinue;
+
+  /// Null when nothing follows: no button.
+  final VoidCallback? onContinue;
 
   @override
   Widget build(BuildContext context) {
     final AppLocalizations l10n = AppLocalizations.of(context);
     final String? text = body?.text;
     return _StepList(
+      bottom: [
+        if (onContinue != null)
+          DirasstyButton(label: continueLabel, onPressed: onContinue),
+      ],
       children: [
-        Text(lesson.lessonTitle,
-            style: context.dirasstyType.titleSmall.copyWith(fontSize: 22)),
+        Text(
+          lesson.lessonTitle,
+          style: context.dirasstyType.titleSmall.copyWith(fontSize: 22),
+        ),
         if (text == null)
           EmptyState(
-              icon: Icons.hourglass_empty_rounded,
-              title: l10n.comingSoon,
-              message: l10n.lessonComingSoon)
+            icon: Icons.hourglass_empty_rounded,
+            title: l10n.comingSoon,
+            message: l10n.lessonComingSoon,
+          )
         else
           DirasstyCard(child: LessonText(text)),
       ],
-      bottom: [DirasstyButton(label: continueLabel, onPressed: onContinue)],
     );
   }
 }
@@ -718,6 +841,28 @@ class _WorkedExampleStepViewState extends State<_WorkedExampleStepView> {
     final AppLocalizations l10n = AppLocalizations.of(context);
     final DirasstyType type = context.dirasstyType;
     return _StepList(
+      bottom: [
+        Row(
+          children: [
+            if (widget.onReviewVideo != null) ...[
+              Expanded(
+                child: DirasstyButton(
+                  label: l10n.reviewVideo,
+                  variant: DirasstyButtonVariant.quiet,
+                  onPressed: widget.onReviewVideo,
+                ),
+              ),
+              const SizedBox(width: DirasstySpace.md),
+            ],
+            Expanded(
+              child: DirasstyButton(
+                label: widget.continueLabel,
+                onPressed: widget.onContinue,
+              ),
+            ),
+          ],
+        ),
+      ],
       children: [
         Text(l10n.workedExample, style: type.titleSmall.copyWith(fontSize: 22)),
         DirasstyCard(
@@ -741,25 +886,6 @@ class _WorkedExampleStepViewState extends State<_WorkedExampleStepView> {
           ),
         ),
       ],
-      bottom: [
-        Row(
-          children: [
-            if (widget.onReviewVideo != null) ...[
-              Expanded(
-                child: DirasstyButton(
-                  label: l10n.reviewVideo,
-                  variant: DirasstyButtonVariant.quiet,
-                  onPressed: widget.onReviewVideo,
-                ),
-              ),
-              const SizedBox(width: DirasstySpace.md),
-            ],
-            Expanded(
-                child: DirasstyButton(
-                    label: widget.continueLabel, onPressed: widget.onContinue)),
-          ],
-        ),
-      ],
     );
   }
 }
@@ -774,12 +900,14 @@ class _RevisionStepView extends StatelessWidget {
   const _RevisionStepView({
     required this.lesson,
     required this.summary,
+    required this.continueLabel,
     required this.onContinue,
     super.key,
   });
 
   final CurriculumLesson lesson;
   final SummaryBody summary;
+  final String continueLabel;
   final VoidCallback onContinue;
 
   @override
@@ -787,6 +915,9 @@ class _RevisionStepView extends StatelessWidget {
     final AppLocalizations l10n = AppLocalizations.of(context);
     final DirasstyType type = context.dirasstyType;
     return _StepList(
+      bottom: [
+        DirasstyButton(label: continueLabel, onPressed: onContinue),
+      ],
       children: [
         Text(l10n.revisionSheet.toUpperCase(), style: type.label),
         Text(lesson.lessonTitle, style: type.title),
@@ -807,7 +938,6 @@ class _RevisionStepView extends StatelessWidget {
           ],
         ),
       ],
-      bottom: [DirasstyButton(label: l10n.goToExercises, onPressed: onContinue)],
     );
   }
 }
@@ -824,8 +954,10 @@ class _LessonResumeView extends ConsumerWidget {
 
   final CurriculumLesson lesson;
   final VoidCallback onRedo;
-  final VoidCallback onQcm;
-  final VoidCallback onExercises;
+
+  /// Null when the lesson has no QCM / no exercises: option hidden.
+  final VoidCallback? onQcm;
+  final VoidCallback? onExercises;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -837,11 +969,15 @@ class _LessonResumeView extends ConsumerWidget {
     bool exercisesDone = false;
     if (student != null) {
       final Map<String, LessonProgressSummary>? summary = ref
-          .watch(lessonProgressSummaryProvider((
-            studentId: student.id,
-            subjectKey: lesson.subjectKey,
-            grade: student.grade,
-          )))
+          .watch(
+            lessonProgressSummaryProvider(
+              (
+                studentId: student.id,
+                subjectKey: lesson.subjectKey,
+                grade: student.grade,
+              ),
+            ),
+          )
           .valueOrNull;
       qcmDone = summary?[lesson.id]?.exercisesDone ?? false;
       exercisesDone = (ref
@@ -852,30 +988,33 @@ class _LessonResumeView extends ConsumerWidget {
     }
 
     return _StepList(
+      bottom: const [],
       children: [
         Text(lesson.lessonTitle, style: type.titleSmall.copyWith(fontSize: 22)),
         Text(l10n.alreadyReadBody, style: type.bodySmall),
         _ResumeOption(
-            icon: Icons.play_circle_rounded,
-            title: l10n.redoLesson,
-            subtitle: l10n.redoLessonSub,
-            onTap: onRedo),
-        _ResumeOption(
-          icon: Icons.bolt_rounded,
-          title: l10n.qcmTitle,
-          subtitle: l10n.qcmSub,
-          done: qcmDone,
-          onTap: onQcm,
+          icon: Icons.play_circle_rounded,
+          title: l10n.redoLesson,
+          subtitle: l10n.redoLessonSub,
+          onTap: onRedo,
         ),
-        _ResumeOption(
-          icon: Icons.edit_note_rounded,
-          title: l10n.guidedExercises,
-          subtitle: l10n.guidedExercisesSub,
-          done: exercisesDone,
-          onTap: onExercises,
-        ),
+        if (onQcm != null)
+          _ResumeOption(
+            icon: Icons.bolt_rounded,
+            title: l10n.qcmTitle,
+            subtitle: l10n.qcmSub,
+            done: qcmDone,
+            onTap: onQcm!,
+          ),
+        if (onExercises != null)
+          _ResumeOption(
+            icon: Icons.edit_note_rounded,
+            title: l10n.guidedExercises,
+            subtitle: l10n.guidedExercisesSub,
+            done: exercisesDone,
+            onTap: onExercises!,
+          ),
       ],
-      bottom: const [],
     );
   }
 }
@@ -916,19 +1055,25 @@ class _ResumeOption extends StatelessWidget {
                     Text(title, style: type.subheading),
                     if (done)
                       DirasstyChip(
-                          label: l10n.alreadyDone,
-                          variant: DirasstyChipVariant.teal,
-                          icon: Icons.check_rounded,
-                          dense: true),
+                        label: l10n.alreadyDone,
+                        variant: DirasstyChipVariant.teal,
+                        icon: Icons.check_rounded,
+                        dense: true,
+                      ),
                   ],
                 ),
                 const SizedBox(height: 2),
-                Text(subtitle,
-                    style: type.label.copyWith(fontWeight: FontWeight.w400)),
+                Text(
+                  subtitle,
+                  style: type.label.copyWith(fontWeight: FontWeight.w400),
+                ),
               ],
             ),
           ),
-          const Icon(Icons.chevron_right_rounded, color: DirasstyColors.textMuted),
+          const Icon(
+            Icons.chevron_right_rounded,
+            color: DirasstyColors.textMuted,
+          ),
         ],
       ),
     );
@@ -947,7 +1092,11 @@ class _StepList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       padding: const EdgeInsetsDirectional.fromSTEB(
-          DirasstySpace.screen, DirasstySpace.md, DirasstySpace.screen, DirasstySpace.xxl),
+        DirasstySpace.screen,
+        DirasstySpace.md,
+        DirasstySpace.screen,
+        DirasstySpace.xxl,
+      ),
       children: [
         for (int i = 0; i < children.length; i++) ...[
           if (i > 0) const SizedBox(height: 18),

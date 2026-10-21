@@ -76,7 +76,11 @@ class _Pill extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (Color bg, Color fg, Color? border) = switch (state) {
-      _StepState.done => (DirasstyColors.tealTint, DirasstyColors.tealDark, null),
+      _StepState.done => (
+          DirasstyColors.tealTint,
+          DirasstyColors.tealDark,
+          null
+        ),
       _StepState.active => (DirasstyColors.teal, Colors.white, null),
       _StepState.upcoming => (
           DirasstyColors.surface,
@@ -103,10 +107,11 @@ class _Pill extends StatelessWidget {
           Text(
             label,
             style: context.dirasstyType.label.copyWith(
-                color: fg,
-                fontWeight: state == _StepState.upcoming
-                    ? FontWeight.w600
-                    : FontWeight.w700),
+              color: fg,
+              fontWeight: state == _StepState.upcoming
+                  ? FontWeight.w600
+                  : FontWeight.w700,
+            ),
           ),
         ],
       ),

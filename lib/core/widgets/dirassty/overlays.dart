@@ -29,13 +29,18 @@ void showDirasstySnackBar(
         content: Row(
           children: [
             if (offline) ...[
-              const Icon(Icons.wifi_off_rounded,
-                  size: 18, color: DirasstyColors.gold),
+              const Icon(
+                Icons.wifi_off_rounded,
+                size: 18,
+                color: DirasstyColors.gold,
+              ),
               const SizedBox(width: DirasstySpace.sm),
             ],
             Expanded(
-              child: Text(message,
-                  style: type.bodySmall.copyWith(color: Colors.white)),
+              child: Text(
+                message,
+                style: type.bodySmall.copyWith(color: Colors.white),
+              ),
             ),
           ],
         ),
@@ -88,7 +93,8 @@ Future<T?> showDirasstyDialog<T>(
       final DirasstyType type = dialogContext.dirasstyType;
       return Dialog(
         backgroundColor: DirasstyColors.surface,
-        shape: const RoundedRectangleBorder(borderRadius: DirasstyRadius.dialogR),
+        shape:
+            const RoundedRectangleBorder(borderRadius: DirasstyRadius.dialogR),
         insetPadding: const EdgeInsets.symmetric(horizontal: DirasstySpace.xl),
         child: Padding(
           padding: const EdgeInsetsDirectional.all(DirasstySpace.xl),
@@ -110,8 +116,11 @@ Future<T?> showDirasstyDialog<T>(
               Text(title, textAlign: TextAlign.center, style: type.titleSmall),
               if (message != null) ...[
                 const SizedBox(height: DirasstySpace.sm),
-                Text(message,
-                    textAlign: TextAlign.center, style: type.bodySmall),
+                Text(
+                  message,
+                  textAlign: TextAlign.center,
+                  style: type.bodySmall,
+                ),
               ],
               const SizedBox(height: DirasstySpace.xl),
               for (int i = 0; i < actions.length; i++) ...[
@@ -326,8 +335,11 @@ class _SkeletonState extends State<Skeleton>
           width: widget.width,
           height: widget.height,
           decoration: BoxDecoration(
-            color: Color.lerp(DirasstyColors.skeleton, DirasstyColors.skeletonLight,
-                _controller.value),
+            color: Color.lerp(
+              DirasstyColors.skeleton,
+              DirasstyColors.skeletonLight,
+              _controller.value,
+            ),
             borderRadius: BorderRadius.circular(widget.radius),
           ),
         ),
@@ -359,8 +371,11 @@ class OfflineBanner extends StatelessWidget {
         ),
         child: Row(
           children: [
-            const Icon(Icons.wifi_off_rounded,
-                size: 18, color: DirasstyColors.gold),
+            const Icon(
+              Icons.wifi_off_rounded,
+              size: 18,
+              color: DirasstyColors.gold,
+            ),
             const SizedBox(width: DirasstySpace.sm),
             Expanded(
               child: Text(
@@ -371,7 +386,8 @@ class OfflineBanner extends StatelessWidget {
             if (onSee != null)
               TextButton(
                 onPressed: onSee,
-                style: TextButton.styleFrom(foregroundColor: DirasstyColors.mint),
+                style:
+                    TextButton.styleFrom(foregroundColor: DirasstyColors.mint),
                 child: Text(l10n.see),
               ),
           ],
@@ -413,8 +429,11 @@ class FocusModeBar extends StatelessWidget {
           ),
           child: Row(
             children: [
-              const Icon(Icons.track_changes_rounded,
-                  size: 20, color: DirasstyColors.gold),
+              const Icon(
+                Icons.track_changes_rounded,
+                size: 20,
+                color: DirasstyColors.gold,
+              ),
               const SizedBox(width: DirasstySpace.sm),
               Expanded(
                 child: Text(
@@ -439,7 +458,9 @@ class FocusModeBar extends StatelessWidget {
                         child: Text(
                           l10n.unlock,
                           style: type.label.copyWith(
-                              color: Colors.white, fontWeight: FontWeight.w700),
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
                     ),

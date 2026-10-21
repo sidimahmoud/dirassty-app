@@ -22,7 +22,8 @@ Future<void> contactSupport(BuildContext context) async {
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(
-        const SnackBar(content: Text("Impossible d'ouvrir WhatsApp")));
+      const SnackBar(content: Text("Impossible d'ouvrir WhatsApp")),
+    );
   }
 }
 
@@ -57,8 +58,20 @@ Future<void> rateApp(BuildContext context) async {
   await launchUrl(uri, mode: LaunchMode.externalApplication);
 }
 
+/// The Ministry of Education's website — the official source for the
+/// curriculum, the school calendar and the exams.
+Future<void> openOfficialEducationSite(BuildContext context) async {
+  if (!await passParentalGate(context)) return;
+  await launchUrl(
+    Uri.parse(AppPromotionConfig.officialEducationUrl),
+    mode: LaunchMode.externalApplication,
+  );
+}
+
 Future<void> openPrivacyPolicy(BuildContext context) async {
   if (!await passParentalGate(context)) return;
-  await launchUrl(Uri.parse(AppPromotionConfig.privacyPolicyUrl),
-      mode: LaunchMode.externalApplication);
+  await launchUrl(
+    Uri.parse(AppPromotionConfig.privacyPolicyUrl),
+    mode: LaunchMode.externalApplication,
+  );
 }

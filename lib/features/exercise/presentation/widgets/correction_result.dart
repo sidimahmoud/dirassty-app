@@ -12,8 +12,11 @@ import '../../../ai_report/presentation/report_ai_button.dart';
 /// (reasoning, calculations, final answer) → what was right → what to fix
 /// → the full solution and "what I read", both folded by default.
 class CorrectionResult extends StatelessWidget {
-  const CorrectionResult(
-      {super.key, required this.correction, required this.lang});
+  const CorrectionResult({
+    required this.correction,
+    required this.lang,
+    super.key,
+  });
 
   final OpenExerciseCorrection correction;
 
@@ -48,19 +51,25 @@ class CorrectionResult extends StatelessWidget {
               _CheckPill(label: l10n.resultReasoning, ok: c.reasoningCorrect),
               const SizedBox(width: DirasstySpace.sm),
               _CheckPill(
-                  label: l10n.resultCalculation, ok: c.calculationCorrect),
+                label: l10n.resultCalculation,
+                ok: c.calculationCorrect,
+              ),
               const SizedBox(width: DirasstySpace.sm),
               _CheckPill(
-                  label: l10n.resultFinalAnswer, ok: c.finalAnswerCorrect),
+                label: l10n.resultFinalAnswer,
+                ok: c.finalAnswerCorrect,
+              ),
             ],
           ),
         ],
         if (c.method == 'alternative_valid') ...[
           const SizedBox(height: DirasstySpace.sm),
-          Text(l10n.alternativeMethod,
-              textAlign: TextAlign.center,
-              style: context.dirasstyType.label
-                  .copyWith(color: DirasstyColors.tealDark)),
+          Text(
+            l10n.alternativeMethod,
+            textAlign: TextAlign.center,
+            style: context.dirasstyType.label
+                .copyWith(color: DirasstyColors.tealDark),
+          ),
         ],
         if (wellDone.isNotEmpty) ...[
           const SizedBox(height: DirasstySpace.lg),
@@ -100,10 +109,11 @@ class CorrectionResult extends StatelessWidget {
               children: [
                 for (final (int i, String s) in steps.indexed)
                   _SolutionStep(
-                      index: i + 1,
-                      text: s,
-                      last: i == steps.length - 1,
-                      dir: dir),
+                    index: i + 1,
+                    text: s,
+                    last: i == steps.length - 1,
+                    dir: dir,
+                  ),
               ],
             ),
           ),
@@ -136,8 +146,9 @@ class CorrectionResult extends StatelessWidget {
   /// numbering ("1.", "Étape 2 :", "- ").
   static List<String> _solutionSteps(String raw) {
     final RegExp numbering = RegExp(
-        r'^\s*(?:[-•*]\s*|\d+\s*[.):-]\s*|(?:étape|etape|step)\s*\d+\s*[:.)-]?\s*)',
-        caseSensitive: false);
+      r'^\s*(?:[-•*]\s*|\d+\s*[.):-]\s*|(?:étape|etape|step)\s*\d+\s*[:.)-]?\s*)',
+      caseSensitive: false,
+    );
     return raw
         .split('\n')
         .map((String l) => l.replaceFirst(numbering, '').trim())
@@ -200,8 +211,10 @@ class _VerdictBanner extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(l10n.aiCorrection.toUpperCase(),
-                    style: type.label.copyWith(fontSize: 11, color: color)),
+                Text(
+                  l10n.aiCorrection.toUpperCase(),
+                  style: type.label.copyWith(fontSize: 11, color: color),
+                ),
                 const SizedBox(height: 2),
                 Text(label, style: type.titleSmall.copyWith(color: color)),
                 if (correction.encouragement.isNotEmpty) ...[
@@ -239,7 +252,9 @@ class _CheckPill extends StatelessWidget {
     return Expanded(
       child: Container(
         padding: const EdgeInsetsDirectional.symmetric(
-            vertical: DirasstySpace.sm, horizontal: DirasstySpace.xs),
+          vertical: DirasstySpace.sm,
+          horizontal: DirasstySpace.xs,
+        ),
         decoration: BoxDecoration(
           color: DirasstyColors.surface,
           borderRadius: DirasstyRadius.cardR,
@@ -285,8 +300,12 @@ class _Section extends StatelessWidget {
         borderRadius: DirasstyRadius.cardR,
         border: BorderDirectional(start: BorderSide(color: color, width: 3)),
       ),
-      padding: const EdgeInsetsDirectional.fromSTEB(DirasstySpace.md,
-          DirasstySpace.md, DirasstySpace.md, DirasstySpace.md),
+      padding: const EdgeInsetsDirectional.fromSTEB(
+        DirasstySpace.md,
+        DirasstySpace.md,
+        DirasstySpace.md,
+        DirasstySpace.md,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -294,9 +313,11 @@ class _Section extends StatelessWidget {
             children: [
               Icon(icon, size: 18, color: color),
               const SizedBox(width: DirasstySpace.sm),
-              Text(title,
-                  style: context.dirasstyType.subheading
-                      .copyWith(fontSize: 14, color: color)),
+              Text(
+                title,
+                style: context.dirasstyType.subheading
+                    .copyWith(fontSize: 14, color: color),
+              ),
             ],
           ),
           const SizedBox(height: DirasstySpace.sm),
@@ -308,8 +329,11 @@ class _Section extends StatelessWidget {
 }
 
 class _MistakeRow extends StatelessWidget {
-  const _MistakeRow(
-      {required this.index, required this.mistake, required this.dir});
+  const _MistakeRow({
+    required this.index,
+    required this.mistake,
+    required this.dir,
+  });
 
   final int index;
   final CorrectionMistake mistake;
@@ -330,11 +354,16 @@ class _MistakeRow extends StatelessWidget {
               height: 22,
               alignment: Alignment.center,
               decoration: const BoxDecoration(
-                  color: DirasstyColors.errorTint, shape: BoxShape.circle),
-              child: Text('$index',
-                  style: type.label.copyWith(
-                      color: DirasstyColors.error,
-                      fontWeight: FontWeight.w800)),
+                color: DirasstyColors.errorTint,
+                shape: BoxShape.circle,
+              ),
+              child: Text(
+                '$index',
+                style: type.label.copyWith(
+                  color: DirasstyColors.error,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
             ),
             const SizedBox(width: DirasstySpace.sm),
             Expanded(
@@ -342,13 +371,17 @@ class _MistakeRow extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   if (mistake.step.isNotEmpty)
-                    Text(cleanMathForDisplay(mistake.step),
-                        style: type.label.copyWith(
-                            color: DirasstyColors.text,
-                            fontWeight: FontWeight.w700)),
-                  Text(cleanMathForDisplay(mistake.issue),
-                      style:
-                          type.bodySmall.copyWith(color: DirasstyColors.text)),
+                    Text(
+                      cleanMathForDisplay(mistake.step),
+                      style: type.label.copyWith(
+                        color: DirasstyColors.text,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  Text(
+                    cleanMathForDisplay(mistake.issue),
+                    style: type.bodySmall.copyWith(color: DirasstyColors.text),
+                  ),
                 ],
               ),
             ),
@@ -388,25 +421,35 @@ class _SolutionStep extends StatelessWidget {
                   height: 24,
                   alignment: Alignment.center,
                   decoration: const BoxDecoration(
-                      color: DirasstyColors.teal, shape: BoxShape.circle),
-                  child: Text('$index',
-                      style: type.label.copyWith(
-                          color: Colors.white, fontWeight: FontWeight.w800)),
+                    color: DirasstyColors.teal,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Text(
+                    '$index',
+                    style: type.label.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
                 ),
                 if (!last)
                   Expanded(
-                      child:
-                          Container(width: 2, color: DirasstyColors.tealTint)),
+                    child: Container(width: 2, color: DirasstyColors.tealTint),
+                  ),
               ],
             ),
             const SizedBox(width: DirasstySpace.md),
             Expanded(
               child: Padding(
                 padding: EdgeInsetsDirectional.only(
-                    top: 2, bottom: last ? 0 : DirasstySpace.md),
-                child: Text(cleanMathForDisplay(text),
-                    style: type.bodySmall
-                        .copyWith(color: DirasstyColors.text, height: 1.5)),
+                  top: 2,
+                  bottom: last ? 0 : DirasstySpace.md,
+                ),
+                child: Text(
+                  cleanMathForDisplay(text),
+                  style: type.bodySmall
+                      .copyWith(color: DirasstyColors.text, height: 1.5),
+                ),
               ),
             ),
           ],
@@ -463,7 +506,9 @@ class _FoldableState extends State<_Foldable> {
                   const BoxConstraints(minHeight: DirasstySize.minTouch),
               child: Padding(
                 padding: const EdgeInsetsDirectional.symmetric(
-                    horizontal: DirasstySpace.md, vertical: DirasstySpace.sm),
+                  horizontal: DirasstySpace.md,
+                  vertical: DirasstySpace.sm,
+                ),
                 child: Row(
                   children: [
                     Icon(widget.icon, size: 18, color: color),
@@ -473,7 +518,9 @@ class _FoldableState extends State<_Foldable> {
                         _open ? widget.openLabel : widget.closedLabel,
                         style: (widget.quiet ? type.label : type.subheading)
                             .copyWith(
-                                fontSize: widget.quiet ? 12 : 14, color: color),
+                          fontSize: widget.quiet ? 12 : 14,
+                          color: color,
+                        ),
                       ),
                     ),
                     AnimatedRotation(
@@ -493,10 +540,11 @@ class _FoldableState extends State<_Foldable> {
             child: _open
                 ? Padding(
                     padding: const EdgeInsetsDirectional.fromSTEB(
-                        DirasstySpace.md,
-                        0,
-                        DirasstySpace.md,
-                        DirasstySpace.md),
+                      DirasstySpace.md,
+                      0,
+                      DirasstySpace.md,
+                      DirasstySpace.md,
+                    ),
                     child: widget.child,
                   )
                 : const SizedBox(width: double.infinity),

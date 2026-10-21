@@ -13,9 +13,9 @@ import '../../../core/widgets/dirassty/dirassty_widgets.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../courses/application/courses_providers.dart';
 import '../../lesson/application/lesson_providers.dart';
+import '../../tutor/presentation/tutor_sheet.dart';
 import '../application/open_practice_controller.dart';
 import '../application/open_practice_state.dart';
-import '../../tutor/presentation/tutor_sheet.dart';
 import 'widgets/correction_result.dart';
 import 'widgets/exercise_video_section.dart';
 import 'widgets/symbol_toolbar.dart';
@@ -107,8 +107,9 @@ class _ActiveViewState extends ConsumerState<_ActiveView> {
     final bool backToEditing =
         oldWidget.state.phase != OpenPracticePhase.answering &&
             widget.state.phase == OpenPracticePhase.answering;
-    if (newExercise || backToEditing)
+    if (newExercise || backToEditing) {
       _controller.text = widget.state.draftAnswer;
+    }
   }
 
   @override
@@ -144,7 +145,11 @@ class _ActiveViewState extends ConsumerState<_ActiveView> {
 
     return ListView(
       padding: const EdgeInsetsDirectional.fromSTEB(
-          DirasstySpace.screen, DirasstySpace.sm, DirasstySpace.screen, DirasstySpace.xxl),
+        DirasstySpace.screen,
+        DirasstySpace.sm,
+        DirasstySpace.screen,
+        DirasstySpace.xxl,
+      ),
       children: [
         DirasstyCard(
           variant: DirasstyCardVariant.shadow,
@@ -154,20 +159,29 @@ class _ActiveViewState extends ConsumerState<_ActiveView> {
               Row(
                 children: [
                   Expanded(
-                      child: Text(
-                          l10n.exerciseN(state.exerciseIndex + 1).toUpperCase(),
-                          style: type.label)),
+                    child: Text(
+                      l10n.exerciseN(state.exerciseIndex + 1).toUpperCase(),
+                      style: type.label,
+                    ),
+                  ),
                   if (state.attempt > 1)
-                    DirasstyChip(label: l10n.attemptN(state.attempt), dense: true),
+                    DirasstyChip(
+                      label: l10n.attemptN(state.attempt),
+                      dense: true,
+                    ),
                 ],
               ),
               const SizedBox(height: DirasstySpace.sm),
-              Text(cleanMathForDisplay(state.activeBody.question),
-                  style: type.body.copyWith(height: 1.55)),
+              Text(
+                cleanMathForDisplay(state.activeBody.question),
+                style: type.body.copyWith(height: 1.55),
+              ),
               if (state.activeBody.diagram != null) ...[
                 const SizedBox(height: DirasstySpace.md),
                 DiagramView(
-                    spec: state.activeBody.diagram!, color: DirasstyColors.teal),
+                  spec: state.activeBody.diagram!,
+                  color: DirasstyColors.teal,
+                ),
               ],
             ],
           ),
@@ -187,12 +201,17 @@ class _ActiveViewState extends ConsumerState<_ActiveView> {
   }
 
   Widget _buildAnswering(
-      AppLocalizations l10n, DirasstyType type, OppActive state) {
+    AppLocalizations l10n,
+    DirasstyType type,
+    OppActive state,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(l10n.yourAnswer,
-            style: type.label.copyWith(fontSize: 14, color: DirasstyColors.text)),
+        Text(
+          l10n.yourAnswer,
+          style: type.label.copyWith(fontSize: 14, color: DirasstyColors.text),
+        ),
         const SizedBox(height: DirasstySpace.sm),
         Directionality(
           textDirection: TextDirection.ltr,
@@ -225,16 +244,20 @@ class _ActiveViewState extends ConsumerState<_ActiveView> {
         ),
         Padding(
           padding: const EdgeInsetsDirectional.only(top: DirasstySpace.xs),
-          child: Text(l10n.checkPhotoBody,
-              textAlign: TextAlign.center,
-              style: type.label.copyWith(fontWeight: FontWeight.w400)),
+          child: Text(
+            l10n.checkPhotoBody,
+            textAlign: TextAlign.center,
+            style: type.label.copyWith(fontWeight: FontWeight.w400),
+          ),
         ),
         const SizedBox(height: DirasstySpace.sm),
         _TutorButton(state: state),
         if (state.apiError != null) ...[
           const SizedBox(height: DirasstySpace.md),
-          Text(state.apiError!,
-              style: type.label.copyWith(color: DirasstyColors.error)),
+          Text(
+            state.apiError!,
+            style: type.label.copyWith(color: DirasstyColors.error),
+          ),
         ],
       ],
     );
@@ -249,7 +272,10 @@ class _ActiveViewState extends ConsumerState<_ActiveView> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(l10n.checkWithPhoto, style: sheetContext.dirasstyType.titleSmall),
+          Text(
+            l10n.checkWithPhoto,
+            style: sheetContext.dirasstyType.titleSmall,
+          ),
           const SizedBox(height: DirasstySpace.xs),
           Text(l10n.checkPhotoBody, style: sheetContext.dirasstyType.bodySmall),
           const SizedBox(height: DirasstySpace.lg),
@@ -274,14 +300,18 @@ class _ActiveViewState extends ConsumerState<_ActiveView> {
     final List<XFile> files = source == ImageSource.camera
         ? [
             if (await picker.pickImage(
-                    source: ImageSource.camera,
-                    maxWidth: 1600,
-                    imageQuality: 80)
+              source: ImageSource.camera,
+              maxWidth: 1600,
+              imageQuality: 80,
+            )
                 case final XFile f)
               f,
           ]
         : await picker.pickMultiImage(
-            limit: 3, maxWidth: 1600, imageQuality: 80);
+            limit: 3,
+            maxWidth: 1600,
+            imageQuality: 80,
+          );
     if (files.isEmpty) return;
     final photos = <({Uint8List bytes, String filename})>[
       for (final XFile f in files.take(3))
@@ -300,23 +330,32 @@ class _ActiveViewState extends ConsumerState<_ActiveView> {
           Container(
             padding: const EdgeInsetsDirectional.all(DirasstySpace.lg),
             decoration: const BoxDecoration(
-                color: DirasstyColors.goldTint, borderRadius: DirasstyRadius.cardR),
+              color: DirasstyColors.goldTint,
+              borderRadius: DirasstyRadius.cardR,
+            ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Icon(Icons.lightbulb_rounded,
-                    color: DirasstyColors.goldStroke, size: 20),
+                const Icon(
+                  Icons.lightbulb_rounded,
+                  color: DirasstyColors.goldStroke,
+                  size: 20,
+                ),
                 const SizedBox(width: DirasstySpace.md),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(l10n.hint,
-                          style: type.subheading.copyWith(fontSize: 14)),
+                      Text(
+                        l10n.hint,
+                        style: type.subheading.copyWith(fontSize: 14),
+                      ),
                       const SizedBox(height: DirasstySpace.xs),
-                      Text(cleanMathForDisplay(state.activeBody.hint),
-                          style:
-                              type.bodySmall.copyWith(color: DirasstyColors.text)),
+                      Text(
+                        cleanMathForDisplay(state.activeBody.hint),
+                        style:
+                            type.bodySmall.copyWith(color: DirasstyColors.text),
+                      ),
                     ],
                   ),
                 ),
@@ -325,27 +364,38 @@ class _ActiveViewState extends ConsumerState<_ActiveView> {
           ),
           const SizedBox(height: DirasstySpace.sm),
         ],
-        Text(l10n.hintBeforeCorrection,
-            style: type.label.copyWith(fontWeight: FontWeight.w400)),
+        Text(
+          l10n.hintBeforeCorrection,
+          style: type.label.copyWith(fontWeight: FontWeight.w400),
+        ),
         if (state.apiError != null) ...[
           const SizedBox(height: DirasstySpace.md),
-          Text(state.apiError!,
-              style: type.label.copyWith(color: DirasstyColors.error)),
+          Text(
+            state.apiError!,
+            style: type.label.copyWith(color: DirasstyColors.error),
+          ),
         ],
         const SizedBox(height: DirasstySpace.xl),
         DirasstyButton(
-            label: l10n.seeCorrection,
-            icon: Icons.auto_awesome_rounded,
-            onPressed: _notifier.requestCorrection),
+          label: l10n.seeCorrection,
+          icon: Icons.auto_awesome_rounded,
+          onPressed: _notifier.requestCorrection,
+        ),
         const SizedBox(height: DirasstySpace.sm),
         TextButton(
-            onPressed: _notifier.reviseAnswer, child: Text(l10n.reviseAnswer)),
+          onPressed: _notifier.reviseAnswer,
+          child: Text(l10n.reviseAnswer),
+        ),
       ],
     );
   }
 
   Widget _buildCorrected(
-      AppLocalizations l10n, DirasstyType type, OppActive state, bool hasVideos) {
+    AppLocalizations l10n,
+    DirasstyType type,
+    OppActive state,
+    bool hasVideos,
+  ) {
     final OpenExerciseCorrection c = state.correction!;
     // Unreadable photo / not confident: no verdict — ask for a retake.
     if (c.undetermined) {
@@ -353,15 +403,18 @@ class _ActiveViewState extends ConsumerState<_ActiveView> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           PhotoRetakeCard(
-              issues: c.imageIssues, onRetake: () => _pickAndCheckPhotos(l10n)),
+            issues: c.imageIssues,
+            onRetake: () => _pickAndCheckPhotos(l10n),
+          ),
           if (c.whatWasRight.isNotEmpty) ...[
             const SizedBox(height: DirasstySpace.md),
             Text(cleanMathForDisplay(c.whatWasRight), style: type.bodySmall),
           ],
           const SizedBox(height: DirasstySpace.md),
           TextButton(
-              onPressed: _notifier.reviseAnswer,
-              child: Text(l10n.writeAnswerInstead)),
+            onPressed: _notifier.reviseAnswer,
+            child: Text(l10n.writeAnswerInstead),
+          ),
         ],
       );
     }
@@ -374,17 +427,22 @@ class _ActiveViewState extends ConsumerState<_ActiveView> {
           const SizedBox(height: DirasstySpace.lg),
         ],
         CorrectionResult(
-            correction: c, lang: context.isArabicLocale ? 'ar' : 'fr'),
+          correction: c,
+          lang: context.isArabicLocale ? 'ar' : 'fr',
+        ),
         if (state.apiError != null) ...[
           const SizedBox(height: DirasstySpace.md),
-          Text(state.apiError!,
-              style: type.label.copyWith(color: DirasstyColors.error)),
+          Text(
+            state.apiError!,
+            style: type.label.copyWith(color: DirasstyColors.error),
+          ),
         ],
         const SizedBox(height: DirasstySpace.xl),
         DirasstyButton(
-            label: l10n.similarExercise,
-            icon: Icons.auto_awesome_rounded,
-            onPressed: _notifier.requestSimilarExercise),
+          label: l10n.similarExercise,
+          icon: Icons.auto_awesome_rounded,
+          onPressed: _notifier.requestSimilarExercise,
+        ),
         const SizedBox(height: DirasstySpace.md),
         _TutorButton(state: state),
         if (hasVideos) ...[
@@ -399,13 +457,16 @@ class _ActiveViewState extends ConsumerState<_ActiveView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text(l10n.methodVideos,
-                        style: sheetContext.dirasstyType.heading),
+                    Text(
+                      l10n.methodVideos,
+                      style: sheetContext.dirasstyType.heading,
+                    ),
                     const SizedBox(height: DirasstySpace.md),
                     ExerciseVideoSection(
-                        lessonId: widget.lessonId,
-                        color: DirasstyColors.teal,
-                        isArabic: sheetContext.isArabicLocale),
+                      lessonId: widget.lessonId,
+                      color: DirasstyColors.teal,
+                      isArabic: sheetContext.isArabicLocale,
+                    ),
                   ],
                 ),
               ),
@@ -415,13 +476,16 @@ class _ActiveViewState extends ConsumerState<_ActiveView> {
         if (state.hasNextPremade) ...[
           const SizedBox(height: DirasstySpace.md),
           DirasstyButton(
-              label: l10n.nextExercise,
-              variant: DirasstyButtonVariant.quiet,
-              onPressed: _notifier.nextPremadeExercise),
+            label: l10n.nextExercise,
+            variant: DirasstyButtonVariant.quiet,
+            onPressed: _notifier.nextPremadeExercise,
+          ),
         ],
         const SizedBox(height: DirasstySpace.sm),
         TextButton(
-            onPressed: _notifier.reviseAnswer, child: Text(l10n.reviseAnswer)),
+          onPressed: _notifier.reviseAnswer,
+          child: Text(l10n.reviseAnswer),
+        ),
       ],
     );
   }
@@ -441,9 +505,11 @@ class _TutorButton extends StatelessWidget {
       label: l10n.askDirassty,
       icon: Icons.auto_awesome_rounded,
       variant: DirasstyButtonVariant.quiet,
-      onPressed: () => showTutorSheet(context,
-          exerciseRef: state.exerciseRef,
-          lang: context.isArabicLocale ? 'ar' : 'fr'),
+      onPressed: () => showTutorSheet(
+        context,
+        exerciseRef: state.exerciseRef,
+        lang: context.isArabicLocale ? 'ar' : 'fr',
+      ),
     );
   }
 }
@@ -461,21 +527,27 @@ class _AnswerEcho extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(l10n.yourAnswer,
-            style: type.label.copyWith(fontSize: 14, color: DirasstyColors.text)),
+        Text(
+          l10n.yourAnswer,
+          style: type.label.copyWith(fontSize: 14, color: DirasstyColors.text),
+        ),
         const SizedBox(height: DirasstySpace.sm),
         Directionality(
           textDirection: TextDirection.ltr,
           child: Container(
             padding: const EdgeInsetsDirectional.symmetric(
-                horizontal: DirasstySpace.lg, vertical: 14),
+              horizontal: DirasstySpace.lg,
+              vertical: 14,
+            ),
             decoration: BoxDecoration(
               color: DirasstyColors.surface,
               borderRadius: DirasstyRadius.cardR,
               border: Border.all(color: DirasstyColors.line, width: 1.5),
             ),
-            child: Text(cleanMathForDisplay(answer),
-                style: type.body.copyWith(fontFamily: 'Inter')),
+            child: Text(
+              cleanMathForDisplay(answer),
+              style: type.body.copyWith(fontFamily: 'Inter'),
+            ),
           ),
         ),
       ],
@@ -491,7 +563,8 @@ class _Waiting extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsetsDirectional.symmetric(vertical: DirasstySpace.xxl),
+      padding:
+          const EdgeInsetsDirectional.symmetric(vertical: DirasstySpace.xxl),
       child: Column(
         children: [
           const CircularProgressIndicator(),

@@ -29,8 +29,11 @@ class StreakBadge extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.local_fire_department_rounded,
-                size: 18, color: DirasstyColors.gold),
+            const Icon(
+              Icons.local_fire_department_rounded,
+              size: 18,
+              color: DirasstyColors.gold,
+            ),
             const SizedBox(width: DirasstySpace.xs),
             Text(
               '$days',
@@ -50,8 +53,12 @@ class StreakBadge extends StatelessWidget {
 /// Level: 40 px gold square, radius 12, ink number.
 /// DESIGN_SPEC.md §2 "LevelBadge".
 class LevelBadge extends StatelessWidget {
-  const LevelBadge(
-      {required this.level, super.key, this.size = 40, this.semanticLabel});
+  const LevelBadge({
+    required this.level,
+    super.key,
+    this.size = 40,
+    this.semanticLabel,
+  });
 
   final int level;
   final double size;

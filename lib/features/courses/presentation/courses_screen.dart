@@ -28,8 +28,9 @@ class CoursesScreen extends ConsumerWidget {
       backgroundColor: DirasstyColors.background,
       bottomNavigationBar: const StudentTabBar(currentIndex: 1),
       appBar: AppBar(
-          title:
-              Text(l10n.mySubjectsTitle, style: context.dirasstyType.titleSmall)),
+        title:
+            Text(l10n.mySubjectsTitle, style: context.dirasstyType.titleSmall),
+      ),
       body: RefreshIndicator(
         onRefresh: () => ref.refresh(subjectsWithMasteryProvider.future),
         child: ListView(
@@ -50,10 +51,13 @@ class CoursesScreen extends ConsumerWidget {
                 ],
               ),
               error: (_, __) => ErrorState(
-                  onRetry: () => ref.invalidate(subjectsWithMasteryProvider)),
+                onRetry: () => ref.invalidate(subjectsWithMasteryProvider),
+              ),
               data: (list) => list.isEmpty
                   ? EmptyState(
-                      icon: Icons.menu_book_rounded, title: l10n.noSubjects)
+                      icon: Icons.menu_book_rounded,
+                      title: l10n.noSubjects,
+                    )
                   : SubjectGrid(subjects: list),
             ),
           ],

@@ -22,8 +22,11 @@ enum CorrectionScore {
 
 @immutable
 class CorrectionMistake {
-  const CorrectionMistake(
-      {required this.step, required this.issue, required this.type});
+  const CorrectionMistake({
+    required this.step,
+    required this.issue,
+    required this.type,
+  });
 
   final String step;
   final String issue;
@@ -79,11 +82,13 @@ class OpenExerciseCorrection {
           (json['correct_steps'] as List<dynamic>?)?.cast<String>() ?? const [],
       mistakes: ((json['mistakes'] as List<dynamic>?) ?? const [])
           .whereType<Map<String, dynamic>>()
-          .map((m) => CorrectionMistake(
-                step: m['step'] as String? ?? '',
-                issue: m['issue'] as String? ?? '',
-                type: m['type'] as String? ?? 'reasoning',
-              ))
+          .map(
+            (m) => CorrectionMistake(
+              step: m['step'] as String? ?? '',
+              issue: m['issue'] as String? ?? '',
+              type: m['type'] as String? ?? 'reasoning',
+            ),
+          )
           .where((m) => m.issue.isNotEmpty)
           .toList(),
       confidence: (json['confidence'] as num?)?.toDouble() ?? 1,

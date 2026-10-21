@@ -35,7 +35,8 @@ class ExamRepository {
     final List<Map<String, dynamic>> questionRows = await _client
         .from('exam_questions')
         .select(
-            '*, content:content_id(body, difficulty), lesson:lesson_id(title)')
+          '*, content:content_id(body, difficulty), lesson:lesson_id(title)',
+        )
         .eq('exam_id', examId)
         .order('order_index');
     return ExamDetail(
@@ -49,7 +50,8 @@ class ExamRepository {
   /// harmless, it just re-stamps the same intent).
   Future<void> markStarted(String examId) async {
     await _client.from('exams').update(
-        {'started_at': DateTime.now().toIso8601String()}).eq('id', examId);
+      {'started_at': DateTime.now().toIso8601String()},
+    ).eq('id', examId);
   }
 
   Future<void> answerQuestion({

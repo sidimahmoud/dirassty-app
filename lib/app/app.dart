@@ -3,13 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/analytics/app_analytics.dart';
 import '../core/analytics/install_attribution.dart';
-import '../core/layout/system_bars.dart';
-import '../core/update/app_update.dart';
-import '../core/update/update_gate.dart';
-import '../core/monitoring/error_reporting.dart';
 import '../core/i18n/app_lang.dart';
 import '../core/i18n/app_language_provider.dart';
 import '../core/layout/responsive.dart';
+import '../core/layout/system_bars.dart';
+import '../core/monitoring/error_reporting.dart';
 import '../core/offline/offline_videos_controller.dart';
 import '../core/push/push_banner.dart';
 import '../core/push/push_providers.dart';
@@ -17,7 +15,8 @@ import '../core/push/push_service.dart';
 import '../core/router/app_router.dart';
 import '../core/security/screen_capture_guard.dart';
 import '../core/theme/dirassty_theme.dart';
-import '../l10n/app_localizations.dart';
+import '../core/update/app_update.dart';
+import '../core/update/update_gate.dart';
 import '../features/auth/application/app_auth_state.dart';
 import '../features/auth/application/auth_providers.dart';
 import '../features/focus/application/focus_providers.dart';
@@ -25,6 +24,7 @@ import '../features/focus/presentation/focus_mode_overlay.dart';
 import '../features/parent/application/parent_providers.dart';
 import '../features/student/application/student_providers.dart';
 import '../features/subscription/application/subscription_providers.dart';
+import '../l10n/app_localizations.dart';
 import 'splash_overlay.dart';
 
 /// Root widget — owns the app-wide [MaterialApp.router], theme, and
@@ -160,9 +160,12 @@ class _DirasstyAppState extends ConsumerState<DirasstyApp>
           child: UpdateGate(
             child: PushBannerHost(
               child: FocusModeOverlay(
-                  child: ResponsiveShell(
-                      child: SystemNavigationInset(
-                          child: child ?? const SizedBox.shrink()))),
+                child: ResponsiveShell(
+                  child: SystemNavigationInset(
+                    child: child ?? const SizedBox.shrink(),
+                  ),
+                ),
+              ),
             ),
           ),
         ),

@@ -74,7 +74,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get trialLine =>
-      'Programme officiel mauritanien · Leçons, exercices et examens';
+      'Programme scolaire mauritanien · Leçons, exercices et examens';
 
   @override
   String get studentLoginTitle => 'Connexion élève';
@@ -945,6 +945,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get resendCode => 'Renvoyer le code';
 
   @override
+  String get pasteCode => 'Coller le code';
+
+  @override
   String get pasteCodeHint => 'Appui long pour coller le code';
 
   @override
@@ -1171,6 +1174,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get startQcm => 'Commencer le QCM';
+
+  @override
+  String get finishLesson => 'Terminer la leçon';
 
   @override
   String questionTopic(Object lesson, Object n) {
@@ -1803,7 +1809,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get subscriptionIntro =>
-      'Toutes les matières, vidéos, exercices et examens du programme officiel.';
+      'Toutes les matières, vidéos, exercices et examens du programme scolaire.';
 
   @override
   String get planNoCommitment => 'Sans engagement';

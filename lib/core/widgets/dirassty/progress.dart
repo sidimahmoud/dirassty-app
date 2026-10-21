@@ -37,7 +37,8 @@ class MasteryRing extends StatelessWidget {
       value: '${(clamped * 100).round()}%',
       child: TweenAnimationBuilder<double>(
         tween: Tween(end: clamped),
-        duration: context.reduceMotion ? Duration.zero : DirasstyMotion.progress,
+        duration:
+            context.reduceMotion ? Duration.zero : DirasstyMotion.progress,
         curve: DirasstyMotion.curve,
         builder: (context, v, _) => SizedBox.square(
           dimension: size,
@@ -141,7 +142,9 @@ class DirasstyProgressBar extends StatelessWidget {
               heightFactor: 1,
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                    color: color, borderRadius: DirasstyRadius.pillR),
+                  color: color,
+                  borderRadius: DirasstyRadius.pillR,
+                ),
               ),
             ),
           ),
@@ -224,12 +227,18 @@ class SubjectCard extends StatelessWidget {
                       height: 40,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                          color: tint, borderRadius: DirasstyRadius.cardR),
+                        color: tint,
+                        borderRadius: DirasstyRadius.cardR,
+                      ),
                       child: Text(icon!, style: const TextStyle(fontSize: 20)),
                     ),
                   const Spacer(),
                   MasteryRing(
-                      value: mastery, color: ringColor, size: 40, stroke: 4),
+                    value: mastery,
+                    color: ringColor,
+                    size: 40,
+                    stroke: 4,
+                  ),
                 ],
               ),
               const SizedBox(height: DirasstySpace.md),

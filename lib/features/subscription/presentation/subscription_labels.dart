@@ -6,7 +6,9 @@ import '../../../l10n/app_localizations.dart';
 /// the parent home cards and "Mes abonnements" both read this, so the
 /// same row can never be described two different ways.
 ({String label, DirasstyChipVariant variant}) subscriptionBadge(
-    AppLocalizations l10n, Subscription sub) {
+  AppLocalizations l10n,
+  Subscription sub,
+) {
   final bool access = sub.grantsAccess;
   return switch (sub.status) {
     SubscriptionStatus.trial when access => (

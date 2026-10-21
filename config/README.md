@@ -36,6 +36,31 @@ flutter build ipa --release --dart-define-from-file=config/prod.json
 flutter run --release --dart-define-from-file=config/prod.json
 ```
 
+## Android signing
+
+Google Play refuses debug-signed uploads. Release builds use the upload key
+named in `android/key.properties` (both the key and that file are
+git-ignored; without them, release builds fall back to debug keys).
+
+One-time setup, from `apps/mobile`:
+
+```bash
+keytool -genkey -v -keystore ~/dirassti-upload-keystore.jks -keyalg RSA -keysize 2048 -validity 10000 -alias upload
+```
+
+Then create `android/key.properties`:
+
+```properties
+storePassword=<the password you chose>
+keyPassword=<the same password>
+keyAlias=upload
+storeFile=/Users/<you>/dirassti-upload-keystore.jks
+```
+
+Back up the `.jks` file and its password somewhere safe (password manager).
+With Play App Signing (the default for new apps), Google holds the real app
+key; if this upload key is lost, Google can reset it on request.
+
 To point a test build at the local web server, add
 `--dart-define=API_BASE_URL=http://<your-mac-ip>:3000` to any command above.
 

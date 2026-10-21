@@ -59,6 +59,21 @@ class _ConceptStepViewState extends State<ConceptStepView> {
     final String? coreIdea = section.coreIdea;
 
     return _StepScaffold(
+      bottom: [
+        DirasstyButton(
+          label: widget.continueLabel ?? l10n.nextConcept,
+          icon: Directionality.of(context) == TextDirection.rtl
+              ? Icons.arrow_back_rounded
+              : Icons.arrow_forward_rounded,
+          onPressed: _canContinue ? widget.onContinue : null,
+        ),
+        if (!_canContinue)
+          Text(
+            l10n.answerToContinue,
+            textAlign: TextAlign.center,
+            style: type.label,
+          ),
+      ],
       children: [
         Text(l10n.conceptOf(widget.index + 1, widget.total), style: type.label),
         Text(section.title, style: type.titleSmall.copyWith(fontSize: 22)),
@@ -71,13 +86,17 @@ class _ConceptStepViewState extends State<ConceptStepView> {
               : Container(
                   padding: const EdgeInsetsDirectional.all(DirasstySpace.lg),
                   decoration: const BoxDecoration(
-                      color: DirasstyColors.ivory,
-                      borderRadius: DirasstyRadius.cardR),
+                    color: DirasstyColors.ivory,
+                    borderRadius: DirasstyRadius.cardR,
+                  ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Icon(Icons.lightbulb_rounded,
-                          size: 20, color: DirasstyColors.goldStroke),
+                      const Icon(
+                        Icons.lightbulb_rounded,
+                        size: 20,
+                        color: DirasstyColors.goldStroke,
+                      ),
                       const SizedBox(width: DirasstySpace.md),
                       Expanded(
                         child: Text(
@@ -117,18 +136,6 @@ class _ConceptStepViewState extends State<ConceptStepView> {
         else
           Text(l10n.finishExamplesFirst, style: type.label),
       ],
-      bottom: [
-        DirasstyButton(
-          label: widget.continueLabel ?? l10n.nextConcept,
-          icon: Directionality.of(context) == TextDirection.rtl
-              ? Icons.arrow_back_rounded
-              : Icons.arrow_forward_rounded,
-          onPressed: _canContinue ? widget.onContinue : null,
-        ),
-        if (!_canContinue)
-          Text(l10n.answerToContinue,
-              textAlign: TextAlign.center, style: type.label),
-      ],
     );
   }
 }
@@ -159,8 +166,10 @@ class _ExampleCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(l10n.exampleOf(index + 1, total).toUpperCase(),
-              style: type.label),
+          Text(
+            l10n.exampleOf(index + 1, total).toUpperCase(),
+            style: type.label,
+          ),
           const SizedBox(height: DirasstySpace.sm),
           LessonText(example.scenario),
           if (example.diagram != null) ...[
@@ -200,7 +209,11 @@ class _StepScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       padding: const EdgeInsetsDirectional.fromSTEB(
-          DirasstySpace.screen, DirasstySpace.lg, DirasstySpace.screen, DirasstySpace.xxl),
+        DirasstySpace.screen,
+        DirasstySpace.lg,
+        DirasstySpace.screen,
+        DirasstySpace.xxl,
+      ),
       children: [
         for (int i = 0; i < children.length; i++) ...[
           if (i > 0) SizedBox(height: i == 1 ? DirasstySpace.sm : 18),

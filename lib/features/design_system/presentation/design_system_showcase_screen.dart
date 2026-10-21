@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/theme/subject_colors.dart';
 import '../../../core/theme/dirassty_theme.dart';
+import '../../../core/theme/subject_colors.dart';
 
 /// A living style guide: every design token rendered in one place. This is
 /// the fastest way to catch a token that looks wrong before it ends up
@@ -107,11 +107,11 @@ class _TypographyScale extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('H1 · 32', style: TextStyle(fontSize: 32)),
-        Text('XL · 20', style: TextStyle(fontSize: 20)),
-        Text('MD · 16', style: TextStyle(fontSize: 16)),
-        Text('Base · 14', style: TextStyle(fontSize: 14)),
-        Text(
+        const Text('H1 · 32', style: TextStyle(fontSize: 32)),
+        const Text('XL · 20', style: TextStyle(fontSize: 20)),
+        const Text('MD · 16', style: TextStyle(fontSize: 16)),
+        const Text('Base · 14', style: TextStyle(fontSize: 14)),
+        const Text(
           'Muted · 12',
           style: TextStyle(
             fontSize: 12,
@@ -124,7 +124,7 @@ class _TypographyScale extends StatelessWidget {
           child: Text(
             'الرياضيات — Cairo font, right-to-left',
             style: DirasstyType.arabicFont(
-              TextStyle(fontSize: 18),
+              const TextStyle(fontSize: 18),
             ),
           ),
         ),

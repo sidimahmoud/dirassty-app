@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'dirassty_theme.dart';
@@ -32,8 +31,11 @@ enum SubjectKey {
 /// for the 9 known subjects, otherwise the label stored on the subject
 /// row ([dbLabel]) — never another subject's name. (Falling back to
 /// [SubjectKey.math] here used to title e.g. "Chimie" as "Mathématiques".)
-String subjectDisplayName(String key,
-    {required bool isArabic, String? dbLabel}) {
+String subjectDisplayName(
+  String key, {
+  required bool isArabic,
+  String? dbLabel,
+}) {
   final SubjectKey? known = SubjectKey.tryFromDb(key);
   if (known == null) return dbLabel ?? key;
   final SubjectMeta meta = kSubjectMeta[known]!;

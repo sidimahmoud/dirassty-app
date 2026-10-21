@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/models/video_body.dart';
+import '../../../../core/theme/dirassty_theme.dart';
 import '../../../../core/widgets/video_playlist.dart';
 import '../../../courses/application/courses_providers.dart';
 import '../../../lesson/application/lesson_providers.dart';
-import '../../../../core/theme/dirassty_theme.dart';
 
 /// Shows every exercise "how to solve these" walkthrough video (`content`
 /// rows of type `exercise_video_url` — a lesson may have several) under a
@@ -17,10 +17,10 @@ import '../../../../core/theme/dirassty_theme.dart';
 /// showing the same video in two different screens was confusing.
 class ExerciseVideoSection extends ConsumerWidget {
   const ExerciseVideoSection({
-    super.key,
     required this.lessonId,
     required this.color,
     required this.isArabic,
+    super.key,
   });
 
   final String lessonId;

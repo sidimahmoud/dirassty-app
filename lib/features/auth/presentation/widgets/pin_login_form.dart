@@ -129,36 +129,6 @@ class _PinLoginFormState extends ConsumerState<PinLoginForm> {
     final bool canSubmit = widget.identityFilled && _pin.length == 4 && !locked;
 
     return AuthScaffold(
-      children: [
-        widget.heading,
-        widget.identityField,
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            AuthFieldLabel(
-              label: l10n.pinCode,
-              trailing: TextButton(
-                  onPressed: widget.onForgotPin, child: Text(l10n.forgotPin)),
-            ),
-            const SizedBox(height: DirasstySpace.xs),
-            PinBoxes(value: _pin, hasError: _error != null),
-            if (locked || _error != null) ...[
-              const SizedBox(height: DirasstySpace.sm),
-              Text(
-                locked
-                    ? l10n.pinLocked((_lockLeft!.inSeconds / 60).ceil())
-                    : _error!,
-                style: type.label.copyWith(color: DirasstyColors.error),
-              ),
-              if (locked && widget.lockedHint != null)
-                Padding(
-                  padding: const EdgeInsetsDirectional.only(top: DirasstySpace.xs),
-                  child: Text(widget.lockedHint!, style: type.label),
-                ),
-            ],
-          ],
-        ),
-      ],
       bottom: [
         PinPad(
           onDigit: _onDigit,
@@ -172,6 +142,39 @@ class _PinLoginFormState extends ConsumerState<PinLoginForm> {
           onPressed: canSubmit ? _submit : null,
         ),
         if (widget.footer != null) widget.footer!,
+      ],
+      children: [
+        widget.heading,
+        widget.identityField,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            AuthFieldLabel(
+              label: l10n.pinCode,
+              trailing: TextButton(
+                onPressed: widget.onForgotPin,
+                child: Text(l10n.forgotPin),
+              ),
+            ),
+            const SizedBox(height: DirasstySpace.xs),
+            PinBoxes(value: _pin, hasError: _error != null),
+            if (locked || _error != null) ...[
+              const SizedBox(height: DirasstySpace.sm),
+              Text(
+                locked
+                    ? l10n.pinLocked((_lockLeft!.inSeconds / 60).ceil())
+                    : _error!,
+                style: type.label.copyWith(color: DirasstyColors.error),
+              ),
+              if (locked && widget.lockedHint != null)
+                Padding(
+                  padding:
+                      const EdgeInsetsDirectional.only(top: DirasstySpace.xs),
+                  child: Text(widget.lockedHint!, style: type.label),
+                ),
+            ],
+          ],
+        ),
       ],
     );
   }

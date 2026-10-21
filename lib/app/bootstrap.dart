@@ -18,7 +18,8 @@ Future<void> bootstrap() async {
   // Keep the native launch screen up until SplashOverlay has its logo
   // decoded and takes over (it calls FlutterNativeSplash.remove()).
   FlutterNativeSplash.preserve(
-      widgetsBinding: WidgetsFlutterBinding.ensureInitialized());
+    widgetsBinding: WidgetsFlutterBinding.ensureInitialized(),
+  );
   // Western digits in Arabic dates too (DESIGN_SPEC §7).
   DirasstyDates.ensureWesternDigits();
 
@@ -31,7 +32,7 @@ Future<void> bootstrap() async {
 
   await Supabase.initialize(
     url: SupabaseConfig.url,
-    anonKey: SupabaseConfig.anonKey,
+    publishableKey: SupabaseConfig.anonKey,
   );
 
   await ErrorReporting.start(const ProviderScope(child: DirasstyApp()));

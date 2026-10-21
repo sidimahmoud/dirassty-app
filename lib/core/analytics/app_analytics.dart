@@ -73,8 +73,10 @@ class AppAnalytics {
     final String trimmed = code.trim();
     if (trimmed.isEmpty || _client.auth.currentSession == null) return null;
     try {
-      final dynamic res = await _client.rpc<dynamic>('apply_promo_code',
-          params: {'p_code': trimmed, 'p_context': context});
+      final dynamic res = await _client.rpc<dynamic>(
+        'apply_promo_code',
+        params: {'p_code': trimmed, 'p_context': context},
+      );
       if (res is Map && res['ok'] == true) {
         return res['influencer'] as String? ?? '';
       }

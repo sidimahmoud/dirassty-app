@@ -77,7 +77,9 @@ class ReportAiButton extends ConsumerWidget {
     );
     if (sent == true && context.mounted) {
       showDirasstySnackBar(
-          context, AppLocalizations.of(context).reportAiThanks);
+        context,
+        AppLocalizations.of(context).reportAiThanks,
+      );
     }
   }
 }
@@ -188,8 +190,10 @@ class _ReportFormState extends ConsumerState<_ReportForm> {
           decoration: InputDecoration(hintText: l10n.reportAiCommentHint),
         ),
         if (_error != null)
-          Text(_error!,
-              style: type.label.copyWith(color: DirasstyColors.error)),
+          Text(
+            _error!,
+            style: type.label.copyWith(color: DirasstyColors.error),
+          ),
         const SizedBox(height: DirasstySpace.sm),
         DirasstyButton(
           label: l10n.reportAiSend,

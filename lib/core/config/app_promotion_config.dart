@@ -13,6 +13,13 @@ abstract final class AppPromotionConfig {
   /// sign-up and About, and given to both stores.
   static const String privacyPolicyUrl = '$shareUrl/confidentialite';
 
+  /// Official source of the curriculum and exams: the Mauritanian Ministry
+  /// of National Education (Ministère de l'Éducation nationale et de la
+  /// Réforme du système éducatif). Linked from About → "Sources et
+  /// indépendance" — Google Play requires a link to the original source for
+  /// any government-related information (Misleading Claims policy).
+  static const String officialEducationUrl = 'https://www.education.gov.mr/';
+
   /// Empty until the app is actually published to each store — callers
   /// must check [isPublishedOnAnyStore] and show a "coming soon" message
   /// instead of attempting a link that goes nowhere.

@@ -103,21 +103,27 @@ class VideoPlayerCard extends ConsumerWidget {
                             ? () => controller.cancel(video.url)
                             : () async {
                                 try {
-                                  await controller.download(video, title,
-                                      lessonId: lessonId);
+                                  await controller.download(
+                                    video,
+                                    title,
+                                    lessonId: lessonId,
+                                  );
                                 } catch (_) {
                                   if (context.mounted) {
                                     showDirasstySnackBar(
-                                        context, l10n.downloadFailed,
-                                        offline: true);
+                                      context,
+                                      l10n.downloadFailed,
+                                      offline: true,
+                                    );
                                   }
                                 }
                               },
                       ),
                       const SizedBox(height: DirasstySpace.sm),
-                      Text(l10n.downloadWifiHint,
-                          style:
-                              type.label.copyWith(fontWeight: FontWeight.w400)),
+                      Text(
+                        l10n.downloadWifiHint,
+                        style: type.label.copyWith(fontWeight: FontWeight.w400),
+                      ),
                     ],
                   ),
           ),

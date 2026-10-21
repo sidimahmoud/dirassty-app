@@ -26,7 +26,7 @@ import 'focus_blocked_dialog.dart';
 ///
 /// design_handoff FocusMode.dc.html · DESIGN_SPEC §4 "Focus mode".
 class FocusModeOverlay extends ConsumerStatefulWidget {
-  const FocusModeOverlay({super.key, required this.child});
+  const FocusModeOverlay({required this.child, super.key});
 
   final Widget child;
 
@@ -185,8 +185,12 @@ class _UnlockSheet extends StatelessWidget {
       child: ConstrainedBox(
         constraints: BoxConstraints(maxHeight: media.size.height * 0.9),
         child: SingleChildScrollView(
-          padding: EdgeInsetsDirectional.fromSTEB(DirasstySpace.xl, DirasstySpace.md,
-              DirasstySpace.xl, DirasstySpace.xxl + media.padding.bottom),
+          padding: EdgeInsetsDirectional.fromSTEB(
+            DirasstySpace.xl,
+            DirasstySpace.md,
+            DirasstySpace.xl,
+            DirasstySpace.xxl + media.padding.bottom,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -203,8 +207,10 @@ class _UnlockSheet extends StatelessWidget {
               const SizedBox(height: DirasstySpace.lg),
               Text(l10n.parentCode, style: type.titleSmall),
               const SizedBox(height: DirasstySpace.xs),
-              Text(l10n.parentCodeBody,
-                  style: type.bodySmall.copyWith(color: DirasstyColors.textMuted)),
+              Text(
+                l10n.parentCodeBody,
+                style: type.bodySmall.copyWith(color: DirasstyColors.textMuted),
+              ),
               const SizedBox(height: DirasstySpace.lg),
               PinBoxes(value: pin, hasError: error != null),
               if (error != null) ...[
@@ -212,7 +218,9 @@ class _UnlockSheet extends StatelessWidget {
                 Text(
                   error,
                   style: type.label.copyWith(
-                      color: DirasstyColors.error, fontWeight: FontWeight.w600),
+                    color: DirasstyColors.error,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ],
               const SizedBox(height: DirasstySpace.lg),
@@ -233,15 +241,19 @@ class _UnlockSheet extends StatelessWidget {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Icon(Icons.info_outline_rounded,
-                          size: 18, color: DirasstyColors.teal),
+                      const Icon(
+                        Icons.info_outline_rounded,
+                        size: 18,
+                        color: DirasstyColors.teal,
+                      ),
                       const SizedBox(width: DirasstySpace.sm),
                       Expanded(
                         child: Text(
                           l10n.guidedAccessHint,
                           style: type.label.copyWith(
-                              color: DirasstyColors.text,
-                              fontWeight: FontWeight.w400),
+                            color: DirasstyColors.text,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                       ),
                     ],

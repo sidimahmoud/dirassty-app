@@ -7,10 +7,10 @@ import '../../../../core/widgets/dirassty/dirassty_widgets.dart';
 /// (or pill-shaped, 36 px, for the cycle picker).
 class AuthSegmented extends StatelessWidget {
   const AuthSegmented({
-    super.key,
     required this.options,
     required this.selected,
     required this.onChanged,
+    super.key,
     this.pill = false,
   });
 
@@ -22,11 +22,14 @@ class AuthSegmented extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final DirasstyType type = context.dirasstyType;
-    final BorderRadius outer = pill ? DirasstyRadius.pillR : DirasstyRadius.cardR;
-    final BorderRadius inner = pill ? DirasstyRadius.pillR : DirasstyRadius.smallR;
+    final BorderRadius outer =
+        pill ? DirasstyRadius.pillR : DirasstyRadius.cardR;
+    final BorderRadius inner =
+        pill ? DirasstyRadius.pillR : DirasstyRadius.smallR;
     return Container(
       padding: const EdgeInsets.all(DirasstySpace.xs),
-      decoration: BoxDecoration(color: DirasstyColors.track, borderRadius: outer),
+      decoration:
+          BoxDecoration(color: DirasstyColors.track, borderRadius: outer),
       child: Row(
         children: [
           for (int i = 0; i < options.length; i++) ...[
@@ -39,8 +42,9 @@ class AuthSegmented extends StatelessWidget {
                   borderRadius: inner,
                   onTap: () => onChanged(i),
                   child: AnimatedContainer(
-                    duration:
-                        context.reduceMotion ? Duration.zero : DirasstyMotion.fast,
+                    duration: context.reduceMotion
+                        ? Duration.zero
+                        : DirasstyMotion.fast,
                     height: pill ? 36 : DirasstySize.minTouch,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(

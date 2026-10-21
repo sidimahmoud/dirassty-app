@@ -85,8 +85,9 @@ class PushService {
   /// used as-is; a screen key (sent by admin notifications) maps to the
   /// student's or the parent's version of that screen.
   static String routeFor(String? route, {required bool isParent}) {
-    if (route == null || route.isEmpty)
+    if (route == null || route.isEmpty) {
       return isParent ? '/parent/home' : '/home';
+    }
     if (route.startsWith('/')) return route;
     return switch (route) {
       'exams' => isParent ? '/parent/home' : '/exams',
@@ -145,7 +146,8 @@ class PushService {
     if (_listening) return;
     _listening = true;
     FirebaseMessaging.onMessage.listen(
-        (RemoteMessage m) => _foreground.add(PushMessage.fromRemote(m)));
+      (RemoteMessage m) => _foreground.add(PushMessage.fromRemote(m)),
+    );
     FirebaseMessaging.onMessageOpenedApp
         .listen((RemoteMessage m) => _taps.add(PushMessage.fromRemote(m)));
     FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? m) {
@@ -175,7 +177,10 @@ class PushService {
       // iOS: show the system banner even while the app is open (Android
       // relies on the in-app banner instead, see PushBannerHost).
       await messaging.setForegroundNotificationPresentationOptions(
-          alert: false, badge: true, sound: true);
+        alert: false,
+        badge: true,
+        sound: true,
+      );
       _listen();
 
       final String? token = await messaging.getToken();

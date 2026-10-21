@@ -72,7 +72,8 @@ AppUpdateStatus decideUpdate({
   required Map<String, dynamic> settings,
 }) {
   final List<int>? installed = parseVersion(
-      '$installedVersion+${installedBuild.isEmpty ? '0' : installedBuild}');
+    '$installedVersion+${installedBuild.isEmpty ? '0' : installedBuild}',
+  );
   if (installed == null) return AppUpdateStatus.none;
   final String p = isIos ? 'ios' : 'android';
   final String? min = settings['${p}_min_version'] as String?;

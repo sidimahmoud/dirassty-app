@@ -95,7 +95,8 @@ class DirasstyTextField extends StatelessWidget {
         errorStyle: const TextStyle(height: 0, fontSize: 0),
         suffixIcon: suffix,
         prefixIcon: phonePrefix ? const _PhonePrefix() : null,
-        prefixIconConstraints: const BoxConstraints(minHeight: DirasstySize.input),
+        prefixIconConstraints:
+            const BoxConstraints(minHeight: DirasstySize.input),
         constraints: const BoxConstraints(minHeight: DirasstySize.input),
       ),
     );
@@ -138,15 +139,21 @@ class _PhonePrefix extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsetsDirectional.only(
-          start: 1.5, top: 1.5, bottom: 1.5, end: DirasstySpace.md),
-      padding: const EdgeInsetsDirectional.symmetric(horizontal: DirasstySpace.md),
+        start: 1.5,
+        top: 1.5,
+        bottom: 1.5,
+        end: DirasstySpace.md,
+      ),
+      padding:
+          const EdgeInsetsDirectional.symmetric(horizontal: DirasstySpace.md),
       decoration: const BoxDecoration(
         color: DirasstyColors.ivory,
         borderRadius: BorderRadiusDirectional.horizontal(
           start: Radius.circular(DirasstyRadius.card - 1.5),
         ),
         border: BorderDirectional(
-            end: BorderSide(color: DirasstyColors.line, width: 1.5)),
+          end: BorderSide(color: DirasstyColors.line, width: 1.5),
+        ),
       ),
       // widthFactor: 1 — size to the "+222" text. A plain `alignment`
       // here made the box expand to the field's full width, leaving the

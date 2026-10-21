@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart' show CupertinoPageTransitionsBuilder;
 import 'package:flutter/material.dart';
+
 import 'dirassty_colors.dart';
-import 'dirassty_tokens.dart';
 import 'dirassty_page_transitions.dart';
+import 'dirassty_tokens.dart';
 import 'dirassty_typography.dart';
 
 export 'dirassty_colors.dart';
@@ -58,7 +59,8 @@ abstract final class DirasstyTheme {
           disabledBackgroundColor: DirasstyColors.disabledFill,
           disabledForegroundColor: DirasstyColors.textMuted,
           minimumSize: const Size.fromHeight(DirasstySize.button),
-          shape: const RoundedRectangleBorder(borderRadius: DirasstyRadius.cardR),
+          shape:
+              const RoundedRectangleBorder(borderRadius: DirasstyRadius.cardR),
           textStyle: type.button,
         ),
       ),
@@ -67,7 +69,8 @@ abstract final class DirasstyTheme {
           foregroundColor: DirasstyColors.teal,
           minimumSize: const Size.fromHeight(DirasstySize.button),
           side: const BorderSide(color: DirasstyColors.teal, width: 1.5),
-          shape: const RoundedRectangleBorder(borderRadius: DirasstyRadius.cardR),
+          shape:
+              const RoundedRectangleBorder(borderRadius: DirasstyRadius.cardR),
           textStyle: type.button,
         ),
       ),
@@ -88,7 +91,8 @@ abstract final class DirasstyTheme {
         focusedBorder: border(DirasstyColors.teal),
         errorBorder: border(DirasstyColors.error),
         focusedErrorBorder: border(DirasstyColors.error),
-        labelStyle: type.label.copyWith(fontSize: 14, color: DirasstyColors.text),
+        labelStyle:
+            type.label.copyWith(fontSize: 14, color: DirasstyColors.text),
         hintStyle: type.body.copyWith(color: DirasstyColors.textMuted),
         errorStyle: type.label.copyWith(color: DirasstyColors.error),
       ),
@@ -102,7 +106,8 @@ abstract final class DirasstyTheme {
         ),
       ),
       chipTheme: ChipThemeData(
-        shape: const StadiumBorder(side: BorderSide(color: DirasstyColors.line)),
+        shape:
+            const StadiumBorder(side: BorderSide(color: DirasstyColors.line)),
         backgroundColor: DirasstyColors.surface,
         selectedColor: DirasstyColors.ink,
         labelStyle: type.label
@@ -116,7 +121,8 @@ abstract final class DirasstyTheme {
       ),
       dialogTheme: DialogThemeData(
         backgroundColor: DirasstyColors.surface,
-        shape: const RoundedRectangleBorder(borderRadius: DirasstyRadius.dialogR),
+        shape:
+            const RoundedRectangleBorder(borderRadius: DirasstyRadius.dialogR),
         titleTextStyle: type.titleSmall,
         contentTextStyle: type.bodySmall,
       ),
@@ -149,7 +155,10 @@ abstract final class DirasstyTheme {
         linearTrackColor: DirasstyColors.track,
       ),
       dividerTheme: const DividerThemeData(
-          color: DirasstyColors.track, thickness: 1, space: 1),
+        color: DirasstyColors.track,
+        thickness: 1,
+        space: 1,
+      ),
       navigationBarTheme: NavigationBarThemeData(
         backgroundColor: DirasstyColors.surface,
         indicatorColor: DirasstyColors.tealTint,

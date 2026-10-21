@@ -48,12 +48,17 @@ class _ExamsListScreenState extends ConsumerState<ExamsListScreen> {
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: () async {
-            if (student != null)
+            if (student != null) {
               ref.invalidate(examsByStudentProvider(student.id));
+            }
           },
           child: ListView(
-            padding: const EdgeInsetsDirectional.fromSTEB(DirasstySpace.screen,
-                DirasstySpace.xl, DirasstySpace.screen, DirasstySpace.xl),
+            padding: const EdgeInsetsDirectional.fromSTEB(
+              DirasstySpace.screen,
+              DirasstySpace.xl,
+              DirasstySpace.screen,
+              DirasstySpace.xl,
+            ),
             children: [
               Text(l10n.exams, style: type.title),
               const SizedBox(height: DirasstySpace.xs),
@@ -79,7 +84,10 @@ class _ExamsListScreenState extends ConsumerState<ExamsListScreen> {
   }
 
   Widget _buildContent(
-      BuildContext context, AppLocalizations l10n, List<Exam> all) {
+    BuildContext context,
+    AppLocalizations l10n,
+    List<Exam> all,
+  ) {
     final DirasstyType type = context.dirasstyType;
     final DateTime now = DateTime.now();
     final DateTime monday = DateTime(now.year, now.month, now.day)
@@ -105,12 +113,17 @@ class _ExamsListScreenState extends ConsumerState<ExamsListScreen> {
             : a.availableFrom.compareTo(b.availableFrom);
       });
     final List<Exam> past = all
-        .where((e) =>
-            !isThisWeek(e) &&
-            (e.status == ExamStatus.completed || e.status == ExamStatus.missed))
+        .where(
+          (e) =>
+              !isThisWeek(e) &&
+              (e.status == ExamStatus.completed ||
+                  e.status == ExamStatus.missed),
+        )
         .toList()
-      ..sort((a, b) =>
-          (b.completedAt ?? b.dueAt).compareTo(a.completedAt ?? a.dueAt));
+      ..sort(
+        (a, b) =>
+            (b.completedAt ?? b.dueAt).compareTo(a.completedAt ?? a.dueAt),
+      );
     final Exam? next =
         week.where((e) => e.status == ExamStatus.available).firstOrNull;
     final int done = week.where((e) => e.status == ExamStatus.completed).length;
@@ -142,9 +155,10 @@ class _ExamsListScreenState extends ConsumerState<ExamsListScreen> {
         if (_filter == _ExamFilter.upcoming) ...[
           if (week.isEmpty)
             EmptyState(
-                icon: Icons.event_available_rounded,
-                title: l10n.noExamsThisWeek,
-                message: l10n.noExamsBody)
+              icon: Icons.event_available_rounded,
+              title: l10n.noExamsThisWeek,
+              message: l10n.noExamsBody,
+            )
           else ...[
             DirasstyCard(
               child: Column(
@@ -153,13 +167,18 @@ class _ExamsListScreenState extends ConsumerState<ExamsListScreen> {
                   Row(
                     children: [
                       Expanded(
-                          child: Text(l10n.examsOfTheWeek,
-                              style: type.subheading)),
+                        child: Text(
+                          l10n.examsOfTheWeek,
+                          style: type.subheading,
+                        ),
+                      ),
                       Text(
                         '$done/${week.length}',
                         textDirection: TextDirection.ltr,
                         style: type.subheading.copyWith(
-                            fontFamily: 'Inter', color: DirasstyColors.teal),
+                          fontFamily: 'Inter',
+                          color: DirasstyColors.teal,
+                        ),
                       ),
                     ],
                   ),
@@ -204,7 +223,9 @@ class _HeroCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsetsDirectional.all(DirasstySpace.screen),
       decoration: const BoxDecoration(
-          color: DirasstyColors.ink, borderRadius: DirasstyRadius.cardR),
+        color: DirasstyColors.ink,
+        borderRadius: DirasstyRadius.cardR,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -215,11 +236,15 @@ class _HeroCard extends StatelessWidget {
                 padding: const EdgeInsetsDirectional.symmetric(horizontal: 10),
                 alignment: Alignment.center,
                 decoration: const BoxDecoration(
-                    color: DirasstyColors.gold, borderRadius: DirasstyRadius.pillR),
+                  color: DirasstyColors.gold,
+                  borderRadius: DirasstyRadius.pillR,
+                ),
                 child: Text(
                   DirasstyDates.weekdayTime(exam.dueAt, lang),
                   style: type.label.copyWith(
-                      color: DirasstyColors.ink, fontWeight: FontWeight.w700),
+                    color: DirasstyColors.ink,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
               const Spacer(),
@@ -227,19 +252,23 @@ class _HeroCard extends StatelessWidget {
                 days <= 0
                     ? l10n.today
                     : (days == 1 ? l10n.tomorrow : l10n.inDays(days)),
-                style: type.label.copyWith(color: DirasstyColors.textOnDarkMuted),
+                style:
+                    type.label.copyWith(color: DirasstyColors.textOnDarkMuted),
               ),
             ],
           ),
           const SizedBox(height: DirasstySpace.md),
-          Text(exam.subject.label,
-              style: type.titleSmall.copyWith(color: Colors.white)),
+          Text(
+            exam.subject.label,
+            style: type.titleSmall.copyWith(color: Colors.white),
+          ),
           const SizedBox(height: 2),
           Text(
             l10n.questionsCount(exam.totalQuestions),
             style: type.label.copyWith(
-                color: DirasstyColors.textOnDarkMuted,
-                fontWeight: FontWeight.w400),
+              color: DirasstyColors.textOnDarkMuted,
+              fontWeight: FontWeight.w400,
+            ),
           ),
           const SizedBox(height: DirasstySpace.lg),
           DirasstyButton(
@@ -307,13 +336,18 @@ class _ExamRow extends StatelessWidget {
           ? null
           : () => completed
               ? context.push(ExamSessionScreen.pathFor(exam.id))
-              : context.pushNamed(ExamIntroScreen.name,
-                  pathParameters: {'examId': exam.id}, extra: exam),
+              : context.pushNamed(
+                  ExamIntroScreen.name,
+                  pathParameters: {'examId': exam.id},
+                  extra: exam,
+                ),
       child: ConstrainedBox(
         constraints: const BoxConstraints(minHeight: 64),
         child: Padding(
           padding: const EdgeInsetsDirectional.symmetric(
-              horizontal: DirasstySpace.lg, vertical: DirasstySpace.md),
+            horizontal: DirasstySpace.lg,
+            vertical: DirasstySpace.md,
+          ),
           child: Row(
             children: [
               Container(
@@ -324,8 +358,10 @@ class _ExamRow extends StatelessWidget {
                   color: open ? DirasstyColors.tealTint : DirasstyColors.track,
                   shape: BoxShape.circle,
                 ),
-                child: Text(exam.subject.icon,
-                    style: const TextStyle(fontSize: 18)),
+                child: Text(
+                  exam.subject.icon,
+                  style: const TextStyle(fontSize: 18),
+                ),
               ),
               const SizedBox(width: DirasstySpace.md),
               Expanded(
@@ -343,19 +379,23 @@ class _ExamRow extends StatelessWidget {
               ),
               if (open)
                 DirasstyChip(
-                    label: l10n.examToDo,
-                    variant: DirasstyChipVariant.gold,
-                    dense: true)
+                  label: l10n.examToDo,
+                  variant: DirasstyChipVariant.gold,
+                  dense: true,
+                )
               else if (scheduled)
                 DirasstyChip(
-                    label: l10n.availableOn(
-                        DirasstyDates.weekday(exam.availableFrom, lang)),
-                    dense: true)
+                  label: l10n.availableOn(
+                    DirasstyDates.weekday(exam.availableFrom, lang),
+                  ),
+                  dense: true,
+                )
               else if (missed)
                 DirasstyChip(
-                    label: l10n.missed,
-                    variant: DirasstyChipVariant.red,
-                    dense: true)
+                  label: l10n.missed,
+                  variant: DirasstyChipVariant.red,
+                  dense: true,
+                )
               else
                 Text(
                   '${exam.correctCount ?? 0}/${exam.totalQuestions}',

@@ -75,7 +75,8 @@ class DirasstyChip extends StatelessWidget {
       constraints: BoxConstraints(minHeight: dense ? 28 : 32),
       alignment: Alignment.center,
       padding: EdgeInsetsDirectional.symmetric(
-          horizontal: dense ? 10 : DirasstySpace.md),
+        horizontal: dense ? 10 : DirasstySpace.md,
+      ),
       decoration: BoxDecoration(
         color: colors.bg,
         borderRadius: DirasstyRadius.pillR,

@@ -22,9 +22,9 @@ import '../application/parent_providers.dart';
 /// SubjectDetail.dc.html).
 class ParentSubjectDetailScreen extends ConsumerWidget {
   const ParentSubjectDetailScreen({
-    super.key,
     required this.studentId,
     required this.subjectKey,
+    super.key,
   });
 
   static const String path = '/parent/child/:studentId/subject/:subjectKey';
@@ -43,11 +43,15 @@ class ParentSubjectDetailScreen extends ConsumerWidget {
     final String? dbLabel = child == null
         ? null
         : ref
-            .watch(subjectsWithMasteryForStudentProvider((
-              studentId: child.id,
-              country: child.country,
-              grade: child.grade,
-            )))
+            .watch(
+              subjectsWithMasteryForStudentProvider(
+                (
+                  studentId: child.id,
+                  country: child.country,
+                  grade: child.grade,
+                ),
+              ),
+            )
             .valueOrNull
             ?.where((s) => s.key == subjectKey)
             .firstOrNull
@@ -56,8 +60,13 @@ class ParentSubjectDetailScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: DirasstyColors.background,
       appBar: AppBar(
-        title: Text(subjectDisplayName(subjectKey,
-            isArabic: context.isArabicLocale, dbLabel: dbLabel)),
+        title: Text(
+          subjectDisplayName(
+            subjectKey,
+            isArabic: context.isArabicLocale,
+            dbLabel: dbLabel,
+          ),
+        ),
       ),
       body: students.when(
         loading: () => const _Skeleton(),
@@ -70,7 +79,9 @@ class ParentSubjectDetailScreen extends ConsumerWidget {
               list.where((s) => s.id == studentId).firstOrNull;
           if (student == null) {
             return EmptyState(
-                icon: Icons.person_off_outlined, title: l10n.childNotFound);
+              icon: Icons.person_off_outlined,
+              title: l10n.childNotFound,
+            );
           }
           return _Body(student: student, subjectKey: subjectKey);
         },
@@ -96,11 +107,13 @@ class _Body extends ConsumerWidget {
     final AsyncValue<List<Chapter>> chapters =
         ref.watch(chaptersForProvider(chaptersArgs));
     final AsyncValue<Map<String, LessonProgressSummary>> summary = ref.watch(
-      lessonProgressSummaryProvider((
-        studentId: student.id,
-        subjectKey: subjectKey,
-        grade: student.grade,
-      )),
+      lessonProgressSummaryProvider(
+        (
+          studentId: student.id,
+          subjectKey: subjectKey,
+          grade: student.grade,
+        ),
+      ),
     );
 
     return chapters.when(
@@ -114,7 +127,9 @@ class _Body extends ConsumerWidget {
             chapterList.expand((c) => c.lessons).toList();
         if (allLessons.isEmpty) {
           return EmptyState(
-              icon: Icons.menu_book_outlined, title: l10n.noContentYet);
+            icon: Icons.menu_book_outlined,
+            title: l10n.noContentYet,
+          );
         }
         final Map<String, LessonProgressSummary> byLesson =
             summary.valueOrNull ?? const {};
@@ -125,15 +140,21 @@ class _Body extends ConsumerWidget {
             allLessons.where((l) => of(l).exercisesDone).length;
 
         return ListView(
-          padding: const EdgeInsetsDirectional.fromSTEB(DirasstySpace.screen,
-              DirasstySpace.sm, DirasstySpace.screen, DirasstySpace.xxl),
+          padding: const EdgeInsetsDirectional.fromSTEB(
+            DirasstySpace.screen,
+            DirasstySpace.sm,
+            DirasstySpace.screen,
+            DirasstySpace.xxl,
+          ),
           children: [
             DirasstyCard(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text(l10n.lessonsInSubject(allLessons.length),
-                      style: context.dirasstyType.subheading),
+                  Text(
+                    l10n.lessonsInSubject(allLessons.length),
+                    style: context.dirasstyType.subheading,
+                  ),
                   const SizedBox(height: DirasstySpace.lg),
                   _SummaryRow(
                     label: l10n.lessonsCompleted,
@@ -185,10 +206,14 @@ class _SummaryRow extends StatelessWidget {
         Row(
           children: [
             Expanded(child: Text(label, style: type.bodySmall)),
-            Text('$count/$total',
-                textDirection: TextDirection.ltr,
-                style: type.label.copyWith(
-                    color: DirasstyColors.text, fontWeight: FontWeight.w700)),
+            Text(
+              '$count/$total',
+              textDirection: TextDirection.ltr,
+              style: type.label.copyWith(
+                color: DirasstyColors.text,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
           ],
         ),
         const SizedBox(height: DirasstySpace.xs),
@@ -245,7 +270,9 @@ class _LessonRow extends StatelessWidget {
             Icons.verified_rounded,
             DirasstyColors.teal,
             l10n.lessonStatusExercised(
-                (summary.mastery * 100).round(), summary.attempts),
+              (summary.mastery * 100).round(),
+              summary.attempts,
+            ),
           )
         : summary.viewed
             ? (
@@ -261,7 +288,9 @@ class _LessonRow extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsetsDirectional.symmetric(
-          horizontal: DirasstySpace.lg, vertical: DirasstySpace.md),
+        horizontal: DirasstySpace.lg,
+        vertical: DirasstySpace.md,
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -274,11 +303,15 @@ class _LessonRow extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('${lesson.lessonNum}. ${lesson.lessonTitle}',
-                    style: type.subheading.copyWith(fontSize: 14)),
+                Text(
+                  '${lesson.lessonNum}. ${lesson.lessonTitle}',
+                  style: type.subheading.copyWith(fontSize: 14),
+                ),
                 const SizedBox(height: 2),
-                Text(label,
-                    style: type.label.copyWith(fontWeight: FontWeight.w400)),
+                Text(
+                  label,
+                  style: type.label.copyWith(fontWeight: FontWeight.w400),
+                ),
               ],
             ),
           ),

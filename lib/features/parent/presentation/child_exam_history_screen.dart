@@ -48,7 +48,9 @@ class ChildExamHistoryScreen extends ConsumerWidget {
         data: (list) {
           if (list.isEmpty) {
             return EmptyState(
-                icon: Icons.event_note_outlined, title: l10n.noExamsForChild);
+              icon: Icons.event_note_outlined,
+              title: l10n.noExamsForChild,
+            );
           }
           final Map<DateTime, List<Exam>> byWeek = {};
           for (final Exam exam in list) {
@@ -61,12 +63,18 @@ class ChildExamHistoryScreen extends ConsumerWidget {
             onRefresh: () =>
                 ref.refresh(examsByStudentProvider(studentId).future),
             child: ListView(
-              padding: const EdgeInsetsDirectional.fromSTEB(DirasstySpace.screen,
-                  DirasstySpace.sm, DirasstySpace.screen, DirasstySpace.xxl),
+              padding: const EdgeInsetsDirectional.fromSTEB(
+                DirasstySpace.screen,
+                DirasstySpace.sm,
+                DirasstySpace.screen,
+                DirasstySpace.xxl,
+              ),
               children: [
                 for (final DateTime week in weeks) ...[
-                  Text(l10n.weekOf(DirasstyDates.dayMonthYear(week, lang)),
-                      style: type.subheading),
+                  Text(
+                    l10n.weekOf(DirasstyDates.dayMonthYear(week, lang)),
+                    style: type.subheading,
+                  ),
                   const SizedBox(height: DirasstySpace.md),
                   DirasstyCard(
                     padding: EdgeInsets.zero,
@@ -111,20 +119,29 @@ class _ExamRow extends StatelessWidget {
           style: type.subheading.copyWith(
             fontWeight: FontWeight.w800,
             fontFamily: 'Inter',
-            color: (score ?? 0) >= 0.75 ? DirasstyColors.teal : DirasstyColors.ink,
+            color:
+                (score ?? 0) >= 0.75 ? DirasstyColors.teal : DirasstyColors.ink,
           ),
         ),
       ExamStatus.missed => DirasstyChip(
-          label: l10n.missed, variant: DirasstyChipVariant.red, dense: true),
+          label: l10n.missed,
+          variant: DirasstyChipVariant.red,
+          dense: true,
+        ),
       _ => DirasstyChip(
-          label: l10n.upcoming, variant: DirasstyChipVariant.gold, dense: true),
+          label: l10n.upcoming,
+          variant: DirasstyChipVariant.gold,
+          dense: true,
+        ),
     };
 
     return ConstrainedBox(
       constraints: const BoxConstraints(minHeight: 60),
       child: Padding(
         padding: const EdgeInsetsDirectional.symmetric(
-            horizontal: DirasstySpace.lg, vertical: DirasstySpace.md),
+          horizontal: DirasstySpace.lg,
+          vertical: DirasstySpace.md,
+        ),
         child: Row(
           children: [
             Container(
@@ -132,7 +149,9 @@ class _ExamRow extends StatelessWidget {
               height: 40,
               alignment: Alignment.center,
               decoration: const BoxDecoration(
-                  color: DirasstyColors.track, shape: BoxShape.circle),
+                color: DirasstyColors.track,
+                shape: BoxShape.circle,
+              ),
               child:
                   Text(exam.subject.icon, style: const TextStyle(fontSize: 18)),
             ),
@@ -143,8 +162,10 @@ class _ExamRow extends StatelessWidget {
                 children: [
                   Text(exam.subject.label, style: type.subheading),
                   const SizedBox(height: 2),
-                  Text(l10n.questionsCount(exam.totalQuestions),
-                      style: type.label.copyWith(fontWeight: FontWeight.w400)),
+                  Text(
+                    l10n.questionsCount(exam.totalQuestions),
+                    style: type.label.copyWith(fontWeight: FontWeight.w400),
+                  ),
                 ],
               ),
             ),

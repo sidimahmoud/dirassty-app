@@ -71,7 +71,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get createAccount => 'إنشاء حساب';
 
   @override
-  String get trialLine => 'البرنامج الرسمي الموريتاني · دروس وتمارين وامتحانات';
+  String get trialLine =>
+      'البرنامج الدراسي الموريتاني · دروس وتمارين وامتحانات';
 
   @override
   String get studentLoginTitle => 'دخول التلميذ';
@@ -916,6 +917,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get resendCode => 'إعادة إرسال الرمز';
 
   @override
+  String get pasteCode => 'لصق الرمز';
+
+  @override
   String get pasteCodeHint => 'اضغط مطولاً للصق الرمز';
 
   @override
@@ -1138,6 +1142,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get startQcm => 'ابدأ الاختبار';
+
+  @override
+  String get finishLesson => 'إنهاء الدرس';
 
   @override
   String questionTopic(Object lesson, Object n) {
@@ -1754,7 +1761,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get subscriptionIntro =>
-      'كل المواد والفيديوهات والتمارين والامتحانات وفق البرنامج الرسمي.';
+      'كل المواد والفيديوهات والتمارين والامتحانات وفق البرنامج الدراسي.';
 
   @override
   String get planNoCommitment => 'بدون التزام';

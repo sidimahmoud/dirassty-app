@@ -12,7 +12,8 @@ final List<TextInputFormatter> promoCodeFormatters = [
   FilteringTextInputFormatter.allow(RegExp('[A-Za-z0-9_-]')),
   LengthLimitingTextInputFormatter(30),
   TextInputFormatter.withFunction(
-      (_, v) => v.copyWith(text: v.text.toUpperCase())),
+    (_, v) => v.copyWith(text: v.text.toUpperCase()),
+  ),
 ];
 
 /// "J'ai un code promo" at payment: collapsed link → field + Valider,

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -19,7 +21,7 @@ import '../l10n/app_localizations.dart';
 ///
 /// The app builds underneath the whole time.
 class SplashOverlay extends StatefulWidget {
-  const SplashOverlay({super.key, required this.child});
+  const SplashOverlay({required this.child, super.key});
 
   final Widget child;
 
@@ -83,9 +85,11 @@ class _SplashOverlayState extends State<SplashOverlay>
     } catch (_) {}
     FlutterNativeSplash.remove();
     if (!mounted) return;
-    _controller.forward().whenComplete(() {
-      if (mounted) setState(() => _done = true);
-    });
+    unawaited(
+      _controller.forward().whenComplete(() {
+        if (mounted) setState(() => _done = true);
+      }),
+    );
   }
 
   @override
@@ -156,24 +160,30 @@ class _SplashOverlayState extends State<SplashOverlay>
             offset: Offset(0, -rise),
             child: Transform.scale(
               scale: zoom,
-              child: Image.asset(_iconAsset,
-                  width: iconSize,
-                  height: iconSize,
-                  filterQuality: FilterQuality.medium),
+              child: Image.asset(
+                _iconAsset,
+                width: iconSize,
+                height: iconSize,
+                filterQuality: FilterQuality.medium,
+              ),
             ),
           ),
           Transform.translate(
             offset: Offset(
-                0,
-                _lockupIconSize / 2 +
-                    _gap +
-                    wordmarkHeight / 2 -
-                    rise +
-                    12 * (1 - reveal)),
+              0,
+              _lockupIconSize / 2 +
+                  _gap +
+                  wordmarkHeight / 2 -
+                  rise +
+                  12 * (1 - reveal),
+            ),
             child: Opacity(
               opacity: reveal,
-              child: SvgPicture.asset(_wordmarkAsset,
-                  width: wordmarkWidth, height: wordmarkHeight),
+              child: SvgPicture.asset(
+                _wordmarkAsset,
+                width: wordmarkWidth,
+                height: wordmarkHeight,
+              ),
             ),
           ),
         ],
@@ -230,8 +240,12 @@ extension on _SplashOverlayState {
 }
 
 /// 0→1 progress of [t] through the [begin, end] slice of the timeline.
-double _segment(double t, double begin, double end,
-    [Curve curve = Curves.linear]) {
+double _segment(
+  double t,
+  double begin,
+  double end, [
+  Curve curve = Curves.linear,
+]) {
   if (t <= begin) return 0;
   if (t >= end) return 1;
   return curve.transform((t - begin) / (end - begin));

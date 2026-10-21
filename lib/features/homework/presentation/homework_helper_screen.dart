@@ -6,12 +6,12 @@ import '../../../core/i18n/app_lang.dart';
 import '../../../core/i18n/app_language_provider.dart';
 import '../../../core/models/diagram_spec.dart';
 import '../../../core/models/homework_helper_result.dart';
-import '../../ai_report/presentation/report_ai_button.dart';
 import '../../../core/text/math_format.dart';
 import '../../../core/theme/dirassty_theme.dart';
 import '../../../core/widgets/diagram_view.dart';
 import '../../../core/widgets/dirassty/dirassty_widgets.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../ai_report/presentation/report_ai_button.dart';
 import '../../student/application/student_providers.dart';
 import '../application/homework_providers.dart';
 import '../application/homework_state.dart';
@@ -71,8 +71,12 @@ class _HomeworkHelperScreenState extends ConsumerState<HomeworkHelperScreen> {
         ],
       ),
       body: ListView(
-        padding: const EdgeInsetsDirectional.fromSTEB(DirasstySpace.screen,
-            DirasstySpace.sm, DirasstySpace.screen, DirasstySpace.xxl),
+        padding: const EdgeInsetsDirectional.fromSTEB(
+          DirasstySpace.screen,
+          DirasstySpace.sm,
+          DirasstySpace.screen,
+          DirasstySpace.xxl,
+        ),
         children: [
           switch (state) {
             HomeworkPicking() =>
@@ -107,8 +111,11 @@ class _PickingView extends ConsumerWidget {
         if (hasImage)
           ClipRRect(
             borderRadius: DirasstyRadius.cardR,
-            child: Image.memory(state.image!.bytes,
-                height: 260, fit: BoxFit.cover),
+            child: Image.memory(
+              state.image!.bytes,
+              height: 260,
+              fit: BoxFit.cover,
+            ),
           )
         else
           Container(
@@ -122,11 +129,17 @@ class _PickingView extends ConsumerWidget {
               children: [
                 const IconBadge(icon: Icons.photo_camera_rounded),
                 const SizedBox(height: DirasstySpace.lg),
-                Text(l10n.photoPrompt,
-                    textAlign: TextAlign.center, style: type.heading),
+                Text(
+                  l10n.photoPrompt,
+                  textAlign: TextAlign.center,
+                  style: type.heading,
+                ),
                 const SizedBox(height: DirasstySpace.xs),
-                Text(l10n.photoPromptBody,
-                    textAlign: TextAlign.center, style: type.bodySmall),
+                Text(
+                  l10n.photoPromptBody,
+                  textAlign: TextAlign.center,
+                  style: type.bodySmall,
+                ),
               ],
             ),
           ),
@@ -156,15 +169,18 @@ class _PickingView extends ConsumerWidget {
         ),
         if (state.errorMessage != null) ...[
           const SizedBox(height: DirasstySpace.md),
-          Text(l10n.errGeneric,
-              style: type.label.copyWith(color: DirasstyColors.error)),
+          Text(
+            l10n.errGeneric,
+            style: type.label.copyWith(color: DirasstyColors.error),
+          ),
         ],
         if (hasImage) ...[
           const SizedBox(height: DirasstySpace.md),
           DirasstyButton(
-              label: l10n.analyze,
-              icon: Icons.auto_awesome_rounded,
-              onPressed: onAnalyze),
+            label: l10n.analyze,
+            icon: Icons.auto_awesome_rounded,
+            onPressed: onAnalyze,
+          ),
         ],
         const SizedBox(height: DirasstySpace.lg),
         const _GuideNote(),
@@ -187,9 +203,12 @@ class _AnalyzingView extends StatelessWidget {
         const Skeleton(height: 28, width: 200, radius: DirasstyRadius.pill),
         const SizedBox(height: DirasstySpace.lg),
         _AiBubble(
-            child: Text(l10n.analyzingPhoto,
-                style: context.dirasstyType.bodySmall
-                    .copyWith(color: DirasstyColors.text))),
+          child: Text(
+            l10n.analyzingPhoto,
+            style: context.dirasstyType.bodySmall
+                .copyWith(color: DirasstyColors.text),
+          ),
+        ),
       ],
     );
   }
@@ -225,8 +244,11 @@ class _ResultViewState extends ConsumerState<_ResultView> {
         if (state is HomeworkResultReady && state.image != null)
           ClipRRect(
             borderRadius: DirasstyRadius.cardR,
-            child: Image.memory(state.image!.bytes,
-                height: 150, fit: BoxFit.cover),
+            child: Image.memory(
+              state.image!.bytes,
+              height: 150,
+              fit: BoxFit.cover,
+            ),
           ),
         const SizedBox(height: DirasstySpace.lg),
         Wrap(
@@ -235,9 +257,10 @@ class _ResultViewState extends ConsumerState<_ResultView> {
           children: [
             if (r.detectedSubject.isNotEmpty)
               DirasstyChip(
-                  label: l10n.detectedSubject(r.detectedSubject),
-                  variant: DirasstyChipVariant.teal,
-                  dense: true),
+                label: l10n.detectedSubject(r.detectedSubject),
+                variant: DirasstyChipVariant.teal,
+                dense: true,
+              ),
             if (r.detectedTopic.isNotEmpty)
               DirasstyChip(label: r.detectedTopic, dense: true),
           ],
@@ -295,9 +318,11 @@ class _ResultViewState extends ConsumerState<_ResultView> {
             ),
         ] else ...[
           if (r.keyConcepts != null && r.keyConcepts!.isNotEmpty) ...[
-            Text(l10n.keyConceptsLabel,
-                style: type.label
-                    .copyWith(fontSize: 14, color: DirasstyColors.text)),
+            Text(
+              l10n.keyConceptsLabel,
+              style:
+                  type.label.copyWith(fontSize: 14, color: DirasstyColors.text),
+            ),
             const SizedBox(height: DirasstySpace.sm),
             Wrap(
               spacing: DirasstySpace.sm,
@@ -305,7 +330,10 @@ class _ResultViewState extends ConsumerState<_ResultView> {
               children: [
                 for (final String c in r.keyConcepts!)
                   DirasstyChip(
-                      label: c, variant: DirasstyChipVariant.gold, dense: true)
+                    label: c,
+                    variant: DirasstyChipVariant.gold,
+                    dense: true,
+                  ),
               ],
             ),
             const SizedBox(height: DirasstySpace.lg),
@@ -319,9 +347,11 @@ class _ResultViewState extends ConsumerState<_ResultView> {
                 .split(RegExp(r'\n\s*\n'))
                 .where((p) => p.trim().isNotEmpty)) ...[
               _AiBubble(
-                  child: Text(cleanMathForDisplay(para.trim()),
-                      style:
-                          type.bodySmall.copyWith(color: DirasstyColors.text))),
+                child: Text(
+                  cleanMathForDisplay(para.trim()),
+                  style: type.bodySmall.copyWith(color: DirasstyColors.text),
+                ),
+              ),
               const SizedBox(height: DirasstySpace.md),
             ],
         ],
@@ -347,10 +377,11 @@ class _ResultViewState extends ConsumerState<_ResultView> {
         const _GuideNote(),
         const SizedBox(height: DirasstySpace.xl),
         DirasstyButton(
-            label: l10n.newPhoto,
-            icon: Icons.photo_camera_rounded,
-            variant: DirasstyButtonVariant.quiet,
-            onPressed: widget.onNewPhoto),
+          label: l10n.newPhoto,
+          icon: Icons.photo_camera_rounded,
+          variant: DirasstyButtonVariant.quiet,
+          onPressed: widget.onNewPhoto,
+        ),
       ],
     );
   }
@@ -372,7 +403,9 @@ class _AiBubble extends StatelessWidget {
         alignment: AlignmentDirectional.centerStart,
         child: Container(
           padding: const EdgeInsetsDirectional.symmetric(
-              horizontal: 14, vertical: DirasstySpace.md),
+            horizontal: 14,
+            vertical: DirasstySpace.md,
+          ),
           decoration: BoxDecoration(
             color: DirasstyColors.surface,
             border: Border.all(color: DirasstyColors.line),
@@ -391,8 +424,11 @@ class _AiBubble extends StatelessWidget {
 }
 
 class _StepCard extends StatelessWidget {
-  const _StepCard(
-      {required this.index, required this.total, required this.text});
+  const _StepCard({
+    required this.index,
+    required this.total,
+    required this.text,
+  });
 
   final int index;
   final int total;
@@ -414,11 +450,15 @@ class _StepCard extends StatelessWidget {
           Text(
             l10n.stepOf(index + 1, total).toUpperCase(),
             style: type.label.copyWith(
-                color: DirasstyColors.teal, fontWeight: FontWeight.w700),
+              color: DirasstyColors.teal,
+              fontWeight: FontWeight.w700,
+            ),
           ),
           const SizedBox(height: DirasstySpace.xs),
-          Text(cleanMathForDisplay(text),
-              style: type.body.copyWith(fontSize: 15)),
+          Text(
+            cleanMathForDisplay(text),
+            style: type.body.copyWith(fontSize: 15),
+          ),
         ],
       ),
     );
@@ -432,8 +472,11 @@ class _GuideNote extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const Icon(Icons.info_outline_rounded,
-            size: 16, color: DirasstyColors.textMuted),
+        const Icon(
+          Icons.info_outline_rounded,
+          size: 16,
+          color: DirasstyColors.textMuted,
+        ),
         const SizedBox(width: DirasstySpace.sm),
         Expanded(
           child: Text(
@@ -491,20 +534,25 @@ class _FullAnswer extends StatelessWidget {
             Container(
               padding: const EdgeInsetsDirectional.all(DirasstySpace.md),
               decoration: const BoxDecoration(
-                  color: DirasstyColors.tealTint,
-                  borderRadius: DirasstyRadius.smallR),
+                color: DirasstyColors.tealTint,
+                borderRadius: DirasstyRadius.smallR,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   if (full != null) ...[
-                    Text(l10n.answerLabel,
-                        style: type.label
-                            .copyWith(color: DirasstyColors.tealDark)),
+                    Text(
+                      l10n.answerLabel,
+                      style:
+                          type.label.copyWith(color: DirasstyColors.tealDark),
+                    ),
                     const SizedBox(height: DirasstySpace.xs),
                   ],
-                  Text(cleanMathForDisplay(finalAnswer!.trim()),
-                      style: type.subheading
-                          .copyWith(color: DirasstyColors.tealDark)),
+                  Text(
+                    cleanMathForDisplay(finalAnswer!.trim()),
+                    style: type.subheading
+                        .copyWith(color: DirasstyColors.tealDark),
+                  ),
                 ],
               ),
             ),
@@ -534,9 +582,11 @@ class _FigureCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(l10n.figureLabel.toUpperCase(),
-              style: context.dirasstyType.label
-                  .copyWith(color: DirasstyColors.tealDark)),
+          Text(
+            l10n.figureLabel.toUpperCase(),
+            style: context.dirasstyType.label
+                .copyWith(color: DirasstyColors.tealDark),
+          ),
           const SizedBox(height: DirasstySpace.sm),
           DiagramView(spec: spec),
         ],

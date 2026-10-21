@@ -15,8 +15,12 @@ class DirasstyType {
   String get family => isArabic ? 'Cairo' : 'Inter';
   double get _lh => isArabic ? 1.5 : 1.4;
 
-  TextStyle _s(double size, FontWeight w,
-          {Color color = DirasstyColors.text, double? ls}) =>
+  TextStyle _s(
+    double size,
+    FontWeight w, {
+    Color color = DirasstyColors.text,
+    double? ls,
+  }) =>
       TextStyle(
         fontFamily: family,
         fontSize: size,
@@ -34,7 +38,8 @@ class DirasstyType {
   TextStyle get body => _s(16, FontWeight.w400);
   TextStyle get bodySmall =>
       _s(14, FontWeight.w400, color: DirasstyColors.textMuted);
-  TextStyle get label => _s(12, FontWeight.w600, color: DirasstyColors.textMuted);
+  TextStyle get label =>
+      _s(12, FontWeight.w600, color: DirasstyColors.textMuted);
   TextStyle get tab => _s(isArabic ? 12 : 11, FontWeight.w600);
   TextStyle get button => _s(16, FontWeight.w700);
   TextStyle get statValue => _s(24, FontWeight.w800);

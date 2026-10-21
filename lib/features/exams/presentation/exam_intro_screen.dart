@@ -43,14 +43,19 @@ class ExamIntroScreen extends StatelessWidget {
       appBar: AppBar(),
       body: ListView(
         padding: const EdgeInsetsDirectional.fromSTEB(
-            DirasstySpace.screen, 0, DirasstySpace.screen, DirasstySpace.xxl),
+          DirasstySpace.screen,
+          0,
+          DirasstySpace.screen,
+          DirasstySpace.xxl,
+        ),
         children: [
           Align(
             alignment: AlignmentDirectional.centerStart,
             child: DirasstyChip(
-                label: l10n.weeklyExamBadge,
-                variant: DirasstyChipVariant.gold,
-                dense: true),
+              label: l10n.weeklyExamBadge,
+              variant: DirasstyChipVariant.gold,
+              dense: true,
+            ),
           ),
           const SizedBox(height: DirasstySpace.lg),
           Text(exam.subject.label, style: type.display),
@@ -59,16 +64,20 @@ class ExamIntroScreen extends StatelessWidget {
             children: [
               if (exam.durationMinutes != null)
                 _Tile(
-                    value: l10n.minutesShort(exam.durationMinutes!),
-                    label: l10n.duration)
+                  value: l10n.minutesShort(exam.durationMinutes!),
+                  label: l10n.duration,
+                )
               else
                 _Tile(
-                    value: DirasstyDates.dayMonthYear(exam.dueAt, lang),
-                    label: l10n.dueBy,
-                    small: true),
+                  value: DirasstyDates.dayMonthYear(exam.dueAt, lang),
+                  label: l10n.dueBy,
+                  small: true,
+                ),
               const SizedBox(width: 10),
               _Tile(
-                  value: '${exam.totalQuestions}', label: l10n.questionsLabel),
+                value: '${exam.totalQuestions}',
+                label: l10n.questionsLabel,
+              ),
               const SizedBox(width: 10),
               _Tile(value: '+$xpMax', label: l10n.xpMax),
             ],
@@ -90,13 +99,18 @@ class ExamIntroScreen extends StatelessWidget {
                         height: 6,
                         margin: const EdgeInsetsDirectional.only(top: 8),
                         decoration: const BoxDecoration(
-                            color: DirasstyColors.teal, shape: BoxShape.circle),
+                          color: DirasstyColors.teal,
+                          shape: BoxShape.circle,
+                        ),
                       ),
                       const SizedBox(width: 10),
                       Expanded(
-                          child: Text(rule,
-                              style: type.bodySmall
-                                  .copyWith(color: DirasstyColors.text))),
+                        child: Text(
+                          rule,
+                          style: type.bodySmall
+                              .copyWith(color: DirasstyColors.text),
+                        ),
+                      ),
                     ],
                   ),
                 ],

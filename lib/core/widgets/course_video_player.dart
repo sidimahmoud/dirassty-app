@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../features/auth/application/auth_providers.dart';
+import '../../l10n/app_localizations.dart';
 import '../analytics/app_analytics.dart';
 import '../models/video_body.dart';
 import '../offline/offline_video_store.dart';
@@ -13,7 +14,7 @@ import '../offline/offline_videos_controller.dart';
 import '../offline/video_url_signer.dart';
 import '../theme/dirassty_theme.dart';
 import 'dirassty/dirassty_widgets.dart';
-import '../../l10n/app_localizations.dart';
+import 'video_watermark.dart';
 
 /// A course-video player styled after Coursera/Khan Academy: a poster
 /// frame (thumbnail, or a color gradient when there is none) with a big
@@ -33,10 +34,10 @@ import '../../l10n/app_localizations.dart';
 /// so no stale controller lingers.
 class CourseVideoPlayer extends ConsumerStatefulWidget {
   const CourseVideoPlayer({
-    super.key,
     required this.video,
     required this.color,
     required this.isArabic,
+    super.key,
     this.borderRadius = DirasstyRadius.cardR,
     this.downloadTitle,
     this.lessonId,
@@ -134,6 +135,8 @@ class _CourseVideoPlayerState extends ConsumerState<CourseVideoPlayer> {
           looping: false,
           allowFullScreen: true,
           allowMuting: true,
+          // Student-name watermark, also shown in fullscreen.
+          overlay: VideoWatermark(controller: ready),
           // Gold played bar on the ink stage (LessonVideo.dc.html).
           materialProgressColors: ChewieProgressColors(
             playedColor: DirasstyColors.gold,
@@ -271,7 +274,7 @@ class _Poster extends StatelessWidget {
                 stops: const [0.45, 1],
                 colors: [
                   Colors.transparent,
-                  DirasstyColors.ink.withValues(alpha: 0.7)
+                  DirasstyColors.ink.withValues(alpha: 0.7),
                 ],
               ),
             ),
@@ -433,7 +436,9 @@ class _DownloadChip extends ConsumerWidget {
         } catch (_) {
           if (!context.mounted) return;
           showDirasstySnackBar(
-              context, AppLocalizations.of(context).downloadFailed);
+            context,
+            AppLocalizations.of(context).downloadFailed,
+          );
         }
       },
       children: [
@@ -458,13 +463,15 @@ class _DownloadChip extends ConsumerWidget {
           message: l10n.deleteDownloadBody,
           actions: [
             DirasstyDialogAction(
-                label: l10n.delete,
-                value: true,
-                variant: DirasstyButtonVariant.danger),
+              label: l10n.delete,
+              value: true,
+              variant: DirasstyButtonVariant.danger,
+            ),
             DirasstyDialogAction(
-                label: l10n.cancel,
-                value: false,
-                variant: DirasstyButtonVariant.quiet),
+              label: l10n.cancel,
+              value: false,
+              variant: DirasstyButtonVariant.quiet,
+            ),
           ],
         ) ??
         false;

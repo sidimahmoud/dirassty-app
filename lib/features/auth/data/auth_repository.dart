@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/config/supabase_config.dart';
+import '../../../core/network/retry.dart';
 import '../../../core/offline/offline_video_store.dart';
 import '../../focus/data/focus_repository.dart';
 import '../application/app_auth_state.dart';
@@ -75,7 +76,9 @@ class AuthRepository {
     required String pin,
   }) async {
     await _signInWithPin(
-        '${username.trim().toLowerCase()}@$_studentEmailDomain', pin);
+      '${username.trim().toLowerCase()}@$_studentEmailDomain',
+      pin,
+    );
   }
 
   /// Returning-parent login. Supabase's native Phone/SMS provider isn't
@@ -88,7 +91,9 @@ class AuthRepository {
     required String pin,
   }) async {
     await _signInWithPin(
-        '${_digitsOf(_fullPhone(localPhone))}@$_parentEmailDomain', pin);
+      '${_digitsOf(_fullPhone(localPhone))}@$_parentEmailDomain',
+      pin,
+    );
   }
 
   /// Step 1 of self-registration: ask for a WhatsApp OTP to be sent to
@@ -223,9 +228,34 @@ class AuthRepository {
   /// admin-invite claim all create the row first), so "neither" only
   /// means a first-time parent who verified their phone via the legacy
   /// onboarding flow but hasn't finished registration.
-  Future<AppAuthState> resolveRole(String? userId) async {
-    if (userId == null) return const AppAuthUnauthenticated();
+  /// The last settled role (a student, or a parent past onboarding) and
+  /// whose it is. It can't change while the same person stays signed in,
+  /// so token refreshes, the app coming back to the foreground and every
+  /// router redirect reuse it instead of two network reads each time — one
+  /// failed read there used to leave the app on "Hors ligne · Impossible
+  /// de charger ton profil" with a working connection. Reset on sign-out
+  /// or another account.
+  String? _settledRoleUserId;
+  AppAuthState? _settledRole;
 
+  Future<AppAuthState> resolveRole(String? userId) async {
+    if (userId == null) {
+      _settledRoleUserId = null;
+      _settledRole = null;
+      return const AppAuthUnauthenticated();
+    }
+    final AppAuthState? settled = _settledRole;
+    if (settled != null && userId == _settledRoleUserId) return settled;
+
+    final AppAuthState role = await retryRequest(() => _fetchRole(userId));
+    final bool isSettled = role is AppAuthStudent ||
+        (role is AppAuthParent && !role.needsOnboarding);
+    _settledRoleUserId = isSettled ? userId : null;
+    _settledRole = isSettled ? role : null;
+    return role;
+  }
+
+  Future<AppAuthState> _fetchRole(String userId) async {
     final parentRow = await _client
         .from('parents')
         .select('id')

@@ -44,7 +44,7 @@ int adaptiveGridColumns(
 /// rather than a stretched-out phone screen or a widget floating in
 /// blank space.
 class ResponsiveShell extends StatelessWidget {
-  const ResponsiveShell({super.key, required this.child});
+  const ResponsiveShell({required this.child, super.key});
 
   final Widget? child;
 

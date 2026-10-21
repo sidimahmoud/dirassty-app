@@ -1,6 +1,7 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/models/student.dart';
+import '../../../core/network/retry.dart';
 
 /// The only place in the app that reads/writes the `students` table row
 /// for "the logged-in student themselves" (as opposed to a parent's list
@@ -17,7 +18,12 @@ class StudentRepository {
   /// logged-in student (auth_user_id set) would resolve to nothing on
   /// those parent_id-only pages; standardizing on this one path avoids
   /// reproducing that bug.
-  Future<Student> getCurrentStudent(String authUserId) async {
+  /// Retried on a failed request (see [retryRequest]) — every student
+  /// screen depends on it.
+  Future<Student> getCurrentStudent(String authUserId) =>
+      retryRequest(() => _fetchCurrentStudent(authUserId));
+
+  Future<Student> _fetchCurrentStudent(String authUserId) async {
     final Map<String, dynamic>? direct = await _client
         .from('students')
         .select('*')

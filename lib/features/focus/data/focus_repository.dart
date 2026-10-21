@@ -136,7 +136,8 @@ class FocusRepository {
     if (queue.isEmpty) return;
     try {
       await _client.from('focus_events').insert(
-          queue.map((e) => jsonDecode(e) as Map<String, dynamic>).toList());
+            queue.map((e) => jsonDecode(e) as Map<String, dynamic>).toList(),
+          );
       await prefs.remove(_queueKey);
     } catch (_) {
       // Offline — retried on the next event or app resume.

@@ -75,8 +75,10 @@ class OpenGradePicker extends ConsumerWidget {
         children: [
           heading,
           const SizedBox(height: 10),
-          Text(l10n.noGradesOpen,
-              style: type.label.copyWith(color: DirasstyColors.error)),
+          Text(
+            l10n.noGradesOpen,
+            style: type.label.copyWith(color: DirasstyColors.error),
+          ),
         ],
       );
     }
@@ -143,8 +145,11 @@ class OpenGradePicker extends ConsumerWidget {
 }
 
 class _GradeCard extends StatelessWidget {
-  const _GradeCard(
-      {required this.option, required this.selected, required this.onTap});
+  const _GradeCard({
+    required this.option,
+    required this.selected,
+    required this.onTap,
+  });
 
   final GradeOption option;
   final bool selected;
@@ -181,8 +186,12 @@ class _GradeCard extends StatelessWidget {
             borderRadius: DirasstyRadius.cardR,
             onTap: onTap,
             child: Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(DirasstySpace.md,
-                  DirasstySpace.md, DirasstySpace.sm, DirasstySpace.md),
+              padding: const EdgeInsetsDirectional.fromSTEB(
+                DirasstySpace.md,
+                DirasstySpace.md,
+                DirasstySpace.sm,
+                DirasstySpace.md,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -190,7 +199,9 @@ class _GradeCard extends StatelessWidget {
                     children: [
                       Container(
                         padding: const EdgeInsetsDirectional.symmetric(
-                            horizontal: DirasstySpace.sm, vertical: 3),
+                          horizontal: DirasstySpace.sm,
+                          vertical: 3,
+                        ),
                         decoration: BoxDecoration(
                           color: selected
                               ? DirasstyColors.teal
@@ -213,8 +224,11 @@ class _GradeCard extends StatelessWidget {
                         duration: context.reduceMotion
                             ? Duration.zero
                             : DirasstyMotion.fast,
-                        child: const Icon(Icons.check_circle_rounded,
-                            size: 20, color: DirasstyColors.teal),
+                        child: const Icon(
+                          Icons.check_circle_rounded,
+                          size: 20,
+                          color: DirasstyColors.teal,
+                        ),
                       ),
                     ],
                   ),
@@ -234,15 +248,21 @@ class _GradeCard extends StatelessWidget {
                     const SizedBox(height: DirasstySpace.xs),
                     Row(
                       children: [
-                        const Icon(Icons.workspace_premium_rounded,
-                            size: 14, color: DirasstyColors.goldStroke),
+                        const Icon(
+                          Icons.workspace_premium_rounded,
+                          size: 14,
+                          color: DirasstyColors.goldStroke,
+                        ),
                         const SizedBox(width: 3),
                         Flexible(
-                          child: Text(exam,
-                              overflow: TextOverflow.ellipsis,
-                              style: type.label.copyWith(
-                                  color: DirasstyColors.goldStroke,
-                                  fontSize: 11)),
+                          child: Text(
+                            exam,
+                            overflow: TextOverflow.ellipsis,
+                            style: type.label.copyWith(
+                              color: DirasstyColors.goldStroke,
+                              fontSize: 11,
+                            ),
+                          ),
                         ),
                       ],
                     ),

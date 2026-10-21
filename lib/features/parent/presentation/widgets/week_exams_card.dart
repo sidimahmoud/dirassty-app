@@ -29,10 +29,12 @@ class WeekExamsCard extends ConsumerWidget {
     final DateTime monday = DateTime(now.year, now.month, now.day)
         .subtract(Duration(days: now.weekday - 1));
     final List<Exam> week = all
-        .where((e) =>
-            e.weekStart.year == monday.year &&
-            e.weekStart.month == monday.month &&
-            e.weekStart.day == monday.day)
+        .where(
+          (e) =>
+              e.weekStart.year == monday.year &&
+              e.weekStart.month == monday.month &&
+              e.weekStart.day == monday.day,
+        )
         .toList()
       ..sort((a, b) => a.subject.label.compareTo(b.subject.label));
     if (week.isEmpty) return const SizedBox.shrink();
@@ -42,24 +44,35 @@ class WeekExamsCard extends ConsumerWidget {
       padding: const EdgeInsetsDirectional.only(bottom: DirasstySpace.lg),
       child: DirasstyCard(
         variant: DirasstyCardVariant.shadow,
-        onTap: () => context.pushNamed(ChildExamHistoryScreen.name,
-            pathParameters: {'studentId': studentId}),
+        onTap: () => context.pushNamed(
+          ChildExamHistoryScreen.name,
+          pathParameters: {'studentId': studentId},
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Row(
               children: [
-                const Icon(Icons.fact_check_outlined,
-                    size: 20, color: DirasstyColors.teal),
+                const Icon(
+                  Icons.fact_check_outlined,
+                  size: 20,
+                  color: DirasstyColors.teal,
+                ),
                 const SizedBox(width: DirasstySpace.sm),
                 Expanded(
-                  child: Text(l10n.examsOfTheWeek,
-                      style: type.subheading.copyWith(fontSize: 14)),
+                  child: Text(
+                    l10n.examsOfTheWeek,
+                    style: type.subheading.copyWith(fontSize: 14),
+                  ),
                 ),
-                Text('$done/${week.length}',
-                    textDirection: TextDirection.ltr,
-                    style: type.subheading.copyWith(
-                        fontFamily: 'Inter', color: DirasstyColors.teal)),
+                Text(
+                  '$done/${week.length}',
+                  textDirection: TextDirection.ltr,
+                  style: type.subheading.copyWith(
+                    fontFamily: 'Inter',
+                    color: DirasstyColors.teal,
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: DirasstySpace.sm),
@@ -73,24 +86,30 @@ class WeekExamsCard extends ConsumerWidget {
                     Text(e.subject.icon, style: const TextStyle(fontSize: 16)),
                     const SizedBox(width: DirasstySpace.sm),
                     Expanded(
-                        child: Text(e.subject.label, style: type.bodySmall)),
+                      child: Text(e.subject.label, style: type.bodySmall),
+                    ),
                     switch (e.status) {
                       ExamStatus.completed => DirasstyChip(
                           label: '${e.correctCount ?? 0}/${e.totalQuestions}',
                           variant: DirasstyChipVariant.teal,
-                          dense: true),
+                          dense: true,
+                        ),
                       ExamStatus.available => DirasstyChip(
                           label: l10n.examToDo,
                           variant: DirasstyChipVariant.gold,
-                          dense: true),
+                          dense: true,
+                        ),
                       ExamStatus.scheduled => DirasstyChip(
                           label: l10n.availableOn(
-                              DirasstyDates.weekday(e.availableFrom, lang)),
-                          dense: true),
+                            DirasstyDates.weekday(e.availableFrom, lang),
+                          ),
+                          dense: true,
+                        ),
                       ExamStatus.missed => DirasstyChip(
                           label: l10n.missed,
                           variant: DirasstyChipVariant.red,
-                          dense: true),
+                          dense: true,
+                        ),
                     },
                   ],
                 ),

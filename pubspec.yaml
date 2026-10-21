@@ -1,7 +1,7 @@
 name: dirassty
 description: "Dirassty — AI-powered bilingual learning app for Mauritanian students."
 publish_to: "none"
-version: 0.1.0+1
+version: 1.0.0+1
 
 environment:
   sdk: ">=3.5.0 <4.0.0"

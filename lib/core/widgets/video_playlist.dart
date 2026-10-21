@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../models/video_body.dart';
+import '../theme/dirassty_theme.dart';
 import 'course_video_player.dart';
 import 'dirassty/playlist_item.dart';
-import '../theme/dirassty_theme.dart';
-import '../../l10n/app_localizations.dart';
 
 /// One big player for whichever video is active, plus — only once there's
 /// more than one — a list of the others underneath, the way a real course
@@ -17,11 +17,11 @@ import '../../l10n/app_localizations.dart';
 /// themselves.
 class VideoPlaylistPlayer extends StatefulWidget {
   const VideoPlaylistPlayer({
-    super.key,
     required this.videos,
     required this.lessonTitle,
     required this.color,
     required this.isArabic,
+    super.key,
     this.borderRadius = DirasstyRadius.cardR,
     this.lessonId,
   });
@@ -165,7 +165,9 @@ class _PrevNextBar extends StatelessWidget {
       foregroundColor: color,
       disabledForegroundColor: DirasstyColors.textMuted.withValues(alpha: 0.5),
       padding: const EdgeInsets.symmetric(
-          horizontal: DirasstySpace.md, vertical: DirasstySpace.sm),
+        horizontal: DirasstySpace.md,
+        vertical: DirasstySpace.sm,
+      ),
       textStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 12),
     );
 

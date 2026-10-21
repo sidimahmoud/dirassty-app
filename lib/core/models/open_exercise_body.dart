@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
-import 'difficulty.dart';
 import 'diagram_spec.dart';
+import 'difficulty.dart';
 
 /// An open-ended (free-text), AI-corrected exercise. Ported from
 /// `OpenExerciseBody` in packages/shared/src/types — the body of a

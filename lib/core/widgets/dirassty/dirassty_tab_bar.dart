@@ -45,21 +45,25 @@ class DirasstyTabBar extends StatelessWidget {
       onTap: onTap,
       items: [
         DirasstyTabItem(
-            label: l10n.tabHome,
-            icon: Icons.home_outlined,
-            activeIcon: Icons.home_rounded),
+          label: l10n.tabHome,
+          icon: Icons.home_outlined,
+          activeIcon: Icons.home_rounded,
+        ),
         DirasstyTabItem(
-            label: l10n.tabSubjects,
-            icon: Icons.menu_book_outlined,
-            activeIcon: Icons.menu_book_rounded),
+          label: l10n.tabSubjects,
+          icon: Icons.menu_book_outlined,
+          activeIcon: Icons.menu_book_rounded,
+        ),
         DirasstyTabItem(
-            label: l10n.tabExams,
-            icon: Icons.assignment_outlined,
-            activeIcon: Icons.assignment_rounded),
+          label: l10n.tabExams,
+          icon: Icons.assignment_outlined,
+          activeIcon: Icons.assignment_rounded,
+        ),
         DirasstyTabItem(
-            label: l10n.tabProfile,
-            icon: Icons.person_outline_rounded,
-            activeIcon: Icons.person_rounded),
+          label: l10n.tabProfile,
+          icon: Icons.person_outline_rounded,
+          activeIcon: Icons.person_rounded,
+        ),
       ],
     );
   }
@@ -79,17 +83,20 @@ class DirasstyTabBar extends StatelessWidget {
       activeColor: DirasstyColors.ink,
       items: [
         DirasstyTabItem(
-            label: l10n.tabHome,
-            icon: Icons.home_outlined,
-            activeIcon: Icons.home_rounded),
+          label: l10n.tabHome,
+          icon: Icons.home_outlined,
+          activeIcon: Icons.home_rounded,
+        ),
         DirasstyTabItem(
-            label: l10n.tabSubscription,
-            icon: Icons.credit_card_outlined,
-            activeIcon: Icons.credit_card_rounded),
+          label: l10n.tabSubscription,
+          icon: Icons.credit_card_outlined,
+          activeIcon: Icons.credit_card_rounded,
+        ),
         DirasstyTabItem(
-            label: l10n.tabProfile,
-            icon: Icons.person_outline_rounded,
-            activeIcon: Icons.person_rounded),
+          label: l10n.tabProfile,
+          icon: Icons.person_outline_rounded,
+          activeIcon: Icons.person_rounded,
+        ),
       ],
     );
   }

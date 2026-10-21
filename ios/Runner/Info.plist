@@ -26,6 +26,10 @@
 		<string>$(FLUTTER_BUILD_NUMBER)</string>
 		<key>LSRequiresIPhoneOS</key>
 		<true/>
+		<!-- Only standard HTTPS (exempt): skips App Store Connect's export
+	     compliance question on every upload. -->
+		<key>ITSAppUsesNonExemptEncryption</key>
+		<false/>
 		<key>NSCameraUsageDescription</key>
 		<string>Dirassty utilise la caméra pour que tu prennes en photo tes exercices et devoirs, afin que Rafiq t'aide à les résoudre.</string>
 		<key>NSPhotoLibraryUsageDescription</key>

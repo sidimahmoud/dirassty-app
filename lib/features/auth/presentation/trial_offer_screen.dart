@@ -73,6 +73,16 @@ class TrialOfferScreen extends ConsumerWidget {
               showBack: false,
               sidePadding: DirasstySpace.xl,
               gap: DirasstySpace.xl,
+              bottom: [
+                DirasstyButton(label: l10n.startTrial, onPressed: goHome),
+                Text(
+                  price == null
+                      ? l10n.trialFooterNoPrice
+                      : l10n.trialFooterPrice('$price'),
+                  textAlign: TextAlign.center,
+                  style: type.label.copyWith(fontWeight: FontWeight.w400),
+                ),
+              ],
               children: [
                 Padding(
                   padding:
@@ -87,12 +97,16 @@ class TrialOfferScreen extends ConsumerWidget {
                       ),
                       const SizedBox(height: DirasstySpace.screen),
                       DirasstyChip(
-                          label: l10n.accountCreated,
-                          variant: DirasstyChipVariant.teal,
-                          dense: true),
+                        label: l10n.accountCreated,
+                        variant: DirasstyChipVariant.teal,
+                        dense: true,
+                      ),
                       const SizedBox(height: DirasstySpace.screen),
-                      Text(l10n.trialTitleDays(s.trialDurationDays),
-                          textAlign: TextAlign.center, style: type.display),
+                      Text(
+                        l10n.trialTitleDays(s.trialDurationDays),
+                        textAlign: TextAlign.center,
+                        style: type.display,
+                      ),
                       const SizedBox(height: DirasstySpace.sm),
                       Text(
                         gradeLabel.isEmpty
@@ -121,7 +135,9 @@ class TrialOfferScreen extends ConsumerWidget {
                         Row(
                           children: [
                             const IconBadge(
-                                icon: Icons.check_rounded, size: 24),
+                              icon: Icons.check_rounded,
+                              size: 24,
+                            ),
                             const SizedBox(width: DirasstySpace.md),
                             Expanded(child: Text(feature, style: type.body)),
                           ],
@@ -129,16 +145,6 @@ class TrialOfferScreen extends ConsumerWidget {
                       ],
                     ],
                   ),
-                ),
-              ],
-              bottom: [
-                DirasstyButton(label: l10n.startTrial, onPressed: goHome),
-                Text(
-                  price == null
-                      ? l10n.trialFooterNoPrice
-                      : l10n.trialFooterPrice('$price'),
-                  textAlign: TextAlign.center,
-                  style: type.label.copyWith(fontWeight: FontWeight.w400),
                 ),
               ],
             ),
@@ -160,6 +166,18 @@ class _AccountReady extends StatelessWidget {
     return AuthScaffold(
       onBack: onLater,
       sidePadding: DirasstySpace.xl,
+      bottom: [
+        DirasstyButton(
+          label: l10n.choosePlan,
+          variant: DirasstyButtonVariant.gold,
+          onPressed: () => context.go(SubscribeFlowScreen.path),
+        ),
+        DirasstyButton(
+          label: l10n.later,
+          variant: DirasstyButtonVariant.quiet,
+          onPressed: onLater,
+        ),
+      ],
       children: [
         Padding(
           padding: const EdgeInsetsDirectional.only(top: DirasstySpace.xxl),
@@ -167,8 +185,11 @@ class _AccountReady extends StatelessWidget {
             children: [
               const IconBadge(icon: Icons.check_rounded, size: 112),
               const SizedBox(height: DirasstySpace.screen),
-              Text(l10n.accountReadyTitle,
-                  textAlign: TextAlign.center, style: type.display),
+              Text(
+                l10n.accountReadyTitle,
+                textAlign: TextAlign.center,
+                style: type.display,
+              ),
               const SizedBox(height: DirasstySpace.sm),
               Text(
                 l10n.accountReadyBody(gradeLabel),
@@ -178,17 +199,6 @@ class _AccountReady extends StatelessWidget {
             ],
           ),
         ),
-      ],
-      bottom: [
-        DirasstyButton(
-          label: l10n.choosePlan,
-          variant: DirasstyButtonVariant.gold,
-          onPressed: () => context.go(SubscribeFlowScreen.path),
-        ),
-        DirasstyButton(
-            label: l10n.later,
-            variant: DirasstyButtonVariant.quiet,
-            onPressed: onLater),
       ],
     );
   }

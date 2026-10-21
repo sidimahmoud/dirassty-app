@@ -102,7 +102,9 @@ class RiseIn extends StatelessWidget {
       builder: (context, t, child) => Opacity(
         opacity: t,
         child: Transform.translate(
-            offset: Offset(0, distance * (1 - t)), child: child),
+          offset: Offset(0, distance * (1 - t)),
+          child: child,
+        ),
       ),
     );
   }
@@ -166,7 +168,9 @@ class _ScaleInState extends State<ScaleIn> with SingleTickerProviderStateMixin {
           child: Transform.translate(
             offset: widget.burst * (1 - t),
             child: Transform.scale(
-                scale: widget.begin + (1 - widget.begin) * t, child: child),
+              scale: widget.begin + (1 - widget.begin) * t,
+              child: child,
+            ),
           ),
         );
       },

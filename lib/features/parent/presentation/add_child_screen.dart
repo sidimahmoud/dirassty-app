@@ -62,7 +62,9 @@ class _AddChildScreenState extends ConsumerState<AddChildScreen> {
       _serverError = null;
     });
     final int? grade = openGradeOrNearest(
-        _grade, selectableGrades(ref.read(activeGradeIdsProvider).valueOrNull));
+      _grade,
+      selectableGrades(ref.read(activeGradeIdsProvider).valueOrNull),
+    );
     if (_nameError != null ||
         _usernameError != null ||
         _pinError != null ||
@@ -116,6 +118,13 @@ class _AddChildScreenState extends ConsumerState<AddChildScreen> {
     final bool loading = ref.watch(addChildControllerProvider).isLoading;
 
     return AuthScaffold(
+      bottom: [
+        DirasstyButton(
+          label: l10n.createChildAccount,
+          loading: loading,
+          onPressed: _submit,
+        ),
+      ],
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -156,15 +165,10 @@ class _AddChildScreenState extends ConsumerState<AddChildScreen> {
           }),
         ),
         if (_serverError != null)
-          Text(_serverError!,
-              style: type.label.copyWith(color: DirasstyColors.error)),
-      ],
-      bottom: [
-        DirasstyButton(
-          label: l10n.createChildAccount,
-          loading: loading,
-          onPressed: _submit,
-        ),
+          Text(
+            _serverError!,
+            style: type.label.copyWith(color: DirasstyColors.error),
+          ),
       ],
     );
   }
@@ -174,8 +178,10 @@ class _AddChildScreenState extends ConsumerState<AddChildScreen> {
     // marks the exam year); the server still rejects a closed one.
     return OpenGradePicker(
       label: l10n.childClass,
-      grade: openGradeOrNearest(_grade,
-          selectableGrades(ref.watch(activeGradeIdsProvider).valueOrNull)),
+      grade: openGradeOrNearest(
+        _grade,
+        selectableGrades(ref.watch(activeGradeIdsProvider).valueOrNull),
+      ),
       onChanged: (g) => setState(() => _grade = g),
     );
   }

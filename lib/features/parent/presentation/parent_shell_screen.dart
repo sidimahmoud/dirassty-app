@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/dirassty_theme.dart';
 import '../../../core/widgets/dirassty/dirassty_widgets.dart';
-import 'parent_profile_screen.dart';
 import '../../subscription/presentation/subscribe_flow_screen.dart';
+import 'parent_profile_screen.dart';
 import 'widgets/parent_home_tab.dart';
 
 /// The parent app's 3 top-level destinations (Home, Subscription,

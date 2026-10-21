@@ -27,7 +27,9 @@ class FormulaBox extends StatelessWidget {
         width: double.infinity,
         padding: compact
             ? const EdgeInsets.symmetric(
-                horizontal: DirasstySpace.md, vertical: 10)
+                horizontal: DirasstySpace.md,
+                vertical: 10,
+              )
             : const EdgeInsets.all(18),
         decoration: BoxDecoration(
           color: DirasstyColors.ivory,
@@ -112,11 +114,16 @@ class NumberedStep extends StatelessWidget {
           height: 32,
           alignment: Alignment.center,
           decoration: const BoxDecoration(
-              color: DirasstyColors.ink, shape: BoxShape.circle),
+            color: DirasstyColors.ink,
+            shape: BoxShape.circle,
+          ),
           child: Text(
             '$number',
             style: context.dirasstyType.subheading.copyWith(
-                fontSize: 14, color: Colors.white, fontFamily: 'Inter'),
+              fontSize: 14,
+              color: Colors.white,
+              fontFamily: 'Inter',
+            ),
           ),
         ),
         const SizedBox(width: DirasstySpace.md),
@@ -139,21 +146,29 @@ class GoldCallout extends StatelessWidget {
     return Container(
       padding: const EdgeInsetsDirectional.all(14),
       decoration: const BoxDecoration(
-          color: DirasstyColors.goldTint, borderRadius: DirasstyRadius.cardR),
+        color: DirasstyColors.goldTint,
+        borderRadius: DirasstyRadius.cardR,
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(Icons.warning_amber_rounded,
-              color: DirasstyColors.goldStroke, size: 20),
+          const Icon(
+            Icons.warning_amber_rounded,
+            color: DirasstyColors.goldStroke,
+            size: 20,
+          ),
           const SizedBox(width: DirasstySpace.md),
           Expanded(
             child: Text.rich(
               TextSpan(
                 children: [
                   TextSpan(
-                      text: '$title : ',
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w700, color: DirasstyColors.ink)),
+                    text: '$title : ',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w700,
+                      color: DirasstyColors.ink,
+                    ),
+                  ),
                   TextSpan(text: cleanMathForDisplay(text)),
                 ],
               ),
@@ -169,8 +184,12 @@ class GoldCallout extends StatelessWidget {
 /// Body text of a lesson (16, line height from the type scale), math
 /// cleaned for display.
 class LessonText extends StatelessWidget {
-  const LessonText(this.text,
-      {super.key, this.muted = false, this.small = false});
+  const LessonText(
+    this.text, {
+    super.key,
+    this.muted = false,
+    this.small = false,
+  });
 
   final String text;
   final bool muted;
@@ -183,8 +202,9 @@ class LessonText extends StatelessWidget {
     return Text(
       cleanMathForDisplay(text),
       style: base.copyWith(
-          color: muted ? DirasstyColors.textMuted : DirasstyColors.text,
-          height: 1.55),
+        color: muted ? DirasstyColors.textMuted : DirasstyColors.text,
+        height: 1.55,
+      ),
     );
   }
 }

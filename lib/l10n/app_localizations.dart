@@ -221,7 +221,7 @@ abstract class AppLocalizations {
   /// No description provided for @trialLine.
   ///
   /// In fr, this message translates to:
-  /// **'Programme officiel mauritanien · Leçons, exercices et examens'**
+  /// **'Programme scolaire mauritanien · Leçons, exercices et examens'**
   String get trialLine;
 
   /// No description provided for @studentLoginTitle.
@@ -1784,6 +1784,12 @@ abstract class AppLocalizations {
   /// **'Renvoyer le code'**
   String get resendCode;
 
+  /// Button on the WhatsApp-code screen: pastes the code copied from the WhatsApp message.
+  ///
+  /// In fr, this message translates to:
+  /// **'Coller le code'**
+  String get pasteCode;
+
   /// Added during implementation (not in the design handoff).
   ///
   /// In fr, this message translates to:
@@ -2167,6 +2173,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Commencer le QCM'**
   String get startQcm;
+
+  /// Last lesson step when the lesson has no QCM or exercises: marks it read and goes back.
+  ///
+  /// In fr, this message translates to:
+  /// **'Terminer la leçon'**
+  String get finishLesson;
 
   /// Added during implementation (not in the design handoff).
   ///
@@ -3245,7 +3257,7 @@ abstract class AppLocalizations {
   /// Added during implementation (not in the design handoff).
   ///
   /// In fr, this message translates to:
-  /// **'Toutes les matières, vidéos, exercices et examens du programme officiel.'**
+  /// **'Toutes les matières, vidéos, exercices et examens du programme scolaire.'**
   String get subscriptionIntro;
 
   /// Added during implementation (not in the design handoff).

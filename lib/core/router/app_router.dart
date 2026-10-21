@@ -2,17 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../theme/dirassty_theme.dart';
-
 import '../../features/auth/application/app_auth_state.dart';
 import '../../features/auth/application/auth_providers.dart';
 import '../../features/auth/data/auth_repository.dart';
 import '../../features/auth/presentation/choose_class_screen.dart';
 import '../../features/auth/presentation/choose_role_screen.dart';
-import '../../features/auth/presentation/trial_offer_screen.dart';
 import '../../features/auth/presentation/parent_login_screen.dart';
 import '../../features/auth/presentation/register_screen.dart';
 import '../../features/auth/presentation/student_login_screen.dart';
+import '../../features/auth/presentation/trial_offer_screen.dart';
 import '../../features/auth/presentation/welcome_screen.dart';
 import '../../features/courses/presentation/courses_screen.dart';
 import '../../features/courses/presentation/subject_detail_screen.dart';
@@ -22,18 +20,18 @@ import '../../features/exams/presentation/exam_session_screen.dart';
 import '../../features/exams/presentation/exams_list_screen.dart';
 import '../../features/exercise/presentation/open_practice_screen.dart';
 import '../../features/exercise/presentation/qcm_session_screen.dart';
+import '../../features/focus/presentation/focus_settings_screen.dart';
 import '../../features/home/presentation/student_home_screen.dart';
 import '../../features/homework/presentation/homework_helper_screen.dart';
 import '../../features/lesson/presentation/lesson_viewer_screen.dart';
 import '../../features/onboarding/presentation/parent_onboarding_placeholder_screen.dart';
-import '../../features/parent/presentation/subscription_screen.dart';
 import '../../features/parent/presentation/add_child_screen.dart';
 import '../../features/parent/presentation/child_created_screen.dart';
-import '../../features/focus/presentation/focus_settings_screen.dart';
 import '../../features/parent/presentation/child_exam_history_screen.dart';
 import '../../features/parent/presentation/child_progress_screen.dart';
 import '../../features/parent/presentation/parent_shell_screen.dart';
 import '../../features/parent/presentation/parent_subject_detail_screen.dart';
+import '../../features/parent/presentation/subscription_screen.dart';
 import '../../features/profile/presentation/about_screen.dart';
 import '../../features/profile/presentation/delete_account_screen.dart';
 import '../../features/profile/presentation/downloads_screen.dart';
@@ -46,6 +44,7 @@ import '../../features/subscription/presentation/subscription_locked_screen.dart
 import '../models/exam.dart';
 import '../models/student.dart';
 import '../offline/offline_video_store.dart';
+import '../theme/dirassty_theme.dart';
 import 'go_router_refresh_stream.dart';
 
 /// Reachable without a session. Anything not covered by this bounces an
@@ -358,7 +357,10 @@ Future<bool> _hasOfflineVideosFor(String userId) async {
 /// `/home`. Each role now gets an allow-list of paths instead of a
 /// single one.
 Future<String?> _redirect(
-    Ref ref, GoRouterState state, AuthRepository repo) async {
+  Ref ref,
+  GoRouterState state,
+  AuthRepository repo,
+) async {
   final String location = state.matchedLocation;
   final session = repo.currentSession;
 

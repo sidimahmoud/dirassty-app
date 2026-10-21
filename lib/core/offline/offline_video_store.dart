@@ -155,8 +155,10 @@ class OfflineVideoStore {
   /// null means "no paid access" — every download is wiped. A different
   /// [userId] than the current owner (another account on this device)
   /// also wipes them first.
-  Future<void> syncAccess(
-      {required String userId, required DateTime? accessUntil}) async {
+  Future<void> syncAccess({
+    required String userId,
+    required DateTime? accessUntil,
+  }) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? currentOwner = prefs.getString(_ownerKey);
     if (accessUntil == null ||
@@ -189,9 +191,9 @@ class OfflineVideoStore {
     required VideoBody video,
     required String sourceUrl,
     required String title,
-    String? lessonId,
     required void Function(double? progress) onProgress,
     required bool Function() isCancelled,
+    String? lessonId,
   }) async {
     final Directory dir = await _directory();
     final String fileName = _fileNameFor(video.url);

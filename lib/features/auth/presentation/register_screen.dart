@@ -13,10 +13,10 @@ import '../../../core/theme/dirassty_theme.dart';
 import '../../../core/validation/validators.dart';
 import '../../../core/widgets/dirassty/dirassty_widgets.dart';
 import '../../../l10n/app_localizations.dart';
-import '../../parent/presentation/add_child_screen.dart';
-import '../../subscription/application/subscription_providers.dart';
 import '../../courses/application/courses_providers.dart';
 import '../../marketing/presentation/promo_code_field.dart';
+import '../../parent/presentation/add_child_screen.dart';
+import '../../subscription/application/subscription_providers.dart';
 import '../application/auth_providers.dart';
 import 'choose_class_screen.dart';
 import 'trial_offer_screen.dart';
@@ -28,10 +28,9 @@ import 'widgets/pin_entry.dart';
 /// Self-registration for a parent or a student (role switchable on the
 /// screen, [role] is only the initial selection).
 ///
-/// WhatsApp OTP is switched OFF for now ([_otpVerificationEnabled]) —
-/// until a paid Twilio WhatsApp sender exists, every registration goes
-/// straight through `register-direct` (parent and student). The OTP flow
-/// below is kept intact; flip the flag back to `true` to restore it.
+/// The WhatsApp code is switched on/off from Admin → Paramètres
+/// (`app_settings.whatsapp_otp_enabled`, migration 073). While it's off,
+/// every registration goes straight through `register-direct`.
 ///
 /// Flow when OTP is enabled, restyled to the design:
 /// - A parent's phone IS their login identity, so it's always verified
@@ -75,7 +74,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final TextEditingController _promoController = TextEditingController();
 
   late final bool _isStudent = widget.role != 'parent';
-  late int _grade = widget.initialGrade ?? 10;
+  late final int _grade = widget.initialGrade ?? 10;
   bool _showPromo = false;
   String _pin = '';
   bool _termsAccepted = false;
@@ -109,13 +108,17 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   /// The chosen grade if it's open for registration, else the nearest open
   /// one (see [OpenGradePicker]); null when no grade is open.
   int? get _openGrade => openGradeOrNearest(
-      _grade,
-      selectableGrades(ref.read(activeGradeIdsProvider).valueOrNull,
-          minGrade: kMinSelfSignupGrade));
+        _grade,
+        selectableGrades(
+          ref.read(activeGradeIdsProvider).valueOrNull,
+          minGrade: kMinSelfSignupGrade,
+        ),
+      );
 
-  /// WhatsApp phone verification at registration. Off until the Twilio
-  /// WhatsApp sender is a paid (non-sandbox) number.
-  static const bool _otpVerificationEnabled = false;
+  /// WhatsApp phone verification at registration, switched from the
+  /// admin (off until the Twilio WhatsApp sender is a real number).
+  bool get _otpVerificationEnabled =>
+      ref.read(appSettingsProvider).valueOrNull?.whatsappOtpEnabled ?? false;
 
   /// A parent always verifies (phone required); a student only when they
   /// typed a phone in. Never while [_otpVerificationEnabled] is off.
@@ -224,6 +227,21 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     if (!mounted) return;
     final AsyncValue<void> result = ref.read(authControllerProvider);
     if (result.hasError) {
+      // The WhatsApp code was switched on while the form was open (or the
+      // settings hadn't loaded): reload them and send the code instead.
+      if (result.error.toString().contains('otp_required')) {
+        ref.invalidate(appSettingsProvider);
+        try {
+          await ref.read(appSettingsProvider.future);
+        } catch (_) {
+          // Unreachable settings: fall through to the error message below.
+        }
+        if (!mounted) return;
+        if (_needsOtp) {
+          await _requestCode();
+          return;
+        }
+      }
       // A grade closed while the form was open: reload the open grades.
       if (result.error.toString().contains('grade_inactive')) {
         ref.invalidate(activeGradeIdsProvider);
@@ -240,9 +258,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   Future<void> _afterRegistered() async {
     final router = ref.read(goRouterProvider);
     // Optional influencer / promo code — attribution only, never blocks.
-    unawaited(ref
-        .read(appAnalyticsProvider)
-        .applyPromoCode(_promoController.text, context: 'signup'));
+    unawaited(
+      ref
+          .read(appAnalyticsProvider)
+          .applyPromoCode(_promoController.text, context: 'signup'),
+    );
     if (!_isStudent) {
       router.go(AddChildScreen.path);
       return;
@@ -257,6 +277,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   Widget build(BuildContext context) {
     final AppLocalizations l10n = AppLocalizations.of(context);
     final bool loading = ref.watch(authControllerProvider).isLoading;
+    // Rebuild once the WhatsApp-code setting loads (button label, flow).
+    ref.watch(appSettingsProvider);
 
     if (_codeRequested) {
       return VerifyCodeView(
@@ -272,6 +294,14 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
     final DirasstyType type = context.dirasstyType;
     return AuthScaffold(
+      bottom: [
+        DirasstyButton(
+          label: _needsOtp ? l10n.getWhatsappCode : l10n.createMyAccount,
+          icon: _needsOtp ? Icons.chat_rounded : null,
+          loading: loading,
+          onPressed: _submit,
+        ),
+      ],
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -341,8 +371,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               icon: const Icon(Icons.local_offer_outlined, size: 18),
               label: Text(l10n.havePromoCode),
               style: TextButton.styleFrom(
-                  foregroundColor: DirasstyColors.teal,
-                  visualDensity: VisualDensity.compact),
+                foregroundColor: DirasstyColors.teal,
+                visualDensity: VisualDensity.compact,
+              ),
             ),
           ),
         _TermsCheckbox(
@@ -357,16 +388,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           }),
         ),
         if (_serverError != null)
-          Text(_serverError!,
-              style: type.label.copyWith(color: DirasstyColors.error)),
-      ],
-      bottom: [
-        DirasstyButton(
-          label: _needsOtp ? l10n.getWhatsappCode : l10n.createMyAccount,
-          icon: _needsOtp ? Icons.chat_rounded : null,
-          loading: loading,
-          onPressed: _submit,
-        ),
+          Text(
+            _serverError!,
+            style: type.label.copyWith(color: DirasstyColors.error),
+          ),
       ],
     );
   }
@@ -385,7 +410,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             : context.go(ChooseClassScreen.path),
         child: Padding(
           padding: const EdgeInsetsDirectional.symmetric(
-              horizontal: DirasstySpace.lg, vertical: DirasstySpace.md),
+            horizontal: DirasstySpace.lg,
+            vertical: DirasstySpace.md,
+          ),
           child: Row(
             children: [
               const Icon(Icons.school_rounded, color: DirasstyColors.teal),
@@ -398,13 +425,17 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     Text(
                       grade == null ? '—' : gradeName(ref, grade),
                       style: type.subheading.copyWith(
-                          fontSize: 15, color: DirasstyColors.tealDark),
+                        fontSize: 15,
+                        color: DirasstyColors.tealDark,
+                      ),
                     ),
                   ],
                 ),
               ),
-              Text(l10n.changeClass,
-                  style: type.label.copyWith(color: DirasstyColors.teal)),
+              Text(
+                l10n.changeClass,
+                style: type.label.copyWith(color: DirasstyColors.teal),
+              ),
             ],
           ),
         ),
@@ -465,18 +496,25 @@ class _TermsCheckbox extends StatelessWidget {
                               color: errorText != null
                                   ? DirasstyColors.error
                                   : DirasstyColors.line,
-                              width: 1.5),
+                              width: 1.5,
+                            ),
                     ),
                     child: accepted
-                        ? const Icon(Icons.check_rounded,
-                            size: 18, color: Colors.white)
+                        ? const Icon(
+                            Icons.check_rounded,
+                            size: 18,
+                            color: Colors.white,
+                          )
                         : null,
                   ),
                   const SizedBox(width: DirasstySpace.md),
                   Expanded(
-                      child: Text(label,
-                          style: type.bodySmall
-                              .copyWith(color: DirasstyColors.text))),
+                    child: Text(
+                      label,
+                      style:
+                          type.bodySmall.copyWith(color: DirasstyColors.text),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -489,13 +527,16 @@ class _TermsCheckbox extends StatelessWidget {
             icon: const Icon(Icons.open_in_new_rounded, size: 16),
             label: Text(linkLabel),
             style: TextButton.styleFrom(
-                foregroundColor: DirasstyColors.teal,
-                visualDensity: VisualDensity.compact),
+              foregroundColor: DirasstyColors.teal,
+              visualDensity: VisualDensity.compact,
+            ),
           ),
         ),
         if (errorText != null)
-          Text(errorText!,
-              style: type.label.copyWith(color: DirasstyColors.error)),
+          Text(
+            errorText!,
+            style: type.label.copyWith(color: DirasstyColors.error),
+          ),
       ],
     );
   }

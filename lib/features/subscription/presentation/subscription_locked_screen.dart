@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../../core/security/parental_gate.dart';
 
 import '../../../core/models/student.dart';
 import '../../../core/models/subscription.dart';
+import '../../../core/security/parental_gate.dart';
 import '../../../core/theme/dirassty_theme.dart';
 import '../../../core/widgets/dirassty/dirassty_widgets.dart';
 import '../../../l10n/app_localizations.dart';
@@ -84,8 +84,11 @@ class _SubscriptionLockedScreenState
 
   Future<void> _notifyParent() async {
     if (!await passParentalGate(context) || !mounted) return;
-    final Uri uri = Uri.https('wa.me', '/',
-        {'text': AppLocalizations.of(context).parentWhatsappMessage});
+    final Uri uri = Uri.https(
+      'wa.me',
+      '/',
+      {'text': AppLocalizations.of(context).parentWhatsappMessage},
+    );
     await launchUrl(uri, mode: LaunchMode.externalApplication);
   }
 
@@ -138,8 +141,12 @@ class _SubscriptionLockedScreenState
       body: SafeArea(
         top: false,
         child: ListView(
-          padding: const EdgeInsetsDirectional.fromSTEB(DirasstySpace.xl,
-              DirasstySpace.sm, DirasstySpace.xl, DirasstySpace.xl),
+          padding: const EdgeInsetsDirectional.fromSTEB(
+            DirasstySpace.xl,
+            DirasstySpace.sm,
+            DirasstySpace.xl,
+            DirasstySpace.xl,
+          ),
           children: [
             const Center(
               child: IconBadge(
@@ -174,12 +181,18 @@ class _SubscriptionLockedScreenState
                   children: [
                     Row(
                       children: [
-                        const Icon(Icons.verified_rounded,
-                            color: DirasstyColors.teal, size: 20),
+                        const Icon(
+                          Icons.verified_rounded,
+                          color: DirasstyColors.teal,
+                          size: 20,
+                        ),
                         const SizedBox(width: DirasstySpace.md),
                         Expanded(
-                            child: Text(l10n.nothingLost,
-                                style: type.subheading.copyWith(fontSize: 14))),
+                          child: Text(
+                            l10n.nothingLost,
+                            style: type.subheading.copyWith(fontSize: 14),
+                          ),
+                        ),
                       ],
                     ),
                     const SizedBox(height: DirasstySpace.sm),
@@ -194,9 +207,10 @@ class _SubscriptionLockedScreenState
             ],
             const SizedBox(height: DirasstySpace.xxl),
             DirasstyButton(
-                label: l10n.notifyParent,
-                icon: Icons.chat_rounded,
-                onPressed: _notifyParent),
+              label: l10n.notifyParent,
+              icon: Icons.chat_rounded,
+              onPressed: _notifyParent,
+            ),
             const SizedBox(height: DirasstySpace.md),
             DirasstyButton(
               label: l10n.subscribeMyself,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../core/actions/app_promotion_actions.dart';
 import '../../../core/i18n/app_language_provider.dart';
@@ -44,7 +44,7 @@ const List<_Section> _kSections = [
       "Rafiq, l'assistant de devoirs (IA), pour s'entraîner ou débloquer "
           'un exercice difficile.',
       'Un suivi de progression : bonnes réponses, exercices faits, jours '
-          "actifs, temps passé et série de jours consécutifs, à la "
+          'actifs, temps passé et série de jours consécutifs, à la '
           'semaine et au mois.',
       'Un espace parent pour suivre chaque enfant et gérer les '
           'abonnements.',
@@ -63,26 +63,48 @@ const List<_Section> _kSections = [
     ],
   ),
   _Section(
+    titleFr: 'Sources et indépendance',
+    titleAr: 'المصادر والاستقلالية',
+    bodyFr: [
+      "Dirassty est une application indépendante. Elle n'est pas affiliée "
+          "au Ministère de l'Éducation nationale ni à aucune administration "
+          'mauritanienne, et ne parle pas en leur nom.',
+      'Nos leçons et exercices suivent le programme scolaire mauritanien '
+          'et les manuels utilisés en classe.',
+      'Les informations officielles (programmes, calendrier scolaire, '
+          'concours et examens, résultats) sont publiées par le Ministère '
+          "de l'Éducation nationale sur son site : education.gov.mr",
+    ],
+    bodyAr: [
+      'تطبيق دراستي تطبيق مستقل، غير تابع لوزارة التهذيب الوطني ولا لأي '
+          'جهة حكومية موريتانية، ولا يتحدث باسمها.',
+      'تتبع دروسنا وتماريننا البرنامج الدراسي الموريتاني والكتب المدرسية '
+          'المستعملة في القسم.',
+      'المعلومات الرسمية (البرامج، الرزنامة المدرسية، المسابقات والامتحانات، '
+          'النتائج) تنشرها وزارة التهذيب الوطني على موقعها: education.gov.mr',
+    ],
+  ),
+  _Section(
     titleFr: 'Notre responsabilité',
     titleAr: 'مسؤوليتنا',
     bodyFr: [
       "Dirassty est un complément à l'école, pas un remplacement : "
           "l'enseignement en classe reste la référence.",
-      "Les corrections et explications de Rafiq, notre assistant IA "
+      'Les corrections et explications de Rafiq, notre assistant IA '
           '(aide aux devoirs, pratique guidée) sont une aide à '
           "l'apprentissage — elles peuvent contenir une erreur ; signale-la "
           'avec le bouton « Signaler », et en cas de doute avant un examen, '
           'vérifie avec un enseignant.',
-      "Nous ne garantissons pas de note ou de résultat précis : les "
+      'Nous ne garantissons pas de note ou de résultat précis : les '
           "progrès dépendent du travail régulier de l'élève.",
-      "Les données personnelles (progression, coordonnées) ne sont "
+      'Les données personnelles (progression, coordonnées) ne sont '
           'utilisées que pour faire fonctionner l\'application et ne '
           'sont jamais vendues.',
       "Aucun paiement par carte n'est jamais demandé dans l'application "
-          "— les abonnements sont vérifiés manuellement (Bankily ou "
+          '— les abonnements sont vérifiés manuellement (Bankily ou '
           'contact direct).',
       'Un souci, une erreur repérée, une question sur un paiement ? '
-          "Contacte-nous directement, on répond.",
+          'Contacte-nous directement, on répond.',
     ],
     bodyAr: [
       'تطبيق دراستي مكمّل للمدرسة وليس بديلاً عنها — يبقى التعليم '
@@ -125,14 +147,16 @@ class AboutScreen extends ConsumerWidget {
                   Semantics(
                     label: 'Dirassty',
                     image: true,
-                    child: SvgPicture.asset('assets/logo/logo_stacked.svg',
-                        height: 132),
+                    child: SvgPicture.asset(
+                      'assets/logo/logo_stacked.svg',
+                      height: 132,
+                    ),
                   ),
                   const SizedBox(height: DirasstySpace.md),
                   Text(
                     isArabic
                         ? 'التعلّم بالفرنسية والعربية، على مقاس البرنامج الموريتاني'
-                        : "Apprendre en français et en arabe, sur mesure pour le "
+                        : 'Apprendre en français et en arabe, sur mesure pour le '
                             'programme mauritanien',
                     textAlign: TextAlign.center,
                     style: const TextStyle(color: DirasstyColors.textMuted),
@@ -173,6 +197,16 @@ class AboutScreen extends ConsumerWidget {
               ),
               const SizedBox(height: DirasstySpace.xl),
             ],
+            OutlinedButton.icon(
+              onPressed: () => openOfficialEducationSite(context),
+              icon: const Icon(Icons.account_balance_outlined),
+              label: Text(
+                isArabic
+                    ? 'موقع وزارة التهذيب الوطني (education.gov.mr)'
+                    : 'Site du Ministère de l\'Éducation (education.gov.mr)',
+              ),
+            ),
+            const SizedBox(height: DirasstySpace.sm),
             TextButton.icon(
               onPressed: () => openPrivacyPolicy(context),
               icon: const Icon(Icons.privacy_tip_outlined),

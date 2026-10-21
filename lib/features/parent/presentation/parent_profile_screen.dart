@@ -77,7 +77,11 @@ class _ParentProfileBody extends ConsumerWidget {
 
     return ListView(
       padding: const EdgeInsetsDirectional.fromSTEB(
-          DirasstySpace.screen, DirasstySpace.xl, DirasstySpace.screen, DirasstySpace.xl),
+        DirasstySpace.screen,
+        DirasstySpace.xl,
+        DirasstySpace.screen,
+        DirasstySpace.xl,
+      ),
       children: [
         Text(l10n.tabProfile, style: type.title),
         const SizedBox(height: DirasstySpace.lg),
@@ -90,18 +94,23 @@ class _ParentProfileBody extends ConsumerWidget {
                 height: 64,
                 alignment: Alignment.center,
                 decoration: const BoxDecoration(
-                    color: DirasstyColors.tealTint, shape: BoxShape.circle),
-                child: Text(initial,
-                    style: type.title.copyWith(color: DirasstyColors.teal)),
+                  color: DirasstyColors.tealTint,
+                  shape: BoxShape.circle,
+                ),
+                child: Text(
+                  initial,
+                  style: type.title.copyWith(color: DirasstyColors.teal),
+                ),
               ),
               const SizedBox(width: DirasstySpace.md),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(parent.name,
-                        style:
-                            type.heading.copyWith(fontWeight: FontWeight.w800)),
+                    Text(
+                      parent.name,
+                      style: type.heading.copyWith(fontWeight: FontWeight.w800),
+                    ),
                     const SizedBox(height: 2),
                     Text(
                       '${l10n.parentSpace} · ${formatMauritanianPhone(_localPhone)}',
@@ -121,8 +130,10 @@ class _ParentProfileBody extends ConsumerWidget {
               title: l10n.language,
               subtitle:
                   lang.isArabic ? l10n.languageArabic : l10n.languageFrench,
-              trailing:
-                  DirasstyChip(label: lang.isArabic ? 'عربي' : 'FR', dense: true),
+              trailing: DirasstyChip(
+                label: lang.isArabic ? 'عربي' : 'FR',
+                dense: true,
+              ),
               onTap: () => showLanguagePickerSheet(context, ref),
             ),
           ],
@@ -131,25 +142,30 @@ class _ParentProfileBody extends ConsumerWidget {
         ProfileGroup(
           rows: [
             ProfileRow(
-                icon: Icons.help_outline_rounded,
-                title: l10n.faq,
-                onTap: () => context.push(FaqScreen.path)),
+              icon: Icons.help_outline_rounded,
+              title: l10n.faq,
+              onTap: () => context.push(FaqScreen.path),
+            ),
             ProfileRow(
-                icon: Icons.chat_outlined,
-                title: l10n.whatsappSupport,
-                onTap: () => contactSupport(context)),
+              icon: Icons.chat_outlined,
+              title: l10n.whatsappSupport,
+              onTap: () => contactSupport(context),
+            ),
             ProfileRow(
-                icon: Icons.star_outline_rounded,
-                title: l10n.rateApp,
-                onTap: () => rateApp(context)),
+              icon: Icons.star_outline_rounded,
+              title: l10n.rateApp,
+              onTap: () => rateApp(context),
+            ),
             ProfileRow(
-                icon: Icons.share_outlined,
-                title: l10n.shareApp,
-                onTap: () => shareApp(context)),
+              icon: Icons.share_outlined,
+              title: l10n.shareApp,
+              onTap: () => shareApp(context),
+            ),
             ProfileRow(
-                icon: Icons.info_outline_rounded,
-                title: l10n.about,
-                onTap: () => context.push(AboutScreen.path)),
+              icon: Icons.info_outline_rounded,
+              title: l10n.about,
+              onTap: () => context.push(AboutScreen.path),
+            ),
           ],
         ),
         const SizedBox(height: DirasstySpace.lg),
