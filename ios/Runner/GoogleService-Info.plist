@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.dirassti.app</string>
+	<string>com.dirassty.app</string>
 	<key>PROJECT_ID</key>
 	<string>dirassti-94210</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:69752637376:ios:10c50dac18364fc722aa25</string>
+	<string>1:69752637376:ios:b6b91d23931be16022aa25</string>
 </dict>
 </plist>
