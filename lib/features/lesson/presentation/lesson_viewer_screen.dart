@@ -16,6 +16,7 @@ import '../../../core/widgets/course_video_player.dart';
 import '../../../core/widgets/dirassty/dirassty_widgets.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../courses/application/courses_providers.dart';
+import '../../home/presentation/student_home_screen.dart';
 import '../../progress/application/progress_providers.dart';
 import '../../student/application/student_providers.dart';
 import '../../tutor/presentation/tutor_sheet.dart';
@@ -187,14 +188,32 @@ class _LessonViewerScreenState extends ConsumerState<LessonViewerScreen> {
         await ref.read(lessonPracticeProvider(widget.lessonId).future),
       );
     } catch (_) {}
+    // The student may have left while that was loading.
+    if (!mounted) return;
     await _markViewed();
     _flushTimeSpent();
     if (!mounted) return;
     if (route != null) {
       unawaited(context.push(route));
+    } else if (context.canPop()) {
+      context.pop();
     } else {
-      await Navigator.of(context).maybePop();
+      // Opened directly (link, context.go): nothing to go back to.
+      context.go(StudentHomeScreen.path);
     }
+  }
+
+  /// A lesson with only a video (nothing to read, no QCM, no exercises)
+  /// has no "continue" button — marked read as soon as it's opened, so it
+  /// still counts in progress. Once per visit.
+  bool _markedVideoOnly = false;
+
+  void _markVideoOnlyLessonRead() {
+    if (_markedVideoOnly) return;
+    _markedVideoOnly = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) unawaited(_markViewed());
+    });
   }
 
   @override
@@ -210,9 +229,9 @@ class _LessonViewerScreenState extends ConsumerState<LessonViewerScreen> {
         ref.watch(lessonByIdProvider(widget.lessonId));
     final AsyncValue<ExplanationBody?> explanation =
         ref.watch(explanationProvider(widget.lessonId));
-    final List<VideoBody> videos =
-        ref.watch(lessonVideosProvider(widget.lessonId)).valueOrNull ??
-            const [];
+    final AsyncValue<List<VideoBody>> videosAsync =
+        ref.watch(lessonVideosProvider(widget.lessonId));
+    final List<VideoBody> videos = videosAsync.valueOrNull ?? const [];
     // Optional last step — never blocks the lesson while loading.
     final SummaryBody? summary =
         ref.watch(lessonSummaryProvider(widget.lessonId)).valueOrNull;
@@ -265,6 +284,14 @@ class _LessonViewerScreenState extends ConsumerState<LessonViewerScreen> {
                   ),
                 );
               }
+              // Nothing to read yet and the videos still loading: wait,
+              // rather than flash the "coming soon" step (and a button
+              // that would skip the video).
+              if (videosAsync.isLoading &&
+                  !videosAsync.hasValue &&
+                  !(body?.hasContent ?? false)) {
+                return const _LoadingBody();
+              }
               final List<_LessonStep> steps =
                   _buildSteps(body, videos, summary);
               final int index = _stepIndex.clamp(0, steps.length - 1);
@@ -281,6 +308,9 @@ class _LessonViewerScreenState extends ConsumerState<LessonViewerScreen> {
                   (practice == null
                       ? !practiceAsync.hasError
                       : nextRoute == null);
+              if (step is _VideoStep && nothingNext && practice != null) {
+                _markVideoOnlyLessonRead();
+              }
               final VoidCallback? goNext = nothingNext
                   ? null
                   : isLast

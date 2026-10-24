@@ -55,23 +55,28 @@ class ExerciseRepository {
     return _parseEach(rows, ExerciseContent.fromJson);
   }
 
-  /// One fixed-size QCM session: pools up to 5 verified exercises from
-  /// each difficulty (up to 15 total), then randomly draws [sessionSize]
-  /// from that pool — so a session can mix difficulties in whatever
-  /// proportion the random draw lands on, not a curated ramp. Mirrors
-  /// apps/web/app/(student)/exercise/[id]/page.tsx exactly.
+  /// One QCM session: every available question up to [sessionSize] (10) —
+  /// a lesson with 7 verified questions gives 7, one with 15 gives 10.
+  /// Balanced across difficulties: every level the lesson has (easy,
+  /// medium, hard) is represented, split as evenly as possible — 10 with
+  /// all three levels = 4 easy, 3 medium, 3 hard — then ordered easy → hard. Questions are drawn at random
+  /// within each level from all the lesson's verified ones (one request).
   Future<List<ExerciseContent>> getSessionExercises(
     String lessonId, {
-    int sessionSize = 5,
+    int sessionSize = 10,
   }) async {
-    final List<List<ExerciseContent>> pools = await Future.wait([
-      getExercises(lessonId, Difficulty.easy, limit: 5),
-      getExercises(lessonId, Difficulty.medium, limit: 5),
-      getExercises(lessonId, Difficulty.hard, limit: 5),
-    ]);
-    final List<ExerciseContent> all = pools.expand((p) => p).toList()
-      ..shuffle(Random());
-    return all.take(sessionSize).toList();
+    final List<Map<String, dynamic>> rows = await _client
+        .from('content')
+        .select('*')
+        .eq('lesson_id', lessonId)
+        .eq('type', 'exercise')
+        .eq('verified', true)
+        .limit(200);
+    return balancedSession(
+      _parseEach(rows, ExerciseContent.fromJson),
+      sessionSize,
+      Random(),
+    );
   }
 
   /// Open-ended exercises for a lesson, oldest first — mirrors the direct
@@ -156,4 +161,48 @@ class ExerciseRepository {
     });
     return TutorReply.fromJson(json);
   }
+}
+
+/// Picks [size] exercises from [all] with every available difficulty
+/// represented, as evenly as possible (the extra slots go to the easier
+/// levels first); a level with too few exercises hands its slots to the
+/// others. Random within each level; returned easy → medium → hard.
+@visibleForTesting
+List<ExerciseContent> balancedSession(
+  List<ExerciseContent> all,
+  int size,
+  Random random,
+) {
+  final Map<Difficulty, List<ExerciseContent>> byLevel = {
+    for (final Difficulty d in Difficulty.values)
+      d: all.where((e) => e.difficulty == d).toList()..shuffle(random),
+  };
+  final List<Difficulty> levels =
+      Difficulty.values.where((d) => byLevel[d]!.isNotEmpty).toList();
+  if (levels.isEmpty || size <= 0) return const [];
+
+  // Even split, remainder to the easier levels.
+  final Map<Difficulty, int> take = {
+    for (final (int i, Difficulty d) in levels.indexed)
+      d: size ~/ levels.length + (i < size % levels.length ? 1 : 0),
+  };
+  // Cap at what each level has; give the shortfall to levels with more.
+  int missing = 0;
+  for (final Difficulty d in levels) {
+    final int available = byLevel[d]!.length;
+    if (take[d]! > available) {
+      missing += take[d]! - available;
+      take[d] = available;
+    }
+  }
+  for (final Difficulty d in levels) {
+    if (missing == 0) break;
+    final int extra = min(missing, byLevel[d]!.length - take[d]!);
+    take[d] = take[d]! + extra;
+    missing -= extra;
+  }
+
+  return [
+    for (final Difficulty d in levels) ...byLevel[d]!.take(take[d]!),
+  ];
 }

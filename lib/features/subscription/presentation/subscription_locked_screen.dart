@@ -5,7 +5,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/models/student.dart';
 import '../../../core/models/subscription.dart';
-import '../../../core/security/parental_gate.dart';
 import '../../../core/theme/dirassty_theme.dart';
 import '../../../core/widgets/dirassty/dirassty_widgets.dart';
 import '../../../l10n/app_localizations.dart';
@@ -83,7 +82,6 @@ class _SubscriptionLockedScreenState
   }
 
   Future<void> _notifyParent() async {
-    if (!await passParentalGate(context) || !mounted) return;
     final Uri uri = Uri.https(
       'wa.me',
       '/',

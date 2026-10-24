@@ -1466,6 +1466,54 @@ abstract class AppLocalizations {
   /// **'Payer avec Bankily'**
   String get payWithBankily;
 
+  /// No description provided for @choosePaymentMethod.
+  ///
+  /// In fr, this message translates to:
+  /// **'Choisissez votre moyen de paiement'**
+  String get choosePaymentMethod;
+
+  /// No description provided for @payWithMethod.
+  ///
+  /// In fr, this message translates to:
+  /// **'Payer avec {method}'**
+  String payWithMethod(Object method);
+
+  /// No description provided for @paymentMethodTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Paiement {method}'**
+  String paymentMethodTitle(Object method);
+
+  /// No description provided for @methodNumber.
+  ///
+  /// In fr, this message translates to:
+  /// **'Numéro {method} de Dirassty'**
+  String methodNumber(Object method);
+
+  /// No description provided for @methodStep1.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ouvrez {method} et envoyez le montant au numéro ci-dessus.'**
+  String methodStep1(Object method);
+
+  /// No description provided for @methodPhone.
+  ///
+  /// In fr, this message translates to:
+  /// **'Numéro utilisé pour payer'**
+  String get methodPhone;
+
+  /// No description provided for @paymentProofHintGeneric.
+  ///
+  /// In fr, this message translates to:
+  /// **'La confirmation du paiement avec le montant et la date.'**
+  String get paymentProofHintGeneric;
+
+  /// No description provided for @paymentSentBodyMethod.
+  ///
+  /// In fr, this message translates to:
+  /// **'Nous vérifions votre paiement {method}. L\'accès sera activé dès validation.'**
+  String paymentSentBodyMethod(Object method);
+
   /// No description provided for @bankilyTitle.
   ///
   /// In fr, this message translates to:

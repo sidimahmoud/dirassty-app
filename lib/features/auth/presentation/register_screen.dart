@@ -162,8 +162,15 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         (!_isStudent || _openGrade != null);
   }
 
+  /// One switch between "send a code" and "create directly" per submit:
+  /// right after the admin changes the WhatsApp settings, the two server
+  /// functions can briefly disagree, and switching back and forth would
+  /// loop. The second time, the error is shown instead.
+  bool _switchedPath = false;
+
   Future<void> _submit() async {
     if (!_validate()) return;
+    _switchedPath = false;
     if (_needsOtp) {
       await _requestCode();
     } else {
@@ -188,6 +195,15 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     if (!mounted) return;
     final AsyncValue<void> result = ref.read(authControllerProvider);
     if (result.hasError) {
+      // WhatsApp was switched off in the admin meanwhile: no code can be
+      // sent, so the account is created without one.
+      if (result.error.toString().contains('whatsapp_disabled') &&
+          !_switchedPath) {
+        _switchedPath = true;
+        ref.invalidate(appSettingsProvider);
+        await _registerDirect();
+        return;
+      }
       setState(() => _serverError = authErrorMessage(_l10n, result.error!));
       return;
     }
@@ -229,7 +245,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     if (result.hasError) {
       // The WhatsApp code was switched on while the form was open (or the
       // settings hadn't loaded): reload them and send the code instead.
-      if (result.error.toString().contains('otp_required')) {
+      if (result.error.toString().contains('otp_required') && !_switchedPath) {
+        _switchedPath = true;
         ref.invalidate(appSettingsProvider);
         try {
           await ref.read(appSettingsProvider.future);

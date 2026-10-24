@@ -765,6 +765,41 @@ class AppLocalizationsFr extends AppLocalizations {
   String get payWithBankily => 'Payer avec Bankily';
 
   @override
+  String get choosePaymentMethod => 'Choisissez votre moyen de paiement';
+
+  @override
+  String payWithMethod(Object method) {
+    return 'Payer avec $method';
+  }
+
+  @override
+  String paymentMethodTitle(Object method) {
+    return 'Paiement $method';
+  }
+
+  @override
+  String methodNumber(Object method) {
+    return 'Numéro $method de Dirassty';
+  }
+
+  @override
+  String methodStep1(Object method) {
+    return 'Ouvrez $method et envoyez le montant au numéro ci-dessus.';
+  }
+
+  @override
+  String get methodPhone => 'Numéro utilisé pour payer';
+
+  @override
+  String get paymentProofHintGeneric =>
+      'La confirmation du paiement avec le montant et la date.';
+
+  @override
+  String paymentSentBodyMethod(Object method) {
+    return 'Nous vérifions votre paiement $method. L\'accès sera activé dès validation.';
+  }
+
+  @override
   String get bankilyTitle => 'Paiement Bankily';
 
   @override

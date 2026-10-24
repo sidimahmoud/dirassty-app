@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/models/app_settings.dart';
+import '../../../core/models/payment_method.dart';
 import '../../../core/models/plan.dart';
 import '../../../core/models/subscription.dart';
 
@@ -121,6 +122,24 @@ class SubscriptionRepository {
     return Subscription.fromJson(row);
   }
 
+  /// Active payment methods in the admin's order (migration 075) — one
+  /// small query, made once per session (see paymentMethodsProvider).
+  Future<List<PaymentMethod>> getPaymentMethods() async {
+    final List<Map<String, dynamic>> rows = await _client
+        .from('payment_methods')
+        .select('id, name, account_number, logo_path, kind')
+        .eq('is_active', true)
+        .order('sort_order', ascending: true);
+    return [
+      for (final Map<String, dynamic> row in rows)
+        PaymentMethod.fromJson(
+          row,
+          logoUrlFor: (path) =>
+              _client.storage.from('payment-logos').getPublicUrl(path),
+        ),
+    ];
+  }
+
   /// Submits a Bankily payment for one or more children at once (or a
   /// student subscribing for themselves): uploads the payer's screenshot
   /// of the Bankily confirmation to the private `payment-proofs` bucket
@@ -128,9 +147,12 @@ class SubscriptionRepository {
   /// creates one 'pending' row per student, priced server-side, with the
   /// screenshot attached — an admin checks it in Abonnements and activates.
   /// Returns the server's quote (`total_mru`, `family_discount_percent`…).
-  Future<Map<String, dynamic>> submitBankilyPayment({
+  /// Any payment method from Admin → Moyens de paiement works the same
+  /// way; [method] says which one was used.
+  Future<Map<String, dynamic>> submitTransferPayment({
     required List<String> studentIds,
     required String planId,
+    required PaymentMethod method,
     required String phone,
     required Uint8List proofJpeg,
   }) async {
@@ -145,7 +167,8 @@ class SubscriptionRepository {
     return _request(
       studentIds,
       planId,
-      'bankily',
+      method.kind,
+      methodId: method.id,
       phone: phone,
       proofPath: path,
     );
@@ -164,6 +187,7 @@ class SubscriptionRepository {
     List<String> studentIds,
     String planId,
     String method, {
+    String? methodId,
     String? phone,
     String? proofPath,
   }) async {
@@ -175,6 +199,8 @@ class SubscriptionRepository {
         'p_method': method,
         'p_phone': phone,
         if (proofPath != null) 'p_proof_path': proofPath,
+        // Only for a method from payment_methods (075 applied).
+        if (methodId != null) 'p_method_id': methodId,
       },
     );
     return Map<String, dynamic>.from(result as Map);

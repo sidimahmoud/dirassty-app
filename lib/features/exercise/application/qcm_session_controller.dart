@@ -9,7 +9,7 @@ import '../../student/application/student_providers.dart';
 import 'exercise_providers.dart';
 import 'qcm_session_state.dart';
 
-/// Drives one fixed 5-question QCM session for a lesson. Ported from the
+/// Drives one QCM session for a lesson (all available questions, max 10). Ported from the
 /// handler sequence in
 /// apps/web/app/(student)/exercise/[id]/page.tsx:
 /// - mastery is written per answered question (never per-hint or per-skip)
@@ -170,7 +170,7 @@ final class QcmSessionController extends StateNotifier<QcmSessionState> {
     );
   }
 
-  /// Starts a brand-new session with a fresh random 5-question draw — no
+  /// Starts a brand-new session with a fresh random draw (max 10 questions) — no
   /// server-side attempt-count cap, matching the web app's "Recommencer".
   void retry() => _load();
 }

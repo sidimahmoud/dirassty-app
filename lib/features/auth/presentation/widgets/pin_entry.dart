@@ -214,8 +214,12 @@ class _VerifyCodeViewState extends State<VerifyCodeView>
   /// bare code from the "Copier le code" button, or a whole copied message.
   Future<void> _paste({bool onlyIfNew = false}) async {
     if (widget.loading) return;
-    final String text =
-        (await Clipboard.getData(Clipboard.kTextPlain))?.text ?? '';
+    String text;
+    try {
+      text = (await Clipboard.getData(Clipboard.kTextPlain))?.text ?? '';
+    } catch (_) {
+      return; // Clipboard unavailable: nothing to paste.
+    }
     if (onlyIfNew && (_clipboardAtStart == null || text == _clipboardAtStart)) {
       return;
     }

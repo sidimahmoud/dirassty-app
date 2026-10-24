@@ -1,8 +1,10 @@
 import 'dart:typed_data';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/models/app_settings.dart';
+import '../../../core/models/payment_method.dart';
 import '../../../core/models/plan.dart';
 import '../../../core/models/subscription.dart';
 import '../../auth/application/auth_providers.dart';
@@ -20,6 +22,25 @@ final Provider<SubscriptionRepository> subscriptionRepositoryProvider =
 /// Checked before ever calling [SubscriptionRepository.createTrial].
 final FutureProvider<AppSettings> appSettingsProvider = FutureProvider((ref) {
   return ref.watch(subscriptionRepositoryProvider).getAppSettings();
+});
+
+/// The payment methods offered on the payment screen (Admin → Paramètres →
+/// Moyens de paiement). Loaded only while the payment screen is open (and
+/// again the next time it opens), never on the app's other screens. On a
+/// backend without migration 075 (no table) it falls back to the Bankily
+/// number from the settings; any other failure is an error the screen can
+/// retry.
+final AutoDisposeFutureProvider<List<PaymentMethod>> paymentMethodsProvider =
+    FutureProvider.autoDispose((ref) async {
+  try {
+    return await ref.watch(subscriptionRepositoryProvider).getPaymentMethods();
+  } on PostgrestException catch (e) {
+    final bool tableMissing = e.code == '42P01' || e.code == 'PGRST205';
+    if (!tableMissing) rethrow;
+    final String? bankily =
+        (await ref.watch(appSettingsProvider.future)).bankilyMerchantNumber;
+    return bankily == null ? const [] : [PaymentMethod.legacyBankily(bankily)];
+  }
 });
 
 /// Every plan currently offered — the mobile app never hardcodes price or
@@ -150,17 +171,19 @@ class SubscribeController extends AsyncNotifier<void> {
   @override
   Future<void> build() async {}
 
-  Future<void> submitBankily({
+  Future<void> submitTransfer({
     required List<String> studentIds,
     required String planId,
+    required PaymentMethod method,
     required String phone,
     required Uint8List proofJpeg,
   }) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
-      await ref.read(subscriptionRepositoryProvider).submitBankilyPayment(
+      await ref.read(subscriptionRepositoryProvider).submitTransferPayment(
             studentIds: studentIds,
             planId: planId,
+            method: method,
             phone: phone,
             proofJpeg: proofJpeg,
           );

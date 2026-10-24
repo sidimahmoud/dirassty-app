@@ -5,9 +5,10 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../core/actions/app_promotion_actions.dart';
 import '../../../core/analytics/app_analytics.dart';
-import '../../../core/config/support_config.dart';
 import '../../../core/models/app_settings.dart';
+import '../../../core/models/payment_method.dart';
 import '../../../core/models/plan.dart';
 import '../../../core/models/student.dart';
 import '../../../core/models/subscription.dart';
@@ -38,13 +39,15 @@ enum _SuccessKind { bankily, contact }
 /// row per target student, activated by an admin.
 ///
 /// 1. Plans (radio cards) + "Pour quels enfants ?" (parents only) + the
-///    summary and total → "Payer avec Bankily", or "Payer manuellement"
-///    (the team finalises the payment with the customer on WhatsApp; the
-///    rows go to **unpaid**, visible to admins as manual requests).
-/// 2. Bankily: amount, the Bankily number (Admin → Paramètres), 3 steps,
-///    payer's phone + a screenshot of the Bankily confirmation (uploaded
-///    to the private `payment-proofs` bucket) → the rows go to **pending**
-///    and the admin checks the screenshot in Abonnements.
+///    summary and total → one button per payment method (Admin →
+///    Paramètres → Moyens de paiement: name, logo, number), or "Payer
+///    manuellement" (the team finalises the payment with the customer on
+///    WhatsApp; the rows go to **unpaid**, visible to admins as manual
+///    requests).
+/// 2. The chosen method: amount, its number, 3 steps, payer's phone + a
+///    screenshot of the confirmation (uploaded to the private
+///    `payment-proofs` bucket) → the rows go to **pending** and the admin
+///    checks the screenshot in Abonnements.
 /// 3. Confirmation.
 ///
 /// Also the parent's Abonnement tab ([embedded]: no back arrow, and
@@ -58,9 +61,8 @@ enum _SuccessKind { bankily, contact }
 /// `request_subscriptions()`; [AppSettings.quote] only mirrors it for
 /// display.
 ///
-/// The Bankily number comes from app_settings (falls back to the
-/// `BANKILY_MERCHANT_NUMBER` build value); no verification delay is
-/// promised.
+/// Payment methods come from [paymentMethodsProvider] (one request, only
+/// when this screen opens); no verification delay is promised.
 ///
 /// design_handoff Subscription.dc.html, BankilyPayment.dc.html ·
 /// DESIGN_SPEC §4 "Subscription" / "Bankily payment".
@@ -85,6 +87,9 @@ class SubscribeFlowScreen extends ConsumerStatefulWidget {
 class _SubscribeFlowScreenState extends ConsumerState<SubscribeFlowScreen> {
   _Step _step = _Step.select;
   Plan? _plan;
+
+  /// The method chosen on step 1 (null before).
+  PaymentMethod? _method;
   final Set<String> _selectedStudentIds = {};
 
   /// Every eligible child is pre-selected once (unless the parent came
@@ -171,7 +176,7 @@ class _SubscribeFlowScreenState extends ConsumerState<SubscribeFlowScreen> {
     });
   }
 
-  Future<void> _submitBankily(List<String> targets) async {
+  Future<void> _submitTransfer(List<String> targets) async {
     final AppLocalizations l10n = AppLocalizations.of(context);
     setState(() {
       _phoneError =
@@ -179,15 +184,16 @@ class _SubscribeFlowScreenState extends ConsumerState<SubscribeFlowScreen> {
       _proofError = _proof == null ? l10n.errPaymentProofRequired : null;
     });
     if (_phoneError != null || _proofError != null) return;
-    await ref.read(subscribeControllerProvider.notifier).submitBankily(
+    await ref.read(subscribeControllerProvider.notifier).submitTransfer(
           studentIds: targets,
           planId: _plan!.id,
+          method: _method!,
           phone: _phoneController.text.trim(),
           proofJpeg: _proof!,
         );
     if (!mounted) return;
     if (ref.read(subscribeControllerProvider).hasError) {
-      _analytics.track('payment_error', {'method': 'bankily'});
+      _analytics.track('payment_error', {'method': _method!.kind});
       return;
     }
     _requestSent = true;
@@ -228,7 +234,9 @@ class _SubscribeFlowScreenState extends ConsumerState<SubscribeFlowScreen> {
     _requestSent = true;
 
     final bool isArabic = context.isArabicLocale;
-    final Uri uri = Uri.https('wa.me', '/${SupportConfig.whatsappNumber}', {
+    final String supportNumber = await supportWhatsappNumber(context);
+    if (!mounted) return;
+    final Uri uri = Uri.https('wa.me', '/$supportNumber', {
       'text': l10n.contactWhatsappMessage(
         plan.name(isArabic),
         _quote(plan, targets.length).totalMru.toStringAsFixed(0),
@@ -381,17 +389,20 @@ class _SubscribeFlowScreenState extends ConsumerState<SubscribeFlowScreen> {
             _selectError = null;
             if (!_selectedStudentIds.remove(id)) _selectedStudentIds.add(id);
           }),
-          onBankily: () {
+          methods: ref.watch(paymentMethodsProvider),
+          onRetryMethods: () => ref.invalidate(paymentMethodsProvider),
+          onMethod: (method) {
             if (plan == null) return;
             if (targets.isEmpty) {
               setState(() => _selectError = l10n.selectAtLeastOneChild);
               return;
             }
             ref.invalidate(subscribeControllerProvider);
-            _trackMethod('bankily', plan, targets.length);
+            _trackMethod(method.kind, plan, targets.length);
             _analytics.track('payment_screen_viewed', {'plan_id': plan.id});
             setState(() {
               _plan = plan;
+              _method = method;
               _selectError = null;
               _step = _Step.bankily;
             });
@@ -409,11 +420,7 @@ class _SubscribeFlowScreenState extends ConsumerState<SubscribeFlowScreen> {
         ),
       _Step.bankily => _BankilyStep(
           total: _quote(_plan!, targets.length).totalMru,
-          merchant: ref
-                  .watch(appSettingsProvider)
-                  .valueOrNull
-                  ?.bankilyMerchantNumber ??
-              SupportConfig.bankilyMerchantNumber,
+          method: _method!,
           phoneController: _phoneController,
           phoneError: _phoneError,
           proof: _proof,
@@ -421,10 +428,11 @@ class _SubscribeFlowScreenState extends ConsumerState<SubscribeFlowScreen> {
           onPickProof: _pickProof,
           serverError: serverError,
           submitting: submitting,
-          onSubmit: () => _submitBankily([for (final s in targets) s.id]),
+          onSubmit: () => _submitTransfer([for (final s in targets) s.id]),
         ),
       _Step.success => _SuccessStep(
           kind: _successKind!,
+          methodName: _method?.name ?? '',
           // Opened with context.go (offer screen) the flow is the only
           // route, so popping did nothing: go to the right home instead.
           onDone: widget.embedded
@@ -452,7 +460,9 @@ class _SelectStep extends ConsumerWidget {
     required this.errorText,
     required this.onPlan,
     required this.onToggle,
-    required this.onBankily,
+    required this.methods,
+    required this.onRetryMethods,
+    required this.onMethod,
     required this.onContact,
   });
 
@@ -472,7 +482,12 @@ class _SelectStep extends ConsumerWidget {
   final String? errorText;
   final ValueChanged<Plan> onPlan;
   final ValueChanged<String> onToggle;
-  final VoidCallback onBankily;
+
+  /// Payment methods to offer (loading / failed: none shown, manual
+  /// payment stays available).
+  final AsyncValue<List<PaymentMethod>> methods;
+  final VoidCallback onRetryMethods;
+  final ValueChanged<PaymentMethod> onMethod;
   final VoidCallback onContact;
 
   @override
@@ -656,12 +671,35 @@ class _SelectStep extends ConsumerWidget {
           ),
         ],
         const SizedBox(height: DirasstySpace.xl),
-        DirasstyButton(
-          label: l10n.payWithBankily,
-          loading: submitting,
-          onPressed: onBankily,
-        ),
-        const SizedBox(height: DirasstySpace.sm),
+        ...switch (methods) {
+          AsyncData(value: final list) when list.isNotEmpty => [
+              Text(l10n.choosePaymentMethod, style: type.label),
+              const SizedBox(height: DirasstySpace.sm),
+              for (final PaymentMethod m in list) ...[
+                _MethodTile(
+                  method: m,
+                  label: l10n.payWithMethod(m.name),
+                  onTap: submitting ? null : () => onMethod(m),
+                ),
+                const SizedBox(height: DirasstySpace.sm),
+              ],
+            ],
+          AsyncLoading() => [
+              const Skeleton(height: 56, radius: DirasstyRadius.card),
+              const SizedBox(height: DirasstySpace.sm),
+            ],
+          AsyncError() => [
+              Align(
+                alignment: AlignmentDirectional.centerStart,
+                child: TextButton.icon(
+                  onPressed: onRetryMethods,
+                  icon: const Icon(Icons.refresh_rounded),
+                  label: Text(l10n.retry),
+                ),
+              ),
+            ],
+          _ => const <Widget>[],
+        },
         DirasstyButton(
           label: l10n.payByContact,
           icon: Icons.chat_outlined,
@@ -931,7 +969,7 @@ class _SummaryLine extends StatelessWidget {
 class _BankilyStep extends StatelessWidget {
   const _BankilyStep({
     required this.total,
-    required this.merchant,
+    required this.method,
     required this.phoneController,
     required this.phoneError,
     required this.proof,
@@ -944,8 +982,8 @@ class _BankilyStep extends StatelessWidget {
 
   final double total;
 
-  /// Where to send the money; empty when an admin hasn't set it yet.
-  final String merchant;
+  /// The chosen payment method: its name and the number to pay to.
+  final PaymentMethod method;
   final TextEditingController phoneController;
   final String? phoneError;
   final Uint8List? proof;
@@ -959,6 +997,7 @@ class _BankilyStep extends StatelessWidget {
   Widget build(BuildContext context) {
     final AppLocalizations l10n = AppLocalizations.of(context);
     final DirasstyType type = context.dirasstyType;
+    final String merchant = method.accountNumber;
 
     return ListView(
       padding: const EdgeInsetsDirectional.fromSTEB(
@@ -968,7 +1007,18 @@ class _BankilyStep extends StatelessWidget {
         DirasstySpace.xxl,
       ),
       children: [
-        Text(l10n.bankilyTitle, style: type.title),
+        Row(
+          children: [
+            _MethodLogo(method: method, size: 40),
+            const SizedBox(width: DirasstySpace.md),
+            Expanded(
+              child: Text(
+                l10n.paymentMethodTitle(method.name),
+                style: type.title,
+              ),
+            ),
+          ],
+        ),
         const SizedBox(height: DirasstySpace.xl),
         Container(
           padding: const EdgeInsetsDirectional.all(DirasstySpace.xl),
@@ -1002,7 +1052,7 @@ class _BankilyStep extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            l10n.merchantNumber,
+                            l10n.methodNumber(method.name),
                             style: type.label.copyWith(
                               color: DirasstyColors.textOnDarkMuted,
                             ),
@@ -1044,7 +1094,7 @@ class _BankilyStep extends StatelessWidget {
         ],
         const SizedBox(height: DirasstySpace.xl),
         for (final (int i, String step) in [
-          l10n.bankilyStep1,
+          l10n.methodStep1(method.name),
           l10n.bankilyStep2,
           l10n.bankilyStep3,
         ].indexed) ...[
@@ -1076,7 +1126,7 @@ class _BankilyStep extends StatelessWidget {
         ],
         const SizedBox(height: DirasstySpace.md),
         DirasstyTextField(
-          label: l10n.bankilyPhone,
+          label: l10n.methodPhone,
           controller: phoneController,
           phonePrefix: true,
           errorText: phoneError,
@@ -1108,9 +1158,14 @@ class _BankilyStep extends StatelessWidget {
 }
 
 class _SuccessStep extends StatelessWidget {
-  const _SuccessStep({required this.kind, required this.onDone});
+  const _SuccessStep({
+    required this.kind,
+    required this.methodName,
+    required this.onDone,
+  });
 
   final _SuccessKind kind;
+  final String methodName;
   final VoidCallback onDone;
 
   @override
@@ -1138,7 +1193,9 @@ class _SuccessStep extends StatelessWidget {
         ),
         const SizedBox(height: DirasstySpace.sm),
         Text(
-          bankily ? l10n.paymentSentBody : l10n.contactSentBody,
+          bankily
+              ? l10n.paymentSentBodyMethod(methodName)
+              : l10n.contactSentBody,
           textAlign: TextAlign.center,
           style: type.body.copyWith(color: DirasstyColors.textMuted),
         ),
@@ -1227,7 +1284,7 @@ class _ProofPicker extends StatelessWidget {
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          l10n.paymentProofHint,
+                          l10n.paymentProofHintGeneric,
                           textAlign: TextAlign.center,
                           style:
                               type.label.copyWith(fontWeight: FontWeight.w400),
@@ -1281,6 +1338,95 @@ class _ProofPicker extends StatelessWidget {
           Text(error!, style: type.label.copyWith(color: DirasstyColors.error)),
         ],
       ],
+    );
+  }
+}
+
+/// A payment method's logo (Admin → Moyens de paiement), or a wallet icon
+/// when it has none or the image can't load.
+class _MethodLogo extends StatelessWidget {
+  const _MethodLogo({required this.method, required this.size});
+
+  final PaymentMethod method;
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    final Widget fallback = Icon(
+      Icons.account_balance_wallet_rounded,
+      size: size * 0.6,
+      color: DirasstyColors.teal,
+    );
+    return Container(
+      width: size,
+      height: size,
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        color: DirasstyColors.tealTint,
+        borderRadius: BorderRadius.circular(size / 4),
+      ),
+      alignment: Alignment.center,
+      child: method.logoUrl == null
+          ? fallback
+          : Image.network(
+              method.logoUrl!,
+              width: size,
+              height: size,
+              fit: BoxFit.contain,
+              errorBuilder: (_, __, ___) => fallback,
+            ),
+    );
+  }
+}
+
+/// One payment method on step 1: logo, "Payer avec …", chevron.
+class _MethodTile extends StatelessWidget {
+  const _MethodTile({
+    required this.method,
+    required this.label,
+    required this.onTap,
+  });
+
+  final PaymentMethod method;
+  final String label;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final DirasstyType type = context.dirasstyType;
+    return Material(
+      color: DirasstyColors.surface,
+      borderRadius: DirasstyRadius.cardR,
+      child: InkWell(
+        borderRadius: DirasstyRadius.cardR,
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsetsDirectional.symmetric(
+            horizontal: DirasstySpace.lg,
+            vertical: DirasstySpace.md,
+          ),
+          decoration: BoxDecoration(
+            borderRadius: DirasstyRadius.cardR,
+            border: Border.all(color: DirasstyColors.line),
+          ),
+          child: Row(
+            children: [
+              _MethodLogo(method: method, size: 36),
+              const SizedBox(width: DirasstySpace.md),
+              Expanded(
+                child: Text(
+                  label,
+                  style: type.subheading.copyWith(fontSize: 16),
+                ),
+              ),
+              const Icon(
+                Icons.chevron_right_rounded,
+                color: DirasstyColors.textMuted,
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

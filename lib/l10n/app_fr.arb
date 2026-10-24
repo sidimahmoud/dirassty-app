@@ -338,6 +338,39 @@
     }
   },
   "payWithBankily": "Payer avec Bankily",
+  "choosePaymentMethod": "Choisissez votre moyen de paiement",
+  "payWithMethod": "Payer avec {method}",
+  "@payWithMethod": {
+    "placeholders": {
+      "method": {}
+    }
+  },
+  "paymentMethodTitle": "Paiement {method}",
+  "@paymentMethodTitle": {
+    "placeholders": {
+      "method": {}
+    }
+  },
+  "methodNumber": "Numéro {method} de Dirassty",
+  "@methodNumber": {
+    "placeholders": {
+      "method": {}
+    }
+  },
+  "methodStep1": "Ouvrez {method} et envoyez le montant au numéro ci-dessus.",
+  "@methodStep1": {
+    "placeholders": {
+      "method": {}
+    }
+  },
+  "methodPhone": "Numéro utilisé pour payer",
+  "paymentProofHintGeneric": "La confirmation du paiement avec le montant et la date.",
+  "paymentSentBodyMethod": "Nous vérifions votre paiement {method}. L'accès sera activé dès validation.",
+  "@paymentSentBodyMethod": {
+    "placeholders": {
+      "method": {}
+    }
+  },
   "bankilyTitle": "Paiement Bankily",
   "amountToSend": "Montant à envoyer",
   "merchantNumber": "Numéro Bankily Dirassty",

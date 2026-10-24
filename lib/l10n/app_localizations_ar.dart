@@ -750,6 +750,40 @@ class AppLocalizationsAr extends AppLocalizations {
   String get payWithBankily => 'الدفع عبر Bankily';
 
   @override
+  String get choosePaymentMethod => 'اختر وسيلة الدفع';
+
+  @override
+  String payWithMethod(Object method) {
+    return 'الدفع عبر $method';
+  }
+
+  @override
+  String paymentMethodTitle(Object method) {
+    return 'الدفع عبر $method';
+  }
+
+  @override
+  String methodNumber(Object method) {
+    return 'رقم $method الخاص بدراستي';
+  }
+
+  @override
+  String methodStep1(Object method) {
+    return 'افتح $method وأرسل المبلغ إلى الرقم أعلاه.';
+  }
+
+  @override
+  String get methodPhone => 'الرقم المستعمل للدفع';
+
+  @override
+  String get paymentProofHintGeneric => 'تأكيد الدفع مع المبلغ والتاريخ.';
+
+  @override
+  String paymentSentBodyMethod(Object method) {
+    return 'نتحقق من دفعكم عبر $method، وسيُفعَّل الوصول فور التأكيد.';
+  }
+
+  @override
   String get bankilyTitle => 'الدفع عبر Bankily';
 
   @override
