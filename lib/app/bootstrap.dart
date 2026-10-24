@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -22,6 +23,19 @@ Future<void> bootstrap() async {
   );
   // Western digits in Arabic dates too (DESIGN_SPEC §7).
   DirasstyDates.ensureWesternDigits();
+
+  // Edge-to-edge on every Android version, like Android 15+ already forces
+  // for apps targeting SDK 35 (Play Console notice): the app draws behind
+  // transparent status / navigation bars, and screens keep their content
+  // clear of them with SafeArea / Scaffold. Icon brightness stays per
+  // screen (AppBar / AnnotatedRegion). No effect on iOS (always like this).
+  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      systemNavigationBarColor: Colors.transparent,
+    ),
+  );
 
   // Console output in debug; ErrorReporting (Sentry) chains onto this
   // and also reports the error when a DSN is configured.
