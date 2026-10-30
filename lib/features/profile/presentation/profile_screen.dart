@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/actions/app_promotion_actions.dart';
+import '../../../core/config/store_policy.dart';
 import '../../../core/i18n/app_lang.dart';
 import '../../../core/i18n/app_language_provider.dart';
 import '../../../core/i18n/widgets/language_picker.dart';
@@ -268,12 +269,16 @@ class _SubscriptionCard extends ConsumerWidget {
       error: (_, __) => const SizedBox.shrink(),
       data: (s) {
         final DateTime? ends = s?.expiresAt;
+        // iOS: state only, no "choose a plan" (StorePolicy).
+        final String noAccessBody = StorePolicy.inAppSalesAllowed
+            ? l10n.noSubscriptionBody
+            : l10n.accountNotActiveBody;
         final (String chip, DirasstyChipVariant variant, String body) =
             switch (s) {
           null => (
               l10n.noSubscription,
               DirasstyChipVariant.neutral,
-              l10n.noSubscriptionBody
+              noAccessBody
             ),
           _ when s.grantsAccess && s.status == SubscriptionStatus.trial => (
               l10n.trialDaysLeft(s.daysLeftInTrial),
@@ -292,11 +297,7 @@ class _SubscriptionCard extends ConsumerWidget {
               DirasstyChipVariant.gold,
               l10n.pendingBody
             ),
-          _ => (
-              l10n.statusEnded,
-              DirasstyChipVariant.red,
-              l10n.noSubscriptionBody
-            ),
+          _ => (l10n.statusEnded, DirasstyChipVariant.red, noAccessBody),
         };
         final String? planName = s?.plan?.name(context.isArabicLocale);
 

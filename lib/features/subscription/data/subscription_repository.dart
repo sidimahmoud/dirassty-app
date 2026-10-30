@@ -122,6 +122,26 @@ class SubscriptionRepository {
     return Subscription.fromJson(row);
   }
 
+  /// Whether [lessonId] is its subject's free first lesson, open without
+  /// a subscription (migration 078).
+  Future<bool> isFreeLesson(String lessonId) async {
+    final bool? result = await _client.rpc<bool?>(
+      'is_free_lesson',
+      params: {'p_lesson_id': lessonId},
+    );
+    return result ?? false;
+  }
+
+  /// Puts the signed-in student in support's follow-up queue (Admin →
+  /// Relances paiement, migration 079) after they hit locked content.
+  /// The server ignores students who have access or a request in progress.
+  Future<void> registerAccessInterest(String platform) async {
+    await _client.rpc<void>(
+      'register_access_interest',
+      params: {'p_platform': platform},
+    );
+  }
+
   /// Active payment methods in the admin's order (migration 075) — one
   /// small query, made once per session (see paymentMethodsProvider).
   Future<List<PaymentMethod>> getPaymentMethods() async {

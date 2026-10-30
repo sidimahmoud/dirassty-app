@@ -670,5 +670,18 @@
   "promoCodeOptional": "الرمز الترويجي (اختياري)",
   "promoApply": "تأكيد",
   "promoApplied": "تم تسجيل رمز {name} ✓",
-  "promoUnknown": "رمز غير معروف — تحقّق من كتابته."
+  "promoUnknown": "رمز غير معروف — تحقّق من كتابته.",
+  "freeLessonBadge": "مجاني",
+  "lockedLessonLabel": "درس مقفل",
+  "accountNotActiveTitle": "حسابك غير مفعّل بعد",
+  "accountNotActiveBody": "الدرس الأول من كل مادة متاح لك. سيُفتح الباقي فور تفعيل حسابك.",
+  "accessEndedTitle": "وصولك لم يعد نشطًا",
+  "requestBeingCheckedTitle": "طلبك قيد المراجعة",
+  "requestBeingCheckedBody": "سيُفتح الوصول فور التحقق منه — اضغط «تحديث» للتحقق.",
+  "refreshAccess": "تحديث",
+  "childNotActiveBody": "الحساب غير مفعّل بعد. الدرس الأول من كل مادة متاح.",
+  "getStarted": "ابدأ",
+  "accountReadyFreeLessonsBody": "الدرس الأول من كل مادة متاح لك الآن. استكشافًا ممتعًا!",
+  "needHelpTitle": "تحتاج مساعدة؟",
+  "needHelpBody": "راسلنا على واتساب وسنرد عليك."
 }

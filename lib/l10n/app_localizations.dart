@@ -4123,6 +4123,84 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Code inconnu — vérifiez l\'orthographe.'**
   String get promoUnknown;
+
+  /// No description provided for @freeLessonBadge.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gratuit'**
+  String get freeLessonBadge;
+
+  /// No description provided for @lockedLessonLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Leçon verrouillée'**
+  String get lockedLessonLabel;
+
+  /// No description provided for @accountNotActiveTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ton compte n\'est pas encore activé'**
+  String get accountNotActiveTitle;
+
+  /// No description provided for @accountNotActiveBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'La première leçon de chaque matière reste ouverte. Le reste s\'ouvrira dès que ton compte sera activé.'**
+  String get accountNotActiveBody;
+
+  /// No description provided for @accessEndedTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ton accès n\'est plus actif'**
+  String get accessEndedTitle;
+
+  /// No description provided for @requestBeingCheckedTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Demande en cours de vérification'**
+  String get requestBeingCheckedTitle;
+
+  /// No description provided for @requestBeingCheckedBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'accès s\'ouvre dès qu\'elle est validée — touche « Actualiser » pour vérifier.'**
+  String get requestBeingCheckedBody;
+
+  /// No description provided for @refreshAccess.
+  ///
+  /// In fr, this message translates to:
+  /// **'Actualiser'**
+  String get refreshAccess;
+
+  /// No description provided for @childNotActiveBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Compte pas encore activé. La première leçon de chaque matière est ouverte.'**
+  String get childNotActiveBody;
+
+  /// No description provided for @getStarted.
+  ///
+  /// In fr, this message translates to:
+  /// **'Commencer'**
+  String get getStarted;
+
+  /// No description provided for @accountReadyFreeLessonsBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'La première leçon de chaque matière est déjà ouverte. Bonne découverte !'**
+  String get accountReadyFreeLessonsBody;
+
+  /// No description provided for @needHelpTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Besoin d\'aide ?'**
+  String get needHelpTitle;
+
+  /// No description provided for @needHelpBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Écris-nous sur WhatsApp, on te répond.'**
+  String get needHelpBody;
 }
 
 class _AppLocalizationsDelegate

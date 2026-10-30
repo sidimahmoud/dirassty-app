@@ -160,6 +160,22 @@ final studentHasAccessProvider = FutureProvider.family<bool, String>((
   }
 });
 
+/// Whether a lesson is its subject's free first lesson (migration 078),
+/// which a student without access may still open. Fails closed: an error
+/// (no connection, migration not applied yet) means "not free".
+final isFreeLessonProvider = FutureProvider.family<bool, String>((
+  ref,
+  lessonId,
+) async {
+  try {
+    return await ref
+        .watch(subscriptionRepositoryProvider)
+        .isFreeLesson(lessonId);
+  } catch (_) {
+    return false;
+  }
+});
+
 /// Performs the two subscribe/renew actions (Bankily submission, contact
 /// request) for one or more selected children at once, and exposes
 /// loading/error state — same shape as the app's other action controllers

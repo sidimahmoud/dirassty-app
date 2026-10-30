@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/actions/app_promotion_actions.dart';
+import '../../../core/config/store_policy.dart';
 import '../../../core/models/student.dart';
 import '../../../core/models/subscription.dart';
 import '../../../core/text/dirassty_dates.dart';
@@ -21,6 +22,9 @@ import 'widgets/child_card.dart';
 /// history of past rows. Subscriptions are per child (see
 /// 016_student_subscriptions.sql). Opened from the Abonnement tab's
 /// "Voir mes abonnements".
+///
+/// On iOS (StorePolicy) this is the whole Subscription tab and shows
+/// status only: no subscribe / renew / retry buttons.
 ///
 /// Deviation from SubscriptionStatus.dc.html: a refused payment shows no
 /// reason — rows don't carry one yet (TODO(api)).
@@ -127,33 +131,37 @@ class _ChildStatusCard extends StatelessWidget {
       return '${date(l)} · ${l.hour.toString().padLeft(2, '0')}:${l.minute.toString().padLeft(2, '0')}';
     }
 
+    final bool canSell = StorePolicy.inAppSalesAllowed;
     void subscribe() =>
         context.push(SubscribeFlowScreen.path, extra: student.id);
 
     final String? detail;
     final Widget? action;
     if (sub == null) {
-      detail = l10n.noSubscriptionBody;
-      action = DirasstyButton(
-        label: l10n.subscribeAction,
-        variant: DirasstyButtonVariant.gold,
-        compact: true,
-        onPressed: subscribe,
-      );
+      detail = canSell ? l10n.noSubscriptionBody : l10n.childNotActiveBody;
+      action = !canSell
+          ? null
+          : DirasstyButton(
+              label: l10n.subscribeAction,
+              variant: DirasstyButtonVariant.gold,
+              compact: true,
+              onPressed: subscribe,
+            );
     } else if (sub.grantsAccess) {
       detail = sub.expiresAt == null
           ? null
           : (sub.status == SubscriptionStatus.trial
               ? l10n.trialUntil(date(sub.expiresAt!))
               : l10n.accessUntil(date(sub.expiresAt!)));
-      action = sub.status == SubscriptionStatus.trial && upcoming == null
-          ? DirasstyButton(
-              label: l10n.subscribeFor(student.name),
-              variant: DirasstyButtonVariant.gold,
-              compact: true,
-              onPressed: subscribe,
-            )
-          : null;
+      action =
+          canSell && sub.status == SubscriptionStatus.trial && upcoming == null
+              ? DirasstyButton(
+                  label: l10n.subscribeFor(student.name),
+                  variant: DirasstyButtonVariant.gold,
+                  compact: true,
+                  onPressed: subscribe,
+                )
+              : null;
     } else if (sub.status == SubscriptionStatus.pending) {
       detail =
           l10n.pendingDetails(dateTime(sub.createdAt), sub.paymentCode ?? '—');
@@ -181,7 +189,7 @@ class _ChildStatusCard extends StatelessWidget {
           sub.paymentMethod == SubscriptionPaymentMethod.bankily;
       detail =
           sub.expiresAt == null ? null : l10n.endedOn(date(sub.expiresAt!));
-      action = upcoming != null
+      action = upcoming != null || !canSell
           ? null
           : DirasstyButton(
               label: refused ? l10n.retry : l10n.renew,

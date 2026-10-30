@@ -9,6 +9,7 @@ import '../../../../core/models/subscription.dart';
 import '../../../../core/text/study_time.dart';
 import '../../../../core/theme/dirassty_theme.dart';
 import '../../../../core/widgets/dirassty/dirassty_widgets.dart';
+import '../../../../core/widgets/whatsapp_help_card.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../progress/application/progress_providers.dart';
 import '../../../subscription/application/subscription_providers.dart';
@@ -101,6 +102,8 @@ class ParentHomeTab extends ConsumerWidget {
                   _AddChildButton(
                     onTap: () => context.push(AddChildScreen.path),
                   ),
+                  const SizedBox(height: DirasstySpace.lg),
+                  const WhatsAppHelpCard(),
                 ],
               ),
             ),

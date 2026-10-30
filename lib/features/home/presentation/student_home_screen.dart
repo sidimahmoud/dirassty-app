@@ -12,6 +12,7 @@ import '../../../core/models/subject.dart';
 import '../../../core/text/dirassty_dates.dart';
 import '../../../core/theme/dirassty_theme.dart';
 import '../../../core/widgets/dirassty/dirassty_widgets.dart';
+import '../../../core/widgets/whatsapp_help_card.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../auth/application/auth_providers.dart';
 import '../../courses/application/courses_providers.dart';
@@ -152,6 +153,8 @@ class _HomeBody extends ConsumerWidget {
           ],
           const SizedBox(height: DirasstySpace.lg),
           const _HelperCard(),
+          const SizedBox(height: DirasstySpace.lg),
+          const WhatsAppHelpCard(),
         ],
       ),
     );

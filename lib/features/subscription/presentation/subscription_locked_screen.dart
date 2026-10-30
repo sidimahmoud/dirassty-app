@@ -1,8 +1,12 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../core/config/store_policy.dart';
 import '../../../core/models/student.dart';
 import '../../../core/models/subscription.dart';
 import '../../../core/theme/dirassty_theme.dart';
@@ -31,6 +35,10 @@ import 'subscribe_flow_screen.dart';
 /// oneself (any student can, see 038_students_self_manage_subscription),
 /// "Déjà payé ? Actualiser", log out.
 ///
+/// On iOS (StorePolicy) it only states the account's state: no plan
+/// picker, no "tell a parent to pay" message, no payment wording —
+/// just "Actualiser", back and log out.
+///
 /// design_handoff SubscriptionLocked.dc.html · DESIGN_SPEC §4.
 class SubscriptionLockedScreen extends ConsumerStatefulWidget {
   const SubscriptionLockedScreen({super.key});
@@ -45,6 +53,9 @@ class SubscriptionLockedScreen extends ConsumerStatefulWidget {
 
 class _SubscriptionLockedScreenState
     extends ConsumerState<SubscriptionLockedScreen> {
+  /// Support is told once per app session (see [_tellSupport]).
+  static bool _supportTold = false;
+
   bool _retrying = false;
 
   @override
@@ -62,9 +73,28 @@ class _SubscriptionLockedScreenState
       ref.invalidate(studentHasAccessProvider(student.id));
       final bool hasAccess =
           await ref.read(studentHasAccessProvider(student.id).future);
-      if (hasAccess && mounted) context.goNamed(StudentHomeScreen.name);
+      if (hasAccess) {
+        if (mounted) context.goNamed(StudentHomeScreen.name);
+      } else {
+        unawaited(_tellSupport());
+      }
     } catch (_) {
       ref.invalidate(currentStudentProvider);
+    }
+  }
+
+  /// Silently lists the student for support to contact (Admin → Relances
+  /// paiement, migration 079) — no button, nothing shown: on iOS the app
+  /// itself must not steer anyone to pay (StorePolicy). Best effort.
+  Future<void> _tellSupport() async {
+    if (_supportTold) return;
+    _supportTold = true;
+    try {
+      await ref.read(subscriptionRepositoryProvider).registerAccessInterest(
+            defaultTargetPlatform == TargetPlatform.iOS ? 'ios' : 'android',
+          );
+    } catch (_) {
+      _supportTold = false;
     }
   }
 
@@ -111,21 +141,37 @@ class _SubscriptionLockedScreenState
         studentAsync.hasError || (subAsync?.hasError ?? false);
     // A brand-new account (no plan yet), a payment being checked, a
     // manual payment being arranged, an ended trial, an ended plan.
+    final bool canSell = StorePolicy.inAppSalesAllowed;
     final (String title, String body) = checkFailed
         ? (l10n.subscriptionCheckFailedTitle, l10n.subscriptionCheckFailedBody)
-        : switch (sub?.status) {
-            null => (l10n.lockedNoPlanTitle, l10n.lockedNoPlanBody),
-            SubscriptionStatus.pending => (
-                l10n.lockedPendingTitle,
-                l10n.lockedPendingBody
-              ),
-            SubscriptionStatus.unpaid => (
-                l10n.lockedManualTitle,
-                l10n.lockedManualBody
-              ),
-            SubscriptionStatus.trial => (l10n.trialEnded, l10n.trialEndedBody),
-            _ => (l10n.subscriptionEndedTitle, l10n.trialEndedBody),
-          };
+        : !canSell
+            ? switch (sub?.status) {
+                null || SubscriptionStatus.trial => (
+                    l10n.accountNotActiveTitle,
+                    l10n.accountNotActiveBody
+                  ),
+                SubscriptionStatus.pending || SubscriptionStatus.unpaid => (
+                    l10n.requestBeingCheckedTitle,
+                    l10n.requestBeingCheckedBody
+                  ),
+                _ => (l10n.accessEndedTitle, l10n.accountNotActiveBody),
+              }
+            : switch (sub?.status) {
+                null => (l10n.lockedNoPlanTitle, l10n.lockedNoPlanBody),
+                SubscriptionStatus.pending => (
+                    l10n.lockedPendingTitle,
+                    l10n.lockedPendingBody
+                  ),
+                SubscriptionStatus.unpaid => (
+                    l10n.lockedManualTitle,
+                    l10n.lockedManualBody
+                  ),
+                SubscriptionStatus.trial => (
+                    l10n.trialEnded,
+                    l10n.trialEndedBody
+                  ),
+                _ => (l10n.subscriptionEndedTitle, l10n.trialEndedBody),
+              };
     final bool neverSubscribed = !checkFailed && sub == null;
 
     void goHome() => context.goNamed(StudentHomeScreen.name);
@@ -204,20 +250,22 @@ class _SubscriptionLockedScreenState
               ),
             ],
             const SizedBox(height: DirasstySpace.xxl),
+            if (canSell) ...[
+              DirasstyButton(
+                label: l10n.notifyParent,
+                icon: Icons.chat_rounded,
+                onPressed: _notifyParent,
+              ),
+              const SizedBox(height: DirasstySpace.md),
+              DirasstyButton(
+                label: l10n.subscribeMyself,
+                variant: DirasstyButtonVariant.gold,
+                onPressed: () => context.push(SubscribeFlowScreen.path),
+              ),
+              const SizedBox(height: DirasstySpace.md),
+            ],
             DirasstyButton(
-              label: l10n.notifyParent,
-              icon: Icons.chat_rounded,
-              onPressed: _notifyParent,
-            ),
-            const SizedBox(height: DirasstySpace.md),
-            DirasstyButton(
-              label: l10n.subscribeMyself,
-              variant: DirasstyButtonVariant.gold,
-              onPressed: () => context.push(SubscribeFlowScreen.path),
-            ),
-            const SizedBox(height: DirasstySpace.md),
-            DirasstyButton(
-              label: l10n.alreadyPaid,
+              label: canSell ? l10n.alreadyPaid : l10n.refreshAccess,
               icon: Icons.refresh_rounded,
               variant: DirasstyButtonVariant.secondary,
               loading: _retrying,

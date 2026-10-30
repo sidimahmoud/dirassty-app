@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/analytics/app_analytics.dart';
+import '../../../core/config/store_policy.dart';
 import '../../../core/models/app_settings.dart';
 import '../../../core/models/plan.dart';
 import '../../../core/models/student.dart';
@@ -24,6 +25,10 @@ import 'widgets/auth_scaffold.dart';
 /// admin settings and active plans — never hardcoded (the design's
 /// "7 jours" is just the current default). When the admin has trials
 /// switched off, the same screen offers to pick a plan instead.
+///
+/// On iOS (StorePolicy) there is no price, no payment wording and no
+/// plan picker: just the trial, or "account ready" with the free first
+/// lessons.
 ///
 /// design_handoff TrialOffer.dc.html · DESIGN_SPEC §4 "Trial offer".
 class TrialOfferScreen extends ConsumerWidget {
@@ -75,13 +80,14 @@ class TrialOfferScreen extends ConsumerWidget {
               gap: DirasstySpace.xl,
               bottom: [
                 DirasstyButton(label: l10n.startTrial, onPressed: goHome),
-                Text(
-                  price == null
-                      ? l10n.trialFooterNoPrice
-                      : l10n.trialFooterPrice('$price'),
-                  textAlign: TextAlign.center,
-                  style: type.label.copyWith(fontWeight: FontWeight.w400),
-                ),
+                if (StorePolicy.inAppSalesAllowed)
+                  Text(
+                    price == null
+                        ? l10n.trialFooterNoPrice
+                        : l10n.trialFooterPrice('$price'),
+                    textAlign: TextAlign.center,
+                    style: type.label.copyWith(fontWeight: FontWeight.w400),
+                  ),
               ],
               children: [
                 Padding(
@@ -152,7 +158,8 @@ class TrialOfferScreen extends ConsumerWidget {
   }
 }
 
-/// Trials switched off by the admin: the account is ready, pick a plan.
+/// Trials switched off by the admin: the account is ready, pick a plan —
+/// on iOS just start, with the free first lessons (StorePolicy).
 class _AccountReady extends StatelessWidget {
   const _AccountReady({required this.gradeLabel, required this.onLater});
 
@@ -163,20 +170,24 @@ class _AccountReady extends StatelessWidget {
   Widget build(BuildContext context) {
     final AppLocalizations l10n = AppLocalizations.of(context);
     final DirasstyType type = context.dirasstyType;
+    final bool canSell = StorePolicy.inAppSalesAllowed;
     return AuthScaffold(
       onBack: onLater,
       sidePadding: DirasstySpace.xl,
       bottom: [
-        DirasstyButton(
-          label: l10n.choosePlan,
-          variant: DirasstyButtonVariant.gold,
-          onPressed: () => context.go(SubscribeFlowScreen.path),
-        ),
-        DirasstyButton(
-          label: l10n.later,
-          variant: DirasstyButtonVariant.quiet,
-          onPressed: onLater,
-        ),
+        if (canSell) ...[
+          DirasstyButton(
+            label: l10n.choosePlan,
+            variant: DirasstyButtonVariant.gold,
+            onPressed: () => context.go(SubscribeFlowScreen.path),
+          ),
+          DirasstyButton(
+            label: l10n.later,
+            variant: DirasstyButtonVariant.quiet,
+            onPressed: onLater,
+          ),
+        ] else
+          DirasstyButton(label: l10n.getStarted, onPressed: onLater),
       ],
       children: [
         Padding(
@@ -192,7 +203,9 @@ class _AccountReady extends StatelessWidget {
               ),
               const SizedBox(height: DirasstySpace.sm),
               Text(
-                l10n.accountReadyBody(gradeLabel),
+                canSell
+                    ? l10n.accountReadyBody(gradeLabel)
+                    : l10n.accountReadyFreeLessonsBody,
                 textAlign: TextAlign.center,
                 style: type.body.copyWith(color: DirasstyColors.textMuted),
               ),

@@ -2262,4 +2262,47 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get promoUnknown => 'رمز غير معروف — تحقّق من كتابته.';
+
+  @override
+  String get freeLessonBadge => 'مجاني';
+
+  @override
+  String get lockedLessonLabel => 'درس مقفل';
+
+  @override
+  String get accountNotActiveTitle => 'حسابك غير مفعّل بعد';
+
+  @override
+  String get accountNotActiveBody =>
+      'الدرس الأول من كل مادة متاح لك. سيُفتح الباقي فور تفعيل حسابك.';
+
+  @override
+  String get accessEndedTitle => 'وصولك لم يعد نشطًا';
+
+  @override
+  String get requestBeingCheckedTitle => 'طلبك قيد المراجعة';
+
+  @override
+  String get requestBeingCheckedBody =>
+      'سيُفتح الوصول فور التحقق منه — اضغط «تحديث» للتحقق.';
+
+  @override
+  String get refreshAccess => 'تحديث';
+
+  @override
+  String get childNotActiveBody =>
+      'الحساب غير مفعّل بعد. الدرس الأول من كل مادة متاح.';
+
+  @override
+  String get getStarted => 'ابدأ';
+
+  @override
+  String get accountReadyFreeLessonsBody =>
+      'الدرس الأول من كل مادة متاح لك الآن. استكشافًا ممتعًا!';
+
+  @override
+  String get needHelpTitle => 'تحتاج مساعدة؟';
+
+  @override
+  String get needHelpBody => 'راسلنا على واتساب وسنرد عليك.';
 }

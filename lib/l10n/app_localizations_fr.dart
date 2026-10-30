@@ -2319,4 +2319,47 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get promoUnknown => 'Code inconnu — vérifiez l\'orthographe.';
+
+  @override
+  String get freeLessonBadge => 'Gratuit';
+
+  @override
+  String get lockedLessonLabel => 'Leçon verrouillée';
+
+  @override
+  String get accountNotActiveTitle => 'Ton compte n\'est pas encore activé';
+
+  @override
+  String get accountNotActiveBody =>
+      'La première leçon de chaque matière reste ouverte. Le reste s\'ouvrira dès que ton compte sera activé.';
+
+  @override
+  String get accessEndedTitle => 'Ton accès n\'est plus actif';
+
+  @override
+  String get requestBeingCheckedTitle => 'Demande en cours de vérification';
+
+  @override
+  String get requestBeingCheckedBody =>
+      'L\'accès s\'ouvre dès qu\'elle est validée — touche « Actualiser » pour vérifier.';
+
+  @override
+  String get refreshAccess => 'Actualiser';
+
+  @override
+  String get childNotActiveBody =>
+      'Compte pas encore activé. La première leçon de chaque matière est ouverte.';
+
+  @override
+  String get getStarted => 'Commencer';
+
+  @override
+  String get accountReadyFreeLessonsBody =>
+      'La première leçon de chaque matière est déjà ouverte. Bonne découverte !';
+
+  @override
+  String get needHelpTitle => 'Besoin d\'aide ?';
+
+  @override
+  String get needHelpBody => 'Écris-nous sur WhatsApp, on te répond.';
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/config/store_policy.dart';
 import '../../../../core/models/grade.dart';
 import '../../../../core/models/student.dart';
 import '../../../../core/models/student_stats.dart';
@@ -91,7 +92,8 @@ class ChildCard extends ConsumerWidget {
         sub.status == SubscriptionStatus.active &&
         sub.grantsAccess;
     final bool pending = sub?.status == SubscriptionStatus.pending;
-    final bool showSubscribe = !paidActive && !pending;
+    final bool showSubscribe =
+        StorePolicy.inAppSalesAllowed && !paidActive && !pending;
 
     final DirasstyChip? chip = switch (sub) {
       null => null,

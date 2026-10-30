@@ -41,6 +41,7 @@ import '../../features/student/application/student_providers.dart';
 import '../../features/subscription/application/subscription_providers.dart';
 import '../../features/subscription/presentation/subscribe_flow_screen.dart';
 import '../../features/subscription/presentation/subscription_locked_screen.dart';
+import '../config/store_policy.dart';
 import '../models/exam.dart';
 import '../models/student.dart';
 import '../offline/offline_video_store.dart';
@@ -299,18 +300,18 @@ bool _isStudentPath(String location) {
       location == SubscriptionLockedScreen.path ||
       // A self-registered student (no parent account) subscribes for
       // themselves through the same flow a parent uses for their
-      // children — see SubscribeFlowScreen.
-      location == SubscribeFlowScreen.path;
+      // children — see SubscribeFlowScreen. Not on iOS (StorePolicy).
+      (StorePolicy.inAppSalesAllowed && location == SubscribeFlowScreen.path);
 }
 
 /// Paths that actually teach something (or spend AI budget, in the
 /// homework helper's case) — blocked once a student's subscription has
-/// lapsed. Home and Profile stay reachable regardless, so a locked-out
-/// student can still see their own status and reach support.
+/// lapsed, except a subject's free first lesson (see [_lessonIdOf]).
+/// Home, Profile and the course catalogue stay reachable regardless, so a
+/// locked-out student can still browse, see their own status and reach
+/// support.
 bool _requiresActiveSubscription(String location) {
-  return location == CoursesScreen.path ||
-      location.startsWith('/courses/') ||
-      location.startsWith('/lesson/') ||
+  return location.startsWith('/lesson/') ||
       location.startsWith('/exercise/') ||
       location.startsWith('/open-practice/') ||
       location == HomeworkHelperScreen.path ||
@@ -334,7 +335,7 @@ bool _isParentPath(String location) {
       location.startsWith('/parent/child/') ||
       location == AddChildScreen.path ||
       location == ChildCreatedScreen.path ||
-      location == SubscribeFlowScreen.path ||
+      (StorePolicy.inAppSalesAllowed && location == SubscribeFlowScreen.path) ||
       location == SubscriptionScreen.path ||
       location.startsWith('/profile');
 }
@@ -420,10 +421,33 @@ Future<String?> _redirectForStudent(Ref ref, String location) async {
     final Student student = await ref.read(currentStudentProvider.future);
     final bool hasAccess =
         await ref.read(studentHasAccessProvider(student.id).future);
-    return hasAccess ? null : SubscriptionLockedScreen.path;
+    if (hasAccess) return null;
+    final String? lessonId = _lessonIdOf(location);
+    if (lessonId != null &&
+        await ref.read(isFreeLessonProvider(lessonId).future)) {
+      return null;
+    }
+    return SubscriptionLockedScreen.path;
   } catch (_) {
     return SubscriptionLockedScreen.path;
   }
+}
+
+/// The lesson a lesson-scoped path is about (`/lesson/<id>`,
+/// `/exercise/<id>`, `/open-practice/<id>`), else null — a subject's free
+/// first lesson (migration 078) is open with all its exercises.
+String? _lessonIdOf(String location) {
+  for (final String prefix in const [
+    '/lesson/',
+    '/exercise/',
+    '/open-practice/',
+  ]) {
+    if (location.startsWith(prefix)) {
+      final String id = location.substring(prefix.length).split('/').first;
+      return id.isEmpty ? null : id;
+    }
+  }
+  return null;
 }
 
 /// The 4 student tabs switch with `context.go`, so they cross-fade in

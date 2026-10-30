@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/config/store_policy.dart';
 import '../../../core/theme/dirassty_theme.dart';
 import '../../../core/widgets/dirassty/dirassty_widgets.dart';
 import '../../subscription/presentation/subscribe_flow_screen.dart';
 import 'parent_profile_screen.dart';
+import 'subscription_screen.dart';
 import 'widgets/parent_home_tab.dart';
 
 /// The parent app's 3 top-level destinations (Home, Subscription,
@@ -15,6 +17,9 @@ import 'widgets/parent_home_tab.dart';
 /// Kept as one route (`StudentHomeScreen`'s `/parent/home` path, so no
 /// router-redirect changes were needed) with an [IndexedStack] so
 /// switching tabs doesn't lose each tab's scroll position/state.
+///
+/// On iOS the Subscription tab only lists each child's status
+/// ([SubscriptionScreen]) — no plans or payment (StorePolicy).
 class ParentShellScreen extends ConsumerStatefulWidget {
   const ParentShellScreen({super.key});
 
@@ -58,10 +63,13 @@ class _ParentShellScreenState extends ConsumerState<ParentShellScreen>
         opacity: _fade,
         child: IndexedStack(
           index: _index,
-          children: const [
-            ParentHomeTab(),
-            SubscribeFlowScreen(embedded: true),
-            ParentProfileScreen(),
+          children: [
+            const ParentHomeTab(),
+            if (StorePolicy.inAppSalesAllowed)
+              const SubscribeFlowScreen(embedded: true)
+            else
+              const SubscriptionScreen(),
+            const ParentProfileScreen(),
           ],
         ),
       ),

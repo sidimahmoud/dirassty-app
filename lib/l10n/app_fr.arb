@@ -2192,5 +2192,18 @@
   "promoUnknown": "Code inconnu — vérifiez l'orthographe.",
   "@promoUnknown": {
     "description": "Marketing promo / influencer code (tracking only)."
-  }
+  },
+  "freeLessonBadge": "Gratuit",
+  "lockedLessonLabel": "Leçon verrouillée",
+  "accountNotActiveTitle": "Ton compte n'est pas encore activé",
+  "accountNotActiveBody": "La première leçon de chaque matière reste ouverte. Le reste s'ouvrira dès que ton compte sera activé.",
+  "accessEndedTitle": "Ton accès n'est plus actif",
+  "requestBeingCheckedTitle": "Demande en cours de vérification",
+  "requestBeingCheckedBody": "L'accès s'ouvre dès qu'elle est validée — touche « Actualiser » pour vérifier.",
+  "refreshAccess": "Actualiser",
+  "childNotActiveBody": "Compte pas encore activé. La première leçon de chaque matière est ouverte.",
+  "getStarted": "Commencer",
+  "accountReadyFreeLessonsBody": "La première leçon de chaque matière est déjà ouverte. Bonne découverte !",
+  "needHelpTitle": "Besoin d'aide ?",
+  "needHelpBody": "Écris-nous sur WhatsApp, on te répond."
 }

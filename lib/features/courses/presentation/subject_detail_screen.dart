@@ -13,6 +13,7 @@ import '../../../core/widgets/dirassty/dirassty_widgets.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../progress/application/progress_providers.dart';
 import '../../student/application/student_providers.dart';
+import '../../subscription/application/subscription_providers.dart';
 import '../application/courses_providers.dart';
 
 /// A lesson counts as mastered from this mastery ratio up (same bar the
@@ -24,9 +25,10 @@ enum _Filter { all, toReview, offline }
 /// A subject's chapters and lessons: header mastery ring, filter chips
 /// (Toutes / À revoir / Hors ligne), then chapter cards — the chapter
 /// holding the next lesson to work on starts expanded, the others open on
-/// tap. No lesson is ever locked. Tapping a lesson opens the lesson
-/// viewer, whose resume screen offers the QCM / practice / summary for
-/// lessons already read.
+/// tap. Tapping a lesson opens the lesson viewer, whose resume screen
+/// offers the QCM / practice / summary for lessons already read. Without
+/// access, only the subject's first lesson is open (badge "Gratuit",
+/// migration 078); the others show a lock and lead to the lock screen.
 ///
 /// design_handoff SubjectDetail.dc.html · DESIGN_SPEC §4 "Subject detail".
 class SubjectDetailScreen extends ConsumerStatefulWidget {
@@ -127,6 +129,12 @@ class _SubjectDetailScreenState extends ConsumerState<SubjectDetailScreen> {
 
     final List<CurriculumLesson> all =
         chapterList.expand((c) => c.lessons).toList();
+    // Optimistic while loading: the router still gates every lesson.
+    final bool hasAccess =
+        ref.watch(studentHasAccessProvider(student.id)).valueOrNull ?? true;
+    // Same rule as is_free_lesson() (migration 078): the first lesson in
+    // (chapter num, lesson num) order.
+    final String? freeLessonId = hasAccess || all.isEmpty ? null : all.first.id;
     final int masteredCount =
         all.where((l) => (mastery[l.id] ?? 0) >= kLessonMasteredAt).length;
     final double overall = all.isEmpty
@@ -239,6 +247,8 @@ class _SubjectDetailScreenState extends ConsumerState<SubjectDetailScreen> {
                 mastery: mastery,
                 viewed: viewed,
                 offline: offline,
+                hasAccess: hasAccess,
+                freeLessonId: freeLessonId,
                 // A filter narrows the list — show its matches directly.
                 expanded:
                     _filter != _Filter.all || expanded.contains(chapter.num),
@@ -264,6 +274,8 @@ class _ChapterCard extends StatelessWidget {
     required this.mastery,
     required this.viewed,
     required this.offline,
+    required this.hasAccess,
+    required this.freeLessonId,
     required this.expanded,
     required this.onToggle,
   });
@@ -273,6 +285,8 @@ class _ChapterCard extends StatelessWidget {
   final Map<String, double> mastery;
   final Set<String> viewed;
   final Set<String> offline;
+  final bool hasAccess;
+  final String? freeLessonId;
   final bool expanded;
   final VoidCallback onToggle;
 
@@ -383,6 +397,8 @@ class _ChapterCard extends StatelessWidget {
                   mastery: mastery[lesson.id] ?? 0,
                   viewed: viewed.contains(lesson.id),
                   offline: offline.contains(lesson.id),
+                  free: !hasAccess && lesson.id == freeLessonId,
+                  locked: !hasAccess && lesson.id != freeLessonId,
                 ),
               ],
           ],
@@ -398,12 +414,16 @@ class _LessonRow extends StatelessWidget {
     required this.mastery,
     required this.viewed,
     required this.offline,
+    required this.free,
+    required this.locked,
   });
 
   final CurriculumLesson lesson;
   final double mastery;
   final bool viewed;
   final bool offline;
+  final bool free;
+  final bool locked;
 
   @override
   Widget build(BuildContext context) {
@@ -449,6 +469,15 @@ class _LessonRow extends StatelessWidget {
                   ],
                 ),
               ),
+              if (free)
+                Padding(
+                  padding:
+                      const EdgeInsetsDirectional.only(start: DirasstySpace.sm),
+                  child: DirasstyChip(
+                    label: l10n.freeLessonBadge,
+                    variant: DirasstyChipVariant.teal,
+                  ),
+                ),
               if (offline)
                 Padding(
                   padding:
@@ -460,9 +489,12 @@ class _LessonRow extends StatelessWidget {
                     semanticLabel: l10n.statusDownloaded,
                   ),
                 ),
-              const Icon(
-                Icons.chevron_right_rounded,
+              Icon(
+                locked
+                    ? Icons.lock_outline_rounded
+                    : Icons.chevron_right_rounded,
                 color: DirasstyColors.textMuted,
+                semanticLabel: locked ? l10n.lockedLessonLabel : null,
               ),
             ],
           ),

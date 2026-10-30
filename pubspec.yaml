@@ -82,6 +82,8 @@ flutter:
     - assets/icon/icon.png
     # Brand logo SVGs from the design handoff (design_handoff/).
     - assets/logo/
+    # UI icons not in Material Icons (WhatsApp).
+    - assets/icons/
 
   # Bundled (not fetched at runtime like google_fonts) so text renders
   # correctly offline and on first launch. SIL Open Font License — see
