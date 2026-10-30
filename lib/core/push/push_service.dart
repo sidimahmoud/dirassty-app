@@ -182,6 +182,13 @@ class PushService {
         sound: true,
       );
       _listen();
+      // iOS: FCM issues a token only once APNs has given one, which can
+      // lag behind the permission prompt; asking earlier throws
+      // apns-token-not-set and the device would stay unregistered.
+      if (defaultTargetPlatform == TargetPlatform.iOS &&
+          !await _waitForApnsToken(messaging)) {
+        return;
+      }
 
       final String? token = await messaging.getToken();
       if (token == null) return;
@@ -197,6 +204,16 @@ class PushService {
     } catch (_) {
       // Permission dialog dismissed, platform channel unavailable, etc.
     }
+  }
+
+  /// Up to ~5 s for the APNs token (null on a simulator without push, or
+  /// with no network); the next launch tries again.
+  Future<bool> _waitForApnsToken(FirebaseMessaging messaging) async {
+    for (int i = 0; i < 10; i++) {
+      if (await messaging.getAPNSToken() != null) return true;
+      await Future<void>.delayed(const Duration(milliseconds: 500));
+    }
+    return false;
   }
 
   /// Subscribes to [wanted] and drops topics from a previous account or
