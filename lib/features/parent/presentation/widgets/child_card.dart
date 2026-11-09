@@ -93,7 +93,7 @@ class ChildCard extends ConsumerWidget {
         sub.grantsAccess;
     final bool pending = sub?.status == SubscriptionStatus.pending;
     final bool showSubscribe =
-        StorePolicy.inAppSalesAllowed && !paidActive && !pending;
+        StorePolicy.canSubscribeInApp && !paidActive && !pending;
 
     final DirasstyChip? chip = switch (sub) {
       null => null,

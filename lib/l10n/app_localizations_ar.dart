@@ -2305,4 +2305,61 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get needHelpBody => 'راسلنا على واتساب وسنرد عليك.';
+
+  @override
+  String get appleSubscribeTitle => 'الاشتراك';
+
+  @override
+  String get appleSubscribeBody =>
+      'افتح كل الدروس والتمارين والامتحانات ورفيق.';
+
+  @override
+  String get appleSubscribeForChild => 'لأي طفل؟';
+
+  @override
+  String get appleSubscribePickChild => 'اختر الطفل أولًا.';
+
+  @override
+  String get appleSubscribeUnavailable =>
+      'الاشتراكات غير متاحة حاليًا. حاول لاحقًا.';
+
+  @override
+  String get appleSubscribeButton => 'اشترك';
+
+  @override
+  String applePassDuration(int days) {
+    return 'وصول كامل لمدة $days يومًا';
+  }
+
+  @override
+  String get applePurchaseVerifying => 'جارٍ التفعيل…';
+
+  @override
+  String get applePurchaseSuccessTitle => 'تم التفعيل!';
+
+  @override
+  String get applePurchaseSuccessBody => 'كل المحتوى مفتوح الآن. دراسة موفقة!';
+
+  @override
+  String get applePurchasePendingBody =>
+      'تم تسجيل شرائك. لم يكتمل التفعيل: سيتم تلقائيًا عند فتح التطبيق مرة أخرى.';
+
+  @override
+  String get applePurchaseRefunded => 'تم استرداد مبلغ هذا الشراء.';
+
+  @override
+  String get applePurchaseFailed => 'لم تكتمل عملية الشراء. لم يُخصم أي مبلغ.';
+
+  @override
+  String get restorePurchases => 'استعادة مشترياتي';
+
+  @override
+  String get appleSubscribeLegal =>
+      'دفع لمرة واحدة عبر حساب Apple، دون تجديد تلقائي. ينتهي الوصول في نهاية المدة المختارة.';
+
+  @override
+  String get termsOfUse => 'شروط الاستخدام';
+
+  @override
+  String get seePlansButton => 'عرض الاشتراكات';
 }

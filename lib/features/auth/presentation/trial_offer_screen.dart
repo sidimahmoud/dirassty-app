@@ -186,8 +186,14 @@ class _AccountReady extends StatelessWidget {
             variant: DirasstyButtonVariant.quiet,
             onPressed: onLater,
           ),
-        ] else
+        ] else ...[
           DirasstyButton(label: l10n.getStarted, onPressed: onLater),
+          DirasstyButton(
+            label: l10n.seePlansButton,
+            variant: DirasstyButtonVariant.quiet,
+            onPressed: () => context.go(SubscribeFlowScreen.path),
+          ),
+        ],
       ],
       children: [
         Padding(

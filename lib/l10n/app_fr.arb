@@ -2205,5 +2205,27 @@
   "getStarted": "Commencer",
   "accountReadyFreeLessonsBody": "La première leçon de chaque matière est déjà ouverte. Bonne découverte !",
   "needHelpTitle": "Besoin d'aide ?",
-  "needHelpBody": "Écris-nous sur WhatsApp, on te répond."
+  "needHelpBody": "Écris-nous sur WhatsApp, on te répond.",
+  "appleSubscribeTitle": "Abonnement",
+  "appleSubscribeBody": "Débloque tous les cours, exercices, examens et Rafiq.",
+  "appleSubscribeForChild": "Pour quel enfant ?",
+  "appleSubscribePickChild": "Choisis d'abord l'enfant.",
+  "appleSubscribeUnavailable": "Les abonnements ne sont pas disponibles pour le moment. Réessaie plus tard.",
+  "appleSubscribeButton": "S'abonner",
+  "applePassDuration": "Accès complet pendant {days} jours",
+  "@applePassDuration": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "applePurchaseVerifying": "Activation…",
+  "applePurchaseSuccessTitle": "C'est activé !",
+  "applePurchaseSuccessBody": "Tout le contenu est maintenant débloqué. Bonne étude !",
+  "applePurchasePendingBody": "Ton achat est bien enregistré. L'activation n'a pas pu se terminer : elle se fera automatiquement à la prochaine ouverture de l'application.",
+  "applePurchaseRefunded": "Cet achat a été remboursé.",
+  "applePurchaseFailed": "L'achat n'a pas abouti. Aucun montant n'a été débité.",
+  "restorePurchases": "Restaurer mes achats",
+  "appleSubscribeLegal": "Paiement unique via ton compte Apple, sans renouvellement automatique. L'accès s'arrête à la fin de la période choisie.",
+  "termsOfUse": "Conditions d'utilisation",
+  "seePlansButton": "Voir les abonnements"
 }

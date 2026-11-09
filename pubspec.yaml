@@ -36,6 +36,11 @@ dependencies:
 
   # Homework Helper: camera capture / gallery pick of a homework photo.
   image_picker: ^1.1.2
+  # Apple In-App Purchase on iOS (App Store rule 3.1.1) — see
+  # lib/features/subscription/data/apple_iap_service.dart. The StoreKit
+  # plugin only (not in_app_purchase), so Android gets no Play Billing.
+  in_app_purchase_storekit: ^0.3.22
+  in_app_purchase_platform_interface: ^1.4.0
 
   cupertino_icons: ^1.0.8
 

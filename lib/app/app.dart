@@ -23,6 +23,7 @@ import '../features/focus/application/focus_providers.dart';
 import '../features/focus/presentation/focus_mode_overlay.dart';
 import '../features/parent/application/parent_providers.dart';
 import '../features/student/application/student_providers.dart';
+import '../features/subscription/application/apple_iap_providers.dart';
 import '../features/subscription/application/subscription_providers.dart';
 import '../l10n/app_localizations.dart';
 import 'splash_overlay.dart';
@@ -147,6 +148,9 @@ class _DirasstyAppState extends ConsumerState<DirasstyApp>
     // Same reason: focus mode must enforce the parent's schedule on
     // whatever screen the student is on, not only after some screen reads it.
     ref.listen(focusLockControllerProvider, (_, __) {});
+    // iOS: Apple purchases are unlocked even when they finish after the
+    // purchase screen closed, or at the next launch (StorePolicy).
+    ref.listen(applePurchaseControllerProvider, (_, __) {});
     return MaterialApp.router(
       title: 'Dirassty',
       debugShowCheckedModeBanner: false,

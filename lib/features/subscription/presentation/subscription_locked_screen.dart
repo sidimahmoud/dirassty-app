@@ -263,6 +263,13 @@ class _SubscriptionLockedScreenState
                 onPressed: () => context.push(SubscribeFlowScreen.path),
               ),
               const SizedBox(height: DirasstySpace.md),
+            ] else if (StorePolicy.usesAppleInAppPurchase) ...[
+              DirasstyButton(
+                label: l10n.seePlansButton,
+                variant: DirasstyButtonVariant.gold,
+                onPressed: () => context.push(SubscribeFlowScreen.path),
+              ),
+              const SizedBox(height: DirasstySpace.md),
             ],
             DirasstyButton(
               label: canSell ? l10n.alreadyPaid : l10n.refreshAccess,

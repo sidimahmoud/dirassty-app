@@ -22,6 +22,7 @@ import '../../focus/presentation/focus_blocked_dialog.dart';
 import '../../home/presentation/widgets/student_tab_bar.dart';
 import '../../student/application/student_providers.dart';
 import '../../subscription/application/subscription_providers.dart';
+import '../../subscription/presentation/subscribe_flow_screen.dart';
 import 'about_screen.dart';
 import 'delete_account_screen.dart';
 import 'downloads_screen.dart';
@@ -321,6 +322,21 @@ class _SubscriptionCard extends ConsumerWidget {
                 Text(
                   body,
                   style: type.bodySmall.copyWith(color: DirasstyColors.text),
+                ),
+              ],
+              // iOS: buy or extend with Apple In-App Purchase (StorePolicy).
+              if (StorePolicy.usesAppleInAppPurchase &&
+                  s?.status != SubscriptionStatus.pending) ...[
+                const SizedBox(height: DirasstySpace.md),
+                DirasstyButton(
+                  label: s != null &&
+                          s.grantsAccess &&
+                          s.status != SubscriptionStatus.trial
+                      ? l10n.renew
+                      : l10n.subscribeAction,
+                  variant: DirasstyButtonVariant.gold,
+                  compact: true,
+                  onPressed: () => context.push(SubscribeFlowScreen.path),
                 ),
               ],
             ],

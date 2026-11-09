@@ -131,7 +131,7 @@ class _ChildStatusCard extends StatelessWidget {
       return '${date(l)} · ${l.hour.toString().padLeft(2, '0')}:${l.minute.toString().padLeft(2, '0')}';
     }
 
-    final bool canSell = StorePolicy.inAppSalesAllowed;
+    final bool canSell = StorePolicy.canSubscribeInApp;
     void subscribe() =>
         context.push(SubscribeFlowScreen.path, extra: student.id);
 
@@ -161,7 +161,22 @@ class _ChildStatusCard extends StatelessWidget {
                   compact: true,
                   onPressed: subscribe,
                 )
-              : null;
+              // iOS: extend a running plan with Apple In-App Purchase
+              // (starts when the current one ends).
+              : StorePolicy.usesAppleInAppPurchase && upcoming == null
+                  ? DirasstyButton(
+                      label: l10n.renew,
+                      variant: DirasstyButtonVariant.secondary,
+                      compact: true,
+                      onPressed: subscribe,
+                    )
+                  : null;
+    } else if (StorePolicy.usesAppleInAppPurchase &&
+        (sub.status == SubscriptionStatus.pending ||
+            sub.status == SubscriptionStatus.unpaid)) {
+      // iOS never mentions a payment made another way (StorePolicy).
+      detail = l10n.requestBeingCheckedBody;
+      action = null;
     } else if (sub.status == SubscriptionStatus.pending) {
       detail =
           l10n.pendingDetails(dateTime(sub.createdAt), sub.paymentCode ?? '—');

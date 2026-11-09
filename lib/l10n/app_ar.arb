@@ -683,5 +683,22 @@
   "getStarted": "ابدأ",
   "accountReadyFreeLessonsBody": "الدرس الأول من كل مادة متاح لك الآن. استكشافًا ممتعًا!",
   "needHelpTitle": "تحتاج مساعدة؟",
-  "needHelpBody": "راسلنا على واتساب وسنرد عليك."
+  "needHelpBody": "راسلنا على واتساب وسنرد عليك.",
+  "appleSubscribeTitle": "الاشتراك",
+  "appleSubscribeBody": "افتح كل الدروس والتمارين والامتحانات ورفيق.",
+  "appleSubscribeForChild": "لأي طفل؟",
+  "appleSubscribePickChild": "اختر الطفل أولًا.",
+  "appleSubscribeUnavailable": "الاشتراكات غير متاحة حاليًا. حاول لاحقًا.",
+  "appleSubscribeButton": "اشترك",
+  "applePassDuration": "وصول كامل لمدة {days} يومًا",
+  "applePurchaseVerifying": "جارٍ التفعيل…",
+  "applePurchaseSuccessTitle": "تم التفعيل!",
+  "applePurchaseSuccessBody": "كل المحتوى مفتوح الآن. دراسة موفقة!",
+  "applePurchasePendingBody": "تم تسجيل شرائك. لم يكتمل التفعيل: سيتم تلقائيًا عند فتح التطبيق مرة أخرى.",
+  "applePurchaseRefunded": "تم استرداد مبلغ هذا الشراء.",
+  "applePurchaseFailed": "لم تكتمل عملية الشراء. لم يُخصم أي مبلغ.",
+  "restorePurchases": "استعادة مشترياتي",
+  "appleSubscribeLegal": "دفع لمرة واحدة عبر حساب Apple، دون تجديد تلقائي. ينتهي الوصول في نهاية المدة المختارة.",
+  "termsOfUse": "شروط الاستخدام",
+  "seePlansButton": "عرض الاشتراكات"
 }

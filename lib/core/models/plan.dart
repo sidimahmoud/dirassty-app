@@ -17,6 +17,7 @@ class Plan {
     required this.priceMru,
     required this.discountPercent,
     required this.isActive,
+    this.appleProductId,
   });
 
   factory Plan.fromJson(Map<String, dynamic> json) {
@@ -29,6 +30,7 @@ class Plan {
       priceMru: (json['price_mru'] as num).toDouble(),
       discountPercent: (json['discount_percent'] as num?)?.toDouble() ?? 0,
       isActive: json['is_active'] as bool,
+      appleProductId: json['apple_product_id'] as String?,
     );
   }
 
@@ -42,6 +44,10 @@ class Plan {
   /// 0–100. A promotional discount set by the admin — see [effectivePriceMru].
   final double discountPercent;
   final bool isActive;
+
+  /// The App Store product sold for this plan on iOS (Apple In-App
+  /// Purchase, migration 081) — null until set in Admin → Plans.
+  final String? appleProductId;
 
   String name(bool isArabic) => isArabic ? nameAr : nameFr;
 

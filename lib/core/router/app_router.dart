@@ -39,6 +39,7 @@ import '../../features/profile/presentation/faq_screen.dart';
 import '../../features/profile/presentation/profile_screen.dart';
 import '../../features/student/application/student_providers.dart';
 import '../../features/subscription/application/subscription_providers.dart';
+import '../../features/subscription/presentation/apple_subscribe_screen.dart';
 import '../../features/subscription/presentation/subscribe_flow_screen.dart';
 import '../../features/subscription/presentation/subscription_locked_screen.dart';
 import '../config/store_policy.dart';
@@ -256,9 +257,14 @@ final Provider<GoRouter> goRouterProvider = Provider((ref) {
       GoRoute(
         path: SubscribeFlowScreen.path,
         name: SubscribeFlowScreen.name,
-        builder: (context, state) => SubscribeFlowScreen(
-          preselectedStudentId: state.extra as String?,
-        ),
+        // iOS sells with Apple In-App Purchase only (StorePolicy).
+        builder: (context, state) => StorePolicy.usesAppleInAppPurchase
+            ? AppleSubscribeScreen(
+                preselectedStudentId: state.extra as String?,
+              )
+            : SubscribeFlowScreen(
+                preselectedStudentId: state.extra as String?,
+              ),
       ),
       GoRoute(
         path: SubscriptionLockedScreen.path,
@@ -300,8 +306,8 @@ bool _isStudentPath(String location) {
       location == SubscriptionLockedScreen.path ||
       // A self-registered student (no parent account) subscribes for
       // themselves through the same flow a parent uses for their
-      // children — see SubscribeFlowScreen. Not on iOS (StorePolicy).
-      (StorePolicy.inAppSalesAllowed && location == SubscribeFlowScreen.path);
+      // children — see SubscribeFlowScreen (AppleSubscribeScreen on iOS).
+      location == SubscribeFlowScreen.path;
 }
 
 /// Paths that actually teach something (or spend AI budget, in the
@@ -335,7 +341,7 @@ bool _isParentPath(String location) {
       location.startsWith('/parent/child/') ||
       location == AddChildScreen.path ||
       location == ChildCreatedScreen.path ||
-      (StorePolicy.inAppSalesAllowed && location == SubscribeFlowScreen.path) ||
+      location == SubscribeFlowScreen.path ||
       location == SubscriptionScreen.path ||
       location.startsWith('/profile');
 }

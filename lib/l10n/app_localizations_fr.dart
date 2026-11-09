@@ -2362,4 +2362,63 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get needHelpBody => 'Écris-nous sur WhatsApp, on te répond.';
+
+  @override
+  String get appleSubscribeTitle => 'Abonnement';
+
+  @override
+  String get appleSubscribeBody =>
+      'Débloque tous les cours, exercices, examens et Rafiq.';
+
+  @override
+  String get appleSubscribeForChild => 'Pour quel enfant ?';
+
+  @override
+  String get appleSubscribePickChild => 'Choisis d\'abord l\'enfant.';
+
+  @override
+  String get appleSubscribeUnavailable =>
+      'Les abonnements ne sont pas disponibles pour le moment. Réessaie plus tard.';
+
+  @override
+  String get appleSubscribeButton => 'S\'abonner';
+
+  @override
+  String applePassDuration(int days) {
+    return 'Accès complet pendant $days jours';
+  }
+
+  @override
+  String get applePurchaseVerifying => 'Activation…';
+
+  @override
+  String get applePurchaseSuccessTitle => 'C\'est activé !';
+
+  @override
+  String get applePurchaseSuccessBody =>
+      'Tout le contenu est maintenant débloqué. Bonne étude !';
+
+  @override
+  String get applePurchasePendingBody =>
+      'Ton achat est bien enregistré. L\'activation n\'a pas pu se terminer : elle se fera automatiquement à la prochaine ouverture de l\'application.';
+
+  @override
+  String get applePurchaseRefunded => 'Cet achat a été remboursé.';
+
+  @override
+  String get applePurchaseFailed =>
+      'L\'achat n\'a pas abouti. Aucun montant n\'a été débité.';
+
+  @override
+  String get restorePurchases => 'Restaurer mes achats';
+
+  @override
+  String get appleSubscribeLegal =>
+      'Paiement unique via ton compte Apple, sans renouvellement automatique. L\'accès s\'arrête à la fin de la période choisie.';
+
+  @override
+  String get termsOfUse => 'Conditions d\'utilisation';
+
+  @override
+  String get seePlansButton => 'Voir les abonnements';
 }

@@ -4201,6 +4201,108 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Écris-nous sur WhatsApp, on te répond.'**
   String get needHelpBody;
+
+  /// No description provided for @appleSubscribeTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Abonnement'**
+  String get appleSubscribeTitle;
+
+  /// No description provided for @appleSubscribeBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Débloque tous les cours, exercices, examens et Rafiq.'**
+  String get appleSubscribeBody;
+
+  /// No description provided for @appleSubscribeForChild.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pour quel enfant ?'**
+  String get appleSubscribeForChild;
+
+  /// No description provided for @appleSubscribePickChild.
+  ///
+  /// In fr, this message translates to:
+  /// **'Choisis d\'abord l\'enfant.'**
+  String get appleSubscribePickChild;
+
+  /// No description provided for @appleSubscribeUnavailable.
+  ///
+  /// In fr, this message translates to:
+  /// **'Les abonnements ne sont pas disponibles pour le moment. Réessaie plus tard.'**
+  String get appleSubscribeUnavailable;
+
+  /// No description provided for @appleSubscribeButton.
+  ///
+  /// In fr, this message translates to:
+  /// **'S\'abonner'**
+  String get appleSubscribeButton;
+
+  /// No description provided for @applePassDuration.
+  ///
+  /// In fr, this message translates to:
+  /// **'Accès complet pendant {days} jours'**
+  String applePassDuration(int days);
+
+  /// No description provided for @applePurchaseVerifying.
+  ///
+  /// In fr, this message translates to:
+  /// **'Activation…'**
+  String get applePurchaseVerifying;
+
+  /// No description provided for @applePurchaseSuccessTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'C\'est activé !'**
+  String get applePurchaseSuccessTitle;
+
+  /// No description provided for @applePurchaseSuccessBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tout le contenu est maintenant débloqué. Bonne étude !'**
+  String get applePurchaseSuccessBody;
+
+  /// No description provided for @applePurchasePendingBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ton achat est bien enregistré. L\'activation n\'a pas pu se terminer : elle se fera automatiquement à la prochaine ouverture de l\'application.'**
+  String get applePurchasePendingBody;
+
+  /// No description provided for @applePurchaseRefunded.
+  ///
+  /// In fr, this message translates to:
+  /// **'Cet achat a été remboursé.'**
+  String get applePurchaseRefunded;
+
+  /// No description provided for @applePurchaseFailed.
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'achat n\'a pas abouti. Aucun montant n\'a été débité.'**
+  String get applePurchaseFailed;
+
+  /// No description provided for @restorePurchases.
+  ///
+  /// In fr, this message translates to:
+  /// **'Restaurer mes achats'**
+  String get restorePurchases;
+
+  /// No description provided for @appleSubscribeLegal.
+  ///
+  /// In fr, this message translates to:
+  /// **'Paiement unique via ton compte Apple, sans renouvellement automatique. L\'accès s\'arrête à la fin de la période choisie.'**
+  String get appleSubscribeLegal;
+
+  /// No description provided for @termsOfUse.
+  ///
+  /// In fr, this message translates to:
+  /// **'Conditions d\'utilisation'**
+  String get termsOfUse;
+
+  /// No description provided for @seePlansButton.
+  ///
+  /// In fr, this message translates to:
+  /// **'Voir les abonnements'**
+  String get seePlansButton;
 }
 
 class _AppLocalizationsDelegate
