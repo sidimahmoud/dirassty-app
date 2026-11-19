@@ -207,7 +207,7 @@ class AppLocalizationsFr extends AppLocalizations {
       'J\'apprends avec mes leçons, mes exercices et Rafiq à mes côtés.';
 
   @override
-  String get roleStudentBadge => 'Collège C2 → Lycée';
+  String get roleStudentBadge => 'Primaire → Lycée';
 
   @override
   String get roleStudentPoint1 => 'Cours et exercices du programme mauritanien';
@@ -892,6 +892,30 @@ class AppLocalizationsFr extends AppLocalizations {
       'Nom d\'utilisateur ou code PIN incorrect.';
 
   @override
+  String get studentPhoneLoginBody =>
+      'Connecte-toi avec ton numéro WhatsApp et ton code PIN.';
+
+  @override
+  String get loginWithUsername => 'J\'ai un nom d\'utilisateur';
+
+  @override
+  String get loginWithPhone => 'Se connecter avec mon numéro WhatsApp';
+
+  @override
+  String get wrongStudentPhoneCredentials => 'Numéro ou code PIN incorrect.';
+
+  @override
+  String get errStudentPhoneNotFound =>
+      'Aucun compte élève avec ce numéro. Connecte-toi avec ton nom d\'utilisateur, ou crée un compte.';
+
+  @override
+  String get errLoginTooManyAttempts =>
+      'Trop d\'essais — réessaie dans 15 minutes.';
+
+  @override
+  String get phoneHintStudentLogin => 'Tu te connecteras avec ce numéro';
+
+  @override
   String get wrongParentCredentials => 'Numéro ou code PIN incorrect.';
 
   @override
@@ -938,7 +962,8 @@ class AppLocalizationsFr extends AppLocalizations {
       '3 à 20 lettres ou chiffres latins, sans espace.';
 
   @override
-  String get errPhoneRequired => 'Saisis ton numéro WhatsApp.';
+  String get errPhoneRequired =>
+      'Saisis les 8 chiffres de ton numéro WhatsApp.';
 
   @override
   String get errPinFormat => 'Le code PIN doit contenir 4 chiffres.';
@@ -2127,6 +2152,16 @@ class AppLocalizationsFr extends AppLocalizations {
   String get issueNotExercise => 'ce n\'est pas l\'exercice';
 
   @override
+  String get downloadLessonPdf => 'Télécharger le cours en PDF';
+
+  @override
+  String get lessonPdfSub => 'À garder sur ton téléphone';
+
+  @override
+  String get lessonPdfError =>
+      'Impossible d\'ouvrir le PDF. Vérifie ta connexion et réessaie.';
+
+  @override
   String get askDirassty => 'Aide de Dirassty';
 
   @override
@@ -2421,4 +2456,77 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get seePlansButton => 'Voir les abonnements';
+
+  @override
+  String get oppStepRead => 'Lis l\'exercice';
+
+  @override
+  String get oppStepAnswer => 'Réponds';
+
+  @override
+  String get oppStepAnswerSub =>
+      'Prends en photo ta feuille, ou écris ta réponse ici — tu peux faire les deux.';
+
+  @override
+  String get oppStepCorrection => 'Correction';
+
+  @override
+  String get oppModePhoto => 'Photo de ma feuille';
+
+  @override
+  String get oppModeWrite => 'Écrire';
+
+  @override
+  String get oppPhotoTips =>
+      'Feuille bien éclairée, photo droite et nette · 3 pages maximum';
+
+  @override
+  String get oppTakeAnswerPhoto => 'Prendre ma feuille en photo';
+
+  @override
+  String get oppAddPage => 'Ajouter une page';
+
+  @override
+  String get oppNotReady =>
+      'Prends une photo ou écris ta réponse pour lancer la correction.';
+
+  @override
+  String get oppReadyText => 'réponse écrite';
+
+  @override
+  String oppReadyPhotos(int n) {
+    return '$n photo(s)';
+  }
+
+  @override
+  String oppReady(String what) {
+    return 'Prêt à corriger : $what';
+  }
+
+  @override
+  String get oppCorrectingNow => 'Rafiq corrige ta réponse…';
+
+  @override
+  String get oppCorrectingSub =>
+      'Il vérifie ton raisonnement, tes calculs et ton résultat.';
+
+  @override
+  String get oppShowHint => 'Voir un indice';
+
+  @override
+  String get oppHideHint => 'Masquer l\'indice';
+
+  @override
+  String get oppCorrectMyAnswer => 'Corriger ma réponse';
+
+  @override
+  String oppExerciseOf(int n, int total) {
+    return 'Exercice $n sur $total';
+  }
+
+  @override
+  String get oppTryAgain => 'Réessayer';
+
+  @override
+  String get rafiqTagline => 'Bloqué ? Demande-moi';
 }

@@ -24,6 +24,7 @@ import '../application/lesson_providers.dart';
 import '../data/lesson_repository.dart';
 import 'widgets/concept_step_view.dart';
 import 'widgets/lesson_blocks.dart';
+import 'widgets/lesson_pdf.dart';
 
 sealed class _LessonStep {
   const _LessonStep();
@@ -436,6 +437,7 @@ class _LessonChrome extends StatelessWidget {
                   style: context.dirasstyType.label.copyWith(fontSize: 14),
                 ),
               ),
+              LessonPdfIconButton(lessonId: lesson.id),
               // Dirassty AI explainer on this lesson's own content.
               TextButton.icon(
                 onPressed: () => showTutorSheet(
@@ -1044,6 +1046,7 @@ class _LessonResumeView extends ConsumerWidget {
             done: exercisesDone,
             onTap: onExercises!,
           ),
+        LessonPdfCard(lessonId: lesson.id),
       ],
     );
   }

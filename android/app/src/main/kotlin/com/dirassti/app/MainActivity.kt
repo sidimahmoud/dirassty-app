@@ -9,12 +9,18 @@ import android.content.pm.ApplicationInfo
 import android.content.Context
 import android.os.Bundle
 import android.view.WindowManager
+import androidx.core.view.WindowCompat
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 
 class MainActivity : FlutterActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Edge-to-edge on every Android version (the default from Android 15
+        // / SDK 35): the app draws behind the status and navigation bars
+        // with transparent bars; Flutter keeps content out of them
+        // (SafeArea, SystemUiMode.edgeToEdge in lib/app/bootstrap.dart).
+        WindowCompat.enableEdgeToEdge(window)
         super.onCreate(savedInstanceState)
         createNotificationChannel()
         // Blocks screenshots, screen recording/casting and the recent-apps

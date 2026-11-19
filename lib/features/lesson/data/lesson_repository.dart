@@ -12,10 +12,46 @@ import '../../../core/models/video_body.dart';
 /// after the video / written lesson (see [LessonRepository.getPractice]).
 typedef LessonPractice = ({bool hasQcm, bool hasOpenExercises});
 
+/// Optional PDF the admin attached for students (migration 084).
+typedef LessonPdf = ({String path, String name, int? size});
+
 class LessonRepository {
   LessonRepository(this._client);
 
   final SupabaseClient _client;
+
+  /// The lesson's downloadable PDF, or null when it has none. Never throws
+  /// (null too before migration 084 is applied) — it's an optional extra.
+  Future<LessonPdf?> getLessonPdf(String lessonId) async {
+    try {
+      final Map<String, dynamic>? row = await _client
+          .from('lessons')
+          .select('student_pdf_path, student_pdf_name, student_pdf_size')
+          .eq('id', lessonId)
+          .maybeSingle();
+      final String? path = row?['student_pdf_path'] as String?;
+      if (path == null || path.isEmpty) return null;
+      final String? name = row?['student_pdf_name'] as String?;
+      return (
+        path: path,
+        name: (name == null || name.isEmpty) ? 'cours.pdf' : name,
+        size: (row?['student_pdf_size'] as num?)?.toInt(),
+      );
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// Short-lived (10 min) download link for [pdf] — private bucket
+  /// `lesson-pdfs`; Storage only signs it for a student allowed to open
+  /// the lesson (subscription / trial / free first lesson).
+  Future<String> lessonPdfDownloadUrl(LessonPdf pdf) async {
+    final String url = await _client.storage
+        .from('lesson-pdfs')
+        .createSignedUrl(pdf.path, 600);
+    final String sep = url.contains('?') ? '&' : '?';
+    return '$url${sep}download=${Uri.encodeQueryComponent(pdf.name)}';
+  }
 
   /// Null when no verified explanation has been generated for this
   /// lesson yet — callers show a "coming soon" state, not an error.

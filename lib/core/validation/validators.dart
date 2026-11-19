@@ -19,6 +19,18 @@ bool isValidPin(String pin) => RegExp(r'^\d{4}$').hasMatch(pin);
 bool isValidUsername(String username) =>
     RegExp(r'^[a-zA-Z0-9_]{3,20}$').hasMatch(username);
 
-/// A phone number typed into a form — a minimum digit-length sanity
-/// check only; real formatting/validation happens server-side.
-bool isValidPhone(String phone) => phone.trim().length >= 8;
+/// The 8-digit Mauritanian number from what was typed. People type the 8
+/// digits, but "222…", "+222…" and "00222…" (even twice) are accepted too.
+/// null if it isn't 8 digits. Same rules as the server (normalizePhone in
+/// supabase/functions/_shared/otp.ts, normalize_mr_phone() in SQL).
+String? mauritanianPhoneDigits(String input) {
+  final String d = input.replaceAll(RegExp(r'\D'), '');
+  if (RegExp(r'^\d{8}$').hasMatch(d)) return d;
+  if (RegExp(r'^(00)?222(222)?\d{8}$').hasMatch(d)) {
+    return d.substring(d.length - 8);
+  }
+  return null;
+}
+
+/// A Mauritanian phone number (8 digits, see [mauritanianPhoneDigits]).
+bool isValidPhone(String phone) => mauritanianPhoneDigits(phone) != null;

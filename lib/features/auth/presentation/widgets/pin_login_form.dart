@@ -30,6 +30,7 @@ class PinLoginForm extends ConsumerStatefulWidget {
     super.key,
     this.footer,
     this.lockedHint,
+    this.errorMessage,
   });
 
   final Widget heading;
@@ -51,6 +52,10 @@ class PinLoginForm extends ConsumerStatefulWidget {
 
   /// Extra line under the lock message ("Demande à ton parent").
   final String? lockedHint;
+
+  /// Message for a failed sign-in; null → [wrongCredentialsMessage] for
+  /// anything.
+  final String? Function(Object error)? errorMessage;
 
   @override
   ConsumerState<PinLoginForm> createState() => _PinLoginFormState();
@@ -115,7 +120,8 @@ class _PinLoginFormState extends ConsumerState<PinLoginForm> {
     if (!mounted) return;
     setState(() {
       _pin = '';
-      _error = widget.wrongCredentialsMessage;
+      _error = widget.errorMessage?.call(result.error!) ??
+          widget.wrongCredentialsMessage;
     });
     if (lock != null) await _refreshLock();
   }

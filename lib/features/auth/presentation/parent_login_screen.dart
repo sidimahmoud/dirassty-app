@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/actions/app_promotion_actions.dart';
 import '../../../core/theme/dirassty_theme.dart';
+import '../../../core/validation/validators.dart';
 import '../../../core/widgets/dirassty/dirassty_widgets.dart';
 import '../../../l10n/app_localizations.dart';
 import '../application/auth_providers.dart';
@@ -55,7 +56,7 @@ class _ParentLoginScreenState extends ConsumerState<ParentLoginScreen> {
         textInputAction: TextInputAction.done,
         onChanged: (_) => setState(() {}),
       ),
-      identityFilled: _phoneController.text.trim().length >= 8,
+      identityFilled: isValidPhone(_phoneController.text),
       submitLabel: l10n.continueAction,
       wrongCredentialsMessage: l10n.wrongParentCredentials,
       onSubmit: (pin) => ref

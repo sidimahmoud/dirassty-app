@@ -9,7 +9,7 @@ import 'register_screen.dart';
 import 'widgets/auth_scaffold.dart';
 
 /// "Créer un compte" → who is signing up? Two large cards — student
-/// (teal, C2 → Lycée, can sign up alone) and parent (gold, every grade,
+/// (teal, every open class, can sign up alone) and parent (gold, every grade,
 /// adds the children) — each opening [RegisterScreen] for that role.
 /// The cards rise in one after the other (instant with reduced motion).
 class ChooseRoleScreen extends StatelessWidget {

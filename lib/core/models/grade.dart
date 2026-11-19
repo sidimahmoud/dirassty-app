@@ -107,9 +107,10 @@ class GradeOption {
   final String? exam;
 }
 
-/// First grade a student may register by themselves (C2); below it a
-/// parent creates the account. Same rule in supabase/functions/register-direct.
-const int kMinSelfSignupGrade = 8;
+/// First grade a student may register by themselves: every open class
+/// (owner's decision, 2026-11 — 6AF/1AS students sign up alone too; it
+/// was C2 = 8 before). Parents can still add a child of any class.
+const int kMinSelfSignupGrade = 1;
 
 /// Cycles with at least one open grade.
 List<GradeCycle> openCycles(Set<int>? open) => open == null

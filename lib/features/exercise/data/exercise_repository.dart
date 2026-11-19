@@ -113,10 +113,16 @@ class ExerciseRepository {
     required Map<String, String> exerciseRef,
     required List<({Uint8List bytes, String filename})> photos,
     required String lang,
+    String studentAnswer = '',
   }) async {
     final Map<String, dynamic> json = await _api.postMultipart(
       '/api/correct-open-exercise',
-      fields: {...exerciseRef, 'lang': lang},
+      fields: {
+        ...exerciseRef,
+        'lang': lang,
+        if (studentAnswer.trim().isNotEmpty)
+          'student_answer': studentAnswer.trim(),
+      },
       files: photos,
     );
     return OpenExerciseCorrection.fromJson(json);

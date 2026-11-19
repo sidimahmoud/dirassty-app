@@ -12,7 +12,7 @@ import 'widgets/auth_scaffold.dart';
 import 'widgets/open_grade_picker.dart';
 
 /// Student sign-up, step 1: "Tu es en quelle classe ?" — the class cards
-/// on their own screen (admin-saved names, C2 and up), so the form that
+/// on their own screen (admin-saved names), so the form that
 /// follows ([RegisterScreen], step 2) stays short. The chosen class goes
 /// to the form as `?grade=`.
 class ChooseClassScreen extends ConsumerStatefulWidget {
@@ -69,7 +69,6 @@ class _ChooseClassScreenState extends ConsumerState<ChooseClassScreen> {
           label: l10n.myGrade,
           grade: grade,
           minGrade: kMinSelfSignupGrade,
-          note: l10n.selfSignupFromC2,
           lastOfCycleByDefault: true,
           onChanged: (g) => setState(() => _grade = g),
         ),

@@ -6,6 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/config/supabase_config.dart';
 import '../../../core/network/retry.dart';
 import '../../../core/offline/offline_video_store.dart';
+import '../../../core/validation/validators.dart';
 import '../../focus/data/focus_repository.dart';
 import '../application/app_auth_state.dart';
 
@@ -79,6 +80,23 @@ class AuthRepository {
       '${username.trim().toLowerCase()}@$_studentEmailDomain',
       pin,
     );
+  }
+
+  /// Student login with WhatsApp number + PIN (migration 082, one number =
+  /// one student). The Edge Function `student-phone-login` checks the PIN
+  /// and returns a session, installed here — the username behind the
+  /// account is never sent to the device. Throws `phone_not_found`,
+  /// `wrong_pin` or `too_many_attempts` (see auth_errors.dart).
+  Future<void> signInStudentWithPhone({
+    required String localPhone,
+    required String pin,
+  }) async {
+    final Map<String, dynamic> data =
+        await _invokeFunction('student-phone-login', {
+      'phone': _digitsOf(_fullPhone(localPhone)),
+      'pin': pin,
+    });
+    await _client.auth.setSession(data['refresh_token'] as String);
   }
 
   /// Returning-parent login. Supabase's native Phone/SMS provider isn't
@@ -176,8 +194,10 @@ class AuthRepository {
     await _client.auth.signOut();
   }
 
-  String _fullPhone(String local) =>
-      '$_countryCode${local.replaceAll(RegExp(r'\s'), '')}';
+  /// +222 and the 8 digits — never "+222222…" whatever was typed (see
+  /// [mauritanianPhoneDigits]; screens only submit valid numbers).
+  String _fullPhone(String typed) =>
+      '$_countryCode${mauritanianPhoneDigits(typed) ?? typed.replaceAll(RegExp(r'\D'), '')}';
 
   String _digitsOf(String phone) => phone.replaceAll(RegExp(r'\D'), '');
 

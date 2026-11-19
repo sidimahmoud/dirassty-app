@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:chewie/chewie.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:video_player/video_player.dart';
@@ -81,6 +82,46 @@ class _CourseVideoPlayerState extends ConsumerState<CourseVideoPlayer> {
   bool _starting = false;
   Object? _error;
 
+  /// Pages pushed on top (QCM, exercises, tutor…) don't dispose the page
+  /// underneath, so without this the video kept playing behind them.
+  /// Paused when another route covers this one, or when this page's tab
+  /// is hidden; never for the player's own fullscreen route.
+  Animation<double>? _coverAnimation;
+  ValueListenable<TickerModeData>? _tickerMode;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final Animation<double>? cover = ModalRoute.of(context)?.secondaryAnimation;
+    if (cover != _coverAnimation) {
+      _coverAnimation?.removeStatusListener(_onCoverStatus);
+      _coverAnimation = cover?..addStatusListener(_onCoverStatus);
+    }
+    final ValueListenable<TickerModeData> ticker =
+        TickerMode.getValuesNotifier(context);
+    if (ticker != _tickerMode) {
+      _tickerMode?.removeListener(_onTickerMode);
+      _tickerMode = ticker..addListener(_onTickerMode);
+    }
+  }
+
+  void _onCoverStatus(AnimationStatus status) {
+    if (status == AnimationStatus.forward ||
+        status == AnimationStatus.completed) {
+      _pauseInBackground();
+    }
+  }
+
+  void _onTickerMode() {
+    if (_tickerMode?.value.enabled == false) _pauseInBackground();
+  }
+
+  void _pauseInBackground() {
+    if (_chewieController?.isFullScreen ?? false) return;
+    final VideoPlayerController? controller = _videoController;
+    if (controller != null && controller.value.isPlaying) controller.pause();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -157,6 +198,8 @@ class _CourseVideoPlayerState extends ConsumerState<CourseVideoPlayer> {
 
   @override
   void dispose() {
+    _coverAnimation?.removeStatusListener(_onCoverStatus);
+    _tickerMode?.removeListener(_onTickerMode);
     _chewieController?.dispose();
     _videoController?.dispose();
     super.dispose();

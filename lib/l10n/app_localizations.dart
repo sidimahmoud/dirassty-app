@@ -455,7 +455,7 @@ abstract class AppLocalizations {
   /// No description provided for @roleStudentBadge.
   ///
   /// In fr, this message translates to:
-  /// **'Collège C2 → Lycée'**
+  /// **'Primaire → Lycée'**
   String get roleStudentBadge;
 
   /// No description provided for @roleStudentPoint1.
@@ -1682,6 +1682,48 @@ abstract class AppLocalizations {
   /// **'Nom d\'utilisateur ou code PIN incorrect.'**
   String get wrongStudentCredentials;
 
+  /// No description provided for @studentPhoneLoginBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Connecte-toi avec ton numéro WhatsApp et ton code PIN.'**
+  String get studentPhoneLoginBody;
+
+  /// No description provided for @loginWithUsername.
+  ///
+  /// In fr, this message translates to:
+  /// **'J\'ai un nom d\'utilisateur'**
+  String get loginWithUsername;
+
+  /// No description provided for @loginWithPhone.
+  ///
+  /// In fr, this message translates to:
+  /// **'Se connecter avec mon numéro WhatsApp'**
+  String get loginWithPhone;
+
+  /// No description provided for @wrongStudentPhoneCredentials.
+  ///
+  /// In fr, this message translates to:
+  /// **'Numéro ou code PIN incorrect.'**
+  String get wrongStudentPhoneCredentials;
+
+  /// No description provided for @errStudentPhoneNotFound.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun compte élève avec ce numéro. Connecte-toi avec ton nom d\'utilisateur, ou crée un compte.'**
+  String get errStudentPhoneNotFound;
+
+  /// No description provided for @errLoginTooManyAttempts.
+  ///
+  /// In fr, this message translates to:
+  /// **'Trop d\'essais — réessaie dans 15 minutes.'**
+  String get errLoginTooManyAttempts;
+
+  /// No description provided for @phoneHintStudentLogin.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tu te connecteras avec ce numéro'**
+  String get phoneHintStudentLogin;
+
   /// Added during implementation (not in the design handoff).
   ///
   /// In fr, this message translates to:
@@ -1763,7 +1805,7 @@ abstract class AppLocalizations {
   /// Added during implementation (not in the design handoff).
   ///
   /// In fr, this message translates to:
-  /// **'Saisis ton numéro WhatsApp.'**
+  /// **'Saisis les 8 chiffres de ton numéro WhatsApp.'**
   String get errPhoneRequired;
 
   /// Added during implementation (not in the design handoff).
@@ -3764,6 +3806,24 @@ abstract class AppLocalizations {
   /// **'ce n\'est pas l\'exercice'**
   String get issueNotExercise;
 
+  /// No description provided for @downloadLessonPdf.
+  ///
+  /// In fr, this message translates to:
+  /// **'Télécharger le cours en PDF'**
+  String get downloadLessonPdf;
+
+  /// No description provided for @lessonPdfSub.
+  ///
+  /// In fr, this message translates to:
+  /// **'À garder sur ton téléphone'**
+  String get lessonPdfSub;
+
+  /// No description provided for @lessonPdfError.
+  ///
+  /// In fr, this message translates to:
+  /// **'Impossible d\'ouvrir le PDF. Vérifie ta connexion et réessaie.'**
+  String get lessonPdfError;
+
   /// Added during implementation (not in the design handoff).
   ///
   /// In fr, this message translates to:
@@ -4303,6 +4363,132 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Voir les abonnements'**
   String get seePlansButton;
+
+  /// Open-exercise screen redesign (3 steps + Rafiq bar).
+  ///
+  /// In fr, this message translates to:
+  /// **'Lis l\'exercice'**
+  String get oppStepRead;
+
+  /// Open-exercise screen redesign (3 steps + Rafiq bar).
+  ///
+  /// In fr, this message translates to:
+  /// **'Réponds'**
+  String get oppStepAnswer;
+
+  /// Open-exercise screen redesign (3 steps + Rafiq bar).
+  ///
+  /// In fr, this message translates to:
+  /// **'Prends en photo ta feuille, ou écris ta réponse ici — tu peux faire les deux.'**
+  String get oppStepAnswerSub;
+
+  /// Open-exercise screen redesign (3 steps + Rafiq bar).
+  ///
+  /// In fr, this message translates to:
+  /// **'Correction'**
+  String get oppStepCorrection;
+
+  /// Open-exercise screen redesign (3 steps + Rafiq bar).
+  ///
+  /// In fr, this message translates to:
+  /// **'Photo de ma feuille'**
+  String get oppModePhoto;
+
+  /// Open-exercise screen redesign (3 steps + Rafiq bar).
+  ///
+  /// In fr, this message translates to:
+  /// **'Écrire'**
+  String get oppModeWrite;
+
+  /// Open-exercise screen redesign (3 steps + Rafiq bar).
+  ///
+  /// In fr, this message translates to:
+  /// **'Feuille bien éclairée, photo droite et nette · 3 pages maximum'**
+  String get oppPhotoTips;
+
+  /// Open-exercise screen redesign (3 steps + Rafiq bar).
+  ///
+  /// In fr, this message translates to:
+  /// **'Prendre ma feuille en photo'**
+  String get oppTakeAnswerPhoto;
+
+  /// Open-exercise screen redesign (3 steps + Rafiq bar).
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter une page'**
+  String get oppAddPage;
+
+  /// Open-exercise screen redesign (3 steps + Rafiq bar).
+  ///
+  /// In fr, this message translates to:
+  /// **'Prends une photo ou écris ta réponse pour lancer la correction.'**
+  String get oppNotReady;
+
+  /// Open-exercise screen redesign (3 steps + Rafiq bar).
+  ///
+  /// In fr, this message translates to:
+  /// **'réponse écrite'**
+  String get oppReadyText;
+
+  /// Open-exercise screen redesign (3 steps + Rafiq bar).
+  ///
+  /// In fr, this message translates to:
+  /// **'{n} photo(s)'**
+  String oppReadyPhotos(int n);
+
+  /// Open-exercise screen redesign (3 steps + Rafiq bar).
+  ///
+  /// In fr, this message translates to:
+  /// **'Prêt à corriger : {what}'**
+  String oppReady(String what);
+
+  /// Open-exercise screen redesign (3 steps + Rafiq bar).
+  ///
+  /// In fr, this message translates to:
+  /// **'Rafiq corrige ta réponse…'**
+  String get oppCorrectingNow;
+
+  /// Open-exercise screen redesign (3 steps + Rafiq bar).
+  ///
+  /// In fr, this message translates to:
+  /// **'Il vérifie ton raisonnement, tes calculs et ton résultat.'**
+  String get oppCorrectingSub;
+
+  /// Open-exercise screen redesign (3 steps + Rafiq bar).
+  ///
+  /// In fr, this message translates to:
+  /// **'Voir un indice'**
+  String get oppShowHint;
+
+  /// Open-exercise screen redesign (3 steps + Rafiq bar).
+  ///
+  /// In fr, this message translates to:
+  /// **'Masquer l\'indice'**
+  String get oppHideHint;
+
+  /// Open-exercise screen redesign (3 steps + Rafiq bar).
+  ///
+  /// In fr, this message translates to:
+  /// **'Corriger ma réponse'**
+  String get oppCorrectMyAnswer;
+
+  /// Open-exercise screen redesign (3 steps + Rafiq bar).
+  ///
+  /// In fr, this message translates to:
+  /// **'Exercice {n} sur {total}'**
+  String oppExerciseOf(int n, int total);
+
+  /// Open-exercise screen redesign (3 steps + Rafiq bar).
+  ///
+  /// In fr, this message translates to:
+  /// **'Réessayer'**
+  String get oppTryAgain;
+
+  /// Open-exercise screen redesign (3 steps + Rafiq bar).
+  ///
+  /// In fr, this message translates to:
+  /// **'Bloqué ? Demande-moi'**
+  String get rafiqTagline;
 }
 
 class _AppLocalizationsDelegate

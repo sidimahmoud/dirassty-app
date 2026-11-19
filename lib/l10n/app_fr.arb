@@ -72,11 +72,20 @@
   "parentGateConfirm": "Valider",
   "privacyPolicy": "Politique de confidentialité",
   "selfSignupFromC2": "Primaire et 1re année de collège : c'est un parent qui crée le compte depuis son espace.",
-  "@parentGateBody": {"placeholders": {"a": {"type": "int"}, "b": {"type": "int"}}},
+  "@parentGateBody": {
+    "placeholders": {
+      "a": {
+        "type": "int"
+      },
+      "b": {
+        "type": "int"
+      }
+    }
+  },
   "chooseRoleTitle": "Qui crée le compte ?",
   "chooseRoleBody": "Choisis ton profil pour commencer. Tu pourras tout changer plus tard.",
   "roleStudentDesc": "J'apprends avec mes leçons, mes exercices et Rafiq à mes côtés.",
-  "roleStudentBadge": "Collège C2 → Lycée",
+  "roleStudentBadge": "Primaire → Lycée",
   "roleStudentPoint1": "Cours et exercices du programme mauritanien",
   "roleStudentPoint2": "Rafiq m'aide pas à pas sur mes devoirs",
   "roleParentDesc": "Je crée les comptes de mes enfants et je suis leurs progrès.",
@@ -432,6 +441,13 @@
     "description": "Added during implementation (not in the design handoff)."
   },
   "wrongStudentCredentials": "Nom d'utilisateur ou code PIN incorrect.",
+  "studentPhoneLoginBody": "Connecte-toi avec ton numéro WhatsApp et ton code PIN.",
+  "loginWithUsername": "J'ai un nom d'utilisateur",
+  "loginWithPhone": "Se connecter avec mon numéro WhatsApp",
+  "wrongStudentPhoneCredentials": "Numéro ou code PIN incorrect.",
+  "errStudentPhoneNotFound": "Aucun compte élève avec ce numéro. Connecte-toi avec ton nom d'utilisateur, ou crée un compte.",
+  "errLoginTooManyAttempts": "Trop d'essais — réessaie dans 15 minutes.",
+  "phoneHintStudentLogin": "Tu te connecteras avec ce numéro",
   "@wrongStudentCredentials": {
     "description": "Added during implementation (not in the design handoff)."
   },
@@ -490,7 +506,7 @@
   "@errUsernameFormat": {
     "description": "Added during implementation (not in the design handoff)."
   },
-  "errPhoneRequired": "Saisis ton numéro WhatsApp.",
+  "errPhoneRequired": "Saisis les 8 chiffres de ton numéro WhatsApp.",
   "@errPhoneRequired": {
     "description": "Added during implementation (not in the design handoff)."
   },
@@ -1943,6 +1959,9 @@
   "@issueNotExercise": {
     "description": "Added during implementation (not in the design handoff)."
   },
+  "downloadLessonPdf": "Télécharger le cours en PDF",
+  "lessonPdfSub": "À garder sur ton téléphone",
+  "lessonPdfError": "Impossible d'ouvrir le PDF. Vérifie ta connexion et réessaie.",
   "askDirassty": "Aide de Dirassty",
   "@askDirassty": {
     "description": "Added during implementation (not in the design handoff)."
@@ -2215,7 +2234,9 @@
   "applePassDuration": "Accès complet pendant {days} jours",
   "@applePassDuration": {
     "placeholders": {
-      "days": {"type": "int"}
+      "days": {
+        "type": "int"
+      }
     }
   },
   "applePurchaseVerifying": "Activation…",
@@ -2227,5 +2248,107 @@
   "restorePurchases": "Restaurer mes achats",
   "appleSubscribeLegal": "Paiement unique via ton compte Apple, sans renouvellement automatique. L'accès s'arrête à la fin de la période choisie.",
   "termsOfUse": "Conditions d'utilisation",
-  "seePlansButton": "Voir les abonnements"
+  "seePlansButton": "Voir les abonnements",
+  "oppStepRead": "Lis l'exercice",
+  "@oppStepRead": {
+    "description": "Open-exercise screen redesign (3 steps + Rafiq bar)."
+  },
+  "oppStepAnswer": "Réponds",
+  "@oppStepAnswer": {
+    "description": "Open-exercise screen redesign (3 steps + Rafiq bar)."
+  },
+  "oppStepAnswerSub": "Prends en photo ta feuille, ou écris ta réponse ici — tu peux faire les deux.",
+  "@oppStepAnswerSub": {
+    "description": "Open-exercise screen redesign (3 steps + Rafiq bar)."
+  },
+  "oppStepCorrection": "Correction",
+  "@oppStepCorrection": {
+    "description": "Open-exercise screen redesign (3 steps + Rafiq bar)."
+  },
+  "oppModePhoto": "Photo de ma feuille",
+  "@oppModePhoto": {
+    "description": "Open-exercise screen redesign (3 steps + Rafiq bar)."
+  },
+  "oppModeWrite": "Écrire",
+  "@oppModeWrite": {
+    "description": "Open-exercise screen redesign (3 steps + Rafiq bar)."
+  },
+  "oppPhotoTips": "Feuille bien éclairée, photo droite et nette · 3 pages maximum",
+  "@oppPhotoTips": {
+    "description": "Open-exercise screen redesign (3 steps + Rafiq bar)."
+  },
+  "oppTakeAnswerPhoto": "Prendre ma feuille en photo",
+  "@oppTakeAnswerPhoto": {
+    "description": "Open-exercise screen redesign (3 steps + Rafiq bar)."
+  },
+  "oppAddPage": "Ajouter une page",
+  "@oppAddPage": {
+    "description": "Open-exercise screen redesign (3 steps + Rafiq bar)."
+  },
+  "oppNotReady": "Prends une photo ou écris ta réponse pour lancer la correction.",
+  "@oppNotReady": {
+    "description": "Open-exercise screen redesign (3 steps + Rafiq bar)."
+  },
+  "oppReadyText": "réponse écrite",
+  "@oppReadyText": {
+    "description": "Open-exercise screen redesign (3 steps + Rafiq bar)."
+  },
+  "oppReadyPhotos": "{n} photo(s)",
+  "@oppReadyPhotos": {
+    "description": "Open-exercise screen redesign (3 steps + Rafiq bar).",
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "oppReady": "Prêt à corriger : {what}",
+  "@oppReady": {
+    "description": "Open-exercise screen redesign (3 steps + Rafiq bar).",
+    "placeholders": {
+      "what": {
+        "type": "String"
+      }
+    }
+  },
+  "oppCorrectingNow": "Rafiq corrige ta réponse…",
+  "@oppCorrectingNow": {
+    "description": "Open-exercise screen redesign (3 steps + Rafiq bar)."
+  },
+  "oppCorrectingSub": "Il vérifie ton raisonnement, tes calculs et ton résultat.",
+  "@oppCorrectingSub": {
+    "description": "Open-exercise screen redesign (3 steps + Rafiq bar)."
+  },
+  "oppShowHint": "Voir un indice",
+  "@oppShowHint": {
+    "description": "Open-exercise screen redesign (3 steps + Rafiq bar)."
+  },
+  "oppHideHint": "Masquer l'indice",
+  "@oppHideHint": {
+    "description": "Open-exercise screen redesign (3 steps + Rafiq bar)."
+  },
+  "oppCorrectMyAnswer": "Corriger ma réponse",
+  "@oppCorrectMyAnswer": {
+    "description": "Open-exercise screen redesign (3 steps + Rafiq bar)."
+  },
+  "oppExerciseOf": "Exercice {n} sur {total}",
+  "@oppExerciseOf": {
+    "description": "Open-exercise screen redesign (3 steps + Rafiq bar).",
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "oppTryAgain": "Réessayer",
+  "@oppTryAgain": {
+    "description": "Open-exercise screen redesign (3 steps + Rafiq bar)."
+  },
+  "rafiqTagline": "Bloqué ? Demande-moi",
+  "@rafiqTagline": {
+    "description": "Open-exercise screen redesign (3 steps + Rafiq bar)."
+  }
 }

@@ -196,6 +196,52 @@ final class OpenPracticeController extends StateNotifier<OpenPracticeState> {
     }
   }
 
+  /// "Corriger ma réponse" on the redesigned screen: one step, no hint
+  /// gate (the hint is an optional toggle on the exercise card). Sends the
+  /// photos of the student's sheet and/or the typed answer together; on
+  /// failure the student stays on the answer step with everything kept.
+  Future<void> submitAnswer(
+    List<({Uint8List bytes, String filename})> photos,
+  ) async {
+    final OpenPracticeState snapshot = state;
+    if (snapshot is! OppActive) return;
+    final String typed = snapshot.draftAnswer.trim();
+    if (photos.isEmpty && typed.length < 3) return;
+    state = snapshot.copyWith(
+      submittedAnswer: typed,
+      phase: OpenPracticePhase.correcting,
+      clearApiError: true,
+    );
+    try {
+      final correction = photos.isEmpty
+          ? await _ref.read(exerciseRepositoryProvider).correctOpenExercise(
+                exerciseRef: snapshot.exerciseRef,
+                studentAnswer: typed,
+                lang: _explainLang,
+              )
+          : await _ref.read(exerciseRepositoryProvider).checkSolutionPhotos(
+                exerciseRef: snapshot.exerciseRef,
+                photos: photos,
+                lang: _explainLang,
+                studentAnswer: typed,
+              );
+      final OpenPracticeState afterAwait = state;
+      if (afterAwait is! OppActive) return;
+      state = afterAwait.copyWith(
+        phase: OpenPracticePhase.corrected,
+        correction: correction,
+      );
+      if (!correction.undetermined) _markOpenPracticeViewed();
+    } catch (e) {
+      final OpenPracticeState afterAwait = state;
+      if (afterAwait is! OppActive) return;
+      state = afterAwait.copyWith(
+        phase: OpenPracticePhase.answering,
+        apiError: e.toString(),
+      );
+    }
+  }
+
   /// Offered after both a correct AND an incorrect/partial result —
   /// mirrors the web app exactly, which shows this CTA regardless of
   /// score (just under a different label). On failure, stays on

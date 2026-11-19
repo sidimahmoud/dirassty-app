@@ -47,6 +47,18 @@ class AuthController extends AsyncNotifier<void> {
     );
   }
 
+  Future<void> signInStudentWithPhone({
+    required String phone,
+    required String pin,
+  }) async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(
+      () => ref
+          .read(authRepositoryProvider)
+          .signInStudentWithPhone(localPhone: phone, pin: pin),
+    );
+  }
+
   Future<void> signInParent({
     required String phone,
     required String pin,

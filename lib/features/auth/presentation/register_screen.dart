@@ -36,15 +36,14 @@ import 'widgets/pin_entry.dart';
 /// - A parent's phone IS their login identity, so it's always verified
 ///   by WhatsApp OTP (`request-otp` → `verify-otp`), then they land on
 ///   Add child (DESIGN_SPEC §4 "Register › Parent").
-/// - A student's phone is optional (notifications only; they log in with
-///   username + PIN). With a phone it's verified the same way; without
-///   one, registration goes straight through `register-direct`. Either
-///   way they then see the trial offer.
+/// - A student's phone is required too: it is how they log in (number +
+///   PIN, migration 082 — one number = one student; the server generates
+///   the username behind the account). Verified the same way, then they
+///   see the trial offer. App versions already in the stores still send a
+///   username instead; the server accepts both.
 ///
-/// Deviations from Register.dc.html (backend gaps):
-/// - No live "✓ Disponible" username check — there's no endpoint for it
-///   yet (TODO(api)); the format is checked as you type and a taken name
-///   is reported by the server on submit.
+/// Deviations from Register.dc.html:
+/// - No username field (the number replaced it).
 /// - The checkbox accepts the privacy policy (no separate terms page);
 ///   the link opens dirassty.vercel.app/confidentialite.
 ///
@@ -69,7 +68,6 @@ class RegisterScreen extends ConsumerStatefulWidget {
 
 class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _promoController = TextEditingController();
 
@@ -80,7 +78,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   bool _termsAccepted = false;
 
   String? _nameError;
-  String? _usernameError;
   String? _phoneError;
   String? _pinError;
   String? _termsError;
@@ -96,7 +93,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   @override
   void dispose() {
     _nameController.dispose();
-    _usernameController.dispose();
     _promoController.dispose();
     _phoneController.dispose();
     _resendTimer?.cancel();
@@ -120,11 +116,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   bool get _otpVerificationEnabled =>
       ref.read(appSettingsProvider).valueOrNull?.whatsappOtpEnabled ?? false;
 
-  /// A parent always verifies (phone required); a student only when they
-  /// typed a phone in. Never while [_otpVerificationEnabled] is off.
-  bool get _needsOtp =>
-      _otpVerificationEnabled &&
-      (!_isStudent || _phoneController.text.trim().isNotEmpty);
+  /// Everyone gives a phone now (it's the login), so it's verified
+  /// whenever the code is switched on.
+  bool get _needsOtp => _otpVerificationEnabled;
 
   /// Mirrors the backend's 60 s RESEND_COOLDOWN_MS (request-otp) — a UX
   /// countdown only, enforcement is server-side.
@@ -146,18 +140,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     setState(() {
       _nameError =
           _nameController.text.trim().isEmpty ? l10n.errNameRequired : null;
-      _usernameError =
-          _isStudent && !isValidUsername(_usernameController.text.trim())
-              ? l10n.errUsernameFormat
-              : null;
-      _phoneError = !_isStudent && _phoneController.text.trim().isEmpty
-          ? l10n.errPhoneRequired
-          : null;
+      _phoneError =
+          isValidPhone(_phoneController.text) ? null : l10n.errPhoneRequired;
       _pinError = isValidPin(_pin) ? null : l10n.errPinFormat;
       _termsError = _termsAccepted ? null : l10n.errTermsRequired;
       _serverError = null;
     });
-    return [_nameError, _usernameError, _phoneError, _pinError, _termsError]
+    return [_nameError, _phoneError, _pinError, _termsError]
             .every((e) => e == null) &&
         (!_isStudent || _openGrade != null);
   }
@@ -182,8 +171,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         'name': _nameController.text.trim(),
         'lang': ref.read(appLanguageProvider).dbValue,
         if (_isStudent) 'grade': _openGrade,
-        if (_isStudent)
-          'username': _usernameController.text.trim().toLowerCase(),
       };
 
   Future<void> _requestCode() async {
@@ -238,7 +225,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           pin: _pin,
           phone: _phoneController.text.trim(),
           grade: _isStudent ? _openGrade : null,
-          username: _isStudent ? _usernameController.text.trim() : null,
         );
     if (!mounted) return;
     final AsyncValue<void> result = ref.read(authControllerProvider);
@@ -332,35 +318,23 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           title: l10n.registerTitle,
           body: _isStudent ? l10n.registerBody : l10n.registerParentBody,
         ),
+        // The class picked on the previous step comes first, then the form.
+        if (_isStudent) _buildGradePicker(l10n, type),
         DirasstyTextField(
           label: l10n.fullName,
           controller: _nameController,
           errorText: _nameError,
           textInputAction: TextInputAction.next,
         ),
-        if (_isStudent) _buildGradePicker(l10n, type),
         DirasstyTextField(
           label: l10n.whatsappNumber,
           controller: _phoneController,
           phonePrefix: true,
           errorText: _phoneError,
           helperText:
-              _isStudent ? l10n.phoneHintOptional : l10n.phoneHintVerify,
+              _isStudent ? l10n.phoneHintStudentLogin : l10n.phoneHintVerify,
           onChanged: (_) => setState(() {}),
         ),
-        if (_isStudent)
-          DirasstyTextField(
-            label: l10n.username,
-            controller: _usernameController,
-            forceLtr: true,
-            errorText: _usernameError,
-            hint: 'amina.b',
-            onChanged: (value) {
-              if (_usernameError != null && isValidUsername(value.trim())) {
-                setState(() => _usernameError = null);
-              }
-            },
-          ),
         PinField(
           label: l10n.choosePin,
           value: _pin,

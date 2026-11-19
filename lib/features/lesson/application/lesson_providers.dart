@@ -10,6 +10,14 @@ final Provider<LessonRepository> lessonRepositoryProvider = Provider(
   (ref) => LessonRepository(ref.watch(supabaseClientProvider)),
 );
 
+/// The lesson's downloadable PDF (migration 084), null when none.
+final lessonPdfProvider = FutureProvider.family<LessonPdf?, String>((
+  ref,
+  lessonId,
+) {
+  return ref.watch(lessonRepositoryProvider).getLessonPdf(lessonId);
+});
+
 final explanationProvider = FutureProvider.family<ExplanationBody?, String>((
   ref,
   lessonId,

@@ -70,3 +70,9 @@ kotlin {
 flutter {
     source = "../.."
 }
+
+dependencies {
+    // WindowCompat.enableEdgeToEdge (MainActivity): edge-to-edge on every
+    // Android version, as Google Play asks for apps targeting SDK 35+.
+    implementation("androidx.core:core-ktx:1.17.0")
+}

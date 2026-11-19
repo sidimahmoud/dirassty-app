@@ -199,7 +199,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get roleStudentDesc => 'أتعلّم بدروسي وتماريني، ورفيق إلى جانبي.';
 
   @override
-  String get roleStudentBadge => 'الإعدادية (السنة 2) ← الثانوية';
+  String get roleStudentBadge => 'الابتدائي ← الثانوية';
 
   @override
   String get roleStudentPoint1 => 'دروس وتمارين البرنامج الموريتاني';
@@ -871,6 +871,29 @@ class AppLocalizationsAr extends AppLocalizations {
   String get wrongStudentCredentials => 'اسم المستخدم أو الرمز السري غير صحيح.';
 
   @override
+  String get studentPhoneLoginBody => 'سجّل الدخول برقم واتساب ورمزك السري.';
+
+  @override
+  String get loginWithUsername => 'لدي اسم مستخدم';
+
+  @override
+  String get loginWithPhone => 'الدخول برقم واتساب';
+
+  @override
+  String get wrongStudentPhoneCredentials => 'الرقم أو الرمز السري غير صحيح.';
+
+  @override
+  String get errStudentPhoneNotFound =>
+      'لا يوجد حساب تلميذ بهذا الرقم. سجّل الدخول باسم المستخدم، أو أنشئ حسابًا.';
+
+  @override
+  String get errLoginTooManyAttempts =>
+      'محاولات كثيرة جدًا — أعد المحاولة بعد 15 دقيقة.';
+
+  @override
+  String get phoneHintStudentLogin => 'ستسجّل الدخول بهذا الرقم';
+
+  @override
   String get wrongParentCredentials => 'الرقم أو الرمز السري غير صحيح.';
 
   @override
@@ -913,7 +936,7 @@ class AppLocalizationsAr extends AppLocalizations {
       'من 3 إلى 20 حرفًا أو رقمًا لاتينيًا، بدون مسافات.';
 
   @override
-  String get errPhoneRequired => 'أدخل رقم واتساب.';
+  String get errPhoneRequired => 'أدخل الأرقام الثمانية لرقم واتساب.';
 
   @override
   String get errPinFormat => 'يجب أن يتكون الرمز السري من 4 أرقام.';
@@ -2074,6 +2097,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get issueNotExercise => 'ليست التمرين';
 
   @override
+  String get downloadLessonPdf => 'تحميل الدرس بصيغة PDF';
+
+  @override
+  String get lessonPdfSub => 'احتفظ به على هاتفك';
+
+  @override
+  String get lessonPdfError =>
+      'تعذّر فتح ملف PDF. تحقّق من اتصالك وأعد المحاولة.';
+
+  @override
   String get askDirassty => 'مساعدة دراستي';
 
   @override
@@ -2362,4 +2395,75 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get seePlansButton => 'عرض الاشتراكات';
+
+  @override
+  String get oppStepRead => 'اقرأ التمرين';
+
+  @override
+  String get oppStepAnswer => 'أجب';
+
+  @override
+  String get oppStepAnswerSub =>
+      'صوّر ورقتك، أو اكتب إجابتك هنا — يمكنك فعل الاثنين معًا.';
+
+  @override
+  String get oppStepCorrection => 'التصحيح';
+
+  @override
+  String get oppModePhoto => 'صورة ورقتي';
+
+  @override
+  String get oppModeWrite => 'كتابة';
+
+  @override
+  String get oppPhotoTips =>
+      'ورقة بإضاءة جيدة، صورة مستقيمة وواضحة · 3 صفحات كحد أقصى';
+
+  @override
+  String get oppTakeAnswerPhoto => 'صوّر ورقة إجابتك';
+
+  @override
+  String get oppAddPage => 'أضف صفحة';
+
+  @override
+  String get oppNotReady => 'صوّر ورقتك أو اكتب إجابتك لبدء التصحيح.';
+
+  @override
+  String get oppReadyText => 'إجابة مكتوبة';
+
+  @override
+  String oppReadyPhotos(int n) {
+    return '$n صورة';
+  }
+
+  @override
+  String oppReady(String what) {
+    return 'جاهز للتصحيح: $what';
+  }
+
+  @override
+  String get oppCorrectingNow => 'رفيق يصحح إجابتك…';
+
+  @override
+  String get oppCorrectingSub => 'يتحقق من طريقتك وحساباتك ونتيجتك.';
+
+  @override
+  String get oppShowHint => 'عرض تلميح';
+
+  @override
+  String get oppHideHint => 'إخفاء التلميح';
+
+  @override
+  String get oppCorrectMyAnswer => 'صحّح إجابتي';
+
+  @override
+  String oppExerciseOf(int n, int total) {
+    return 'التمرين $n من $total';
+  }
+
+  @override
+  String get oppTryAgain => 'أعد المحاولة';
+
+  @override
+  String get rafiqTagline => 'عالق؟ اسألني';
 }

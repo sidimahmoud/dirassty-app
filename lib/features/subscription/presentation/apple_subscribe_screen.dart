@@ -266,14 +266,14 @@ class _AppleSubscribeScreenState extends ConsumerState<AppleSubscribeScreen> {
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: DirasstySpace.sm),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      Wrap(
+                        alignment: WrapAlignment.center,
+                        crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
                           TextButton(
                             onPressed: () => _open(_termsUrl),
                             child: Text(l10n.termsOfUse),
                           ),
-                          Text('·', style: type.label),
                           TextButton(
                             onPressed: () =>
                                 _open(AppPromotionConfig.privacyPolicyUrl),
