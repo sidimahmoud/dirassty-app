@@ -4205,7 +4205,7 @@ abstract class AppLocalizations {
   /// No description provided for @accountNotActiveBody.
   ///
   /// In fr, this message translates to:
-  /// **'La première leçon de chaque matière reste ouverte. Le reste s\'ouvrira dès que ton compte sera activé.'**
+  /// **'Les leçons « Gratuit » de chaque matière restent ouvertes. Le reste s\'ouvrira dès que ton compte sera activé.'**
   String get accountNotActiveBody;
 
   /// No description provided for @accessEndedTitle.
@@ -4235,7 +4235,7 @@ abstract class AppLocalizations {
   /// No description provided for @childNotActiveBody.
   ///
   /// In fr, this message translates to:
-  /// **'Compte pas encore activé. La première leçon de chaque matière est ouverte.'**
+  /// **'Compte pas encore activé. Les leçons « Gratuit » de chaque matière sont ouvertes.'**
   String get childNotActiveBody;
 
   /// No description provided for @getStarted.
@@ -4247,7 +4247,7 @@ abstract class AppLocalizations {
   /// No description provided for @accountReadyFreeLessonsBody.
   ///
   /// In fr, this message translates to:
-  /// **'La première leçon de chaque matière est déjà ouverte. Bonne découverte !'**
+  /// **'Les leçons « Gratuit » de chaque matière sont déjà ouvertes. Bonne découverte !'**
   String get accountReadyFreeLessonsBody;
 
   /// No description provided for @needHelpTitle.

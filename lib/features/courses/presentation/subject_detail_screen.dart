@@ -132,9 +132,9 @@ class _SubjectDetailScreenState extends ConsumerState<SubjectDetailScreen> {
     // Optimistic while loading: the router still gates every lesson.
     final bool hasAccess =
         ref.watch(studentHasAccessProvider(student.id)).valueOrNull ?? true;
-    // Same rule as is_free_lesson() (migration 078): the first lesson in
-    // (chapter num, lesson num) order.
-    final String? freeLessonId = hasAccess || all.isEmpty ? null : all.first.id;
+    // Same rule as is_free_lesson() (migrations 078/085).
+    final Set<String> freeIds =
+        hasAccess ? const <String>{} : freeLessonIds(all);
     final int masteredCount =
         all.where((l) => (mastery[l.id] ?? 0) >= kLessonMasteredAt).length;
     final double overall = all.isEmpty
@@ -248,7 +248,7 @@ class _SubjectDetailScreenState extends ConsumerState<SubjectDetailScreen> {
                 viewed: viewed,
                 offline: offline,
                 hasAccess: hasAccess,
-                freeLessonId: freeLessonId,
+                freeLessonIds: freeIds,
                 // A filter narrows the list — show its matches directly.
                 expanded:
                     _filter != _Filter.all || expanded.contains(chapter.num),
@@ -275,7 +275,7 @@ class _ChapterCard extends StatelessWidget {
     required this.viewed,
     required this.offline,
     required this.hasAccess,
-    required this.freeLessonId,
+    required this.freeLessonIds,
     required this.expanded,
     required this.onToggle,
   });
@@ -286,7 +286,7 @@ class _ChapterCard extends StatelessWidget {
   final Set<String> viewed;
   final Set<String> offline;
   final bool hasAccess;
-  final String? freeLessonId;
+  final Set<String> freeLessonIds;
   final bool expanded;
   final VoidCallback onToggle;
 
@@ -397,8 +397,8 @@ class _ChapterCard extends StatelessWidget {
                   mastery: mastery[lesson.id] ?? 0,
                   viewed: viewed.contains(lesson.id),
                   offline: offline.contains(lesson.id),
-                  free: !hasAccess && lesson.id == freeLessonId,
-                  locked: !hasAccess && lesson.id != freeLessonId,
+                  free: !hasAccess && freeLessonIds.contains(lesson.id),
+                  locked: !hasAccess && !freeLessonIds.contains(lesson.id),
                 ),
               ],
           ],

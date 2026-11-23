@@ -2366,7 +2366,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get accountNotActiveBody =>
-      'La première leçon de chaque matière reste ouverte. Le reste s\'ouvrira dès que ton compte sera activé.';
+      'Les leçons « Gratuit » de chaque matière restent ouvertes. Le reste s\'ouvrira dès que ton compte sera activé.';
 
   @override
   String get accessEndedTitle => 'Ton accès n\'est plus actif';
@@ -2383,14 +2383,14 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get childNotActiveBody =>
-      'Compte pas encore activé. La première leçon de chaque matière est ouverte.';
+      'Compte pas encore activé. Les leçons « Gratuit » de chaque matière sont ouvertes.';
 
   @override
   String get getStarted => 'Commencer';
 
   @override
   String get accountReadyFreeLessonsBody =>
-      'La première leçon de chaque matière est déjà ouverte. Bonne découverte !';
+      'Les leçons « Gratuit » de chaque matière sont déjà ouvertes. Bonne découverte !';
 
   @override
   String get needHelpTitle => 'Besoin d\'aide ?';

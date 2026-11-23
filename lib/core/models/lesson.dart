@@ -20,6 +20,7 @@ class CurriculumLesson {
     required this.lessonTitle,
     required this.concepts,
     required this.isActive,
+    this.isFree = false,
   });
 
   /// [row] is a single `lessons` row joined to `chapter:chapter_id` and
@@ -40,6 +41,7 @@ class CurriculumLesson {
       lessonTitle: row['title'] as String,
       concepts: (row['concepts'] as List<dynamic>).cast<String>(),
       isActive: row['is_active'] as bool,
+      isFree: row['is_free'] as bool? ?? false,
     );
   }
 
@@ -54,4 +56,20 @@ class CurriculumLesson {
   final String lessonTitle;
   final List<String> concepts;
   final bool isActive;
+
+  /// Ticked "Gratuite" in the admin (migration 085): open without a
+  /// subscription. See [freeLessonIds] for the full rule.
+  final bool isFree;
+}
+
+/// Lessons a student without access may open, from a subject's lessons
+/// sorted by (chapter num, lesson num) — same rule as is_free_lesson()
+/// (migrations 078/085): the ticked ones, else the first lesson.
+Set<String> freeLessonIds(List<CurriculumLesson> sorted) {
+  final Set<String> ticked = {
+    for (final CurriculumLesson l in sorted)
+      if (l.isFree) l.id,
+  };
+  if (ticked.isNotEmpty) return ticked;
+  return sorted.isEmpty ? <String>{} : {sorted.first.id};
 }

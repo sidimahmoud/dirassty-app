@@ -6,7 +6,7 @@ import '../../../core/models/lesson.dart';
 import '../../../core/models/subject.dart';
 
 const String _lessonJoinSelect = '''
-  id, num, title, concepts, pdf_pages, is_active, created_at,
+  id, num, title, concepts, pdf_pages, is_active, is_free, created_at,
   chapter:chapter_id!inner (
     id, num, title,
     subject:subject_id!inner ( id, country, grade, key, label, lang, icon )
@@ -58,14 +58,22 @@ class CurriculumRepository {
     required int grade,
     required String subjectKey,
   }) async {
-    final List<Map<String, dynamic>> rows = await _client
+    Future<List<Map<String, dynamic>>> query(String select) => _client
         .from('lessons')
-        .select(_lessonJoinSelect)
+        .select(select)
         .eq('chapter.subject.country', country)
         .eq('chapter.subject.grade', grade)
         .eq('chapter.subject.key', subjectKey)
         .eq('is_active', true)
         .order('num', ascending: true);
+
+    List<Map<String, dynamic>> rows;
+    try {
+      rows = await query(_lessonJoinSelect);
+    } on PostgrestException {
+      // Backend without migration 085 (no is_free column yet).
+      rows = await query(_lessonJoinSelect.replaceFirst(' is_free,', ''));
+    }
 
     // Sorted client-side by (chapter num, lesson num) rather than via a
     // second server-side `order(..., referencedTable: ...)` on the joined
