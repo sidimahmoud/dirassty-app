@@ -122,8 +122,8 @@ class SubscriptionRepository {
     return Subscription.fromJson(row);
   }
 
-  /// Whether [lessonId] is its subject's free first lesson, open without
-  /// a subscription (migration 078).
+  /// Whether [lessonId] is ticked "Gratuite", open without
+  /// a subscription (migration 085).
   Future<bool> isFreeLesson(String lessonId) async {
     final bool? result = await _client.rpc<bool?>(
       'is_free_lesson',

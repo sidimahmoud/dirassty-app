@@ -62,14 +62,9 @@ class CurriculumLesson {
   final bool isFree;
 }
 
-/// Lessons a student without access may open, from a subject's lessons
-/// sorted by (chapter num, lesson num) — same rule as is_free_lesson()
-/// (migrations 078/085): the ticked ones, else the first lesson.
-Set<String> freeLessonIds(List<CurriculumLesson> sorted) {
-  final Set<String> ticked = {
-    for (final CurriculumLesson l in sorted)
-      if (l.isFree) l.id,
-  };
-  if (ticked.isNotEmpty) return ticked;
-  return sorted.isEmpty ? <String>{} : {sorted.first.id};
-}
+/// Lessons a student without access may open — same rule as
+/// is_free_lesson() (migration 085): only the ones ticked "Gratuite".
+Set<String> freeLessonIds(List<CurriculumLesson> lessons) => {
+      for (final CurriculumLesson l in lessons)
+        if (l.isFree) l.id,
+    };

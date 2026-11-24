@@ -160,7 +160,7 @@ final studentHasAccessProvider = FutureProvider.family<bool, String>((
   }
 });
 
-/// Whether a lesson is its subject's free first lesson (migration 078),
+/// Whether a lesson is ticked "Gratuite" (migration 085),
 /// which a student without access may still open. Fails closed: an error
 /// (no connection, migration not applied yet) means "not free".
 final isFreeLessonProvider = FutureProvider.family<bool, String>((

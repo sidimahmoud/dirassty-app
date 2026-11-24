@@ -2307,7 +2307,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get accountNotActiveBody =>
-      'الدروس «مجاني» في كل مادة متاحة لك. سيُفتح الباقي فور تفعيل حسابك.';
+      'الدروس المميزة بـ«مجاني» متاحة لك. سيُفتح الباقي فور تفعيل حسابك.';
 
   @override
   String get accessEndedTitle => 'وصولك لم يعد نشطًا';
@@ -2324,14 +2324,14 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get childNotActiveBody =>
-      'الحساب غير مفعّل بعد. الدروس «مجاني» في كل مادة متاحة.';
+      'الحساب غير مفعّل بعد. الدروس المميزة بـ«مجاني» متاحة.';
 
   @override
   String get getStarted => 'ابدأ';
 
   @override
   String get accountReadyFreeLessonsBody =>
-      'الدروس «مجاني» في كل مادة متاحة لك الآن. استكشافًا ممتعًا!';
+      'الدروس المميزة بـ«مجاني» متاحة لك الآن. استكشافًا ممتعًا!';
 
   @override
   String get needHelpTitle => 'تحتاج مساعدة؟';

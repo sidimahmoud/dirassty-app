@@ -312,7 +312,7 @@ bool _isStudentPath(String location) {
 
 /// Paths that actually teach something (or spend AI budget, in the
 /// homework helper's case) — blocked once a student's subscription has
-/// lapsed, except a subject's free first lesson (see [_lessonIdOf]).
+/// lapsed, except the lessons ticked "Gratuite" (see [_lessonIdOf]).
 /// Home, Profile and the course catalogue stay reachable regardless, so a
 /// locked-out student can still browse, see their own status and reach
 /// support.
@@ -440,8 +440,8 @@ Future<String?> _redirectForStudent(Ref ref, String location) async {
 }
 
 /// The lesson a lesson-scoped path is about (`/lesson/<id>`,
-/// `/exercise/<id>`, `/open-practice/<id>`), else null — a subject's free
-/// first lesson (migration 078) is open with all its exercises.
+/// `/exercise/<id>`, `/open-practice/<id>`), else null — a
+/// "Gratuite" lesson (migration 085) is open with all its exercises.
 String? _lessonIdOf(String location) {
   for (final String prefix in const [
     '/lesson/',

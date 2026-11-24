@@ -132,7 +132,7 @@ class _SubjectDetailScreenState extends ConsumerState<SubjectDetailScreen> {
     // Optimistic while loading: the router still gates every lesson.
     final bool hasAccess =
         ref.watch(studentHasAccessProvider(student.id)).valueOrNull ?? true;
-    // Same rule as is_free_lesson() (migrations 078/085).
+    // Same rule as is_free_lesson() (migration 085).
     final Set<String> freeIds =
         hasAccess ? const <String>{} : freeLessonIds(all);
     final int masteredCount =
