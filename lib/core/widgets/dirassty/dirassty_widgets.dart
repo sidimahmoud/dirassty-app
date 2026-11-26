@@ -3,6 +3,7 @@
 library;
 
 export 'badges.dart';
+export 'content_language.dart';
 export 'dirassty_button.dart';
 export 'dirassty_card.dart';
 export 'dirassty_chip.dart';

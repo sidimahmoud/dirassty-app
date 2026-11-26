@@ -1,13 +1,17 @@
 import 'package:flutter/widgets.dart';
 
 import '../../theme/dirassty_theme.dart';
+import 'content_language.dart';
 
 /// Per-context access to the design-handoff type styles — Cairo for an
-/// Arabic locale, Inter otherwise (same scale either way).
+/// Arabic locale, Inter otherwise (same scale either way). Inside a
+/// [ContentLanguage] (a question shown in its own language), that
+/// language's font wins.
 extension DirasstyContext on BuildContext {
   bool get isArabicLocale => Localizations.localeOf(this).languageCode == 'ar';
 
-  DirasstyType get dirasstyType => DirasstyType(isArabicLocale);
+  DirasstyType get dirasstyType =>
+      DirasstyType(ContentLanguage.arabicOf(this) ?? isArabicLocale);
 
   /// True when the OS asks for reduced motion — every animated design
   /// component checks this and skips/shortens its motion.

@@ -383,11 +383,17 @@ class _ActiveViewState extends ConsumerState<_ActiveView> {
                   ),
                   const SizedBox(height: DirasstySpace.md),
                 ],
-                Text(
-                  cleanMathForDisplay(state.activeBody.question),
-                  style: type.body.copyWith(
-                    height: 1.55,
-                    fontWeight: FontWeight.w600,
+                // In the question's own language (direction + font).
+                ContentLanguage.of(
+                  state.activeBody.question,
+                  child: Builder(
+                    builder: (context) => Text(
+                      cleanMathForDisplay(state.activeBody.question),
+                      style: context.dirasstyType.body.copyWith(
+                        height: 1.55,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ),
                 if (state.activeBody.diagram != null) ...[
@@ -454,10 +460,15 @@ class _ActiveViewState extends ConsumerState<_ActiveView> {
                               DirasstySpace.lg,
                               DirasstySpace.lg,
                             ),
-                            child: Text(
-                              cleanMathForDisplay(hint),
-                              style: type.bodySmall
-                                  .copyWith(color: DirasstyColors.text),
+                            child: ContentLanguage.of(
+                              state.activeBody.question,
+                              child: Builder(
+                                builder: (context) => Text(
+                                  cleanMathForDisplay(hint),
+                                  style: context.dirasstyType.bodySmall
+                                      .copyWith(color: DirasstyColors.text),
+                                ),
+                              ),
                             ),
                           )
                         : const SizedBox(width: double.infinity),

@@ -203,51 +203,25 @@ class _QcmSessionScreenState extends ConsumerState<QcmSessionScreen> {
                 style: type.label,
               ),
               const SizedBox(height: DirasstySpace.sm),
-              Text(
-                cleanMathForDisplay(body.question),
-                style: type.title.copyWith(height: 1.3),
-              ),
-              if (body.diagram != null) ...[
-                const SizedBox(height: DirasstySpace.md),
-                DiagramView(spec: body.diagram!, color: DirasstyColors.teal),
-              ],
-              if (!answered && body.hint.isNotEmpty) ...[
-                const SizedBox(height: DirasstySpace.xs),
-                if (state.hintRevealed)
-                  Container(
-                    padding: const EdgeInsetsDirectional.all(DirasstySpace.md),
-                    decoration: const BoxDecoration(
-                      color: DirasstyColors.goldTint,
-                      borderRadius: DirasstyRadius.cardR,
-                    ),
-                    child: Text(
-                      cleanMathForDisplay(body.hint),
-                      style:
-                          type.bodySmall.copyWith(color: DirasstyColors.text),
-                    ),
-                  )
-                else
-                  Align(
-                    alignment: AlignmentDirectional.centerStart,
-                    child: TextButton.icon(
-                      onPressed: controller.toggleHint,
-                      icon:
-                          const Icon(Icons.lightbulb_outline_rounded, size: 18),
-                      label: Text(l10n.hint),
+              // The question, hint and choices in their own language
+              // (direction + font), whatever the app's language.
+              ContentLanguage.of(
+                '${body.question} ${body.choices.join(' ')}',
+                child: Builder(
+                  builder: (context) => Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: _questionBlock(
+                      context,
+                      l10n,
+                      state,
+                      controller,
+                      body,
+                      answered,
+                      optionState,
                     ),
                   ),
-              ],
-              const SizedBox(height: DirasstySpace.lg),
-              for (int i = 0; i < body.choices.length; i++) ...[
-                if (i > 0) const SizedBox(height: DirasstySpace.md),
-                AnswerOption(
-                  letter: String.fromCharCode(65 + i),
-                  label: body.choices[i],
-                  state: optionState(i),
-                  picked: i == (answered ? state.selectedChoice : _pending),
-                  onTap: () => setState(() => _pending = i),
                 ),
-              ],
+              ),
             ],
           ),
         ),
@@ -265,6 +239,9 @@ class _QcmSessionScreenState extends ConsumerState<QcmSessionScreen> {
                 _FeedbackCard(
                   correct: correct,
                   explanation: body.explanation,
+                  contentArabic: isArabicText(
+                    '${body.question} ${body.choices.join(' ')}',
+                  ),
                   xp: correct
                       ? xpForCorrectAnswer(state.current.difficulty)
                       : 0,
@@ -288,17 +265,78 @@ class _QcmSessionScreenState extends ConsumerState<QcmSessionScreen> {
       ],
     );
   }
+
+  List<Widget> _questionBlock(
+    BuildContext context,
+    AppLocalizations l10n,
+    QcmExercising state,
+    QcmSessionController controller,
+    ExerciseBody body,
+    bool answered,
+    AnswerState Function(int) optionState,
+  ) {
+    final DirasstyType type = context.dirasstyType;
+    return [
+      Text(
+        cleanMathForDisplay(body.question),
+        style: type.title.copyWith(height: 1.3),
+      ),
+      if (body.diagram != null) ...[
+        const SizedBox(height: DirasstySpace.md),
+        DiagramView(spec: body.diagram!, color: DirasstyColors.teal),
+      ],
+      if (!answered && body.hint.isNotEmpty) ...[
+        const SizedBox(height: DirasstySpace.xs),
+        if (state.hintRevealed)
+          Container(
+            padding: const EdgeInsetsDirectional.all(DirasstySpace.md),
+            decoration: const BoxDecoration(
+              color: DirasstyColors.goldTint,
+              borderRadius: DirasstyRadius.cardR,
+            ),
+            child: Text(
+              cleanMathForDisplay(body.hint),
+              style: type.bodySmall.copyWith(color: DirasstyColors.text),
+            ),
+          )
+        else
+          Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: TextButton.icon(
+              onPressed: controller.toggleHint,
+              icon: const Icon(Icons.lightbulb_outline_rounded, size: 18),
+              label: Text(l10n.hint),
+            ),
+          ),
+      ],
+      const SizedBox(height: DirasstySpace.lg),
+      for (int i = 0; i < body.choices.length; i++) ...[
+        if (i > 0) const SizedBox(height: DirasstySpace.md),
+        AnswerOption(
+          letter: String.fromCharCode(65 + i),
+          label: body.choices[i],
+          state: optionState(i),
+          picked: i == (answered ? state.selectedChoice : _pending),
+          onTap: () => setState(() => _pending = i),
+        ),
+      ],
+    ];
+  }
 }
 
 class _FeedbackCard extends StatelessWidget {
   const _FeedbackCard({
     required this.correct,
     required this.explanation,
+    required this.contentArabic,
     required this.xp,
   });
 
   final bool correct;
   final String explanation;
+
+  /// The question's language — the explanation is shown in it.
+  final bool contentArabic;
   final int xp;
 
   @override
@@ -354,9 +392,15 @@ class _FeedbackCard extends StatelessWidget {
             ),
             if (explanation.isNotEmpty) ...[
               const SizedBox(height: DirasstySpace.sm),
-              Text(
-                cleanMathForDisplay(explanation),
-                style: type.bodySmall.copyWith(color: DirasstyColors.text),
+              ContentLanguage(
+                arabic: contentArabic,
+                child: Builder(
+                  builder: (context) => Text(
+                    cleanMathForDisplay(explanation),
+                    style: context.dirasstyType.bodySmall
+                        .copyWith(color: DirasstyColors.text),
+                  ),
+                ),
               ),
             ],
           ],
@@ -507,9 +551,14 @@ class _ResultView extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Text(
-                        cleanMathForDisplay(m.exercise.body.question),
-                        style: type.subheading,
+                      ContentLanguage.of(
+                        m.exercise.body.question,
+                        child: Builder(
+                          builder: (context) => Text(
+                            cleanMathForDisplay(m.exercise.body.question),
+                            style: context.dirasstyType.subheading,
+                          ),
+                        ),
                       ),
                       const SizedBox(height: DirasstySpace.sm),
                       Text(
@@ -530,9 +579,14 @@ class _ResultView extends ConsumerWidget {
                       ),
                       if (m.exercise.body.explanation.isNotEmpty) ...[
                         const SizedBox(height: DirasstySpace.sm),
-                        Text(
-                          cleanMathForDisplay(m.exercise.body.explanation),
-                          style: type.bodySmall,
+                        ContentLanguage.of(
+                          m.exercise.body.question,
+                          child: Builder(
+                            builder: (context) => Text(
+                              cleanMathForDisplay(m.exercise.body.explanation),
+                              style: context.dirasstyType.bodySmall,
+                            ),
+                          ),
                         ),
                       ],
                     ],

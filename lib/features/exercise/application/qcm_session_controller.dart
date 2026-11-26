@@ -26,6 +26,11 @@ final class QcmSessionController extends StateNotifier<QcmSessionState> {
   final String _lessonId;
   DateTime _sessionStartedAt = DateTime.now();
 
+  /// Mastery writes, one after the other: two answers on the same concept
+  /// must not read the same old row (the second would erase the first),
+  /// and the result screen waits for the last one before reading mastery.
+  Future<void> _masteryWrites = Future<void>.value();
+
   Future<void> _load() async {
     _sessionStartedAt = DateTime.now();
     state = const QcmLoading();
@@ -76,13 +81,18 @@ final class QcmSessionController extends StateNotifier<QcmSessionState> {
       sessionXp: snapshot.sessionXp + xpDelta,
     );
 
-    final studentId = (await _ref.read(currentStudentProvider.future)).id;
-    await _ref.read(progressRepositoryProvider).updateMastery(
-          studentId: studentId,
-          lessonId: _lessonId,
-          concept: exercise.body.concept,
-          correct: correct,
-        );
+    final Future<void> write = _masteryWrites.then((_) async {
+      final studentId = (await _ref.read(currentStudentProvider.future)).id;
+      await _ref.read(progressRepositoryProvider).updateMastery(
+            studentId: studentId,
+            lessonId: _lessonId,
+            concept: exercise.body.concept,
+            correct: correct,
+          );
+    });
+    // A failed write (no connection) mustn't block the ones after it.
+    _masteryWrites = write.catchError((Object _) {});
+    await write;
   }
 
   void toggleHint() {
@@ -108,6 +118,7 @@ final class QcmSessionController extends StateNotifier<QcmSessionState> {
       return;
     }
 
+    await _masteryWrites;
     final student = await _ref.read(currentStudentProvider.future);
     final studentId = student.id;
     final int oldStreak = student.streak;
@@ -163,7 +174,9 @@ final class QcmSessionController extends StateNotifier<QcmSessionState> {
       answers: snapshot.answers,
       totalXp: totalXp,
       lessonMastery: lessonMastery,
-      passed: lessonMastery >= 0.85,
+      // This session at 80 %+ validates the lesson, whatever older
+      // attempts left in mastery (a 10/10 must never read "retry").
+      passed: _sessionPassed(snapshot.answers) || lessonMastery >= 0.85,
       newStreak: newStreak,
       streakIncreased: newStreak > oldStreak,
       duration: DateTime.now().difference(_sessionStartedAt),
@@ -179,3 +192,8 @@ final qcmSessionControllerProvider =
     StateNotifierProvider.family<QcmSessionController, QcmSessionState, String>(
   (ref, lessonId) => QcmSessionController(ref, lessonId),
 );
+
+/// 80 % or more right in this session (8/10, 4/5…).
+bool _sessionPassed(List<QcmAnswerRecord> answers) =>
+    answers.isNotEmpty &&
+    answers.where((a) => a.correct).length / answers.length >= 0.8;

@@ -49,8 +49,11 @@ class ProgressRepository {
     return rows.map(Progress.fromJson).toList();
   }
 
-  /// Weighted moving average (recent answer weighted 70/30 against
-  /// history) plus a spaced-repetition `next_review` date. Fires once per
+  /// Running average over a concept's first answers, then a moving
+  /// average (recent answer weighted 30 %) — so a student who gets
+  /// everything right is high from the start instead of creeping up from
+  /// 30 %. Plus a spaced-repetition `next_review` date. Same formula as
+  /// the website (apps/web/lib/eleve/lesson.ts). Fires once per
   /// answered QCM question — never for open exercises (the web app
   /// doesn't record those either, see open-practice's data-write notes).
   Future<void> updateMastery({
@@ -74,13 +77,15 @@ class ProgressRepository {
       newAttempts = (existing['attempts'] as int) + 1;
       newCorrect = (existing['correct'] as int) + (correct ? 1 : 0);
       final double recentScore = correct ? 1 : 0;
-      newMastery = ((existing['mastery'] as num) * 0.7 + recentScore * 0.3)
-          .clamp(0, 1)
-          .toDouble();
+      final double weight = newAttempts < 4 ? 1 / newAttempts : 0.3;
+      newMastery =
+          ((existing['mastery'] as num) * (1 - weight) + recentScore * weight)
+              .clamp(0, 1)
+              .toDouble();
     } else {
       newAttempts = 1;
       newCorrect = correct ? 1 : 0;
-      newMastery = correct ? 0.3 : 0;
+      newMastery = correct ? 1 : 0;
     }
 
     final int daysUntilReview = newMastery > 0.8
