@@ -662,6 +662,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get childFirstName => 'Prénom de l\'enfant';
 
   @override
+  String get usernameSuggestedHelper =>
+      'Proposé à partir du prénom — vous pouvez le modifier.';
+
+  @override
   String get createChildAccount => 'Créer le compte';
 
   @override
@@ -2529,4 +2533,49 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get rafiqTagline => 'Bloqué ? Demande-moi';
+
+  @override
+  String get openChildSpace => 'Ouvrir son espace';
+
+  @override
+  String openChildSpaceTitle(String name) {
+    return 'Ouvrir l\'espace de $name ?';
+  }
+
+  @override
+  String get openChildSpaceBody =>
+      'Votre enfant pourra étudier sur ce téléphone sans taper son code. Pour revenir à l\'espace parent, il faudra entrer votre code PIN.';
+
+  @override
+  String get openChildSpaceNoLogin =>
+      'Cet enfant n\'a pas encore de code de connexion. Ouvrez sa fiche pour lui en créer un.';
+
+  @override
+  String get openChildSpaceError =>
+      'Impossible d\'ouvrir son espace. Vérifiez la connexion et réessayez.';
+
+  @override
+  String get backToParentSpace => 'Retour à l\'espace parent';
+
+  @override
+  String get backToParentSpaceHint => 'Le code PIN du parent sera demandé.';
+
+  @override
+  String welcomeBackParent(String name) {
+    return 'Bon retour, $name';
+  }
+
+  @override
+  String get welcomeBackParentGeneric => 'Bon retour !';
+
+  @override
+  String welcomeBackParentBody(String phone) {
+    return 'Espace parent · $phone — seul votre code PIN est demandé.';
+  }
+
+  @override
+  String get welcomeBackParentAction => 'Revenir à l\'espace parent';
+
+  @override
+  String get notMe => 'Ce n\'est pas moi';
 }

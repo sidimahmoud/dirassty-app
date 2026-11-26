@@ -13,6 +13,7 @@ import '../models/video_body.dart';
 import '../offline/offline_video_store.dart';
 import '../offline/offline_videos_controller.dart';
 import '../offline/video_url_signer.dart';
+import '../security/screen_capture_guard.dart';
 import '../theme/dirassty_theme.dart';
 import 'dirassty/dirassty_widgets.dart';
 import 'video_watermark.dart';
@@ -207,6 +208,13 @@ class _CourseVideoPlayerState extends ConsumerState<CourseVideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
+    // Protected wherever a video plays (lesson, Downloads…).
+    return CaptureProtected(
+      child: _buildPlayer(context),
+    );
+  }
+
+  Widget _buildPlayer(BuildContext context) {
     return ClipRRect(
       borderRadius: widget.borderRadius,
       child: LayoutBuilder(

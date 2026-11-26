@@ -66,11 +66,29 @@ class AddChildController extends AsyncNotifier<void> {
     required String avatarId,
     required String username,
     required String pin,
+    String? existingStudentId,
   }) async {
     state = const AsyncLoading();
     String resultUsername = '';
-    String resultStudentId = '';
+    String resultStudentId = existingStudentId ?? '';
     state = await AsyncValue.guard(() async {
+      if (existingStudentId != null) {
+        // A retry after the credentials step failed (e.g. username taken):
+        // the child and their trial already exist — only set the login.
+        await ref.read(parentRepositoryProvider).updateStudentBasics(
+              studentId: existingStudentId,
+              name: name,
+              grade: grade,
+            );
+        ref.invalidate(studentsByParentProvider);
+        resultUsername =
+            await ref.read(parentRepositoryProvider).setStudentCredentials(
+                  studentId: existingStudentId,
+                  username: username,
+                  pin: pin,
+                );
+        return;
+      }
       final Parent parent = await ref.read(currentParentProvider.future);
       final Student student =
           await ref.read(parentRepositoryProvider).createStudent(

@@ -46,6 +46,7 @@ import '../config/store_policy.dart';
 import '../models/exam.dart';
 import '../models/student.dart';
 import '../offline/offline_video_store.dart';
+import '../security/screen_capture_guard.dart';
 import '../theme/dirassty_theme.dart';
 import 'go_router_refresh_stream.dart';
 
@@ -137,20 +138,25 @@ final Provider<GoRouter> goRouterProvider = Provider((ref) {
       GoRoute(
         path: LessonViewerScreen.path,
         name: LessonViewerScreen.name,
-        builder: (context, state) =>
-            LessonViewerScreen(lessonId: state.pathParameters['lessonId']!),
+        builder: (context, state) => CaptureProtected(
+          child:
+              LessonViewerScreen(lessonId: state.pathParameters['lessonId']!),
+        ),
       ),
       GoRoute(
         path: QcmSessionScreen.path,
         name: QcmSessionScreen.name,
-        builder: (context, state) =>
-            QcmSessionScreen(lessonId: state.pathParameters['lessonId']!),
+        builder: (context, state) => CaptureProtected(
+          child: QcmSessionScreen(lessonId: state.pathParameters['lessonId']!),
+        ),
       ),
       GoRoute(
         path: OpenPracticeScreen.path,
         name: OpenPracticeScreen.name,
-        builder: (context, state) =>
-            OpenPracticeScreen(lessonId: state.pathParameters['lessonId']!),
+        builder: (context, state) => CaptureProtected(
+          child:
+              OpenPracticeScreen(lessonId: state.pathParameters['lessonId']!),
+        ),
       ),
       GoRoute(
         path: HomeworkHelperScreen.path,
@@ -171,8 +177,9 @@ final Provider<GoRouter> goRouterProvider = Provider((ref) {
       GoRoute(
         path: ExamSessionScreen.path,
         name: ExamSessionScreen.name,
-        builder: (context, state) =>
-            ExamSessionScreen(examId: state.pathParameters['examId']!),
+        builder: (context, state) => CaptureProtected(
+          child: ExamSessionScreen(examId: state.pathParameters['examId']!),
+        ),
       ),
       GoRoute(
         path: ProfileScreen.path,

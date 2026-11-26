@@ -1280,6 +1280,12 @@ abstract class AppLocalizations {
   /// **'Prénom de l\'enfant'**
   String get childFirstName;
 
+  /// No description provided for @usernameSuggestedHelper.
+  ///
+  /// In fr, this message translates to:
+  /// **'Proposé à partir du prénom — vous pouvez le modifier.'**
+  String get usernameSuggestedHelper;
+
   /// No description provided for @createChildAccount.
   ///
   /// In fr, this message translates to:
@@ -4489,6 +4495,78 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Bloqué ? Demande-moi'**
   String get rafiqTagline;
+
+  /// No description provided for @openChildSpace.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ouvrir son espace'**
+  String get openChildSpace;
+
+  /// No description provided for @openChildSpaceTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ouvrir l\'espace de {name} ?'**
+  String openChildSpaceTitle(String name);
+
+  /// No description provided for @openChildSpaceBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Votre enfant pourra étudier sur ce téléphone sans taper son code. Pour revenir à l\'espace parent, il faudra entrer votre code PIN.'**
+  String get openChildSpaceBody;
+
+  /// No description provided for @openChildSpaceNoLogin.
+  ///
+  /// In fr, this message translates to:
+  /// **'Cet enfant n\'a pas encore de code de connexion. Ouvrez sa fiche pour lui en créer un.'**
+  String get openChildSpaceNoLogin;
+
+  /// No description provided for @openChildSpaceError.
+  ///
+  /// In fr, this message translates to:
+  /// **'Impossible d\'ouvrir son espace. Vérifiez la connexion et réessayez.'**
+  String get openChildSpaceError;
+
+  /// No description provided for @backToParentSpace.
+  ///
+  /// In fr, this message translates to:
+  /// **'Retour à l\'espace parent'**
+  String get backToParentSpace;
+
+  /// No description provided for @backToParentSpaceHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le code PIN du parent sera demandé.'**
+  String get backToParentSpaceHint;
+
+  /// No description provided for @welcomeBackParent.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bon retour, {name}'**
+  String welcomeBackParent(String name);
+
+  /// No description provided for @welcomeBackParentGeneric.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bon retour !'**
+  String get welcomeBackParentGeneric;
+
+  /// No description provided for @welcomeBackParentBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Espace parent · {phone} — seul votre code PIN est demandé.'**
+  String welcomeBackParentBody(String phone);
+
+  /// No description provided for @welcomeBackParentAction.
+  ///
+  /// In fr, this message translates to:
+  /// **'Revenir à l\'espace parent'**
+  String get welcomeBackParentAction;
+
+  /// No description provided for @notMe.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce n\'est pas moi'**
+  String get notMe;
 }
 
 class _AppLocalizationsDelegate

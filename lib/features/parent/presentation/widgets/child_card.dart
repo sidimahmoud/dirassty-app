@@ -74,12 +74,16 @@ class ChildCard extends ConsumerWidget {
     required this.student,
     required this.subscription,
     required this.onTap,
+    this.onOpenSpace,
     super.key,
   });
 
   final Student student;
   final Subscription? subscription;
   final VoidCallback onTap;
+
+  /// "Ouvrir son espace": switches this device to the child's account.
+  final VoidCallback? onOpenSpace;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -190,8 +194,18 @@ class ChildCard extends ConsumerWidget {
               ),
             ],
           ),
-          if (showSubscribe) ...[
+          if (onOpenSpace != null) ...[
             const SizedBox(height: 14),
+            DirasstyButton(
+              label: l10n.openChildSpace,
+              icon: Icons.school_outlined,
+              variant: DirasstyButtonVariant.secondary,
+              compact: true,
+              onPressed: onOpenSpace,
+            ),
+          ],
+          if (showSubscribe) ...[
+            SizedBox(height: onOpenSpace != null ? DirasstySpace.sm : 14),
             DirasstyButton(
               label: l10n.subscribeFor(student.name),
               variant: DirasstyButtonVariant.gold,

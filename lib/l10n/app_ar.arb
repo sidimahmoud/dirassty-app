@@ -197,6 +197,7 @@
   "subscribed": "مشترك",
   "trialDaysLeft": "تجربة · {n} أيام",
   "childFirstName": "اسم الابن",
+  "usernameSuggestedHelper": "مقترح انطلاقًا من الاسم — يمكنكم تعديله.",
   "createChildAccount": "إنشاء الحساب",
   "childReady": "حساب {name} جاهز",
   "shareWhatsapp": "المشاركة عبر واتساب",
@@ -731,5 +732,17 @@
   "oppCorrectMyAnswer": "صحّح إجابتي",
   "oppExerciseOf": "التمرين {n} من {total}",
   "oppTryAgain": "أعد المحاولة",
-  "rafiqTagline": "عالق؟ اسألني"
+  "rafiqTagline": "عالق؟ اسألني",
+  "openChildSpace": "فتح حسابه",
+  "openChildSpaceTitle": "فتح حساب {name}؟",
+  "openChildSpaceBody": "سيتمكن ابنكم من الدراسة على هذا الهاتف دون إدخال رمزه. للعودة إلى فضاء الولي، يجب إدخال رمزكم السري.",
+  "openChildSpaceNoLogin": "ليس لهذا الابن رمز دخول بعد. افتحوا ملفه لإنشاء رمز له.",
+  "openChildSpaceError": "تعذّر فتح حسابه. تحققوا من الاتصال وأعيدوا المحاولة.",
+  "backToParentSpace": "العودة إلى فضاء الولي",
+  "backToParentSpaceHint": "سيُطلب الرمز السري للولي.",
+  "welcomeBackParent": "مرحبًا بعودتك، {name}",
+  "welcomeBackParentGeneric": "مرحبًا بعودتك!",
+  "welcomeBackParentBody": "فضاء الولي · {phone} — يكفي إدخال رمزك السري.",
+  "welcomeBackParentAction": "العودة إلى فضاء الولي",
+  "notMe": "لست أنا"
 }

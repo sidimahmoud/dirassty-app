@@ -8,22 +8,105 @@ import '../../l10n/app_localizations.dart';
 import '../theme/dirassty_theme.dart';
 import '../widgets/dirassty/dirassty_context.dart';
 
-/// App-wide screenshot / screen-recording protection, mounted once via
-/// `MaterialApp.builder` (see DirasstyApp).
+/// Screenshot / screen-recording protection for the learning flow only —
+/// lessons, videos, QCM, open exercises and exams. Every other screen
+/// (home, profile, subscriptions, parent space…) can be captured freely.
+///
+/// A screen opts in by wrapping itself in [CaptureProtected] (the router
+/// does it for the learning routes; [CourseVideoPlayer] does it wherever a
+/// video plays, e.g. Downloads). Protection is on while at least one is
+/// mounted and goes off when the last one leaves:
 ///
 /// - Android: `FLAG_SECURE` — screenshots and recordings (including
-///   casting and the recent-apps thumbnail) come out black. Also set
-///   natively in MainActivity.kt so it's on from the very first frame,
-///   before this widget mounts.
+///   casting and the recent-apps thumbnail) come out black.
 /// - iOS: Apple offers no API to block screenshots outright. This uses
 ///   the secure-layer technique (the same one password fields use), which
 ///   makes screenshots and recordings capture a black screen, plus a
-///   black cover whenever `UIScreen.isCaptured` reports an active
-///   recording/AirPlay mirror, and a black app-switcher snapshot.
+///   black cover ([ScreenCaptureGuard]) whenever `UIScreen.isCaptured`
+///   reports an active recording/AirPlay mirror, and a black app-switcher
+///   snapshot.
 ///
-/// Off in debug builds (see [_ScreenCaptureGuardState._enable]) so the app
-/// is visible on emulators/simulators while developing — to test the
-/// protection itself, run a release build on a real device.
+/// Off in debug builds so the app is visible on emulators/simulators while
+/// developing — to test the protection itself, run a release build on a
+/// real device.
+class CaptureProtection {
+  CaptureProtection._();
+
+  static int _holders = 0;
+  static bool _applied = false;
+  static Future<void> _queue = Future<void>.value();
+
+  /// True while a protected screen is mounted.
+  static final ValueNotifier<bool> active = ValueNotifier<bool>(false);
+
+  static void _acquire() {
+    _holders++;
+    _sync();
+  }
+
+  static void _release() {
+    if (_holders > 0) _holders--;
+    _sync();
+  }
+
+  /// Applies the wanted state in order — screens come and go faster than
+  /// the platform calls finish, so each step re-reads the latest count.
+  static void _sync() {
+    active.value = _holders > 0;
+    if (kDebugMode) return;
+    _queue = _queue.then((_) async {
+      final bool want = _holders > 0;
+      if (want == _applied) return;
+      try {
+        if (want) {
+          await ScreenProtector.preventScreenshotOn();
+          if (Platform.isIOS) {
+            await ScreenProtector.protectDataLeakageWithColor(Colors.black);
+          }
+        } else {
+          await ScreenProtector.preventScreenshotOff();
+          if (Platform.isIOS) {
+            await ScreenProtector.protectDataLeakageWithColorOff();
+          }
+        }
+        _applied = want;
+      } catch (e) {
+        debugPrint('CaptureProtection: $e');
+      }
+    });
+  }
+}
+
+/// Turns [CaptureProtection] on while this widget is mounted.
+class CaptureProtected extends StatefulWidget {
+  const CaptureProtected({required this.child, super.key});
+
+  final Widget child;
+
+  @override
+  State<CaptureProtected> createState() => _CaptureProtectedState();
+}
+
+class _CaptureProtectedState extends State<CaptureProtected> {
+  @override
+  void initState() {
+    super.initState();
+    CaptureProtection._acquire();
+  }
+
+  @override
+  void dispose() {
+    CaptureProtection._release();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => widget.child;
+}
+
+/// Mounted once via `MaterialApp.builder` (see DirasstyApp): on iOS,
+/// covers the app with [_ProtectedScreen] while a recording / mirror is
+/// running AND a protected screen is open. Blocks nothing by itself.
 class ScreenCaptureGuard extends StatefulWidget {
   const ScreenCaptureGuard({required this.child, super.key});
 
@@ -39,17 +122,12 @@ class _ScreenCaptureGuardState extends State<ScreenCaptureGuard> {
   @override
   void initState() {
     super.initState();
-    _enable();
+    _listen();
   }
 
-  Future<void> _enable() async {
-    // Release/profile builds only — in debug, emulator/simulator screen
-    // mirroring is itself a capture and would render the whole app black.
-    if (kDebugMode) return;
+  Future<void> _listen() async {
+    if (kDebugMode || !Platform.isIOS) return;
     try {
-      await ScreenProtector.preventScreenshotOn();
-      if (!Platform.isIOS) return;
-      await ScreenProtector.protectDataLeakageWithColor(Colors.black);
       ScreenProtector.addListener(null, (bool isCaptured) {
         if (mounted) setState(() => _isBeingCaptured = isCaptured);
       });
@@ -71,7 +149,13 @@ class _ScreenCaptureGuardState extends State<ScreenCaptureGuard> {
     return Stack(
       children: [
         widget.child,
-        if (_isBeingCaptured) const Positioned.fill(child: _ProtectedScreen()),
+        if (_isBeingCaptured)
+          ValueListenableBuilder<bool>(
+            valueListenable: CaptureProtection.active,
+            builder: (context, protectedNow, _) => protectedNow
+                ? const Positioned.fill(child: _ProtectedScreen())
+                : const SizedBox.shrink(),
+          ),
       ],
     );
   }

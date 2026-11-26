@@ -11,6 +11,7 @@ import '../../../../core/theme/dirassty_theme.dart';
 import '../../../../core/widgets/dirassty/dirassty_widgets.dart';
 import '../../../../core/widgets/whatsapp_help_card.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../auth/application/auth_providers.dart';
 import '../../../progress/application/progress_providers.dart';
 import '../../../subscription/application/subscription_providers.dart';
 import '../../application/parent_providers.dart';
@@ -88,6 +89,14 @@ class ParentHomeTab extends ConsumerWidget {
                           ChildProgressScreen.name,
                           pathParameters: {'studentId': student.id},
                         ),
+                        onOpenSpace: parent == null
+                            ? null
+                            : () => _openChildSpace(
+                                  context,
+                                  ref,
+                                  student,
+                                  parent,
+                                ),
                       ),
                       const SizedBox(height: DirasstySpace.md),
                     ],
@@ -110,6 +119,47 @@ class ParentHomeTab extends ConsumerWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+/// Confirms, then switches this device to [student]'s account. The router
+/// takes over once the session changes (student home); coming back to the
+/// parent space asks for the parent's PIN.
+Future<void> _openChildSpace(
+  BuildContext context,
+  WidgetRef ref,
+  Student student,
+  Parent parent,
+) async {
+  final AppLocalizations l10n = AppLocalizations.of(context);
+  final bool? go = await showDirasstyDialog<bool>(
+    context,
+    icon: Icons.school_outlined,
+    title: l10n.openChildSpaceTitle(student.name),
+    message: l10n.openChildSpaceBody,
+    actions: [
+      DirasstyDialogAction(label: l10n.openChildSpace, value: true),
+      DirasstyDialogAction(
+        label: l10n.cancel,
+        value: false,
+        variant: DirasstyButtonVariant.quiet,
+      ),
+    ],
+  );
+  if (go != true || !context.mounted) return;
+  await ref.read(authControllerProvider.notifier).openChildSpace(
+        studentId: student.id,
+        parentPhone: parent.phone,
+        parentName: parent.name,
+      );
+  final AsyncValue<void> state = ref.read(authControllerProvider);
+  if (state.hasError && context.mounted) {
+    showDirasstySnackBar(
+      context,
+      state.error.toString().contains('no_login')
+          ? l10n.openChildSpaceNoLogin
+          : l10n.openChildSpaceError,
     );
   }
 }

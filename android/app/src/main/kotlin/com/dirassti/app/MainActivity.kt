@@ -5,10 +5,8 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.graphics.Color
 import android.os.Build
-import android.content.pm.ApplicationInfo
 import android.content.Context
 import android.os.Bundle
-import android.view.WindowManager
 import androidx.core.view.WindowCompat
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
@@ -23,18 +21,9 @@ class MainActivity : FlutterActivity() {
         WindowCompat.enableEdgeToEdge(window)
         super.onCreate(savedInstanceState)
         createNotificationChannel()
-        // Blocks screenshots, screen recording/casting and the recent-apps
-        // thumbnail from the very first frame (ScreenCaptureGuard re-applies
-        // the same flag from Dart). Release builds only: the emulator's
-        // mirrored screen is itself a capture, so with FLAG_SECURE a debug
-        // build just shows black there.
-        val isDebuggable = (applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0
-        if (!isDebuggable) {
-            window.setFlags(
-                WindowManager.LayoutParams.FLAG_SECURE,
-                WindowManager.LayoutParams.FLAG_SECURE,
-            )
-        }
+        // No FLAG_SECURE here: screenshots are blocked only on the learning
+        // screens (lessons, videos, QCM, exams), turned on and off from Dart
+        // — see lib/core/security/screen_capture_guard.dart.
     }
 
     // The "Dirassty" channel every push uses (FCM messages name it, see

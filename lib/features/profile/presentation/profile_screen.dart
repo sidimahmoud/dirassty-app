@@ -11,11 +11,13 @@ import '../../../core/models/grade.dart';
 import '../../../core/models/student.dart';
 import '../../../core/models/subscription.dart';
 import '../../../core/offline/offline_videos_controller.dart';
+import '../../../core/router/app_router.dart';
 import '../../../core/text/dirassty_dates.dart';
 import '../../../core/theme/dirassty_theme.dart';
 import '../../../core/widgets/dirassty/dirassty_widgets.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../auth/application/auth_providers.dart';
+import '../../auth/presentation/parent_login_screen.dart';
 import '../../courses/application/courses_providers.dart';
 import '../../focus/presentation/focus_blocked_dialog.dart';
 // import '../../focus/presentation/focus_settings_screen.dart'; // next version
@@ -227,6 +229,18 @@ class _ProfileBody extends ConsumerWidget {
           const SizedBox(height: DirasstySpace.lg),
           ProfileGroup(
             rows: [
+              if (ref.watch(parentReturnPhoneProvider).valueOrNull != null)
+                ProfileRow(
+                  icon: Icons.family_restroom_rounded,
+                  title: l10n.backToParentSpace,
+                  subtitle: l10n.backToParentSpaceHint,
+                  onTap: () async {
+                    if (blockedByFocus(context, ref)) return;
+                    final GoRouter router = ref.read(goRouterProvider);
+                    await ref.read(authControllerProvider.notifier).signOut();
+                    router.go(ParentLoginScreen.path);
+                  },
+                ),
               ProfileRow(
                 icon: Icons.logout_rounded,
                 title: l10n.logout,

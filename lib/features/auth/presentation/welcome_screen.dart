@@ -8,6 +8,8 @@ import '../../../core/i18n/app_language_provider.dart';
 import '../../../core/theme/dirassty_theme.dart';
 import '../../../core/widgets/dirassty/dirassty_widgets.dart';
 import '../../../l10n/app_localizations.dart';
+import '../application/auth_providers.dart';
+import '../data/parent_return_store.dart';
 import 'choose_role_screen.dart';
 import 'parent_login_screen.dart';
 import 'student_login_screen.dart';
@@ -29,6 +31,8 @@ class WelcomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AppLocalizations l10n = AppLocalizations.of(context);
     final DirasstyType type = context.dirasstyType;
+    final RememberedParent? parent =
+        ref.watch(rememberedParentProvider).valueOrNull;
 
     return AuthScaffold(
       showBack: false,
@@ -37,6 +41,8 @@ class WelcomeScreen extends ConsumerWidget {
       // …and logging in sits at the bottom for those who already have an
       // account.
       bottom: [
+        // A parent lent the phone to a child: one tap + their PIN.
+        if (parent != null) _ParentReturnCard(parent: parent),
         Text(
           l10n.signInWho,
           textAlign: TextAlign.center,
@@ -173,6 +179,76 @@ class _LanguageSwitch extends ConsumerWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+/// "Bon retour, Ahmed" — the last parent who signed in on this device
+/// (see [ParentReturnStore]): opens the parent login with their number
+/// filled in, so only the PIN is typed. "Ce n'est pas moi" forgets them.
+class _ParentReturnCard extends ConsumerWidget {
+  const _ParentReturnCard({required this.parent});
+
+  final RememberedParent parent;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final AppLocalizations l10n = AppLocalizations.of(context);
+    final DirasstyType type = context.dirasstyType;
+    final String? firstName = parent.firstName;
+
+    return Container(
+      padding: const EdgeInsets.all(DirasstySpace.lg),
+      decoration: BoxDecoration(
+        color: DirasstyColors.tealTint,
+        borderRadius: DirasstyRadius.cardR,
+        border: Border.all(color: DirasstyColors.teal, width: 1.5),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              const Icon(
+                Icons.family_restroom_rounded,
+                color: DirasstyColors.teal,
+              ),
+              const SizedBox(width: DirasstySpace.md),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      firstName != null
+                          ? l10n.welcomeBackParent(firstName)
+                          : l10n.welcomeBackParentGeneric,
+                      style: type.subheading.copyWith(fontSize: 16),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      l10n.welcomeBackParentBody(parent.maskedPhone),
+                      style: type.bodySmall,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: DirasstySpace.md),
+          DirasstyButton(
+            label: l10n.welcomeBackParentAction,
+            icon: Icons.lock_open_rounded,
+            onPressed: () => context.pushNamed(ParentLoginScreen.name),
+          ),
+          TextButton(
+            onPressed: () async {
+              await const ParentReturnStore().clear();
+              ref.invalidate(rememberedParentProvider);
+            },
+            child: Text(l10n.notMe),
+          ),
+        ],
       ),
     );
   }

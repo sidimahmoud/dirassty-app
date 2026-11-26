@@ -64,6 +64,19 @@ class ParentRepository {
     return Student.fromJson(row);
   }
 
+  /// Name and class of one of the caller's own children (same RLS policy
+  /// as [createStudent]) — used when "add a child" is retried after its
+  /// login step failed, so the parent's corrections still apply.
+  Future<void> updateStudentBasics({
+    required String studentId,
+    required String name,
+    required int grade,
+  }) async {
+    await _client
+        .from('students')
+        .update({'name': name, 'grade': grade}).eq('id', studentId);
+  }
+
   /// Sets the login credentials — the username, the PIN (always 4
   /// digits), or both — for one of the caller's own children. See
   /// supabase/functions/set-student-pin. Covers three cases: a brand-new

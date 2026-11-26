@@ -647,6 +647,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get childFirstName => 'اسم الابن';
 
   @override
+  String get usernameSuggestedHelper =>
+      'مقترح انطلاقًا من الاسم — يمكنكم تعديله.';
+
+  @override
   String get createChildAccount => 'إنشاء الحساب';
 
   @override
@@ -2466,4 +2470,49 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get rafiqTagline => 'عالق؟ اسألني';
+
+  @override
+  String get openChildSpace => 'فتح حسابه';
+
+  @override
+  String openChildSpaceTitle(String name) {
+    return 'فتح حساب $name؟';
+  }
+
+  @override
+  String get openChildSpaceBody =>
+      'سيتمكن ابنكم من الدراسة على هذا الهاتف دون إدخال رمزه. للعودة إلى فضاء الولي، يجب إدخال رمزكم السري.';
+
+  @override
+  String get openChildSpaceNoLogin =>
+      'ليس لهذا الابن رمز دخول بعد. افتحوا ملفه لإنشاء رمز له.';
+
+  @override
+  String get openChildSpaceError =>
+      'تعذّر فتح حسابه. تحققوا من الاتصال وأعيدوا المحاولة.';
+
+  @override
+  String get backToParentSpace => 'العودة إلى فضاء الولي';
+
+  @override
+  String get backToParentSpaceHint => 'سيُطلب الرمز السري للولي.';
+
+  @override
+  String welcomeBackParent(String name) {
+    return 'مرحبًا بعودتك، $name';
+  }
+
+  @override
+  String get welcomeBackParentGeneric => 'مرحبًا بعودتك!';
+
+  @override
+  String welcomeBackParentBody(String phone) {
+    return 'فضاء الولي · $phone — يكفي إدخال رمزك السري.';
+  }
+
+  @override
+  String get welcomeBackParentAction => 'العودة إلى فضاء الولي';
+
+  @override
+  String get notMe => 'لست أنا';
 }

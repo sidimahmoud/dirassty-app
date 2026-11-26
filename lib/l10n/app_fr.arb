@@ -290,6 +290,7 @@
     }
   },
   "childFirstName": "Prénom de l'enfant",
+  "usernameSuggestedHelper": "Proposé à partir du prénom — vous pouvez le modifier.",
   "createChildAccount": "Créer le compte",
   "childReady": "Le compte de {name} est prêt",
   "@childReady": {
@@ -2350,5 +2351,20 @@
   "rafiqTagline": "Bloqué ? Demande-moi",
   "@rafiqTagline": {
     "description": "Open-exercise screen redesign (3 steps + Rafiq bar)."
-  }
+  },
+  "openChildSpace": "Ouvrir son espace",
+  "openChildSpaceTitle": "Ouvrir l'espace de {name} ?",
+  "@openChildSpaceTitle": {"placeholders": {"name": {"type": "String"}}},
+  "openChildSpaceBody": "Votre enfant pourra étudier sur ce téléphone sans taper son code. Pour revenir à l'espace parent, il faudra entrer votre code PIN.",
+  "openChildSpaceNoLogin": "Cet enfant n'a pas encore de code de connexion. Ouvrez sa fiche pour lui en créer un.",
+  "openChildSpaceError": "Impossible d'ouvrir son espace. Vérifiez la connexion et réessayez.",
+  "backToParentSpace": "Retour à l'espace parent",
+  "backToParentSpaceHint": "Le code PIN du parent sera demandé.",
+  "welcomeBackParent": "Bon retour, {name}",
+  "@welcomeBackParent": {"placeholders": {"name": {"type": "String"}}},
+  "welcomeBackParentGeneric": "Bon retour !",
+  "welcomeBackParentBody": "Espace parent · {phone} — seul votre code PIN est demandé.",
+  "@welcomeBackParentBody": {"placeholders": {"phone": {"type": "String"}}},
+  "welcomeBackParentAction": "Revenir à l'espace parent",
+  "notMe": "Ce n'est pas moi"
 }

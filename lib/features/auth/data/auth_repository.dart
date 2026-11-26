@@ -9,6 +9,7 @@ import '../../../core/offline/offline_video_store.dart';
 import '../../../core/validation/validators.dart';
 import '../../focus/data/focus_repository.dart';
 import '../application/app_auth_state.dart';
+import 'parent_return_store.dart';
 
 /// The only place in the app that calls `supabase.auth.*` or touches the
 /// `parents`/`students` tables for login purposes. Screens and providers
@@ -112,6 +113,64 @@ class AuthRepository {
       '${_digitsOf(_fullPhone(localPhone))}@$_parentEmailDomain',
       pin,
     );
+    await _rememberParent(localPhone);
+  }
+
+  /// Remembers this parent on the device so they come back with their PIN
+  /// only after a child used the phone (see [ParentReturnStore]). Never
+  /// blocks the login: the name is a nicety.
+  Future<void> _rememberParent(String localPhone, {String? name}) async {
+    String? parentName = name;
+    if (parentName == null) {
+      try {
+        final String? userId = _client.auth.currentUser?.id;
+        if (userId != null) {
+          final Map<String, dynamic>? row = await _client
+              .from('parents')
+              .select('name')
+              .eq('id', userId)
+              .maybeSingle();
+          parentName = row?['name'] as String?;
+        }
+      } catch (_) {}
+    }
+    await const ParentReturnStore().save(
+      mauritanianPhoneDigits(localPhone) ?? localPhone,
+      name: parentName,
+    );
+  }
+
+  /// "Ouvrir son espace" on the parent home: switches this device from the
+  /// signed-in parent to one of their children, without the child's PIN
+  /// (Edge Function `parent-open-child` checks the child is theirs and
+  /// returns the child's session). [parentPhone] is remembered so the way
+  /// back to the parent space pre-fills it — the parent's PIN is asked
+  /// again there. Throws `no_login` when the child has no login yet.
+  Future<void> openChildSpace({
+    required String studentId,
+    required String parentPhone,
+    String? parentName,
+  }) async {
+    final String? accessToken = _client.auth.currentSession?.accessToken;
+    if (accessToken == null) throw Exception('no_session');
+    final Uri uri =
+        Uri.parse('${SupabaseConfig.url}/functions/v1/parent-open-child');
+    final http.Response response = await http.post(
+      uri,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $accessToken',
+        'apikey': SupabaseConfig.anonKey,
+      },
+      body: jsonEncode({'student_id': studentId}),
+    );
+    final Map<String, dynamic> data =
+        jsonDecode(response.body) as Map<String, dynamic>;
+    if (response.statusCode < 200 || response.statusCode >= 300) {
+      throw Exception(data['error']?.toString() ?? 'unknown_error');
+    }
+    await _rememberParent(parentPhone, name: parentName ?? '');
+    await _client.auth.setSession(data['refresh_token'] as String);
   }
 
   /// Step 1 of self-registration: ask for a WhatsApp OTP to be sent to

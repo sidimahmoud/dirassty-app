@@ -19,6 +19,77 @@ bool isValidPin(String pin) => RegExp(r'^\d{4}$').hasMatch(pin);
 bool isValidUsername(String username) =>
     RegExp(r'^[a-zA-Z0-9_]{3,20}$').hasMatch(username);
 
+const Map<String, String> _latinOf = {
+  'ا': 'a',
+  'أ': 'a',
+  'إ': 'i',
+  'آ': 'a',
+  'ب': 'b',
+  'ت': 't',
+  'ث': 'th',
+  'ج': 'j',
+  'ح': 'h',
+  'خ': 'kh',
+  'د': 'd',
+  'ذ': 'dh',
+  'ر': 'r',
+  'ز': 'z',
+  'س': 's',
+  'ش': 'ch',
+  'ص': 's',
+  'ض': 'd',
+  'ط': 't',
+  'ظ': 'z',
+  'ع': 'a',
+  'غ': 'gh',
+  'ف': 'f',
+  'ق': 'g',
+  'ك': 'k',
+  'ل': 'l',
+  'م': 'm',
+  'ن': 'n',
+  'ه': 'h',
+  'ة': 'a',
+  'و': 'ou',
+  'ي': 'i',
+  'ى': 'a',
+  'ئ': 'i',
+  'ؤ': 'ou',
+  'à': 'a',
+  'â': 'a',
+  'ä': 'a',
+  'é': 'e',
+  'è': 'e',
+  'ê': 'e',
+  'ë': 'e',
+  'î': 'i',
+  'ï': 'i',
+  'ô': 'o',
+  'ö': 'o',
+  'ù': 'u',
+  'û': 'u',
+  'ü': 'u',
+  'ç': 'c',
+};
+
+/// A login username suggested from a child's name: the first name in
+/// Latin letters (Arabic transliterated, accents dropped, ≤ 12 chars) +
+/// [digits], e.g. "Mohamed" / "محمد" + 482 → `mohamed482` / `mhmd482`.
+/// Always passes [isValidUsername]. Same shape as the server's
+/// generateUniqueUsername (supabase/functions/_shared/username.ts).
+String suggestUsername(String name, int digits) {
+  final String first = name.trim().split(RegExp(r'\s+')).first.toLowerCase();
+  final String latin = first
+      .split('')
+      .map((c) => _latinOf[c] ?? c)
+      .join()
+      .replaceAll(RegExp(r'[^a-z0-9]'), '');
+  final String base = latin.length < 2
+      ? 'eleve'
+      : latin.substring(0, latin.length > 12 ? 12 : latin.length);
+  return '$base$digits';
+}
+
 /// The 8-digit Mauritanian number from what was typed. People type the 8
 /// digits, but "222…", "+222…" and "00222…" (even twice) are accepted too.
 /// null if it isn't 8 digits. Same rules as the server (normalizePhone in

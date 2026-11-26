@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../data/auth_repository.dart';
+import '../data/parent_return_store.dart';
 import 'app_auth_state.dart';
 
 final Provider<SupabaseClient> supabaseClientProvider = Provider(
@@ -126,6 +127,21 @@ class AuthController extends AsyncNotifier<void> {
     );
   }
 
+  Future<void> openChildSpace({
+    required String studentId,
+    required String parentPhone,
+    String? parentName,
+  }) async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(
+      () => ref.read(authRepositoryProvider).openChildSpace(
+            studentId: studentId,
+            parentPhone: parentPhone,
+            parentName: parentName,
+          ),
+    );
+  }
+
   Future<void> signOut() async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(
@@ -133,6 +149,20 @@ class AuthController extends AsyncNotifier<void> {
     );
   }
 }
+
+/// The last parent who signed in on this device (see [ParentReturnStore]):
+/// the Welcome "Bon retour" card and "Retour à l'espace parent" on the
+/// student profile. null when none, or after "Ce n'est pas moi".
+final FutureProvider<RememberedParent?> rememberedParentProvider =
+    FutureProvider((ref) {
+  ref.watch(appAuthStateProvider);
+  return const ParentReturnStore().readParent();
+});
+
+/// The remembered parent's number, or null — see [rememberedParentProvider].
+final FutureProvider<String?> parentReturnPhoneProvider = FutureProvider(
+  (ref) async => (await ref.watch(rememberedParentProvider.future))?.phone,
+);
 
 final AsyncNotifierProvider<AuthController, void> authControllerProvider =
     AsyncNotifierProvider<AuthController, void>(AuthController.new);

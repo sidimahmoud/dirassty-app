@@ -8,6 +8,7 @@ import '../../../core/validation/validators.dart';
 import '../../../core/widgets/dirassty/dirassty_widgets.dart';
 import '../../../l10n/app_localizations.dart';
 import '../application/auth_providers.dart';
+import '../data/parent_return_store.dart';
 import 'register_screen.dart';
 import 'widgets/auth_scaffold.dart';
 import 'widgets/pin_login_form.dart';
@@ -33,6 +34,19 @@ class ParentLoginScreen extends ConsumerStatefulWidget {
 
 class _ParentLoginScreenState extends ConsumerState<ParentLoginScreen> {
   final TextEditingController _phoneController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    // Back from a child's space ("Ouvrir son espace"): the parent's number
+    // is pre-filled, only the PIN is asked.
+    const ParentReturnStore().read().then((phone) {
+      if (!mounted || phone == null || _phoneController.text.isNotEmpty) {
+        return;
+      }
+      setState(() => _phoneController.text = phone);
+    });
+  }
 
   @override
   void dispose() {

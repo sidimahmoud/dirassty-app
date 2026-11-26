@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -14,13 +16,15 @@ import '../../courses/application/courses_providers.dart';
 import '../application/parent_providers.dart';
 import 'child_created_screen.dart';
 
-/// "Ajouter un enfant" (step 1 of 2): first name, the class picker
-/// (admin-saved class names, exam years marked), username and the child's
-/// 4-digit PIN. Step 2 is [ChildCreatedScreen].
+/// "Ajouter un enfant" (step 1 of 2): the class picker first (admin-saved
+/// class names, exam years marked), then first name, username and the
+/// child's 4-digit PIN. Step 2 is [ChildCreatedScreen].
 ///
-/// Deviations from AddChild.dc.html: no live "✓ Disponible" username
-/// check (TODO(api): availability endpoint) — a taken name is reported
-/// on submit; no avatar picker (the redesign uses initials everywhere).
+/// The username is filled in from the first name ([suggestUsername]) until
+/// the parent edits it. A taken suggestion is replaced with new digits and
+/// retried quietly; a taken username the parent typed is reported. A retry
+/// reuses the child already created (no duplicate). No avatar picker (the
+/// redesign uses initials everywhere).
 ///
 /// design_handoff AddChild.dc.html · DESIGN_SPEC §4 "Parent space".
 class AddChildScreen extends ConsumerStatefulWidget {
@@ -36,6 +40,12 @@ class AddChildScreen extends ConsumerStatefulWidget {
 class _AddChildScreenState extends ConsumerState<AddChildScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
+  final Random _random = Random();
+  late int _usernameDigits = _newDigits();
+  bool _usernameEdited = false;
+
+  /// Set once the child row exists, so a retry only sets the login.
+  String? _createdStudentId;
   int _grade = 7;
   String _pin = '';
   String? _nameError;
@@ -44,7 +54,26 @@ class _AddChildScreenState extends ConsumerState<AddChildScreen> {
   String? _serverError;
 
   @override
+  void initState() {
+    super.initState();
+    _nameController.addListener(_fillSuggestedUsername);
+  }
+
+  int _newDigits() => 100 + _random.nextInt(900);
+
+  void _fillSuggestedUsername() {
+    if (_usernameEdited) return;
+    final String name = _nameController.text.trim();
+    final String suggestion =
+        name.isEmpty ? '' : suggestUsername(name, _usernameDigits);
+    if (_usernameController.text == suggestion) return;
+    _usernameController.text = suggestion;
+    if (_usernameError != null) setState(() => _usernameError = null);
+  }
+
+  @override
   void dispose() {
+    _nameController.removeListener(_fillSuggestedUsername);
     _nameController.dispose();
     _usernameController.dispose();
     super.dispose();
@@ -72,16 +101,29 @@ class _AddChildScreenState extends ConsumerState<AddChildScreen> {
       return;
     }
 
-    final ({String username, String studentId}) result =
-        await ref.read(addChildControllerProvider.notifier).createChild(
-              name: name,
-              grade: grade,
-              avatarId: 'avatar_1',
-              username: username,
-              pin: _pin,
-            );
-    if (!mounted) return;
-    final AsyncValue<void> state = ref.read(addChildControllerProvider);
+    String tryUsername = username;
+    ({String username, String studentId}) result;
+    AsyncValue<void> state;
+    for (int attempt = 0;; attempt++) {
+      result = await ref.read(addChildControllerProvider.notifier).createChild(
+            name: name,
+            grade: grade,
+            avatarId: 'avatar_1',
+            username: tryUsername,
+            pin: _pin,
+            existingStudentId: _createdStudentId,
+          );
+      if (!mounted) return;
+      if (result.studentId.isNotEmpty) _createdStudentId = result.studentId;
+      state = ref.read(addChildControllerProvider);
+      final bool suggestionTaken = state.hasError &&
+          !_usernameEdited &&
+          state.error.toString().contains('username_taken');
+      if (!suggestionTaken || attempt >= 4) break;
+      _usernameDigits = _newDigits();
+      tryUsername = suggestUsername(name, _usernameDigits);
+      _usernameController.text = tryUsername;
+    }
     if (state.hasError) {
       final String message = state.error.toString();
       setState(() {
@@ -135,22 +177,28 @@ class _AddChildScreenState extends ConsumerState<AddChildScreen> {
           ],
         ),
         Text(l10n.addChild, style: type.title),
+        _buildGradePicker(l10n, type),
         DirasstyTextField(
           label: l10n.childFirstName,
           controller: _nameController,
           errorText: _nameError,
           textInputAction: TextInputAction.next,
         ),
-        _buildGradePicker(l10n, type),
         DirasstyTextField(
           label: l10n.username,
           controller: _usernameController,
           forceLtr: true,
           errorText: _usernameError,
-          hint: 'sidi.sow',
+          helperText: _usernameEdited ? null : l10n.usernameSuggestedHelper,
+          hint: 'sidi482',
           onChanged: (value) {
-            if (_usernameError != null && isValidUsername(value.trim())) {
-              setState(() => _usernameError = null);
+            final bool edited = value.trim().isNotEmpty;
+            if (edited != _usernameEdited ||
+                (_usernameError != null && isValidUsername(value.trim()))) {
+              setState(() {
+                _usernameEdited = edited;
+                if (isValidUsername(value.trim())) _usernameError = null;
+              });
             }
           },
         ),
